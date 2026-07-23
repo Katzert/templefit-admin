@@ -209,7 +209,7 @@ export function Module7SocialMedia() {
                     <button
                       key={cat}
                       onClick={() => updateActiveDoc('category', cat)}
-                      className={\`text-xs px-2 py-1 rounded \${activeDoc.category === cat ? 'bg-white/20 text-white' : 'text-gray-500 hover:bg-white/5'}\`}
+                      className={`text-xs px-2 py-1 rounded ${activeDoc.category === cat ? 'bg-white/20 text-white' : 'text-gray-500 hover:bg-white/5'}`}
                     >
                       {cat === 'book' ? 'Libro' : cat === 'templates' ? 'Copys' : 'Materiales'}
                     </button>
@@ -242,7 +242,7 @@ function SidebarItem({ doc, isActive, onClick, onDelete }: { doc: NotionDocument
   return (
     <div 
       onClick={onClick}
-      className={\`group flex items-center justify-between px-2 py-1.5 rounded-md cursor-pointer transition-colors \${isActive ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5'}\`}
+      className={`group flex items-center justify-between px-2 py-1.5 rounded-md cursor-pointer transition-colors ${isActive ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5'}`}
     >
       <div className="flex items-center gap-2 truncate">
         <span>{doc.icon}</span>
