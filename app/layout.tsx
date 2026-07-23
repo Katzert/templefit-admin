@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from '@/context/AuthContext';
-import { AuditProvider } from '@/context/AuditContext';
+
 
 export default function RootLayout({
   children,
@@ -22,9 +22,7 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${outfit.variable} ${playfair.variable} font-sans min-h-screen flex flex-col custom-scrollbar`}>
         <AuthProvider>
-          <AuditProvider>
-            {children}
-          </AuditProvider>
+          {children}
         </AuthProvider>
       </body>
     </html>

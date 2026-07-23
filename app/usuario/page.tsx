@@ -7,17 +7,12 @@ import { LoginPage } from '@/life-system-pages/LoginPage';
 import { HomePage } from '@/life-system-pages/HomePage';
 import { Module1Profile } from '@/life-system-pages/Module1Profile';
 import { Module2DailyLog } from '@/life-system-pages/Module2DailyLog';
-import { Module3HabitTracker } from '@/life-system-pages/Module3HabitTracker';
-import { Module4TechnicalSheet } from '@/life-system-pages/Module4TechnicalSheet';
-import { Module5Audit } from '@/life-system-pages/Module5Audit';
-import { Module6TrainingLog } from '@/life-system-pages/Module6TrainingLog';
+
 import { Module7SocialMedia } from '@/life-system-pages/Module7SocialMedia';
 import { Module8TeamOperations } from '@/life-system-pages/Module8TeamOperations';
 
 import { FinancialDashboard } from '@/life-system-pages/FinancialDashboard';
-import { AuditLogPage } from '@/life-system-pages/AuditLogPage';
-import { SettingsPage } from '@/life-system-pages/SettingsPage';
-import { HelpPage } from '@/life-system-pages/HelpPage';
+
 
 import { useRouter } from 'next/navigation';
 

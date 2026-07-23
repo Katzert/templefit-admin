@@ -2,248 +2,458 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '../components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
-import { FieldLabel } from '../components/ui/field-label';
-import { ClipboardList, Users, Target, ShieldAlert, Crosshair, Package } from 'lucide-react';
+import { 
+  Users, UserCheck, HeartHandshake, Utensils, Dumbbell, Sparkles, 
+  MessageCircle, Plus, Search, Filter, CheckCircle2, AlertCircle, Clock, Save, Edit3, Trash2
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } } };
 
-interface ScheduleEntry {
+export interface HolisticStudent {
   id: string;
-  time: string;
-  activity: string;
-  instructorFocus: string;
-  commercialFocus: string;
-  product: string;
-  notes: string;
+  name: string;
+  phone: string;
+  email: string;
+  instructorAssigned: string;
+  status: 'active' | 'expiring' | 'inactive';
+  plan: 'Reto 21 Días' | 'CristoFit Camp' | 'Coaching 1 a 1' | 'Plan Integral Mensual';
+  startDate: string;
+  renewalDate: string;
+  
+  // Pilar 1: CUERPO (Body)
+  physicalGoal: string;
+  weightKg: number;
+  workoutLevel: 'Principiante' | 'Intermedio' | 'Avanzado';
+  
+  // Pilar 2: MENTE (Alimentación)
+  nutritionPlan: string;
+  allergiesOrRestrictions: string;
+  
+  // Pilar 3: ESPÍRITU (Coaching & Fe)
+  spiritualIntention: string;
+  mentorshipNotes: string;
 }
 
-interface DailyDirective {
-  date: string;
-  foundation: string;
-  commercialFocus: string;
-  mainObjective: string;
-  highlightedProduct: string;
-}
-
-const DEFAULT_SCHEDULE: ScheduleEntry[] = [
-  { id: '1', time: '06:00 - 07:00', activity: 'Apertura', instructorFocus: 'Revisar equipos. Preparar música.', commercialFocus: 'Recepción positiva', product: '', notes: '' },
-  { id: '2', time: '07:00 - 09:00', activity: 'Clase Matutina', instructorFocus: 'Ficha técnica del alumno con su Rutina: Alta, media o baja intensidad. Foco: Saludar x nombre.', commercialFocus: 'Cross-sell Reto 21 Días', product: 'Reto 21 Días', notes: '' },
-  { id: '3', time: '09:00 - 10:00', activity: 'Clase Funcional', instructorFocus: "Rutina: Peso corporal. Foco: 'cuerpo-templo'.", commercialFocus: 'Renovaciones', product: 'Suscripción', notes: '' },
-  { id: '4', time: '10:00 - 11:00', activity: 'Clase Técnica', instructorFocus: 'Rutina: Técnica. Foco: Energía alta.', commercialFocus: 'Merchandising', product: 'Camiseta Oficial', notes: '' },
-  { id: '5', time: '11:00 - 12:00', activity: 'Marketing', instructorFocus: 'Grabar contenido para redes.', commercialFocus: 'Captación leads', product: '', notes: '' },
-  { id: '6', time: '12:00 - 14:00', activity: 'Pausa', instructorFocus: 'Descanso staff.', commercialFocus: '', product: '', notes: '' },
-  { id: '7', time: '14:00 - 15:00', activity: 'Admin / Ops', instructorFocus: 'Planificar clases. Formación.', commercialFocus: 'Follow-up prospectos', product: '', notes: '' },
-  { id: '8', time: '15:00 - 16:00', activity: 'Preparación', instructorFocus: 'Preparar equipos.', commercialFocus: '', product: '', notes: '' },
-  { id: '9', time: '16:00 - 19:00', activity: 'Clases Tarde', instructorFocus: 'Foco: Comunidad y energía.', commercialFocus: 'Up-sell Suplementos', product: 'Proteína', notes: '' },
-  { id: '10', time: '19:00 - 21:00', activity: 'Clases Noche', instructorFocus: 'Foco: Motivación final. Recordar eventos.', commercialFocus: 'Eventos Especiales', product: 'Ticket Sábado', notes: '' },
-  { id: '11', time: '21:00 - 22:00', activity: 'Cierre', instructorFocus: 'Reportar equipos dañados.', commercialFocus: '', product: '', notes: '' },
+const DEFAULT_STUDENTS: HolisticStudent[] = [
+  {
+    id: '1',
+    name: 'Carlos Gutiérrez',
+    phone: '+59170012345',
+    email: 'carlos.g@gmail.com',
+    instructorAssigned: 'Paulo (Head Coach)',
+    status: 'active',
+    plan: 'Plan Integral Mensual',
+    startDate: '2026-07-01',
+    renewalDate: '2026-08-01',
+    physicalGoal: 'Perder 5kg de grasa y mejorar resistencia física',
+    weightKg: 82.5,
+    workoutLevel: 'Intermedio',
+    nutritionPlan: 'Nutrición Anti-inflamatoria + Proteína Limpia',
+    allergiesOrRestrictions: 'Intolerante a la lactosa',
+    spiritualIntention: 'Fortalecer el hábito de oración matutina y vencer el estrés',
+    mentorshipNotes: 'Demuestra gran compromiso en CristoFit Camp. Trabajar constancia en fines de semana.'
+  },
+  {
+    id: '2',
+    name: 'Mariana Flores',
+    phone: '+59178945612',
+    email: 'mariana.f@gmail.com',
+    instructorAssigned: 'Paulo (Head Coach)',
+    status: 'expiring',
+    plan: 'Reto 21 Días',
+    startDate: '2026-07-05',
+    renewalDate: '2026-07-26',
+    physicalGoal: 'Tonificación muscular y postura',
+    weightKg: 61.0,
+    workoutLevel: 'Principiante',
+    nutritionPlan: 'Plan Detox + Recomposición Corporal',
+    allergiesOrRestrictions: 'Ninguna',
+    spiritualIntention: 'Renovación de mentalidad y enfoque espiritual diario',
+    mentorshipNotes: 'Avance notable en 2 semanas. Recordar renovación de plan antes del viernes.'
+  },
+  {
+    id: '3',
+    name: 'Roberto Vaca',
+    phone: '+59176543210',
+    email: 'roberto.vaca@hotmail.com',
+    instructorAssigned: 'Equipo TempleFit',
+    status: 'active',
+    plan: 'CristoFit Camp',
+    startDate: '2026-06-15',
+    renewalDate: '2026-08-15',
+    physicalGoal: 'Aumentar masa magra y energía vital',
+    weightKg: 76.0,
+    workoutLevel: 'Avanzado',
+    nutritionPlan: 'Hipertrofia Funcional',
+    allergiesOrRestrictions: 'Evitar exceso de sodio',
+    spiritualIntention: 'Liderazgo familiar con ejemplo de disciplina',
+    mentorshipNotes: 'Asiste puntualmente los sábados a las 7am.'
+  }
 ];
 
 export function Module8TeamOperations() {
   const { user } = useAuth();
-  
-  const directiveKey = 'templefit_daily_directive_v1';
-  const scheduleKey = 'templefit_daily_schedule_v1';
+  const [students, setStudents] = useState<HolisticStudent[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'expiring' | 'inactive'>('all');
+  const [selectedStudent, setSelectedStudent] = useState<HolisticStudent | null>(null);
 
-  const [directive, setDirective] = useState<DailyDirective>({
-    date: new Date().toISOString().split('T')[0],
-    foundation: 'Disciplina y Excelencia Técnica',
-    commercialFocus: 'Retención y Cross-selling',
-    mainObjective: 'Lograr 5 renovaciones adelantadas',
-    highlightedProduct: 'Reto 21 Días',
-  });
-  const [schedule, setSchedule] = useState<ScheduleEntry[]>([]);
+  const studentsKey = 'templefit_holistic_students_v3';
 
   useEffect(() => {
-    const savedDir = localStorage.getItem(directiveKey);
-    if (savedDir) {
-      try { setDirective(JSON.parse(savedDir)); } catch (e) {}
-    }
-
-    const savedSched = localStorage.getItem(scheduleKey);
-    if (savedSched) {
-      try { setSchedule(JSON.parse(savedSched)); } catch (e) {}
+    const saved = localStorage.getItem(studentsKey);
+    if (saved) {
+      try { setStudents(JSON.parse(saved)); } catch (e) { setStudents(DEFAULT_STUDENTS); }
     } else {
-      setSchedule(DEFAULT_SCHEDULE);
+      setStudents(DEFAULT_STUDENTS);
     }
   }, []);
 
-  const updateDirective = (field: keyof DailyDirective, value: string) => {
-    const updated = { ...directive, [field]: value };
-    setDirective(updated);
-    localStorage.setItem(directiveKey, JSON.stringify(updated));
+  const saveStudents = (newStudents: HolisticStudent[]) => {
+    setStudents(newStudents);
+    localStorage.setItem(studentsKey, JSON.stringify(newStudents));
   };
 
-  const updateSchedule = (id: string, field: keyof ScheduleEntry, value: string) => {
-    const updated = schedule.map(s => s.id === id ? { ...s, [field]: value } : s);
-    setSchedule(updated);
-    localStorage.setItem(scheduleKey, JSON.stringify(updated));
+  const filteredStudents = students.filter(s => {
+    const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          s.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          s.phone.includes(searchQuery);
+    const matchesStatus = statusFilter === 'all' || s.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const sendWhatsAppReminder = (student: HolisticStudent) => {
+    const message = `¡Hola ${student.name}! 💪 Espero que estés teniendo una excelente semana. Te escribo desde TempleFit para recordarte que tu plan (${student.plan}) está próximo a renovar el ${student.renewalDate}. ¿Sigues listo para continuar tu transformación en cuerpo, mente y espíritu? ¡Confirmame para reservar tu cupo! 🙏⚡`;
+    const cleanPhone = student.phone.replace(/[^0-9]/g, '');
+    window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  // Only Instructors and Admins
-  if (user?.role !== 'admin' && user?.role !== 'instructor') {
-    return (
-      <div className="flex flex-col items-center justify-center h-[60vh] text-center">
-        <ShieldAlert size={48} className="text-temple-red mb-4 opacity-50" />
-        <h2 className="text-xl font-bold uppercase text-white mb-2">Acceso Restringido</h2>
-        <p className="text-gray-500 text-sm">Este módulo es exclusivo para el Staff de TempleFit.</p>
-      </div>
-    );
-  }
+  const updateStudentField = (id: string, field: keyof HolisticStudent, value: any) => {
+    const updated = students.map(s => s.id === id ? { ...s, [field]: value } : s);
+    saveStudents(updated);
+    if (selectedStudent?.id === id) {
+      setSelectedStudent({ ...selectedStudent, [field]: value });
+    }
+  };
+
+  const addStudent = () => {
+    const newStudent: HolisticStudent = {
+      id: Date.now().toString(),
+      name: 'Nuevo Alumno',
+      phone: '+591',
+      email: '',
+      instructorAssigned: 'Paulo (Head Coach)',
+      status: 'active',
+      plan: 'Reto 21 Días',
+      startDate: new Date().toISOString().split('T')[0],
+      renewalDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
+      physicalGoal: 'Definir objetivo físico',
+      weightKg: 70,
+      workoutLevel: 'Principiante',
+      nutritionPlan: 'Plan Nutricional Base',
+      allergiesOrRestrictions: 'Ninguna',
+      spiritualIntention: 'Definir propósito espiritual',
+      mentorshipNotes: 'Notas iniciales de evaluación.'
+    };
+    saveStudents([newStudent, ...students]);
+    setSelectedStudent(newStudent);
+  };
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8 pb-12">
-      <motion.div variants={item}>
-        <h1 className="text-3xl md:text-5xl font-serif font-black uppercase text-white">
-          LIBRO OPERATIVO <span className="text-temple-gold italic">DIARIO</span>
-        </h1>
-        <p className="text-sm text-gray-400 mt-2 max-w-xl">
-          Directivas y enfoque del equipo. Organización por franjas horarias y objetivos comerciales.
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8 pb-16 font-sans">
+      
+      {/* Header CRM */}
+      <motion.div variants={item} className="border-b border-white/10 pb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-temple-gold/10 border border-temple-gold/30 rounded-xl text-temple-gold">
+              <Users size={24} />
+            </div>
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-temple-gold">Módulo de CRM Integral</span>
+              <h1 className="text-3xl md:text-4xl font-serif font-black uppercase text-white tracking-tight">
+                GESTIÓN DE ALUMNOS <span className="text-temple-gold italic">& COACHING</span>
+              </h1>
+            </div>
+          </div>
+
+          <button
+            onClick={addStudent}
+            className="flex items-center gap-2 px-4 py-2.5 bg-temple-gold text-black font-bold uppercase tracking-widest text-[11px] rounded-xl hover:bg-temple-gold-bright transition-all shadow-lg self-start md:self-auto"
+          >
+            <Plus size={16} /> Registrar Nuevo Alumno
+          </button>
+        </div>
+        <p className="text-xs text-gray-400 max-w-2xl mt-2">
+          Seguimiento completo en las 3 dimensiones (Cuerpo, Mente y Espíritu), control de renovaciones y contacto directo por WhatsApp.
         </p>
       </motion.div>
 
-      {/* Directiva Diaria */}
-      <motion.div variants={item}>
-        <Card className="border-t-4 border-t-temple-gold bg-black/40">
-          <CardContent className="!p-6">
-            <h3 className="text-lg font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
-              <Target className="text-temple-gold" size={20} />
-              Directiva Diaria del Equipo
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-              <div>
-                <FieldLabel>Fecha Operativa</FieldLabel>
-                <input
-                  type="date"
-                  value={directive.date}
-                  onChange={(e) => updateDirective('date', e.target.value)}
-                  className="w-full bg-black/30 border border-white/10 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-temple-gold"
-                />
-              </div>
-              <div className="lg:col-span-2">
-                <FieldLabel>Fundamento del Día</FieldLabel>
-                <input
-                  type="text"
-                  value={directive.foundation}
-                  onChange={(e) => updateDirective('foundation', e.target.value)}
-                  className="w-full bg-black/30 border border-white/10 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-temple-gold"
-                />
-              </div>
-              <div className="lg:col-span-2">
-                <FieldLabel>Objetivo Principal del Día</FieldLabel>
-                <div className="relative">
-                  <Crosshair className="absolute left-3 top-1/2 -translate-y-1/2 text-temple-red opacity-70" size={16} />
-                  <input
-                    type="text"
-                    value={directive.mainObjective}
-                    onChange={(e) => updateDirective('mainObjective', e.target.value)}
-                    className="w-full bg-black/30 border border-temple-red/30 rounded-lg py-2 pl-9 pr-3 text-sm text-white focus:outline-none focus:border-temple-red"
-                  />
-                </div>
-              </div>
-              <div className="lg:col-span-2">
-                <FieldLabel>Foco Comercial</FieldLabel>
-                <input
-                  type="text"
-                  value={directive.commercialFocus}
-                  onChange={(e) => updateDirective('commercialFocus', e.target.value)}
-                  className="w-full bg-black/30 border border-white/10 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-temple-gold"
-                />
-              </div>
-              <div className="lg:col-span-3">
-                <FieldLabel>Producto / Oferta Destacada</FieldLabel>
-                <div className="relative">
-                  <Package className="absolute left-3 top-1/2 -translate-y-1/2 text-temple-gold opacity-70" size={16} />
-                  <input
-                    type="text"
-                    value={directive.highlightedProduct}
-                    onChange={(e) => updateDirective('highlightedProduct', e.target.value)}
-                    className="w-full bg-black/30 border border-temple-gold/30 rounded-lg py-2 pl-9 pr-3 text-sm text-temple-gold font-bold focus:outline-none focus:border-temple-gold"
-                  />
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Tarjetas resumen de métricas CRM */}
+      <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-black/40 border border-white/10 rounded-2xl p-5 flex items-center gap-4">
+          <div className="p-3 bg-green-500/10 text-green-400 border border-green-500/20 rounded-xl">
+            <UserCheck size={20} />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Alumnos Activos</p>
+            <h3 className="text-2xl font-black text-white">{students.filter(s => s.status === 'active').length}</h3>
+          </div>
+        </div>
+
+        <div className="bg-black/40 border border-white/10 rounded-2xl p-5 flex items-center gap-4">
+          <div className="p-3 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-xl">
+            <AlertCircle size={20} />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Por Renovar (Esta semana)</p>
+            <h3 className="text-2xl font-black text-amber-400">{students.filter(s => s.status === 'expiring').length}</h3>
+          </div>
+        </div>
+
+        <div className="bg-black/40 border border-white/10 rounded-2xl p-5 flex items-center gap-4">
+          <div className="p-3 bg-temple-gold/10 text-temple-gold border border-temple-gold/20 rounded-xl">
+            <Sparkles size={20} />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Programas de Coaching</p>
+            <h3 className="text-2xl font-black text-white">4 Activos</h3>
+          </div>
+        </div>
       </motion.div>
 
-      {/* Tabla de Horarios */}
-      <motion.div variants={item}>
-        <Card>
-          <CardContent className="!p-0 overflow-hidden">
-            <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/20">
-              <h3 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <ClipboardList className="text-temple-gold" size={20} />
-                Desglose Operativo por Horario
-              </h3>
-            </div>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader className="bg-black/40">
-                  <TableRow className="hover:bg-transparent border-white/5">
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 w-[120px]">Franja Horaria</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 w-[150px]">Actividad Principal</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 w-[300px]">Enfoque del Instructor</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 w-[180px]">Foco Comercial</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 w-[150px]">Prod. Destacado</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 min-w-[150px]">Notas Operativas</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {schedule.map((row) => (
-                    <TableRow key={row.id} className="border-white/5 hover:bg-white/5 transition-colors group">
-                      <TableCell className="align-top font-bold text-temple-gold text-xs">{row.time}</TableCell>
-                      <TableCell className="align-top">
-                        <input
-                          type="text"
-                          value={row.activity}
-                          onChange={(e) => updateSchedule(row.id, 'activity', e.target.value)}
-                          className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-white"
-                        />
-                      </TableCell>
-                      <TableCell className="align-top">
-                        <textarea
-                          value={row.instructorFocus}
-                          onChange={(e) => updateSchedule(row.id, 'instructorFocus', e.target.value)}
-                          rows={2}
-                          className="w-full bg-transparent border border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-gray-300 resize-none p-1 rounded"
-                        />
-                      </TableCell>
-                      <TableCell className="align-top">
-                        <input
-                          type="text"
-                          value={row.commercialFocus}
-                          onChange={(e) => updateSchedule(row.id, 'commercialFocus', e.target.value)}
-                          className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-gray-400"
-                        />
-                      </TableCell>
-                      <TableCell className="align-top">
-                        <input
-                          type="text"
-                          value={row.product}
-                          onChange={(e) => updateSchedule(row.id, 'product', e.target.value)}
-                          className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-temple-gold/80 italic"
-                        />
-                      </TableCell>
-                      <TableCell className="align-top">
-                        <input
-                          type="text"
-                          value={row.notes}
-                          onChange={(e) => updateSchedule(row.id, 'notes', e.target.value)}
-                          className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-gray-500"
-                        />
-                      </TableCell>
-                    </TableRow>
+      {/* Lista de Alumnos e Interfaz CRM */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        {/* Columna Izquierda: Tabla de Alumnos */}
+        <motion.div variants={item} className="lg:col-span-7 space-y-4">
+          <Card className="bg-black/40 border-white/10">
+            <CardContent className="!p-4 space-y-4">
+              
+              {/* Buscador y Filtros */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="relative w-full sm:w-64">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <input
+                    type="text"
+                    placeholder="Buscar por nombre o teléfono..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-black/60 border border-white/10 rounded-xl py-1.5 pl-8 pr-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1 bg-black/60 p-1 rounded-xl border border-white/10 w-full sm:w-auto">
+                  {[
+                    { id: 'all', label: 'Todos' },
+                    { id: 'active', label: 'Activos' },
+                    { id: 'expiring', label: 'Por Renovar' },
+                  ].map(f => (
+                    <button
+                      key={f.id}
+                      onClick={() => setStatusFilter(f.id as any)}
+                      className={`px-3 py-1 rounded-lg font-bold uppercase tracking-wider text-[9px] transition-all flex-1 sm:flex-none ${
+                        statusFilter === f.id ? 'bg-temple-gold text-black shadow-md' : 'text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      {f.label}
+                    </button>
                   ))}
-                </TableBody>
-              </Table>
+                </div>
+              </div>
+
+              {/* Tabla de Alumnos */}
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader className="bg-black/60">
+                    <TableRow className="hover:bg-transparent border-white/5">
+                      <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Alumno</TableHead>
+                      <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Programa / Estado</TableHead>
+                      <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Renovación</TableHead>
+                      <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 text-right">Acción</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredStudents.length === 0 ? (
+                      <TableRow className="border-white/5">
+                        <TableCell colSpan={4} className="text-center py-8 text-gray-500 text-xs">
+                          No se encontraron alumnos con los criterios seleccionados.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      filteredStudents.map((s) => (
+                        <TableRow 
+                          key={s.id} 
+                          onClick={() => setSelectedStudent(s)}
+                          className={`border-white/5 cursor-pointer transition-colors ${
+                            selectedStudent?.id === s.id ? 'bg-temple-gold/10 border-l-2 border-l-temple-gold' : 'hover:bg-white/5'
+                          }`}
+                        >
+                          <TableCell className="align-top">
+                            <p className="text-xs font-bold text-white mb-0.5">{s.name}</p>
+                            <p className="text-[10px] text-gray-400">{s.phone}</p>
+                          </TableCell>
+                          <TableCell className="align-top">
+                            <span className="text-[10px] font-bold text-temple-gold block mb-1">{s.plan}</span>
+                            <span className={`inline-block text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
+                              s.status === 'active' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                              s.status === 'expiring' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
+                              'bg-red-500/20 text-red-400 border border-red-500/30'
+                            }`}>
+                              {s.status === 'active' ? 'Activo' : s.status === 'expiring' ? 'Vence pronto' : 'Inactivo'}
+                            </span>
+                          </TableCell>
+                          <TableCell className="align-top text-xs text-gray-300 font-mono">
+                            {s.renewalDate}
+                          </TableCell>
+                          <TableCell className="align-top text-right">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); sendWhatsAppReminder(s); }}
+                              className="p-2 bg-green-500/10 hover:bg-green-500 hover:text-black text-green-400 rounded-lg transition-all border border-green-500/20 inline-flex items-center gap-1 text-[10px] font-bold"
+                              title="Enviar Recordatorio por WhatsApp"
+                            >
+                              <MessageCircle size={14} /> WhatsApp
+                            </button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Columna Derecha: Ficha Integral del Alumno Seleccionado (Cuerpo, Mente, Espíritu) */}
+        <motion.div variants={item} className="lg:col-span-5">
+          {selectedStudent ? (
+            <Card className="bg-black/40 border-white/10 sticky top-6">
+              <CardContent className="!p-6 space-y-6">
+                
+                {/* Header Alumno */}
+                <div className="border-b border-white/10 pb-4 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-temple-gold">Ficha Integral de Evaluación</span>
+                    <h3 className="text-xl font-bold text-white mt-0.5">{selectedStudent.name}</h3>
+                    <p className="text-xs text-gray-400">{selectedStudent.phone} • {selectedStudent.email || 'Sin email registrado'}</p>
+                  </div>
+                  <button
+                    onClick={() => sendWhatsAppReminder(selectedStudent)}
+                    className="px-3 py-1.5 bg-green-500 text-black font-bold uppercase tracking-widest text-[9px] rounded-lg hover:bg-green-400 transition-all flex items-center gap-1 shadow-md"
+                  >
+                    <MessageCircle size={12} /> WhatsApp
+                  </button>
+                </div>
+
+                {/* Pilar 1: CUERPO */}
+                <div className="space-y-3 bg-black/40 p-4 rounded-xl border border-white/5">
+                  <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                    <Dumbbell className="text-temple-gold" size={16} />
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">Pilar 1: Cuerpo (Entrenamiento)</h4>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <span className="text-[10px] text-gray-500 uppercase block font-bold">Nivel</span>
+                      <select
+                        value={selectedStudent.workoutLevel}
+                        onChange={(e) => updateStudentField(selectedStudent.id, 'workoutLevel', e.target.value)}
+                        className="bg-black/60 border border-white/10 text-white rounded-lg p-1.5 text-xs w-full focus:outline-none focus:border-temple-gold"
+                      >
+                        <option value="Principiante">Principiante</option>
+                        <option value="Intermedio">Intermedio</option>
+                        <option value="Avanzado">Avanzado</option>
+                      </select>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-gray-500 uppercase block font-bold">Peso (Kg)</span>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={selectedStudent.weightKg}
+                        onChange={(e) => updateStudentField(selectedStudent.id, 'weightKg', parseFloat(e.target.value))}
+                        className="bg-black/60 border border-white/10 text-white rounded-lg p-1.5 text-xs w-full focus:outline-none focus:border-temple-gold font-mono"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-gray-500 uppercase block font-bold mb-1">Objetivo Físico</span>
+                    <input
+                      type="text"
+                      value={selectedStudent.physicalGoal}
+                      onChange={(e) => updateStudentField(selectedStudent.id, 'physicalGoal', e.target.value)}
+                      className="bg-black/60 border border-white/10 text-gray-200 rounded-lg p-2 text-xs w-full focus:outline-none focus:border-temple-gold"
+                    />
+                  </div>
+                </div>
+
+                {/* Pilar 2: MENTE (Alimentación) */}
+                <div className="space-y-3 bg-black/40 p-4 rounded-xl border border-white/5">
+                  <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                    <Utensils className="text-temple-gold-bright" size={16} />
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">Pilar 2: Mente & Nutrición</h4>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-gray-500 uppercase block font-bold mb-1">Plan Nutricional Asignado</span>
+                    <input
+                      type="text"
+                      value={selectedStudent.nutritionPlan}
+                      onChange={(e) => updateStudentField(selectedStudent.id, 'nutritionPlan', e.target.value)}
+                      className="bg-black/60 border border-white/10 text-gray-200 rounded-lg p-2 text-xs w-full focus:outline-none focus:border-temple-gold"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-gray-500 uppercase block font-bold mb-1">Alergias o Restricciones</span>
+                    <input
+                      type="text"
+                      value={selectedStudent.allergiesOrRestrictions}
+                      onChange={(e) => updateStudentField(selectedStudent.id, 'allergiesOrRestrictions', e.target.value)}
+                      className="bg-black/60 border border-white/10 text-gray-200 rounded-lg p-2 text-xs w-full focus:outline-none focus:border-temple-gold"
+                    />
+                  </div>
+                </div>
+
+                {/* Pilar 3: ESPÍRITU (Coaching & Fe) */}
+                <div className="space-y-3 bg-black/40 p-4 rounded-xl border border-white/5">
+                  <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                    <HeartHandshake className="text-temple-green" size={16} />
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">Pilar 3: Espíritu & Enfoque</h4>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-gray-500 uppercase block font-bold mb-1">Propósito Espiritual / Oración</span>
+                    <input
+                      type="text"
+                      value={selectedStudent.spiritualIntention}
+                      onChange={(e) => updateStudentField(selectedStudent.id, 'spiritualIntention', e.target.value)}
+                      className="bg-black/60 border border-white/10 text-gray-200 rounded-lg p-2 text-xs w-full focus:outline-none focus:border-temple-gold"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-gray-500 uppercase block font-bold mb-1">Notas de Mentoria y Coaching 1 a 1</span>
+                    <textarea
+                      value={selectedStudent.mentorshipNotes}
+                      onChange={(e) => updateStudentField(selectedStudent.id, 'mentorshipNotes', e.target.value)}
+                      className="bg-black/60 border border-white/10 text-gray-200 rounded-lg p-2 text-xs w-full focus:outline-none focus:border-temple-gold h-20 resize-y"
+                    />
+                  </div>
+                </div>
+
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="bg-black/40 border border-white/10 rounded-2xl p-12 text-center text-gray-500 space-y-3">
+              <Users size={36} className="mx-auto text-gray-600" />
+              <p className="text-xs font-bold uppercase tracking-widest">Selecciona un alumno de la lista</p>
+              <p className="text-[11px] text-gray-600">Haz clic en cualquier alumno para evaluar sus 3 pilares (Cuerpo, Mente y Espíritu).</p>
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+          )}
+        </motion.div>
+
+      </div>
+
     </motion.div>
   );
 }
