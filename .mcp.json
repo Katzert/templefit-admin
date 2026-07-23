@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "google-fonts": {
+      "command": "/home/katzert/.local/bin/uvx",
+      "args": ["google-fonts-mcp"]
+    },
     "local-crm-db": {
       "command": "npx",
       "args": ["-y", "mcp-server-sqlite", "--db-path", "./templefit_crm.db"]

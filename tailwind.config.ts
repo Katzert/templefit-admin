@@ -18,8 +18,8 @@ const config: Config = {
         'temple-cream': '#F9F6F0',
       },
       fontFamily: {
-        sans: ['Outfit', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        sans: ['var(--font-outfit)', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'serif'],
       },
     },
   },
