@@ -31,7 +31,7 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { id: 'team-ops', label: 'Libro Operativo' },
       { id: 'changelog', label: 'Registro de Cambios' },
-      { id: 'social-media', label: 'Redes Sociales', minRole: 'admin' },
+      { id: 'social-media', label: '📖 Libro & Copys Notion', minRole: 'admin' },
       { id: 'financial', label: 'Financiero', minRole: 'admin' },
       { id: 'settings', label: 'Configuración', minRole: 'admin' }
     ]

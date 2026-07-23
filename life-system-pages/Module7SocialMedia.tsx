@@ -2,13 +2,23 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '../components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
-import { FieldLabel } from '../components/ui/field-label';
-import { InlineEdit } from '../components/ui/inline-edit';
-import { Calendar, Share2, Target, Type, Image as ImageIcon, Link2, Hash, BookOpen, AlertCircle, Plus, Save } from 'lucide-react';
+import { 
+  BookOpen, Copy, Check, Plus, Trash2, Sparkles, MessageSquare, 
+  Share2, FileText, ChevronDown, ChevronRight, Hash, Link2, Search
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } } };
+
+interface NotionTemplate {
+  id: string;
+  title: string;
+  category: 'outreach' | 'redes' | 'documento' | 'script';
+  tag: string;
+  content: string;
+  variableNote?: string;
+}
 
 interface SocialPost {
   id: string;
@@ -17,7 +27,7 @@ interface SocialPost {
   time: string;
   topic: string;
   objective: string;
-  copys: string; // FB, TW, IG, LI, YT combined or structured
+  copys: string;
   link: string;
   keyword: string;
   hashtags: string;
@@ -25,182 +35,334 @@ interface SocialPost {
   observations: string;
 }
 
-const DECALOGO = [
-  "1. Crear mejores copys para las publicaciones.",
-  "2. Cómo detectar tendencias y buenos temas para los posts.",
-  "3. Cuáles son las mejores horas y días para publicar.",
-  "4. Objetivos concretos para las publicaciones.",
-  "5. Trackear enlaces para medir resultados.",
-  "6. Incorporar palabras y fórmulas de impacto para incrementar el CTR.",
-  "7. Localizar hashtags óptimos para tu estrategia.",
-  "8. Optimizar las imágenes para conseguir mayor impacto."
+const DEFAULT_NOTION_TEMPLATES: NotionTemplate[] = [
+  {
+    id: '1',
+    title: 'Mensaje Personalizado — Invitación a Aliado / Inversionista (Ej: Antonio Eid)',
+    category: 'outreach',
+    tag: 'WhatsApp / Directo',
+    variableNote: 'Reemplaza [Nombre] y el motivo específico antes de enviar.',
+    content: `Antonio,
+
+Quiero compartirte algo en lo que llevo cerca de dos años trabajando: TempleFit, un ecosistema donde el entrenamiento físico, la formación espiritual y la comunidad se trabajan juntos — no por separado.
+
+[Aquí — inserta el dato específico: por qué le escribes a él en particular: ¿posible aliado, inversionista, referido, amigo que buscas invitar a un rol concreto?]
+
+La base es simple: tu cuerpo es un templo (1 Corintios 6:19-20), y cuidarlo con disciplina, con propósito y en comunidad cambia la trayectoria de una persona. Eso es lo que hacemos cada sábado en CristoFit Camp, y lo que sostenemos toda la semana a través del Reto 21 Días Íntegros y el acompañamiento Neuro-Espiritual.
+
+Te comparto el enlace con toda la propuesta [https://katzert.github.io/templefit/] para que la veas con calma. Me encantaría escuchar qué piensas.
+
+Un abrazo,
+Paulo`
+  },
+  {
+    id: '2',
+    title: 'Convocatoria Semanal — CristoFit Camp (Sábados)',
+    category: 'redes',
+    tag: 'Redes Sociales / IG',
+    content: `🏋️‍♂️⚡ ¡ESTE SÁBADO ENTRENAMOS CUERPO Y ESPÍRITU!
+
+No es solo sudar, es fortalecer el templo que Dios te dio.
+
+📍 CristoFit Camp en Santa Cruz
+⏰ Sábado 07:00 AM
+💬 Entrenamiento Funcional + Palabra de Poder + Comunidad
+
+¿Estás listo para dar el primer paso? Deja un "YO VOY" en los comentarios o haz clic en el enlace de nuestra bio para reservar tu lugar sin costo.`
+  },
+  {
+    id: '3',
+    title: 'Presentación del Reto 21 Días Íntegros',
+    category: 'outreach',
+    tag: 'Cierre / Prospectos',
+    content: `¡Hola! Si sientes que tu cuerpo necesita energía y tu mente necesita dirección, el Reto 21 Días Íntegros es para ti.
+
+Durante 21 días trabajaremos:
+1. Plan Nutricional Preventivo.
+2. Rutinas Funcionales Adaptadas.
+3. Hackeo de Hábitos y Renovación Mente-Espíritu.
+
+Accede al programa desde nuestro panel: https://katzert.github.io/templefit/`
+  }
 ];
 
 export function Module7SocialMedia() {
   const { user } = useAuth();
-  const [posts, setPosts] = useState<SocialPost[]>([]);
-  const [skillsList, setSkillsList] = useState("");
+  const [templates, setTemplates] = useState<NotionTemplate[]>([]);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  
+  // Custom Notion Document Note State
+  const [notionBookText, setNotionBookText] = useState<string>('');
+  
+  // Toggle states for Notion Accordions
+  const [showDecalogo, setShowDecalogo] = useState(true);
 
-  const dataKey = 'templefit_social_media_v1';
-  const skillsKey = 'templefit_social_skills_v1';
+  // Social Posts
+  const [posts, setPosts] = useState<SocialPost[]>([]);
+
+  const templatesKey = 'templefit_notion_templates_v2';
+  const notionBookKey = 'templefit_notion_book_v2';
+  const postsKey = 'templefit_social_media_v2';
 
   useEffect(() => {
-    const savedPosts = localStorage.getItem(dataKey);
+    const savedTemplates = localStorage.getItem(templatesKey);
+    if (savedTemplates) {
+      try { setTemplates(JSON.parse(savedTemplates)); } catch (e) { setTemplates(DEFAULT_NOTION_TEMPLATES); }
+    } else {
+      setTemplates(DEFAULT_NOTION_TEMPLATES);
+    }
+
+    const savedBook = localStorage.getItem(notionBookKey);
+    if (savedBook) setNotionBookText(savedBook);
+    else setNotionBookText(`📖 LIBRO PERSONALIZADO Y APUNTES DE PAULO\n\n- Propósito Principal: Construir la comunidad de fe y fitness más sólida de Santa Cruz.\n- Estrategia de Redes: Publicar 3 veces por semana enfocados en transformación real.\n- Próximos Eventos: CristoFit Camp Presencial.`);
+
+    const savedPosts = localStorage.getItem(postsKey);
     if (savedPosts) {
       try { setPosts(JSON.parse(savedPosts)); } catch (e) {}
     } else {
-      // Demo data
       setPosts([{
-        id: '1', day: 'Lunes', date: '2026-07-06', time: '10:00', topic: 'Motivación Lunes', objective: 'Interacción',
-        copys: 'FB: Empieza la semana con fuerza. IG: #MondayMotivation TempleFit', link: 'https://templefit.com/blog1',
-        keyword: 'motivación', hashtags: '#TempleFit #Fuerza', image: 'Sí', observations: 'Usar imagen de clase de Crossfit'
+        id: '1', day: 'Lunes', date: '2026-07-27', time: '09:00', topic: 'Lanzamiento Reto 21 Días', objective: 'Captación de Prospectos',
+        copys: 'Texto de invitación directa', link: 'https://katzert.github.io/templefit/',
+        keyword: 'Reto21', hashtags: '#TempleFit #SantaCruz #CristoFit', image: 'Sí', observations: 'Usar banner dorado'
       }]);
     }
-
-    const savedSkills = localStorage.getItem(skillsKey);
-    if (savedSkills) setSkillsList(savedSkills);
-    else setSkillsList("1. Redacción persuasiva\n2. Edición de video (Reels/TikTok)\n3. Análisis de métricas (CTR, Engagement)");
   }, []);
 
-  const savePosts = (newPosts: SocialPost[]) => {
-    setPosts(newPosts);
-    localStorage.setItem(dataKey, JSON.stringify(newPosts));
+  const handleCopy = (id: string, content: string) => {
+    navigator.clipboard.writeText(content);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
   };
+
+  const handleSaveBook = (val: string) => {
+    setNotionBookText(val);
+    localStorage.setItem(notionBookKey, val);
+  };
+
+  const filteredTemplates = templates.filter(t => {
+    const matchesCat = activeCategory === 'all' || t.category === activeCategory;
+    const matchesSearch = t.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          t.content.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCat && matchesSearch;
+  });
 
   const addEmptyPost = () => {
     const newPost: SocialPost = {
       id: Date.now().toString(),
-      day: '', date: '', time: '', topic: '', objective: '',
-      copys: '', link: '', keyword: '', hashtags: '', image: '', observations: ''
+      day: 'Lunes', date: '', time: '10:00', topic: '', objective: '',
+      copys: '', link: '', keyword: '', hashtags: '', image: 'Sí', observations: ''
     };
-    savePosts([newPost, ...posts]);
+    const updated = [newPost, ...posts];
+    setPosts(updated);
+    localStorage.setItem(postsKey, JSON.stringify(updated));
   };
 
   const updatePost = (id: string, field: keyof SocialPost, value: string) => {
     const updated = posts.map(p => p.id === id ? { ...p, [field]: value } : p);
-    savePosts(updated);
+    setPosts(updated);
+    localStorage.setItem(postsKey, JSON.stringify(updated));
   };
 
-  if (user?.role !== 'admin') {
-    return (
-      <div className="flex flex-col items-center justify-center h-[60vh] text-center">
-        <AlertCircle size={48} className="text-temple-red mb-4 opacity-50" />
-        <h2 className="text-xl font-bold uppercase text-white mb-2">Acceso Restringido</h2>
-        <p className="text-gray-500 text-sm">Este módulo es exclusivo para administradores y Community Managers.</p>
-      </div>
-    );
-  }
+  const deletePost = (id: string) => {
+    const updated = posts.filter(p => p.id !== id);
+    setPosts(updated);
+    localStorage.setItem(postsKey, JSON.stringify(updated));
+  };
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8 pb-12">
-      <motion.div variants={item}>
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-temple-gold mb-2">Community Management</p>
-        <h1 className="text-3xl md:text-5xl font-serif font-black uppercase text-white">
-          REDES <span className="text-temple-gold italic">SOCIALES</span>
-        </h1>
-        <p className="text-sm text-gray-400 mt-2 max-w-xl">
-          Planificación de contenido (Año #1 - 12 Meses) y directrices estratégicas de comunicación.
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8 pb-16 font-sans">
+      
+      {/* Header Estilo Notion Workspace */}
+      <motion.div variants={item} className="border-b border-white/10 pb-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="p-2.5 bg-temple-gold/10 border border-temple-gold/30 rounded-xl text-temple-gold">
+            <Sparkles size={24} />
+          </div>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-temple-gold">Espacio de Trabajo Notion</span>
+            <h1 className="text-3xl md:text-4xl font-serif font-black uppercase text-white tracking-tight">
+              LIBRO PERSONALIZADO <span className="text-temple-gold italic">& CONTENIDOS</span>
+            </h1>
+          </div>
+        </div>
+        <p className="text-xs text-gray-400 max-w-2xl mt-1">
+          Organizador de documentos, plantillas de mensajes de 1-clic y planificador de redes para Paulo.
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* 8 Decálogos */}
-        <motion.div variants={item} className="lg:col-span-2">
-          <Card className="h-full border-t-4 border-t-temple-gold bg-black/40">
-            <CardContent className="!p-6">
-              <h3 className="text-lg font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                <BookOpen className="text-temple-gold" size={20} />
-                8 Decálogos del Community Manager
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {DECALOGO.map((regla, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 bg-white/5 rounded-xl border border-white/5">
-                    <span className="text-temple-gold font-black font-serif text-lg leading-none">{i + 1}</span>
-                    <p className="text-xs text-gray-300 leading-relaxed">{regla.substring(3)}</p>
+      {/* Notion Callout Box (Bloque de Bienvenida) */}
+      <motion.div variants={item} className="bg-gradient-to-r from-temple-gold/15 via-black/40 to-black/60 border-l-4 border-temple-gold p-5 rounded-r-2xl border-y border-r border-white/5 shadow-xl">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl">💡</span>
+          <div>
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1">Cuerpo como Templo — 1 Corintios 6:19-20</h3>
+            <p className="text-xs text-gray-300 leading-relaxed">
+              "¿O ignoráis que vuestro cuerpo es templo del Espíritu Santo, el cual está en vosotros...?" Este espacio organiza todo el material de impacto, textos de contacto y la visión de TempleFit.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Sección 1: Plantillas de Mensajes y Copys (1-Click Copy Notion Cards) */}
+      <motion.div variants={item} className="space-y-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <MessageSquare className="text-temple-gold" size={20} />
+            <h2 className="text-lg font-bold text-white uppercase tracking-wider">Biblioteca de Copys y Mensajes</h2>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* Buscador */}
+            <div className="relative">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <input
+                type="text"
+                placeholder="Buscar plantilla..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-black/40 border border-white/10 rounded-xl py-1.5 pl-8 pr-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold w-48"
+              />
+            </div>
+
+            {/* Filtros */}
+            <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10 text-xs">
+              {[
+                { id: 'all', label: 'Todos' },
+                { id: 'outreach', label: 'Contacto' },
+                { id: 'redes', label: 'Redes' },
+              ].map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`px-3 py-1 rounded-lg font-bold uppercase tracking-wider text-[10px] transition-all ${
+                    activeCategory === cat.id ? 'bg-temple-gold text-black shadow-md' : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Tarjetas Estilo Notion Block */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredTemplates.map(tpl => (
+            <Card key={tpl.id} className="bg-black/40 border-white/10 hover:border-temple-gold/40 transition-all flex flex-col justify-between group">
+              <CardContent className="!p-6 flex flex-col h-full justify-between space-y-4">
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 bg-temple-gold/10 text-temple-gold border border-temple-gold/20 rounded-full">
+                      {tpl.tag}
+                    </span>
+                    <button
+                      onClick={() => handleCopy(tpl.id, tpl.content)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-temple-gold hover:text-black text-gray-300 font-bold uppercase tracking-widest text-[10px] rounded-lg transition-all border border-white/10"
+                    >
+                      {copiedId === tpl.id ? (
+                        <>
+                          <Check size={12} className="text-green-400" /> ¡Copiado!
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={12} /> Copiar Texto
+                        </>
+                      )}
+                    </button>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
 
-        {/* Habilidades a potenciar */}
-        <motion.div variants={item}>
-          <Card className="h-full bg-temple-navy/40">
-            <CardContent className="!p-6 flex flex-col h-full">
-              <h3 className="text-lg font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2">
-                <Target className="text-temple-gold" size={20} />
-                Potenciar Habilidades
-              </h3>
-              <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-4">Listas de Habilidades en Redes Sociales</p>
-              
-              <div className="flex-1 bg-black/30 rounded-xl border border-white/5 p-4">
-                <textarea
-                  value={skillsList}
-                  onChange={(e) => {
-                    setSkillsList(e.target.value);
-                    localStorage.setItem(skillsKey, e.target.value);
-                  }}
-                  className="w-full h-full bg-transparent border-none text-sm text-gray-300 focus:outline-none resize-none leading-relaxed"
-                  placeholder="Ej: 1. Edición rápida en CapCut..."
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
+                  <h3 className="text-sm font-bold text-white mb-2 group-hover:text-temple-gold transition-colors">{tpl.title}</h3>
+                  
+                  {tpl.variableNote && (
+                    <p className="text-[10px] text-amber-400/90 italic bg-amber-500/10 border-l-2 border-amber-500 p-2 rounded-r-lg mb-3">
+                      💡 {tpl.variableNote}
+                    </p>
+                  )}
 
-      {/* Tabla de Planificación */}
+                  <div className="bg-black/60 rounded-xl p-4 border border-white/5 text-xs text-gray-300 font-mono leading-relaxed whitespace-pre-wrap max-h-48 overflow-y-auto custom-scrollbar">
+                    {tpl.content}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Sección 2: Libro Personalizado (Notion Document Notes Editor) */}
       <motion.div variants={item}>
-        <Card>
+        <Card className="bg-black/40 border-white/10">
+          <CardContent className="!p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <h3 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <FileText className="text-temple-gold" size={18} />
+                Cuaderno de Notas y Estrategia (Edición Libre Estilo Notion)
+              </h3>
+              <span className="text-[10px] uppercase text-gray-500 tracking-widest">Se guarda automáticamente</span>
+            </div>
+
+            <textarea
+              value={notionBookText}
+              onChange={(e) => handleSaveBook(e.target.value)}
+              className="w-full h-64 bg-black/60 border border-white/10 rounded-xl p-4 text-xs font-mono text-gray-200 focus:outline-none focus:border-temple-gold resize-y leading-relaxed custom-scrollbar"
+              placeholder="Escribe tus apuntes, notas o capítulos de tu libro aquí..."
+            />
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Sección 3: Planificador de Redes Sociales (Notion Database View) */}
+      <motion.div variants={item}>
+        <Card className="bg-black/40 border-white/10">
           <CardContent className="!p-0 overflow-hidden">
             <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/20">
-              <h3 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Share2 className="text-temple-gold" size={20} />
-                Planificación Anual (12 Meses)
+              <h3 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <Share2 className="text-temple-gold" size={18} />
+                Planificador de Publicaciones y Redes Sociales
               </h3>
               <button
                 onClick={addEmptyPost}
-                className="flex items-center gap-2 px-4 py-2 bg-temple-gold/10 text-temple-gold border border-temple-gold/20 font-bold uppercase tracking-widest text-[10px] rounded-lg hover:bg-temple-gold hover:text-black transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-temple-gold text-black font-bold uppercase tracking-widest text-[10px] rounded-xl hover:bg-temple-gold-bright transition-all shadow-md"
               >
-                <Plus size={14} /> Añadir Fila
+                <Plus size={14} /> Nueva Publicación
               </button>
             </div>
             <div className="overflow-x-auto">
               <Table>
-                <TableHeader className="bg-black/40">
+                <TableHeader className="bg-black/60">
                   <TableRow className="hover:bg-transparent border-white/5">
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 min-w-[100px]">Día / Fecha</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 min-w-[80px]">Hora</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 min-w-[150px]">Tema / Objetivo</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 min-w-[200px]">Copys (FB/TW/IG/LI/YT)</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 min-w-[120px]">Palabra Clave / Hash</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 min-w-[150px]">Enlace / Img / Obs</TableHead>
+                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Día / Fecha</TableHead>
+                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Hora</TableHead>
+                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Tema / Objetivo</TableHead>
+                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Copys (Texto)</TableHead>
+                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Hashtags / Enlace</TableHead>
+                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 text-right">Acción</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {posts.length === 0 ? (
                     <TableRow className="border-white/5">
-                      <TableCell colSpan={6} className="text-center py-8 text-gray-500 text-sm">
-                        No hay planificaciones. Haz clic en "Añadir Fila" para comenzar.
+                      <TableCell colSpan={6} className="text-center py-8 text-gray-500 text-xs">
+                        No hay publicaciones programadas. Toca "Nueva Publicación" para añadir una.
                       </TableCell>
                     </TableRow>
                   ) : (
                     posts.map((post) => (
-                      <TableRow key={post.id} className="border-white/5 hover:bg-white/5 transition-colors group">
+                      <TableRow key={post.id} className="border-white/5 hover:bg-white/5 transition-colors">
                         <TableCell className="align-top">
                           <input
                             type="text"
                             value={post.day}
                             onChange={(e) => updatePost(post.id, 'day', e.target.value)}
-                            placeholder="Día (Ej: Lunes)"
                             className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs font-bold text-white mb-1"
                           />
                           <input
                             type="date"
                             value={post.date}
                             onChange={(e) => updatePost(post.id, 'date', e.target.value)}
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-[10px] text-gray-400"
+                            className="w-full bg-transparent border-none text-[10px] text-gray-400 focus:outline-none"
                           />
                         </TableCell>
                         <TableCell className="align-top">
@@ -208,7 +370,7 @@ export function Module7SocialMedia() {
                             type="time"
                             value={post.time}
                             onChange={(e) => updatePost(post.id, 'time', e.target.value)}
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-gray-300"
+                            className="bg-transparent border-none text-xs text-temple-gold font-mono focus:outline-none"
                           />
                         </TableCell>
                         <TableCell className="align-top">
@@ -216,64 +378,49 @@ export function Module7SocialMedia() {
                             type="text"
                             value={post.topic}
                             onChange={(e) => updatePost(post.id, 'topic', e.target.value)}
-                            placeholder="Tema"
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-white mb-1"
+                            placeholder="Tema de la publicación"
+                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs font-bold text-white mb-1"
                           />
                           <input
                             type="text"
                             value={post.objective}
                             onChange={(e) => updatePost(post.id, 'objective', e.target.value)}
-                            placeholder="Objetivo"
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-[10px] text-temple-gold uppercase tracking-wider"
+                            placeholder="Objetivo (Ej: Leads)"
+                            className="w-full bg-transparent border-none text-[10px] text-gray-400 focus:outline-none"
                           />
                         </TableCell>
                         <TableCell className="align-top">
                           <textarea
                             value={post.copys}
                             onChange={(e) => updatePost(post.id, 'copys', e.target.value)}
-                            placeholder="FB: ... / IG: ..."
-                            rows={3}
-                            className="w-full bg-transparent border border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-gray-300 resize-none p-1 rounded"
+                            placeholder="Escribe el texto del post..."
+                            className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-xs text-gray-200 focus:outline-none focus:border-temple-gold h-16 resize-y"
                           />
                         </TableCell>
                         <TableCell className="align-top">
-                          <input
-                            type="text"
-                            value={post.keyword}
-                            onChange={(e) => updatePost(post.id, 'keyword', e.target.value)}
-                            placeholder="Palabra Clave"
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-gray-300 mb-1"
-                          />
                           <input
                             type="text"
                             value={post.hashtags}
                             onChange={(e) => updatePost(post.id, 'hashtags', e.target.value)}
-                            placeholder="#hashtags"
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-[10px] text-temple-gold"
+                            placeholder="#TempleFit #CristoFit"
+                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-[10px] text-temple-gold mb-1"
                           />
-                        </TableCell>
-                        <TableCell className="align-top">
                           <input
                             type="text"
                             value={post.link}
                             onChange={(e) => updatePost(post.id, 'link', e.target.value)}
-                            placeholder="Enlace URL"
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-[10px] text-blue-400 mb-1"
+                            placeholder="https://templefit.com"
+                            className="w-full bg-transparent border-none text-[10px] text-gray-400 focus:outline-none"
                           />
-                          <input
-                            type="text"
-                            value={post.image}
-                            onChange={(e) => updatePost(post.id, 'image', e.target.value)}
-                            placeholder="Imagen (Sí/No/Ref)"
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-gray-300 mb-1"
-                          />
-                          <input
-                            type="text"
-                            value={post.observations}
-                            onChange={(e) => updatePost(post.id, 'observations', e.target.value)}
-                            placeholder="Observaciones..."
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs text-gray-500 italic"
-                          />
+                        </TableCell>
+                        <TableCell className="align-top text-right">
+                          <button
+                            onClick={() => deletePost(post.id)}
+                            className="p-2 text-gray-500 hover:text-red-400 transition-colors"
+                            title="Eliminar"
+                          >
+                            <Trash2 size={14} />
+                          </button>
                         </TableCell>
                       </TableRow>
                     ))
@@ -284,6 +431,7 @@ export function Module7SocialMedia() {
           </CardContent>
         </Card>
       </motion.div>
+
     </motion.div>
   );
 }
