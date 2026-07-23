@@ -69,7 +69,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <h1 className="text-lg font-serif font-black tracking-wider uppercase text-white flex items-center gap-1">
                 TEMPLE<span className="text-temple-gold">FIT</span>
               </h1>
-              <p className="text-[9px] text-gray-400 uppercase tracking-[0.2em] font-medium">Life System v3.0</p>
+              <p className="text-[9px] text-temple-gold uppercase tracking-[0.2em] font-extrabold">Life System v3.5 (Actualizado)</p>
             </div>
           </div>
           <button className="md:hidden text-temple-gold hover:text-white transition" onClick={() => setSidebarOpen(false)}>
