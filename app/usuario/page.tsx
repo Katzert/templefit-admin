@@ -34,6 +34,7 @@ export default function UsuarioPage() {
     switch (activeTab) {
       case 'home': return <HomePage onNavigate={setActiveTab} />;
       case 'social-media': return <Module7SocialMedia />;
+      case 'team-ops': return <Module8TeamOperations />;
       case 'daily': return <Module2DailyLog />;
       case 'financial': return <FinancialDashboard />;
       case 'profile': return <Module1Profile />;
