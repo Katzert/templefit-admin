@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, FileText, MessageSquare, Plus, MoreVertical, Trash2, Edit2, Copy, Check } from 'lucide-react';
+import { BookOpen, FileText, MessageSquare, Plus, MoreVertical, Trash2, Edit2, Copy, Check, Paperclip, X, Image as ImageIcon, File } from 'lucide-react';
+
+interface NotionAttachment {
+  id: string;
+  name: string;
+  data: string;
+  type: string;
+}
 
 interface NotionDocument {
   id: string;
@@ -8,6 +15,7 @@ interface NotionDocument {
   title: string;
   content: string;
   category: 'templates' | 'book' | 'materials';
+  attachments?: NotionAttachment[];
 }
 
 const DEFAULT_DOCUMENTS: NotionDocument[] = [
@@ -16,43 +24,24 @@ const DEFAULT_DOCUMENTS: NotionDocument[] = [
     icon: '📘',
     title: 'Borrador del Libro (TempleFit)',
     category: 'book',
-    content: `# El Cuerpo como Templo
-
-Aquí puedes escribir el borrador de tu libro. El ejercicio de fuerza no es una opción, es un mandato para cuidar tu cuerpo que es tu templo (1 Corintios 6:19-20).
-
-## Capítulo 1: El Despertar
-...`
+    content: `# El Cuerpo como Templo\n\nAquí puedes escribir el borrador de tu libro. El ejercicio de fuerza no es una opción, es un mandato para cuidar tu cuerpo que es tu templo (1 Corintios 6:19-20).`,
+    attachments: []
   },
   {
     id: 'doc_2',
     icon: '💬',
     title: 'Mensaje Aliados/Inversionistas',
     category: 'templates',
-    content: `Quiero compartirte algo en lo que llevo cerca de dos años trabajando: TempleFit, un ecosistema donde el entrenamiento físico, la formación espiritual y la comunidad se trabajan juntos — no por separado.
-
-[Aquí — inserta el dato específico: por qué le escribes a él en particular]
-
-La base es simple: tu cuerpo es un templo, y cuidarlo con disciplina cambia la trayectoria de una persona. Eso es lo que hacemos cada sábado en CristoFit Camp, y lo que sostenemos toda la semana a través del Reto 21 Días.
-
-Te comparto el enlace con toda la propuesta [https://katzert.github.io/templefit/] para que la veas con calma. Me encantaría escuchar qué piensas.
-
-Un abrazo,
-Paulo`
+    content: `Quiero compartirte algo en lo que llevo cerca de dos años trabajando: TempleFit, un ecosistema donde el entrenamiento físico, la formación espiritual y la comunidad se trabajan juntos — no por separado.\n\n[Aquí — inserta el dato específico: por qué le escribes a él en particular]\n\nLa base es simple: tu cuerpo es un templo, y cuidarlo con disciplina cambia la trayectoria de una persona. Eso es lo que hacemos cada sábado en CristoFit Camp, y lo que sostenemos toda la semana a través del Reto 21 Días.\n\nTe comparto el enlace con toda la propuesta [https://katzert.github.io/templefit/] para que la veas con calma. Me encantaría escuchar qué piensas.\n\nUn abrazo,\nPaulo`,
+    attachments: []
   },
   {
     id: 'doc_3',
     icon: '🏋️‍♂️',
     title: 'Post IG - CristoFit Camp',
     category: 'templates',
-    content: `⚡ ¡ESTE SÁBADO ENTRENAMOS CUERPO Y ESPÍRITU!
-
-No es solo sudar, es fortalecer el templo que Dios te dio.
-
-📍 CristoFit Camp en Santa Cruz
-⏰ Sábado 07:00 AM
-💬 Entrenamiento Funcional + Palabra de Poder + Comunidad
-
-¿Estás listo para dar el primer paso? Deja un "YO VOY" en los comentarios o haz clic en el enlace de nuestra bio para reservar tu lugar sin costo.`
+    content: `⚡ ¡ESTE SÁBADO ENTRENAMOS CUERPO Y ESPÍRITU!\n\nNo es solo sudar, es fortalecer el templo que Dios te dio.\n\n📍 CristoFit Camp en Santa Cruz\n⏰ Sábado 07:00 AM\n💬 Entrenamiento Funcional + Palabra de Poder + Comunidad\n\n¿Estás listo para dar el primer paso? Deja un "YO VOY" en los comentarios o haz clic en el enlace de nuestra bio para reservar tu lugar sin costo.`,
+    attachments: []
   }
 ];
 
@@ -60,31 +49,47 @@ export function Module7SocialMedia() {
   const [documents, setDocuments] = useState<NotionDocument[]>([]);
   const [activeDocId, setActiveDocId] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('templefit_notion_docs');
+    const saved = localStorage.getItem('templefit_notion_docs_v2'); // Upgrade key to avoid conflicts with old structure if needed
     if (saved) {
-      const parsed = JSON.parse(saved);
-      setDocuments(parsed);
-      if (parsed.length > 0) setActiveDocId(parsed[0].id);
+      try {
+        const parsed = JSON.parse(saved);
+        setDocuments(parsed);
+        if (parsed.length > 0) setActiveDocId(parsed[0].id);
+      } catch (e) {
+        setDocuments(DEFAULT_DOCUMENTS);
+      }
     } else {
-      setDocuments(DEFAULT_DOCUMENTS);
-      setActiveDocId(DEFAULT_DOCUMENTS[0].id);
-      localStorage.setItem('templefit_notion_docs', JSON.stringify(DEFAULT_DOCUMENTS));
+      // Try migrating old data
+      const oldSaved = localStorage.getItem('templefit_notion_docs');
+      if (oldSaved) {
+        const parsed = JSON.parse(oldSaved);
+        setDocuments(parsed);
+        if (parsed.length > 0) setActiveDocId(parsed[0].id);
+      } else {
+        setDocuments(DEFAULT_DOCUMENTS);
+        setActiveDocId(DEFAULT_DOCUMENTS[0].id);
+      }
     }
   }, []);
 
   // Save to localStorage whenever documents change
   useEffect(() => {
     if (documents.length > 0) {
-      localStorage.setItem('templefit_notion_docs', JSON.stringify(documents));
+      try {
+        localStorage.setItem('templefit_notion_docs_v2', JSON.stringify(documents));
+      } catch (e) {
+        alert("Atención: El almacenamiento local está lleno. Elimina imágenes pesadas para seguir guardando.");
+      }
     }
   }, [documents]);
 
   const activeDoc = documents.find(d => d.id === activeDocId);
 
-  const updateActiveDoc = (field: keyof NotionDocument, value: string) => {
+  const updateActiveDoc = (field: keyof NotionDocument, value: any) => {
     setDocuments(docs => docs.map(d => 
       d.id === activeDocId ? { ...d, [field]: value } : d
     ));
@@ -96,7 +101,8 @@ export function Module7SocialMedia() {
       icon: '📄',
       title: 'Nueva Página',
       category: 'materials',
-      content: ''
+      content: '',
+      attachments: []
     };
     setDocuments([...documents, newDoc]);
     setActiveDocId(newDoc.id);
@@ -116,6 +122,77 @@ export function Module7SocialMedia() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
+  };
+
+  const handleAttachFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !activeDoc) return;
+
+    // Strict limit for non-images to prevent blowing up localStorage
+    if (!file.type.startsWith('image/') && file.size > 500 * 1024) {
+      alert("Para documentos (PDF, Word), el límite es 500KB. Para archivos más pesados, usa Google Drive y pega el enlace.");
+      e.target.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      
+      if (file.type.startsWith('image/')) {
+        // Compress image using canvas
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > MAX_WIDTH) {
+            height = Math.round((height * MAX_WIDTH) / width);
+            width = MAX_WIDTH;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          // Compress to JPEG 0.6
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
+          
+          addAttachment({
+            id: `att_${Date.now()}`,
+            name: file.name,
+            data: compressedDataUrl,
+            type: file.type
+          });
+        };
+        img.src = result;
+      } else {
+        // Add direct base64 for small files
+        addAttachment({
+          id: `att_${Date.now()}`,
+          name: file.name,
+          data: result,
+          type: file.type
+        });
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = ''; // reset
+  };
+
+  const addAttachment = (att: NotionAttachment) => {
+    if (!activeDoc) return;
+    const currentAtts = activeDoc.attachments || [];
+    updateActiveDoc('attachments', [...currentAtts, att]);
+  };
+  
+  const removeAttachment = (attId: string) => {
+    if (!activeDoc) return;
+    const currentAtts = activeDoc.attachments || [];
+    updateActiveDoc('attachments', currentAtts.filter(a => a.id !== attId));
   };
 
   return (
@@ -168,7 +245,23 @@ export function Module7SocialMedia() {
         {activeDoc ? (
           <>
             {/* Toolbar */}
-            <div className="h-12 border-b border-white/5 flex items-center justify-end px-4">
+            <div className="h-12 border-b border-white/5 flex items-center justify-between px-4">
+              <div className="flex gap-2">
+                 <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  className="hidden" 
+                  onChange={handleAttachFile} 
+                  accept="image/*,.pdf,.doc,.docx" 
+                />
+                 <button 
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex items-center gap-2 text-xs font-medium text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-md transition"
+                >
+                  <Paperclip size={14} /> Adjuntar
+                </button>
+              </div>
+
               <button 
                 onClick={handleCopy}
                 className="flex items-center gap-2 text-xs font-medium text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-md transition"
@@ -221,8 +314,60 @@ export function Module7SocialMedia() {
                   value={activeDoc.content}
                   onChange={(e) => updateActiveDoc('content', e.target.value)}
                   placeholder="Escribe aquí..."
-                  className="w-full min-h-[500px] bg-transparent border-none outline-none text-gray-300 text-lg leading-relaxed resize-none placeholder-gray-700 custom-scrollbar"
+                  className="w-full min-h-[300px] bg-transparent border-none outline-none text-gray-300 text-lg leading-relaxed resize-none placeholder-gray-700 custom-scrollbar mb-8"
+                  style={{ fieldSizing: 'content' } as any}
                 />
+
+                {/* Attachments Gallery */}
+                {(activeDoc.attachments || []).length > 0 && (
+                  <div className="mt-8 pt-8 border-t border-white/5">
+                    <h4 className="text-sm font-bold text-gray-400 mb-4 flex items-center gap-2">
+                      <Paperclip size={16} /> Archivos Adjuntos
+                    </h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {(activeDoc.attachments || []).map(att => (
+                        <div key={att.id} className="relative group rounded-lg overflow-hidden border border-white/10 bg-black/40">
+                          {att.type.startsWith('image/') ? (
+                            <img src={att.data} alt={att.name} className="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition" />
+                          ) : (
+                            <div className="w-full h-32 flex flex-col items-center justify-center text-gray-500">
+                              <File size={32} className="mb-2" />
+                              <span className="text-xs max-w-[90%] truncate" title={att.name}>{att.name}</span>
+                            </div>
+                          )}
+                          
+                          {/* Hover Actions */}
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition gap-2">
+                            {att.type.startsWith('image/') && (
+                              <button 
+                                onClick={() => {
+                                  const w = window.open();
+                                  w?.document.write(`<img src="${att.data}" />`);
+                                }} 
+                                className="p-2 bg-white/10 hover:bg-white/20 rounded-full text-white" title="Ver completa"
+                              >
+                                <ImageIcon size={16} />
+                              </button>
+                            )}
+                            <a 
+                              href={att.data} 
+                              download={att.name}
+                              className="p-2 bg-temple-gold/20 hover:bg-temple-gold/40 rounded-full text-temple-gold" title="Descargar"
+                            >
+                              <Copy size={16} />
+                            </a>
+                            <button 
+                              onClick={() => removeAttachment(att.id)}
+                              className="p-2 bg-red-500/20 hover:bg-red-500/40 rounded-full text-red-400" title="Eliminar"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
               </motion.div>
             </div>
