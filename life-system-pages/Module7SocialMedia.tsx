@@ -1,54 +1,38 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '../components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
-import { 
-  BookOpen, Copy, Check, Plus, Trash2, Sparkles, MessageSquare, 
-  Share2, FileText, Search
-} from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { BookOpen, FileText, MessageSquare, Plus, MoreVertical, Trash2, Edit2, Copy, Check } from 'lucide-react';
 
-const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
-const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } } };
-
-interface ContentTemplate {
+interface NotionDocument {
   id: string;
+  icon: string;
   title: string;
-  category: 'outreach' | 'redes' | 'documento' | 'script';
-  tag: string;
   content: string;
-  variableNote?: string;
+  category: 'templates' | 'book' | 'materials';
 }
 
-interface SocialPost {
-  id: string;
-  day: string;
-  date: string;
-  time: string;
-  topic: string;
-  objective: string;
-  copys: string;
-  link: string;
-  keyword: string;
-  hashtags: string;
-  image: string;
-  observations: string;
-}
-
-const DEFAULT_TEMPLATES: ContentTemplate[] = [
+const DEFAULT_DOCUMENTS: NotionDocument[] = [
   {
-    id: '1',
-    title: 'Mensaje Personalizado — Invitación a Aliado / Inversionista (Ej: Antonio Eid)',
-    category: 'outreach',
-    tag: 'WhatsApp / Directo',
-    variableNote: 'Reemplaza [Nombre] y el motivo específico antes de enviar.',
-    content: `Antonio,
+    id: 'doc_1',
+    icon: '📘',
+    title: 'Borrador del Libro (TempleFit)',
+    category: 'book',
+    content: `# El Cuerpo como Templo
 
-Quiero compartirte algo en lo que llevo cerca de dos años trabajando: TempleFit, un ecosistema donde el entrenamiento físico, la formación espiritual y la comunidad se trabajan juntos — no por separado.
+Aquí puedes escribir el borrador de tu libro. El ejercicio de fuerza no es una opción, es un mandato para cuidar tu cuerpo que es tu templo (1 Corintios 6:19-20).
 
-[Aquí — inserta el dato específico: por qué le escribes a él en particular: ¿posible aliado, inversionista, referido, amigo que buscas invitar a un rol concreto?]
+## Capítulo 1: El Despertar
+...`
+  },
+  {
+    id: 'doc_2',
+    icon: '💬',
+    title: 'Mensaje Aliados/Inversionistas',
+    category: 'templates',
+    content: `Quiero compartirte algo en lo que llevo cerca de dos años trabajando: TempleFit, un ecosistema donde el entrenamiento físico, la formación espiritual y la comunidad se trabajan juntos — no por separado.
 
-La base es simple: tu cuerpo es un templo (1 Corintios 6:19-20), y cuidarlo con disciplina, con propósito y en comunidad cambia la trayectoria de una persona. Eso es lo que hacemos cada sábado en CristoFit Camp, y lo que sostenemos toda la semana a través del Reto 21 Días Íntegros y el acompañamiento Neuro-Espiritual.
+[Aquí — inserta el dato específico: por qué le escribes a él en particular]
+
+La base es simple: tu cuerpo es un templo, y cuidarlo con disciplina cambia la trayectoria de una persona. Eso es lo que hacemos cada sábado en CristoFit Camp, y lo que sostenemos toda la semana a través del Reto 21 Días.
 
 Te comparto el enlace con toda la propuesta [https://katzert.github.io/templefit/] para que la veas con calma. Me encantaría escuchar qué piensas.
 
@@ -56,11 +40,11 @@ Un abrazo,
 Paulo`
   },
   {
-    id: '2',
-    title: 'Convocatoria Semanal — CristoFit Camp (Sábados)',
-    category: 'redes',
-    tag: 'Redes Sociales / IG',
-    content: `🏋️‍♂️⚡ ¡ESTE SÁBADO ENTRENAMOS CUERPO Y ESPÍRITU!
+    id: 'doc_3',
+    icon: '🏋️‍♂️',
+    title: 'Post IG - CristoFit Camp',
+    category: 'templates',
+    content: `⚡ ¡ESTE SÁBADO ENTRENAMOS CUERPO Y ESPÍRITU!
 
 No es solo sudar, es fortalecer el templo que Dios te dio.
 
@@ -69,366 +53,207 @@ No es solo sudar, es fortalecer el templo que Dios te dio.
 💬 Entrenamiento Funcional + Palabra de Poder + Comunidad
 
 ¿Estás listo para dar el primer paso? Deja un "YO VOY" en los comentarios o haz clic en el enlace de nuestra bio para reservar tu lugar sin costo.`
-  },
-  {
-    id: '3',
-    title: 'Presentación del Reto 21 Días Íntegros',
-    category: 'outreach',
-    tag: 'Cierre / Prospectos',
-    content: `¡Hola! Si sientes que tu cuerpo necesita energía y tu mente necesita dirección, el Reto 21 Días Íntegros es para ti.
-
-Durante 21 días trabajaremos:
-1. Plan Nutricional Preventivo.
-2. Rutinas Funcionales Adaptadas.
-3. Hackeo de Hábitos y Renovación Mente-Espíritu.
-
-Accede al programa desde nuestro panel: https://katzert.github.io/templefit/`
   }
 ];
 
 export function Module7SocialMedia() {
-  const { user } = useAuth();
-  const [templates, setTemplates] = useState<ContentTemplate[]>([]);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  
-  // Custom Document Note State
-  const [bookText, setBookText] = useState<string>('');
+  const [documents, setDocuments] = useState<NotionDocument[]>([]);
+  const [activeDocId, setActiveDocId] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  // Social Posts
-  const [posts, setPosts] = useState<SocialPost[]>([]);
-
-  const templatesKey = 'templefit_content_templates_v3';
-  const bookKey = 'templefit_book_notes_v3';
-  const postsKey = 'templefit_social_posts_v3';
-
+  // Load from localStorage
   useEffect(() => {
-    const savedTemplates = localStorage.getItem(templatesKey);
-    if (savedTemplates) {
-      try { setTemplates(JSON.parse(savedTemplates)); } catch (e) { setTemplates(DEFAULT_TEMPLATES); }
+    const saved = localStorage.getItem('templefit_notion_docs');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setDocuments(parsed);
+      if (parsed.length > 0) setActiveDocId(parsed[0].id);
     } else {
-      setTemplates(DEFAULT_TEMPLATES);
-    }
-
-    const savedBook = localStorage.getItem(bookKey);
-    if (savedBook) setBookText(savedBook);
-    else setBookText(`📖 LIBRO PERSONALIZADO Y APUNTES DE PAULO\n\n- Propósito Principal: Construir la comunidad de fe y fitness más sólida de Santa Cruz.\n- Estrategia de Redes: Publicar 3 veces por semana enfocados en transformación real.\n- Próximos Eventos: CristoFit Camp Presencial.`);
-
-    const savedPosts = localStorage.getItem(postsKey);
-    if (savedPosts) {
-      try { setPosts(JSON.parse(savedPosts)); } catch (e) {}
-    } else {
-      setPosts([{
-        id: '1', day: 'Lunes', date: '2026-07-27', time: '09:00', topic: 'Lanzamiento Reto 21 Días', objective: 'Captación de Prospectos',
-        copys: 'Texto de invitación directa', link: 'https://katzert.github.io/templefit/',
-        keyword: 'Reto21', hashtags: '#TempleFit #SantaCruz #CristoFit', image: 'Sí', observations: 'Usar banner dorado'
-      }]);
+      setDocuments(DEFAULT_DOCUMENTS);
+      setActiveDocId(DEFAULT_DOCUMENTS[0].id);
+      localStorage.setItem('templefit_notion_docs', JSON.stringify(DEFAULT_DOCUMENTS));
     }
   }, []);
 
-  const handleCopy = (id: string, content: string) => {
-    navigator.clipboard.writeText(content);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
+  // Save to localStorage whenever documents change
+  useEffect(() => {
+    if (documents.length > 0) {
+      localStorage.setItem('templefit_notion_docs', JSON.stringify(documents));
+    }
+  }, [documents]);
+
+  const activeDoc = documents.find(d => d.id === activeDocId);
+
+  const updateActiveDoc = (field: keyof NotionDocument, value: string) => {
+    setDocuments(docs => docs.map(d => 
+      d.id === activeDocId ? { ...d, [field]: value } : d
+    ));
   };
 
-  const handleSaveBook = (val: string) => {
-    setBookText(val);
-    localStorage.setItem(bookKey, val);
-  };
-
-  const filteredTemplates = templates.filter(t => {
-    const matchesCat = activeCategory === 'all' || t.category === activeCategory;
-    const matchesSearch = t.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          t.content.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCat && matchesSearch;
-  });
-
-  const addEmptyPost = () => {
-    const newPost: SocialPost = {
-      id: Date.now().toString(),
-      day: 'Lunes', date: '', time: '10:00', topic: '', objective: '',
-      copys: '', link: '', keyword: '', hashtags: '', image: 'Sí', observations: ''
+  const createNewDoc = () => {
+    const newDoc: NotionDocument = {
+      id: `doc_${Date.now()}`,
+      icon: '📄',
+      title: 'Nueva Página',
+      category: 'materials',
+      content: ''
     };
-    const updated = [newPost, ...posts];
-    setPosts(updated);
-    localStorage.setItem(postsKey, JSON.stringify(updated));
+    setDocuments([...documents, newDoc]);
+    setActiveDocId(newDoc.id);
   };
 
-  const updatePost = (id: string, field: keyof SocialPost, value: string) => {
-    const updated = posts.map(p => p.id === id ? { ...p, [field]: value } : p);
-    setPosts(updated);
-    localStorage.setItem(postsKey, JSON.stringify(updated));
+  const deleteDoc = (id: string) => {
+    const filtered = documents.filter(d => d.id !== id);
+    setDocuments(filtered);
+    if (activeDocId === id) {
+      setActiveDocId(filtered.length > 0 ? filtered[0].id : null);
+    }
   };
 
-  const deletePost = (id: string) => {
-    const updated = posts.filter(p => p.id !== id);
-    setPosts(updated);
-    localStorage.setItem(postsKey, JSON.stringify(updated));
+  const handleCopy = () => {
+    if (activeDoc) {
+      navigator.clipboard.writeText(activeDoc.content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8 pb-16 font-sans">
+    <div className="h-[calc(100vh-140px)] flex bg-[#191919] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
       
-      {/* Header */}
-      <motion.div variants={item} className="border-b border-white/10 pb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2.5 bg-temple-gold/10 border border-temple-gold/30 rounded-xl text-temple-gold">
-            <BookOpen size={24} />
-          </div>
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-temple-gold">Centro de Documentos y Copys</span>
-            <h1 className="text-3xl md:text-4xl font-serif font-black uppercase text-white tracking-tight">
-              LIBRO PERSONALIZADO <span className="text-temple-gold italic">& MATERIALES</span>
-            </h1>
-          </div>
-        </div>
-        <p className="text-xs text-gray-400 max-w-2xl mt-1">
-          Organizador de documentos, plantillas de mensajes de 1-clic y planificador de contenidos para Paulo.
-        </p>
-      </motion.div>
-
-      {/* Bloque de Inspiración */}
-      <motion.div variants={item} className="bg-gradient-to-r from-temple-gold/15 via-black/40 to-black/60 border-l-4 border-temple-gold p-5 rounded-r-2xl border-y border-r border-white/5 shadow-xl">
-        <div className="flex items-start gap-3">
-          <span className="text-2xl">💡</span>
-          <div>
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1">Cuerpo como Templo — 1 Corintios 6:19-20</h3>
-            <p className="text-xs text-gray-300 leading-relaxed">
-              "¿O ignoráis que vuestro cuerpo es templo del Espíritu Santo, el cual está en vosotros...?" Este espacio organiza todo el material de impacto, textos de contacto y la visión de TempleFit.
-            </p>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Sección 1: Plantillas de Mensajes y Copys (1-Click Copy Cards) */}
-      <motion.div variants={item} className="space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* Notion Sidebar */}
+      <div className="w-64 bg-[#202020] border-r border-white/5 flex flex-col">
+        <div className="p-4 border-b border-white/5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <MessageSquare className="text-temple-gold" size={20} />
-            <h2 className="text-lg font-bold text-white uppercase tracking-wider">Biblioteca de Copys y Mensajes Rápido</h2>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {/* Buscador */}
-            <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-              <input
-                type="text"
-                placeholder="Buscar plantilla..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-black/40 border border-white/10 rounded-xl py-1.5 pl-8 pr-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold w-48"
-              />
+            <div className="w-6 h-6 rounded bg-temple-gold/20 flex items-center justify-center text-temple-gold">
+              <BookOpen size={14} />
             </div>
-
-            {/* Filtros */}
-            <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10 text-xs">
-              {[
-                { id: 'all', label: 'Todos' },
-                { id: 'outreach', label: 'Contacto' },
-                { id: 'redes', label: 'Redes' },
-              ].map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`px-3 py-1 rounded-lg font-bold uppercase tracking-wider text-[10px] transition-all ${
-                    activeCategory === cat.id ? 'bg-temple-gold text-black shadow-md' : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+            <span className="font-bold text-sm text-gray-200">TempleWiki</span>
           </div>
+          <button onClick={createNewDoc} className="p-1 hover:bg-white/10 rounded text-gray-400 hover:text-white transition">
+            <Plus size={16} />
+          </button>
         </div>
 
-        {/* Tarjetas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredTemplates.map(tpl => (
-            <Card key={tpl.id} className="bg-black/40 border-white/10 hover:border-temple-gold/40 transition-all flex flex-col justify-between group">
-              <CardContent className="!p-6 flex flex-col h-full justify-between space-y-4">
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 bg-temple-gold/10 text-temple-gold border border-temple-gold/20 rounded-full">
-                      {tpl.tag}
-                    </span>
-                    <button
-                      onClick={() => handleCopy(tpl.id, tpl.content)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-temple-gold hover:text-black text-gray-300 font-bold uppercase tracking-widest text-[10px] rounded-lg transition-all border border-white/10"
-                    >
-                      {copiedId === tpl.id ? (
-                        <>
-                          <Check size={12} className="text-green-400" /> ¡Copiado!
-                        </>
-                      ) : (
-                        <>
-                          <Copy size={12} /> Copiar Texto
-                        </>
-                      )}
-                    </button>
-                  </div>
+        <div className="flex-1 overflow-y-auto p-2 space-y-4 custom-scrollbar">
+          
+          {/* Category: Libros */}
+          <div>
+            <p className="text-xs font-semibold text-gray-500 uppercase px-2 mb-1">El Libro</p>
+            {documents.filter(d => d.category === 'book').map(doc => (
+              <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
+            ))}
+          </div>
 
-                  <h3 className="text-sm font-bold text-white mb-2 group-hover:text-temple-gold transition-colors">{tpl.title}</h3>
-                  
-                  {tpl.variableNote && (
-                    <p className="text-[10px] text-amber-400/90 italic bg-amber-500/10 border-l-2 border-amber-500 p-2 rounded-r-lg mb-3">
-                      💡 {tpl.variableNote}
-                    </p>
-                  )}
+          {/* Category: Templates */}
+          <div>
+            <p className="text-xs font-semibold text-gray-500 uppercase px-2 mb-1">Copys & Mensajes</p>
+            {documents.filter(d => d.category === 'templates').map(doc => (
+              <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
+            ))}
+          </div>
 
-                  <div className="bg-black/60 rounded-xl p-4 border border-white/5 text-xs text-gray-300 font-mono leading-relaxed whitespace-pre-wrap max-h-48 overflow-y-auto custom-scrollbar">
-                    {tpl.content}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          {/* Category: Materials */}
+          <div>
+            <p className="text-xs font-semibold text-gray-500 uppercase px-2 mb-1">Otros Materiales</p>
+            {documents.filter(d => d.category === 'materials').map(doc => (
+              <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
+            ))}
+          </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Sección 2: Libro Personalizado */}
-      <motion.div variants={item}>
-        <Card className="bg-black/40 border-white/10">
-          <CardContent className="!p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-white/5 pb-3">
-              <h3 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <FileText className="text-temple-gold" size={18} />
-                Cuaderno de Notas y Libro Estratégico (Edición Libre)
-              </h3>
-              <span className="text-[10px] uppercase text-gray-500 tracking-widest">Se guarda automáticamente</span>
-            </div>
-
-            <textarea
-              value={bookText}
-              onChange={(e) => handleSaveBook(e.target.value)}
-              className="w-full h-64 bg-black/60 border border-white/10 rounded-xl p-4 text-xs font-mono text-gray-200 focus:outline-none focus:border-temple-gold resize-y leading-relaxed custom-scrollbar"
-              placeholder="Escribe tus apuntes, notas o capítulos de tu libro aquí..."
-            />
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Sección 3: Planificador de Publicaciones */}
-      <motion.div variants={item}>
-        <Card className="bg-black/40 border-white/10">
-          <CardContent className="!p-0 overflow-hidden">
-            <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/20">
-              <h3 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Share2 className="text-temple-gold" size={18} />
-                Planificador de Publicaciones y Redes Sociales
-              </h3>
-              <button
-                onClick={addEmptyPost}
-                className="flex items-center gap-2 px-4 py-2 bg-temple-gold text-black font-bold uppercase tracking-widest text-[10px] rounded-xl hover:bg-temple-gold-bright transition-all shadow-md"
+      {/* Notion Editor Area */}
+      <div className="flex-1 flex flex-col bg-[#191919] relative">
+        {activeDoc ? (
+          <>
+            {/* Toolbar */}
+            <div className="h-12 border-b border-white/5 flex items-center justify-end px-4">
+              <button 
+                onClick={handleCopy}
+                className="flex items-center gap-2 text-xs font-medium text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-md transition"
               >
-                <Plus size={14} /> Nueva Publicación
+                {copied ? <Check size={14} className="text-temple-green" /> : <Copy size={14} />}
+                {copied ? 'Copiado' : 'Copiar Texto'}
               </button>
             </div>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader className="bg-black/60">
-                  <TableRow className="hover:bg-transparent border-white/5">
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Día / Fecha</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Hora</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Tema / Objetivo</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Copys (Texto)</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Hashtags / Enlace</TableHead>
-                    <TableHead className="text-[10px] font-bold uppercase tracking-widest text-gray-500 text-right">Acción</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {posts.length === 0 ? (
-                    <TableRow className="border-white/5">
-                      <TableCell colSpan={6} className="text-center py-8 text-gray-500 text-xs">
-                        No hay publicaciones programadas. Toca "Nueva Publicación" para añadir una.
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    posts.map((post) => (
-                      <TableRow key={post.id} className="border-white/5 hover:bg-white/5 transition-colors">
-                        <TableCell className="align-top">
-                          <input
-                            type="text"
-                            value={post.day}
-                            onChange={(e) => updatePost(post.id, 'day', e.target.value)}
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs font-bold text-white mb-1"
-                          />
-                          <input
-                            type="date"
-                            value={post.date}
-                            onChange={(e) => updatePost(post.id, 'date', e.target.value)}
-                            className="w-full bg-transparent border-none text-[10px] text-gray-400 focus:outline-none"
-                          />
-                        </TableCell>
-                        <TableCell className="align-top">
-                          <input
-                            type="time"
-                            value={post.time}
-                            onChange={(e) => updatePost(post.id, 'time', e.target.value)}
-                            className="bg-transparent border-none text-xs text-temple-gold font-mono focus:outline-none"
-                          />
-                        </TableCell>
-                        <TableCell className="align-top">
-                          <input
-                            type="text"
-                            value={post.topic}
-                            onChange={(e) => updatePost(post.id, 'topic', e.target.value)}
-                            placeholder="Tema de la publicación"
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-xs font-bold text-white mb-1"
-                          />
-                          <input
-                            type="text"
-                            value={post.objective}
-                            onChange={(e) => updatePost(post.id, 'objective', e.target.value)}
-                            placeholder="Objetivo (Ej: Leads)"
-                            className="w-full bg-transparent border-none text-[10px] text-gray-400 focus:outline-none"
-                          />
-                        </TableCell>
-                        <TableCell className="align-top">
-                          <textarea
-                            value={post.copys}
-                            onChange={(e) => updatePost(post.id, 'copys', e.target.value)}
-                            placeholder="Escribe el texto del post..."
-                            className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-xs text-gray-200 focus:outline-none focus:border-temple-gold h-16 resize-y"
-                          />
-                        </TableCell>
-                        <TableCell className="align-top">
-                          <input
-                            type="text"
-                            value={post.hashtags}
-                            onChange={(e) => updatePost(post.id, 'hashtags', e.target.value)}
-                            placeholder="#TempleFit #CristoFit"
-                            className="w-full bg-transparent border-b border-transparent hover:border-white/10 focus:border-temple-gold focus:outline-none text-[10px] text-temple-gold mb-1"
-                          />
-                          <input
-                            type="text"
-                            value={post.link}
-                            onChange={(e) => updatePost(post.id, 'link', e.target.value)}
-                            placeholder="https://templefit.com"
-                            className="w-full bg-transparent border-none text-[10px] text-gray-400 focus:outline-none"
-                          />
-                        </TableCell>
-                        <TableCell className="align-top text-right">
-                          <button
-                            onClick={() => deletePost(post.id)}
-                            className="p-2 text-gray-500 hover:text-red-400 transition-colors"
-                            title="Eliminar"
-                          >
-                            <Trash2 size={14} />
-                          </button>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
 
-    </motion.div>
+            {/* Editor */}
+            <div className="flex-1 overflow-y-auto custom-scrollbar p-10 lg:px-24">
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key={activeDoc.id} className="max-w-3xl mx-auto w-full">
+                
+                {/* Icon Picker (Simulated) */}
+                <div className="group relative w-20 mb-4">
+                  <input 
+                    type="text" 
+                    value={activeDoc.icon} 
+                    onChange={(e) => updateActiveDoc('icon', e.target.value)}
+                    className="text-6xl bg-transparent border-none outline-none w-full text-left"
+                    maxLength={2}
+                  />
+                  <div className="opacity-0 group-hover:opacity-100 absolute -top-4 left-0 text-xs text-gray-500 bg-black/80 px-2 py-1 rounded">Cambiar icono</div>
+                </div>
+
+                {/* Title */}
+                <input
+                  type="text"
+                  value={activeDoc.title}
+                  onChange={(e) => updateActiveDoc('title', e.target.value)}
+                  placeholder="Título de la página"
+                  className="w-full text-4xl font-bold bg-transparent border-none outline-none text-white mb-6 placeholder-gray-700"
+                />
+
+                {/* Category Selector */}
+                <div className="flex gap-2 mb-8">
+                  {['book', 'templates', 'materials'].map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => updateActiveDoc('category', cat)}
+                      className={\`text-xs px-2 py-1 rounded \${activeDoc.category === cat ? 'bg-white/20 text-white' : 'text-gray-500 hover:bg-white/5'}\`}
+                    >
+                      {cat === 'book' ? 'Libro' : cat === 'templates' ? 'Copys' : 'Materiales'}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Text Area (Markdown-like feeling) */}
+                <textarea
+                  value={activeDoc.content}
+                  onChange={(e) => updateActiveDoc('content', e.target.value)}
+                  placeholder="Escribe aquí..."
+                  className="w-full min-h-[500px] bg-transparent border-none outline-none text-gray-300 text-lg leading-relaxed resize-none placeholder-gray-700 custom-scrollbar"
+                />
+
+              </motion.div>
+            </div>
+          </>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center text-gray-500">
+            <FileText size={48} className="mb-4 opacity-20" />
+            <p>Selecciona o crea una página</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SidebarItem({ doc, isActive, onClick, onDelete }: { doc: NotionDocument, isActive: boolean, onClick: () => void, onDelete: () => void }) {
+  return (
+    <div 
+      onClick={onClick}
+      className={\`group flex items-center justify-between px-2 py-1.5 rounded-md cursor-pointer transition-colors \${isActive ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5'}\`}
+    >
+      <div className="flex items-center gap-2 truncate">
+        <span>{doc.icon}</span>
+        <span className="text-sm truncate">{doc.title || 'Sin título'}</span>
+      </div>
+      <button 
+        onClick={(e) => { e.stopPropagation(); onDelete(); }}
+        className="opacity-0 group-hover:opacity-100 p-1 hover:bg-black/40 rounded text-gray-500 hover:text-red-400 transition"
+      >
+        <Trash2 size={12} />
+      </button>
+    </div>
   );
 }
