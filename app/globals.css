@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --temple-navy: #002147;
+  --temple-navy-dark: #001630;
+  --temple-gold: #C5A059;
+  --temple-red: #D32F2F;
+  --temple-cream: #F9F6F0;
+  --glass-bg: rgba(0, 33, 71, 0.7);
+  --glass-border: rgba(197, 160, 89, 0.3);
+}
+
+body {
+  color: white;
+  background-color: var(--temple-navy-dark);
+  background-image: radial-gradient(circle at 50% -20%, #003366 0%, var(--temple-navy-dark) 70%);
+  font-family: 'Outfit', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--temple-gold);
+  border-radius: 10px;
+}
+
+@layer components {
+  /* Modern Bento Grid System */
+  .bento-grid {
+    @apply grid grid-cols-1 md:grid-cols-4 gap-6;
+  }
+
+  .tactical-card {
+    background: rgba(0, 15, 33, 0.85) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .tactical-card {
+      padding: 3.5rem;
+    }
+  }
+
+  .tactical-card * {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  }
+
+  .tactical-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(197, 160, 89, 0.4);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  }
+
+  .no-padding {
+    padding: 0 !important;
+  }
+
+  .elegant-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 900;
+  }
+
+  .label-tactical {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: var(--temple-gold);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .header-glass {
+    background: rgba(0, 11, 24, 0.95) !important;
+    border-bottom: 2px solid var(--temple-gold);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+  }
+
+  /* Image overlay gradient fix for Ecosystem cards */
+  .tactical-card.group > .absolute.inset-0 {
+    background: linear-gradient(to bottom, rgba(0, 15, 33, 0.7) 0%, rgba(0, 15, 33, 0.3) 35%, transparent 70%) !important;
+    z-index: 10;
+  }
+
+  .tactical-card.group:hover > .absolute.inset-0 {
+    background: linear-gradient(to bottom, rgba(0, 15, 33, 0.8) 0%, rgba(0, 15, 33, 0.4) 40%, rgba(0, 15, 33, 0.1) 80%) !important;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(to right, rgba(0, 15, 33, 0.95) 0%, rgba(0, 15, 33, 0.8) 40%, rgba(0, 0, 0, 0.3) 100%) !important;
+  }
+}
+

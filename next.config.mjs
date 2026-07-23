@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/templefit',
+  basePath: '/templefit-admin',
   trailingSlash: true,
   eslint: {
     ignoreDuringBuilds: true,

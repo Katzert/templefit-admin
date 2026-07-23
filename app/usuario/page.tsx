@@ -55,7 +55,7 @@ export default function UsuarioPage() {
     <DashboardLayout 
       activeTab={activeTab} 
       setActiveTab={setActiveTab}
-      onBackToWeb={() => router.push('/')}
+      onBackToWeb={() => { window.location.href = 'https://katzert.github.io/templefit/'; }}
     >
       {renderPage()}
     </DashboardLayout>
