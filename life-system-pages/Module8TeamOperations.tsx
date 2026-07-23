@@ -90,6 +90,42 @@ const DEFAULT_STUDENTS: HolisticStudent[] = [
     allergiesOrRestrictions: 'Evitar exceso de sodio',
     spiritualIntention: 'Liderazgo familiar con ejemplo de disciplina',
     mentorshipNotes: 'Asiste puntualmente los sábados a las 7am.'
+  },
+  {
+    id: '4',
+    name: 'Sofía Mendizábal',
+    phone: '+59171239876',
+    email: 'sofia.m@gmail.com',
+    instructorAssigned: 'Paulo (Head Coach)',
+    status: 'active',
+    plan: 'Coaching 1 a 1',
+    startDate: '2026-07-10',
+    renewalDate: '2026-08-10',
+    physicalGoal: 'Rehabilitación de hombro y fortalecimiento de core',
+    weightKg: 58.5,
+    workoutLevel: 'Intermedio',
+    nutritionPlan: 'Proteína Bio-optimizada y Suplementación limpia',
+    allergiesOrRestrictions: 'Sensible al gluten',
+    spiritualIntention: 'Paz mental en la toma de decisiones ejecutivas',
+    mentorshipNotes: 'Sesiones personalizadas los martes y jueves a las 18:00.'
+  },
+  {
+    id: '5',
+    name: 'Diego Roca',
+    phone: '+59174561230',
+    email: 'diego.roca@gmail.com',
+    instructorAssigned: 'Equipo TempleFit',
+    status: 'expiring',
+    plan: 'Reto 21 Días',
+    startDate: '2026-07-03',
+    renewalDate: '2026-07-24',
+    physicalGoal: 'Reducir porcentaje de grasa corporal y mejorar cardio',
+    weightKg: 89.0,
+    workoutLevel: 'Principiante',
+    nutritionPlan: 'Déficit Calórico Estructurado',
+    allergiesOrRestrictions: 'Ninguna',
+    spiritualIntention: 'Construir carácter inquebrantable y eliminar procrastinación',
+    mentorshipNotes: 'Contactar por WhatsApp para agendar renovación de ciclo.'
   }
 ];
 
