@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Bell, LogOut, ChevronDown, Globe, Activity, Share2, Briefcase } from 'lucide-react';
-import { Home, User, ClipboardList, CalendarDays, Microscope, Target, UtensilsCrossed, ShoppingBag, BarChart3, Brain, FileText, Settings, HelpCircle } from 'lucide-react';
+import { Home, User, Users, ClipboardList, CalendarDays, Microscope, Target, UtensilsCrossed, ShoppingBag, BarChart3, Brain, FileText, Settings, HelpCircle } from 'lucide-react';
 import { useAuth, type UserRole } from '../context/AuthContext';
 import type { ReactNode } from 'react';
 
