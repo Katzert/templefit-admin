@@ -1,0 +1,44 @@
+{
+  "mcpServers": {
+    "local-crm-db": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-sqlite", "--db-path", "./templefit_crm.db"]
+    },
+    "web-search": {
+      "command": "npx",
+      "args": ["-y", "duckduckgo-mcp-server"]
+    },
+    "ui-ux-pro": {
+      "command": "npx",
+      "args": ["-y", "ui-ux-pro-mcp"]
+    },
+    "icons": {
+      "command": "npx",
+      "args": ["-y", "mcp-universal-icons"]
+    },
+    "shadcn-ui": {
+      "command": "npx",
+      "args": ["shadcn-ui-mcp-server"]
+    },
+    "tailwindcss": {
+      "command": "npx",
+      "args": ["tailwindcss-mcp-server"]
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "next-devtools": {
+      "command": "npx",
+      "args": ["next-devtools-mcp"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp"]
+    },
+    "axe-accessibility": {
+      "command": "npx",
+      "args": ["@axe-core/cli"]
+    }
+  }
+}
