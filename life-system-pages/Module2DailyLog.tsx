@@ -7,7 +7,7 @@ import { Slider } from '../components/ui/slider';
 import { Switch } from '../components/ui/switch';
 import { Button } from '../components/ui/button';
 import { useAuth } from '../context/AuthContext';
-import { useAudit } from '../context/AuditContext';
+
 import { Plus, X, Activity, BrainCircuit, Heart, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -18,7 +18,7 @@ const DEFAULT_SPIRIT_HABITS = ['Oración / Meditación', 'Gratitud (3 cosas)', '
 
 export function Module2DailyLog() {
   const { selectedStudent, user } = useAuth();
-  const { log } = useAudit();
+
 
   const [failures, setFailures] = useState<string[]>([]);
   const [newFailure, setNewFailure] = useState('');

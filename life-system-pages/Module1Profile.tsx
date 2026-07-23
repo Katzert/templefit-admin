@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { InlineEdit } from '../components/ui/inline-edit';
 import { FieldLabel } from '../components/ui/field-label';
 import { useAuth } from '../context/AuthContext';
-import { useAudit } from '../context/AuditContext';
+
 import { User, Quote, CalendarDays } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -12,7 +12,7 @@ const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transiti
 
 export function Module1Profile() {
   const { selectedStudent, user } = useAuth();
-  const { log } = useAudit();
+
   
   const [traits, setTraits] = useState("");
   const [admires, setAdmires] = useState("");
