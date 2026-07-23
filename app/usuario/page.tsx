@@ -33,21 +33,11 @@ export default function UsuarioPage() {
   const renderPage = () => {
     switch (activeTab) {
       case 'home': return <HomePage onNavigate={setActiveTab} />;
-      case 'profile': return <Module1Profile />;
+      case 'social-media': return <Module7SocialMedia />;
       case 'daily': return <Module2DailyLog />;
-      case 'habits': return <Module3HabitTracker />;
-      case 'technical': return <Module4TechnicalSheet />;
-      case 'audit': return <Module5Audit />;
-
-      case 'training-log': return <Module6TrainingLog />;
-      case 'social-media': return hasRole('admin') ? <Module7SocialMedia /> : <AccessDenied />;
-      case 'team-ops': return hasRole('instructor') ? <Module8TeamOperations /> : <AccessDenied />;
-      case 'financial': return hasRole('admin') ? <FinancialDashboard /> : <AccessDenied />;
-
-      case 'changelog': return hasRole('instructor') ? <AuditLogPage /> : <AccessDenied />;
-      case 'settings': return hasRole('admin') ? <SettingsPage /> : <AccessDenied />;
-      case 'help': return <HelpPage />;
-      default: return <HomePage />;
+      case 'financial': return <FinancialDashboard />;
+      case 'profile': return <Module1Profile />;
+      default: return <HomePage onNavigate={setActiveTab} />;
     }
   };
 

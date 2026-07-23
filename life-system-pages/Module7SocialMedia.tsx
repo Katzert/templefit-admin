@@ -4,14 +4,14 @@ import { Card, CardContent } from '../components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
 import { 
   BookOpen, Copy, Check, Plus, Trash2, Sparkles, MessageSquare, 
-  Share2, FileText, ChevronDown, ChevronRight, Hash, Link2, Search
+  Share2, FileText, Search
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } } };
 
-interface NotionTemplate {
+interface ContentTemplate {
   id: string;
   title: string;
   category: 'outreach' | 'redes' | 'documento' | 'script';
@@ -35,7 +35,7 @@ interface SocialPost {
   observations: string;
 }
 
-const DEFAULT_NOTION_TEMPLATES: NotionTemplate[] = [
+const DEFAULT_TEMPLATES: ContentTemplate[] = [
   {
     id: '1',
     title: 'Mensaje Personalizado — Invitación a Aliado / Inversionista (Ej: Antonio Eid)',
@@ -88,35 +88,32 @@ Accede al programa desde nuestro panel: https://katzert.github.io/templefit/`
 
 export function Module7SocialMedia() {
   const { user } = useAuth();
-  const [templates, setTemplates] = useState<NotionTemplate[]>([]);
+  const [templates, setTemplates] = useState<ContentTemplate[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
-  // Custom Notion Document Note State
-  const [notionBookText, setNotionBookText] = useState<string>('');
-  
-  // Toggle states for Notion Accordions
-  const [showDecalogo, setShowDecalogo] = useState(true);
+  // Custom Document Note State
+  const [bookText, setBookText] = useState<string>('');
 
   // Social Posts
   const [posts, setPosts] = useState<SocialPost[]>([]);
 
-  const templatesKey = 'templefit_notion_templates_v2';
-  const notionBookKey = 'templefit_notion_book_v2';
-  const postsKey = 'templefit_social_media_v2';
+  const templatesKey = 'templefit_content_templates_v3';
+  const bookKey = 'templefit_book_notes_v3';
+  const postsKey = 'templefit_social_posts_v3';
 
   useEffect(() => {
     const savedTemplates = localStorage.getItem(templatesKey);
     if (savedTemplates) {
-      try { setTemplates(JSON.parse(savedTemplates)); } catch (e) { setTemplates(DEFAULT_NOTION_TEMPLATES); }
+      try { setTemplates(JSON.parse(savedTemplates)); } catch (e) { setTemplates(DEFAULT_TEMPLATES); }
     } else {
-      setTemplates(DEFAULT_NOTION_TEMPLATES);
+      setTemplates(DEFAULT_TEMPLATES);
     }
 
-    const savedBook = localStorage.getItem(notionBookKey);
-    if (savedBook) setNotionBookText(savedBook);
-    else setNotionBookText(`📖 LIBRO PERSONALIZADO Y APUNTES DE PAULO\n\n- Propósito Principal: Construir la comunidad de fe y fitness más sólida de Santa Cruz.\n- Estrategia de Redes: Publicar 3 veces por semana enfocados en transformación real.\n- Próximos Eventos: CristoFit Camp Presencial.`);
+    const savedBook = localStorage.getItem(bookKey);
+    if (savedBook) setBookText(savedBook);
+    else setBookText(`📖 LIBRO PERSONALIZADO Y APUNTES DE PAULO\n\n- Propósito Principal: Construir la comunidad de fe y fitness más sólida de Santa Cruz.\n- Estrategia de Redes: Publicar 3 veces por semana enfocados en transformación real.\n- Próximos Eventos: CristoFit Camp Presencial.`);
 
     const savedPosts = localStorage.getItem(postsKey);
     if (savedPosts) {
@@ -137,8 +134,8 @@ export function Module7SocialMedia() {
   };
 
   const handleSaveBook = (val: string) => {
-    setNotionBookText(val);
-    localStorage.setItem(notionBookKey, val);
+    setBookText(val);
+    localStorage.setItem(bookKey, val);
   };
 
   const filteredTemplates = templates.filter(t => {
@@ -174,25 +171,25 @@ export function Module7SocialMedia() {
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-8 pb-16 font-sans">
       
-      {/* Header Estilo Notion Workspace */}
+      {/* Header */}
       <motion.div variants={item} className="border-b border-white/10 pb-6">
         <div className="flex items-center gap-3 mb-2">
           <div className="p-2.5 bg-temple-gold/10 border border-temple-gold/30 rounded-xl text-temple-gold">
-            <Sparkles size={24} />
+            <BookOpen size={24} />
           </div>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-temple-gold">Espacio de Trabajo Notion</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-temple-gold">Centro de Documentos y Copys</span>
             <h1 className="text-3xl md:text-4xl font-serif font-black uppercase text-white tracking-tight">
-              LIBRO PERSONALIZADO <span className="text-temple-gold italic">& CONTENIDOS</span>
+              LIBRO PERSONALIZADO <span className="text-temple-gold italic">& MATERIALES</span>
             </h1>
           </div>
         </div>
         <p className="text-xs text-gray-400 max-w-2xl mt-1">
-          Organizador de documentos, plantillas de mensajes de 1-clic y planificador de redes para Paulo.
+          Organizador de documentos, plantillas de mensajes de 1-clic y planificador de contenidos para Paulo.
         </p>
       </motion.div>
 
-      {/* Notion Callout Box (Bloque de Bienvenida) */}
+      {/* Bloque de Inspiración */}
       <motion.div variants={item} className="bg-gradient-to-r from-temple-gold/15 via-black/40 to-black/60 border-l-4 border-temple-gold p-5 rounded-r-2xl border-y border-r border-white/5 shadow-xl">
         <div className="flex items-start gap-3">
           <span className="text-2xl">💡</span>
@@ -205,12 +202,12 @@ export function Module7SocialMedia() {
         </div>
       </motion.div>
 
-      {/* Sección 1: Plantillas de Mensajes y Copys (1-Click Copy Notion Cards) */}
+      {/* Sección 1: Plantillas de Mensajes y Copys (1-Click Copy Cards) */}
       <motion.div variants={item} className="space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <MessageSquare className="text-temple-gold" size={20} />
-            <h2 className="text-lg font-bold text-white uppercase tracking-wider">Biblioteca de Copys y Mensajes</h2>
+            <h2 className="text-lg font-bold text-white uppercase tracking-wider">Biblioteca de Copys y Mensajes Rápido</h2>
           </div>
 
           <div className="flex items-center gap-3">
@@ -247,7 +244,7 @@ export function Module7SocialMedia() {
           </div>
         </div>
 
-        {/* Tarjetas Estilo Notion Block */}
+        {/* Tarjetas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredTemplates.map(tpl => (
             <Card key={tpl.id} className="bg-black/40 border-white/10 hover:border-temple-gold/40 transition-all flex flex-col justify-between group">
@@ -291,20 +288,20 @@ export function Module7SocialMedia() {
         </div>
       </motion.div>
 
-      {/* Sección 2: Libro Personalizado (Notion Document Notes Editor) */}
+      {/* Sección 2: Libro Personalizado */}
       <motion.div variants={item}>
         <Card className="bg-black/40 border-white/10">
           <CardContent className="!p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-white/5 pb-3">
               <h3 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <FileText className="text-temple-gold" size={18} />
-                Cuaderno de Notas y Estrategia (Edición Libre Estilo Notion)
+                Cuaderno de Notas y Libro Estratégico (Edición Libre)
               </h3>
               <span className="text-[10px] uppercase text-gray-500 tracking-widest">Se guarda automáticamente</span>
             </div>
 
             <textarea
-              value={notionBookText}
+              value={bookText}
               onChange={(e) => handleSaveBook(e.target.value)}
               className="w-full h-64 bg-black/60 border border-white/10 rounded-xl p-4 text-xs font-mono text-gray-200 focus:outline-none focus:border-temple-gold resize-y leading-relaxed custom-scrollbar"
               placeholder="Escribe tus apuntes, notas o capítulos de tu libro aquí..."
@@ -313,7 +310,7 @@ export function Module7SocialMedia() {
         </Card>
       </motion.div>
 
-      {/* Sección 3: Planificador de Redes Sociales (Notion Database View) */}
+      {/* Sección 3: Planificador de Publicaciones */}
       <motion.div variants={item}>
         <Card className="bg-black/40 border-white/10">
           <CardContent className="!p-0 overflow-hidden">

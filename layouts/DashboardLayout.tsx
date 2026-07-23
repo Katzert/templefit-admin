@@ -14,29 +14,11 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'home', icon: <Home size={18} />, label: 'Inicio' },
-  { id: 'profile', icon: <User size={18} />, label: 'Mi Perfil' },
-  {
-    id: 'progress', icon: <Target size={18} />, label: 'Mi Progreso',
-    children: [
-      { id: 'daily', label: 'Registro Diario' },
-      { id: 'habits', label: 'Tracker Hábitos' },
-      { id: 'technical', label: 'Ficha Técnica' },
-      { id: 'audit', label: 'Auditoría Mensual' },
-      { id: 'training-log', label: 'Entrenamiento' },
-    ]
-  },
-  {
-    id: 'admin', icon: <Briefcase size={18} />, label: 'Administración', minRole: 'instructor',
-    children: [
-      { id: 'team-ops', label: 'Libro Operativo' },
-      { id: 'changelog', label: 'Registro de Cambios' },
-      { id: 'social-media', label: '📖 Libro & Copys Notion', minRole: 'admin' },
-      { id: 'financial', label: 'Financiero', minRole: 'admin' },
-      { id: 'settings', label: 'Configuración', minRole: 'admin' }
-    ]
-  },
-  { id: 'help', icon: <HelpCircle size={18} />, label: 'Ayuda y Tutorial' },
+  { id: 'home', icon: <Home size={18} />, label: 'Inicio / Resumen' },
+  { id: 'social-media', icon: <FileText size={18} />, label: '📘 Libro & Materiales' },
+  { id: 'daily', icon: <Target size={18} />, label: '☀️ Hábitos & Mi Día' },
+  { id: 'financial', icon: <BarChart3 size={18} />, label: '💰 Finanzas & Control' },
+  { id: 'profile', icon: <User size={18} />, label: '👤 Mi Perfil' },
 ];
 
 interface DashboardLayoutProps {

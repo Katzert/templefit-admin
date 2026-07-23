@@ -147,9 +147,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
               <p className="text-xs text-gray-500 mb-4">Navega directamente a las secciones más relevantes.</p>
               <div className="space-y-3">
                 {[
-                  { title: 'Registrar mi día', desc: 'Completa tu matriz de 24 horas y hábitos diarios', emoji: '📋', tab: 'daily' },
-                  { title: 'Ver mi progreso mensual', desc: 'Revisa tu tracker de 31 días y tendencia', emoji: '📅', tab: 'habits' },
-                  { title: 'Auditoría de vida', desc: 'Analiza tu Rueda del Rendimiento', emoji: '🎯', tab: 'audit' },
+                  { title: '📘 Libro & Copys Rápidos', desc: 'Copiar mensajes de WhatsApp y consultar materiales', emoji: '📘', tab: 'social-media' },
+                  { title: '☀️ Registrar Mi Día', desc: 'Completa tu registro diario de hábitos y tareas', emoji: '☀️', tab: 'daily' },
+                  { title: '💰 Control Financiero & Alumnos', desc: 'Revisa ingresos, gastos y proyección de miembros', emoji: '💰', tab: 'financial' },
                 ].map((action, i) => (
                   <div
                     key={i}
