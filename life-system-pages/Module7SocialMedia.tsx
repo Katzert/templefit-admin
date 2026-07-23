@@ -216,7 +216,7 @@ export function Module7SocialMedia() {
           
           {/* Category: Libros */}
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase px-2 mb-1">El Libro</p>
+            <p className="text-[10px] font-extrabold text-temple-gold uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">El Libro</p>
             {documents.filter(d => d.category === 'book').map(doc => (
               <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
             ))}
@@ -224,7 +224,7 @@ export function Module7SocialMedia() {
 
           {/* Category: Templates */}
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase px-2 mb-1">Copys & Mensajes</p>
+            <p className="text-[10px] font-extrabold text-temple-gold uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">Copys & Mensajes</p>
             {documents.filter(d => d.category === 'templates').map(doc => (
               <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
             ))}
@@ -232,7 +232,7 @@ export function Module7SocialMedia() {
 
           {/* Category: Materials */}
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase px-2 mb-1">Otros Materiales</p>
+            <p className="text-[10px] font-extrabold text-temple-gold uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">Otros Materiales</p>
             {documents.filter(d => d.category === 'materials').map(doc => (
               <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
             ))}
