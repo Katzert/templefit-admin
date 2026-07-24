@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Search, Plus, Edit3, Save, Sparkles, FileText, CheckCircle2, Share2, Layers, ExternalLink } from 'lucide-react';
+import { BookOpen, Search, Plus, Edit3, Save, Sparkles, FileText, CheckCircle2, Share2, Layers, ExternalLink, Bookmark, Hash, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 
 interface WikiPage {
   id: string;
   title: string;
   category: 'cuerpo' | 'mente' | 'espiritu' | 'operaciones';
+  infobox?: { label: string; value: string }[];
   content: string;
   updatedAt: string;
 }
@@ -16,92 +17,125 @@ const DEFAULT_WIKI_PAGES: WikiPage[] = [
     id: 'index',
     title: '🏛️ Índice de Conocimiento TempleWiki',
     category: 'operaciones',
+    infobox: [
+      { label: 'Tipo', value: 'Base Maestra del Cerebro' },
+      { label: 'Acceso', value: 'Paulo & Admin Exclusivo' },
+      { label: 'Versión', value: 'v3.5 Spec Karpathy' }
+    ],
     content: `# 🏛️ TempleWiki: Base de Conocimiento Holística
 
-Bienvenido a **TempleWiki**, el sistema de gestión de conocimiento basado en la especificación **LLM-Wiki de Karpathy**.
+Bienvenido al **Cerebro Central de TempleFit**, diseñado bajo la especificación **LLM-Wiki de Karpathy**.
 
-## 📌 Navegación Rápida
-- **[[Pilar_Cuerpo]]**: Protocolo Nutricional Bio-optimizado, Hidratación (3L) y Entrenamiento Híbrido.
-- **[[Pilar_Mente]]**: Lectura diaria, Journaling de Victorias y Neuro-Ventas.
-- **[[Pilar_Espiritu]]**: Oración Matutina, Valores Eternos y Sábados CristoFit Camp.
-- **[[Manual_Instructores]]**: Guía operativa para entrenadores y alertas de WhatsApp.
+## 📌 Artículos Principales de la Bóveda
+- [[Pilar_Cuerpo]] — Manual de Nutrición Bio-optimizada, Hidratación y Fuerza.
+- [[Pilar_Mente]] — Disciplina Cognitiva, Journaling y Neuro-Ventas.
+- [[Pilar_Espiritu]] — Fe, Valores Eternos y Sábados CristoFit Camp.
+- [[Manual_Instructores]] — Estándares operativos de seguimiento de alumnos.
 
 ---
-*TempleWiki es actualizado continuamente por el sistema y por los instructores de TempleFit.*`,
+*Esta base de conocimiento es gestionada exclusivamente por los Fundadores y actualizada dinámicamente por la IA.*`,
     updatedAt: '23 de Julio, 2026'
   },
   {
-    id: 'pilar-cuerpo',
-    title: '🏋️‍♂️ Pilar Cuerpo: Nutrición & Entrenamiento',
+    id: 'Pilar_Cuerpo',
+    title: '🏋️‍♂️ Pilar Cuerpo: Nutrición & Entrenamiento Híbrido',
     category: 'cuerpo',
-    content: `# 🏋️‍♂️ Pilar Cuerpo: Nutrición Bio-optimizada & Fuerza
+    infobox: [
+      { label: 'Pilar', value: 'Cuerpo (Físico)' },
+      { label: 'Meta Agua', value: '2.5L - 3.0L / Día' },
+      { label: 'Proteína', value: '1.6g - 2.0g / kg' },
+      { label: 'Frecuencia', value: '5 Días / Semana' }
+    ],
+    content: `# 🏋️‍♂️ Pilar Cuerpo: Nutrición Bio-optimizada & Fuerza Real
 
-El cuerpo físico es el templo de la acción. Para mantener un rendimiento óptimo aplicamos los siguientes estándares:
+El cuerpo físico es el templo biológico de la acción. Para mantener un rendimiento de élite aplicamos los siguientes estándares:
 
-### 1. Hidratación Táctica
-- **Mínimo:** 2.5L a 3.0L de agua diarios.
-- **Regla:** Beber 500ml inmediatamente al despertar antes de consumir café o alimentos.
+## 1. Hidratación Táctica
+- **Mínimo Diario:** 2.5L a 3.0L de agua purificada.
+- **Protocolo Matutino:** Beber 500ml inmediatamente al despertar antes de cualquier alimento.
 
-### 2. Nutrición Bio-optimizada
+## 2. Nutrición Bio-optimizada
 - Eliminación de azúcares refinados y aceites vegetales procesados.
-- Prioridad a la densidad proteica (1.6g a 2.0g por kg de peso corporal).
+- Prioridad a la densidad proteica limpia (1.6g a 2.0g por kg de peso corporal).
 - Incorporación de grasas saludables (palta, aceite de oliva, frutos secos).
 
-### 3. Entrenamiento Híbrido
-- Combinación de ejercicios compuestos (Sentadilla, Peso Muerto, Press) con resistencia funcional al aire libre.`,
+## 3. Entrenamiento Híbrido
+- Combinación de ejercicios compuestos con pesas y acondicionamiento al aire libre.`,
     updatedAt: '23 de Julio, 2026'
   },
   {
-    id: 'pilar-mente',
-    title: '🧠 Pilar Mente: Disciplina Cognitiva',
+    id: 'Pilar_Mente',
+    title: '🧠 Pilar Mente: Disciplina Cognitiva & Neuro-Ventas',
     category: 'mente',
+    infobox: [
+      { label: 'Pilar', value: 'Mente (Cognitivo)' },
+      { label: 'Lectura', value: '10-15 Páginas / Día' },
+      { label: 'Regla Matutina', value: '0 Redes 1h Al Despertar' },
+      { label: 'Enfoque', value: 'Neuro-Ventas Éticas' }
+    ],
     content: `# 🧠 Pilar Mente: Disciplina Cognitiva & Neuro-Ventas
 
-El dominio mental determina la consistencia en el tiempo.
+El dominio mental determina la consistencia y resiliencia en el tiempo.
 
-### 1. Regla de Oro Matutina
-- **0 Redes Sociales:** Ninguna red social ni mensajes durante los primeros 60 minutos del día.
-- **Lectura Diaria:** Mínimo 10 a 15 páginas de libros de desarrollo personal, ética o negocios.
+## 1. Regla de Oro Matutina
+- **Cero Redes Sociales:** Ninguna red social ni mensajes durante los primeros 60 minutos del día.
+- **Lectura Diaria:** Mínimo 10 a 15 páginas de libros de desarrollo personal o liderazgo.
 
-### 2. Journaling de Victorias & Errores
-- Registrar en el Scorecard Diario los logros del día.
-- Reconocer errores honestamente para ajustar la estrategia de la siguiente semana.
+## 2. Journaling de Victorias & Errores
+- Registrar diariamente los logros y aprendizajes en el Scorecard de Victoria.
+- Reconocer errores con honestidad para ajustar la estrategia de la siguiente semana.
 
-### 3. Neuro-Ventas con Propósito
-- Conectar con los clientes desde la empatía y la transformación real, no desde la presión comercial.`,
+## 3. Neuro-Ventas con Propósito
+- Conectar con los alumnos desde la empatía y la transformación real de sus vidas.`,
     updatedAt: '23 de Julio, 2026'
   },
   {
-    id: 'pilar-espiritu',
-    title: '❤️ Pilar Espíritu: Fe & Comunidad',
+    id: 'Pilar_Espiritu',
+    title: '❤️ Pilar Espíritu: Fe & Comunidad CristoFit',
     category: 'espiritu',
+    infobox: [
+      { label: 'Pilar', value: 'Espíritu (Valores)' },
+      { label: 'Oración', value: '10-15 Min / Mañana' },
+      { label: 'Comunidad', value: 'Sábados CristoFit Camp' },
+      { label: 'Pasaje Clave', value: 'Colosenses 3:23' }
+    ],
     content: `# ❤️ Pilar Espíritu: Valores Eternos & CristoFit Camp
 
-El espíritu es el ancla moral del atleta íntegro.
+El espíritu es el ancla moral e inquebrantable del atleta íntegro.
 
-### 1. Conexión Matutina
+## 1. Conexión Matutina
 - 10 a 15 minutos de oración, meditación o reflexión bíblica matutina.
 - Cultivar la gratitud escribiendo 3 cosas específicas por las que estar agradecido cada día.
 
-### 2. Sábados CristoFit Camp
+## 2. Sábados CristoFit Camp
 - Entrenamiento grupal al aire libre en Santa Cruz, Bolivia.
-- Confraternización y tiempo de palabra al finalizar el entrenamiento.
+- Tiempo de palabra, confraternización y recarga de energía espiritual.
 
-### 3. La Regla de la Excelencia
+## 3. La Regla de la Excelencia
 > *"Todo lo que hagan, háganlo de corazón, como para el Señor."* — Colosenses 3:23`,
     updatedAt: '23 de Julio, 2026'
   },
   {
-    id: 'manual-instructores',
-    title: '📋 Manual para Instructores TempleFit',
+    id: 'Manual_Instructores',
+    title: '📋 Manual Operativo para Instructores',
     category: 'operaciones',
+    infobox: [
+      { label: 'Uso', value: 'Estándar de Operación' },
+      { label: 'Auditoría', value: 'Semanal' },
+      { label: 'Alertas', value: 'WhatsApp 1-Clic' }
+    ],
     content: `# 📋 Manual Operativo de Instructores
 
 Guía de estándares para la atención y seguimiento de alumnos en el CRM:
 
-1. **Revisión Diaria:** Verificar que los alumnos seleccionados registren su Scorecard de Objetivos.
-2. **Alertas de Renovación:** Utilizar la herramienta de 1-Clic de WhatsApp cuando la suscripción de un alumno esté a 3 días o menos de vencer.
-3. **Evaluación Trimestral:** Realizar la prueba de recomendación bio-optimizada y recomposición corporal.`,
+## 1. Seguimiento de Alumnos
+- Revisar diariamente que los alumnos registren su Scorecard de Objetivos.
+
+## 2. Alertas de Renovación
+- Utilizar la herramienta de 1-Clic de WhatsApp cuando la suscripción esté a 3 días o menos de vencer.
+
+## 3. Evaluación Trimestral
+- Realizar la prueba de recomendación bio-optimizada y recomposición corporal.`,
     updatedAt: '23 de Julio, 2026'
   }
 ];
@@ -115,7 +149,7 @@ export function TempleWiki() {
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('templefit_wiki_pages');
+    const saved = localStorage.getItem('templefit_wiki_pages_v2');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -124,7 +158,7 @@ export function TempleWiki() {
     }
   }, []);
 
-  const activePage = pages.find(p => p.id === activePageId) || pages[0];
+  const activePage = pages.find(p => p.id === activePageId || p.id.toLowerCase() === activePageId.toLowerCase()) || pages[0];
 
   useEffect(() => {
     setEditedContent(activePage.content);
@@ -132,29 +166,56 @@ export function TempleWiki() {
   }, [activePageId]);
 
   const handleSavePage = () => {
-    const updated = pages.map(p => p.id === activePageId ? { ...p, content: editedContent, updatedAt: 'Hoy' } : p);
+    const updated = pages.map(p => p.id === activePage.id ? { ...p, content: editedContent, updatedAt: 'Hoy' } : p);
     setPages(updated);
-    localStorage.setItem('templefit_wiki_pages', JSON.stringify(updated));
+    localStorage.setItem('templefit_wiki_pages_v2', JSON.stringify(updated));
     setIsEditing(false);
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
   };
 
   const handleCreatePage = () => {
-    const newTitle = prompt('Nombre de la nueva página de la Wiki:');
+    const newTitle = prompt('Título del nuevo artículo de la Wiki:');
     if (!newTitle || !newTitle.trim()) return;
-    const newId = `page-${Date.now()}`;
+    const cleanId = newTitle.trim().replace(/\s+/g, '_');
     const newP: WikiPage = {
-      id: newId,
-      title: newTitle.trim(),
+      id: cleanId,
+      title: `📄 ${newTitle.trim()}`,
       category: 'operaciones',
-      content: `# ${newTitle.trim()}\n\nEscribe aquí el contenido en formato Markdown...`,
+      infobox: [{ label: 'Artículo', value: newTitle.trim() }],
+      content: `# 📄 ${newTitle.trim()}\n\nEscribe aquí el contenido del artículo en formato Markdown...`,
       updatedAt: 'Hoy'
     };
     const updated = [...pages, newP];
     setPages(updated);
-    localStorage.setItem('templefit_wiki_pages', JSON.stringify(updated));
-    setActivePageId(newId);
+    localStorage.setItem('templefit_wiki_pages_v2', JSON.stringify(updated));
+    setActivePageId(cleanId);
+  };
+
+  const navigateToWikiLink = (linkText: string) => {
+    const target = pages.find(p => p.id.toLowerCase() === linkText.toLowerCase() || p.id.toLowerCase().includes(linkText.toLowerCase()));
+    if (target) {
+      setActivePageId(target.id);
+    }
+  };
+
+  const renderContentWithLinks = (text: string) => {
+    const parts = text.split(/(\[\[.*?\]\])/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('[[') && part.endsWith(']]')) {
+        const linkName = part.slice(2, -2);
+        return (
+          <button
+            key={i}
+            onClick={() => navigateToWikiLink(linkName)}
+            className="text-temple-gold font-bold underline hover:text-white transition px-1 bg-temple-gold/10 rounded"
+          >
+            {linkName.replace(/_/g, ' ')} ↗
+          </button>
+        );
+      }
+      return part;
+    });
   };
 
   const filteredPages = pages.filter(p => 
@@ -169,7 +230,7 @@ export function TempleWiki() {
       {showToast && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-black font-bold uppercase tracking-wider text-xs py-3.5 px-6 rounded-xl flex items-center gap-2.5 shadow-2xl">
           <CheckCircle2 size={16} />
-          <span>Página de la Wiki Guardada Correctamente</span>
+          <span>Artículo de la Wiki Guardado Correctamente</span>
         </div>
       )}
 
@@ -178,7 +239,7 @@ export function TempleWiki() {
         <div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-temple-gold bg-temple-gold/10 px-2.5 py-0.5 rounded-full border border-temple-gold/30">
-              Motor LLM-Wiki (Karpathy Spec)
+              Formato Wikipedia • Karpathy Spec
             </span>
           </div>
           <h2 className="text-3xl md:text-5xl font-serif font-black uppercase text-white tracking-tight mt-1">
@@ -189,14 +250,14 @@ export function TempleWiki() {
           onClick={handleCreatePage}
           className="px-5 py-3 bg-temple-gold text-black font-extrabold text-xs uppercase tracking-widest rounded-xl hover:bg-amber-400 transition flex items-center gap-2 shadow-lg"
         >
-          <Plus size={16} /> Nueva Página Wiki
+          <Plus size={16} /> Nuevo Artículo Wiki
         </button>
       </div>
 
-      {/* Main Wiki Layout (2 Columns) */}
+      {/* Main Wikipedia Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Left Sidebar: Pages Index & Search */}
+        {/* Left Sidebar: Wikipedia Index Navigation */}
         <div className="lg:col-span-4 space-y-4">
           <Card className="bg-[#0B0F19]/90 border-white/10">
             <CardContent className="!p-4 space-y-4">
@@ -208,15 +269,21 @@ export function TempleWiki() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Buscar en la Wiki..."
+                  placeholder="Buscar artículo en Wikipedia..."
                   className="w-full bg-black/50 border border-white/10 rounded-xl py-2.5 pl-9 pr-4 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold"
                 />
+              </div>
+
+              {/* Index Header */}
+              <div className="flex items-center justify-between px-2 pt-1 border-b border-white/5 pb-2">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-gray-400">Artículos ({filteredPages.length})</span>
+                <span className="text-[10px] text-temple-gold font-bold">Cerebro Master</span>
               </div>
 
               {/* Pages List */}
               <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">
                 {filteredPages.map((p) => {
-                  const isActive = p.id === activePageId;
+                  const isActive = p.id === activePage.id;
                   return (
                     <div
                       key={p.id}
@@ -240,18 +307,18 @@ export function TempleWiki() {
           </Card>
         </div>
 
-        {/* Right Viewer & Editor Pane */}
+        {/* Right Pane: Wikipedia Article View with Infobox */}
         <div className="lg:col-span-8 space-y-4">
-          <Card className="bg-[#0B0F19]/90 border-white/10 min-h-[600px] flex flex-col justify-between">
+          <Card className="bg-[#0B0F19]/90 border-white/10 min-h-[600px]">
             <CardContent className="!p-8 space-y-6">
               
-              {/* Page Title Header */}
+              {/* Wikipedia Breadcrumbs & Controls */}
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                  <span className="text-[10px] uppercase font-extrabold tracking-widest text-temple-gold">
-                    Actualizado: {activePage.updatedAt}
-                  </span>
-                  <h3 className="text-2xl font-serif font-bold text-white mt-1">{activePage.title}</h3>
+                <div className="flex items-center gap-2 text-xs text-gray-400 font-bold uppercase tracking-wider">
+                  <BookOpen size={16} className="text-temple-gold" />
+                  <span>Wikipedia</span>
+                  <span>/</span>
+                  <span className="text-white">{activePage.title}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -267,13 +334,13 @@ export function TempleWiki() {
                       onClick={() => setIsEditing(true)}
                       className="px-4 py-2 bg-white/10 text-white font-extrabold text-xs uppercase tracking-widest rounded-xl hover:bg-white/20 transition flex items-center gap-1.5 border border-white/10"
                     >
-                      <Edit3 size={14} /> Editar Página
+                      <Edit3 size={14} /> Editar Artículo
                     </button>
                   )}
                 </div>
               </div>
 
-              {/* Page Content Body (Reader / Markdown Editor) */}
+              {/* Wikipedia Article Layout (Infobox + Content Grid) */}
               {isEditing ? (
                 <textarea
                   value={editedContent}
@@ -282,8 +349,33 @@ export function TempleWiki() {
                   className="w-full bg-black/60 border border-white/10 rounded-2xl p-4 text-xs font-mono text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold leading-relaxed"
                 />
               ) : (
-                <div className="prose prose-invert max-w-none text-gray-300 text-sm leading-relaxed space-y-4 whitespace-pre-wrap font-sans">
-                  {activePage.content}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                  
+                  {/* Article Text Content */}
+                  <div className="md:col-span-8 space-y-4">
+                    <div className="prose prose-invert max-w-none text-gray-200 text-sm leading-relaxed whitespace-pre-wrap font-sans">
+                      {renderContentWithLinks(activePage.content)}
+                    </div>
+                  </div>
+
+                  {/* Wikipedia Sidebar Infobox */}
+                  {activePage.infobox && (
+                    <div className="md:col-span-4 p-5 rounded-2xl bg-black/60 border border-temple-gold/30 space-y-3">
+                      <div className="text-center pb-2 border-b border-temple-gold/30">
+                        <span className="text-[9px] uppercase font-extrabold tracking-widest text-temple-gold">Ficha de Datos</span>
+                        <h4 className="text-xs font-bold text-white mt-0.5">{activePage.title}</h4>
+                      </div>
+                      <div className="space-y-2 text-xs">
+                        {activePage.infobox.map((item, idx) => (
+                          <div key={idx} className="flex justify-between py-1 border-b border-white/5 text-[11px]">
+                            <span className="text-gray-400 font-bold">{item.label}:</span>
+                            <span className="text-temple-gold font-extrabold text-right">{item.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                 </div>
               )}
 
