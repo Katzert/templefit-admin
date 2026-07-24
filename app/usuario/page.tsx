@@ -11,7 +11,6 @@ import { Module7SocialMedia } from '@/life-system-pages/Module7SocialMedia';
 import { Module8TeamOperations } from '@/life-system-pages/Module8TeamOperations';
 import { FinancialDashboard } from '@/life-system-pages/FinancialDashboard';
 import { CalendarWidget } from '@/components/CalendarWidget';
-import { TempleWiki } from '@/life-system-pages/TempleWiki';
 
 export default function UsuarioPage() {
   const { isAuthenticated } = useAuth();
@@ -24,7 +23,6 @@ export default function UsuarioPage() {
   const renderPage = () => {
     switch (activeTab) {
       case 'home': return <HomePage onNavigate={setActiveTab} />;
-      case 'wiki': return <TempleWiki />;
       case 'social-media': return <Module7SocialMedia />;
       case 'team-ops': return <Module8TeamOperations />;
       case 'daily': return <Module2DailyLog />;
