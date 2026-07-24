@@ -5,6 +5,7 @@ const nextConfig = {
     unoptimized: true,
   },
   basePath: '/templefit-admin',
+  assetPrefix: '/templefit-admin/',
   trailingSlash: true,
   eslint: {
     ignoreDuringBuilds: true,
