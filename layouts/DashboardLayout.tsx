@@ -15,6 +15,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'home', icon: <Home size={18} />, label: 'Inicio / Resumen' },
+  { id: 'wiki', icon: <BookOpen size={18} />, label: '🧠 TempleWiki (Karpathy Spec)' },
   { id: 'social-media', icon: <FileText size={18} />, label: '📘 Libro & Materiales' },
   { id: 'team-ops', icon: <Users size={18} />, label: '👥 Alumnos e Instructores' },
   { id: 'daily', icon: <Target size={18} />, label: '☀️ Hábitos & Mi Día' },
