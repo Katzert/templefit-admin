@@ -92,19 +92,6 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             </button>
           )}
 
-          <a
-            href="https://katzert.github.io/templefit-wiki/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-temple-gold bg-temple-gold/10 border border-temple-gold/30 hover:bg-temple-gold/20 transition shadow-sm mb-2"
-          >
-            <div className="flex items-center gap-2.5">
-              <Brain size={16} />
-              <span>🧠 TempleFit Wiki</span>
-            </div>
-            <ExternalLink size={13} />
-          </a>
-
           <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Módulos del Sistema</div>
 
           {filteredNav.map(item => {
