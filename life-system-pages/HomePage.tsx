@@ -159,14 +159,14 @@ export function HomePage({ onNavigate }: HomePageProps) {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
-                  { title: 'Libro & Materiales', desc: 'Guías y copys de ventas', emoji: '📘', tab: 'social-media' },
+                  { title: 'TempleFit Wiki ↗', desc: 'Cerebro & Bóveda Obsidian', emoji: '🧠', tab: 'templefit-wiki', isExternal: true },
                   { title: 'Alumnos e Instructores', desc: 'Fichas holísticas 3 pilares', emoji: '👥', tab: 'team-ops' },
                   { title: 'Hábitos & Mi Día', desc: 'Registro de agua y rachas', emoji: '☀️', tab: 'daily' },
                   { title: 'Control Financiero', desc: 'Ingresos MRR y proyecciones', emoji: '💰', tab: 'financial' },
                 ].map((action, i) => (
                   <div
                     key={i}
-                    onClick={() => onNavigate?.(action.tab)}
+                    onClick={() => action.isExternal ? window.open('https://katzert.github.io/templefit-wiki/', '_blank') : onNavigate?.(action.tab)}
                     className="flex items-center gap-4 p-4 bg-black/60 rounded-xl border border-white/5 hover:border-temple-gold/30 transition-all cursor-pointer group"
                   >
                     <span className="text-2xl">{action.emoji}</span>

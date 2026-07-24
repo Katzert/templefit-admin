@@ -15,7 +15,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'home', icon: <Home size={18} />, label: 'Inicio / Resumen' },
-  { id: 'social-media', icon: <FileText size={18} />, label: '📘 Libro & Materiales' },
+  { id: 'templefit-wiki', icon: <BookOpen size={18} />, label: '🧠 TempleFit Wiki ↗' },
   { id: 'team-ops', icon: <Users size={18} />, label: '👥 Alumnos e Instructores' },
   { id: 'daily', icon: <Target size={18} />, label: '☀️ Hábitos & Mi Día' },
   { id: 'calendar', icon: <CalendarDays size={18} />, label: '🗓️ Calendario & Eventos' },
@@ -100,7 +100,11 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <button
                 key={item.id}
                 onClick={() => {
-                  setActiveTab(item.id);
+                  if (item.id === 'templefit-wiki') {
+                    window.open('https://katzert.github.io/templefit-wiki/', '_blank');
+                  } else {
+                    setActiveTab(item.id);
+                  }
                   setSidebarOpen(false);
                 }}
                 className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-medium transition-all duration-200 ${
