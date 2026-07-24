@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, FileText, MessageSquare, Plus, MoreVertical, Trash2, Edit2, Copy, Check, Paperclip, X, Image as ImageIcon, File } from 'lucide-react';
+import { BookOpen, FileText, MessageSquare, Plus, MoreVertical, Trash2, Edit2, Copy, Check, Paperclip, X, Image as ImageIcon, File, ExternalLink } from 'lucide-react';
 
 interface NotionAttachment {
   id: string;
@@ -205,12 +205,22 @@ export function Module7SocialMedia() {
             <div className="w-6 h-6 rounded bg-temple-gold/20 flex items-center justify-center text-temple-gold">
               <BookOpen size={14} />
             </div>
-            <span className="font-bold text-sm text-gray-200">TempleWiki</span>
+            <span className="font-bold text-sm text-gray-200">Materiales & Libros</span>
           </div>
           <button onClick={createNewDoc} className="p-1 hover:bg-white/10 rounded text-gray-400 hover:text-white transition">
             <Plus size={16} />
           </button>
         </div>
+
+        <a
+          href="https://katzert.github.io/templefit-wiki/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mx-2 mt-2 p-2 bg-temple-gold/10 border border-temple-gold/30 rounded-xl text-[11px] font-bold text-temple-gold flex items-center justify-between hover:bg-temple-gold/20 transition shadow-sm"
+        >
+          <span>🧠 Abrir TempleFit Wiki</span>
+          <ExternalLink size={12} />
+        </a>
 
         <div className="flex-1 overflow-y-auto p-2 space-y-4 custom-scrollbar">
           
