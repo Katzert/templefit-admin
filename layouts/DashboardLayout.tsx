@@ -15,12 +15,11 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'home', icon: <Home size={18} />, label: 'Inicio / Resumen' },
-  { id: 'templefit-wiki', icon: <BookOpen size={18} />, label: '🧠 TempleFit Wiki ↗' },
-  { id: 'team-ops', icon: <Users size={18} />, label: '👥 Alumnos e Instructores' },
-  { id: 'daily', icon: <Target size={18} />, label: '☀️ Hábitos & Mi Día' },
-  { id: 'calendar', icon: <CalendarDays size={18} />, label: '🗓️ Calendario & Eventos' },
-  { id: 'financial', icon: <BarChart3 size={18} />, label: '💰 Finanzas & Control', minRole: 'admin' },
-  { id: 'profile', icon: <User size={18} />, label: '👤 Mi Perfil' },
+  { id: 'team-ops', icon: <Users size={18} />, label: 'Alumnos e Instructores' },
+  { id: 'daily', icon: <Target size={18} />, label: 'Hábitos & Mi Día' },
+  { id: 'calendar', icon: <CalendarDays size={18} />, label: 'Calendario & Eventos' },
+  { id: 'financial', icon: <BarChart3 size={18} />, label: 'Finanzas & Control', minRole: 'admin' },
+  { id: 'profile', icon: <User size={18} />, label: 'Mi Perfil' },
 ];
 
 interface DashboardLayoutProps {
@@ -82,7 +81,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
           {onBackToWeb && (
             <button
               onClick={onBackToWeb}
-              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-temple-gold bg-temple-gold/10 border border-temple-gold/30 hover:bg-temple-gold hover:text-black transition-all duration-200 mb-4 group shadow-sm"
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-temple-gold bg-temple-gold/10 border border-temple-gold/30 hover:bg-temple-gold hover:text-black transition-all duration-200 mb-2 group shadow-sm"
             >
               <div className="flex items-center gap-2">
                 <Globe size={16} />
@@ -92,6 +91,19 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             </button>
           )}
 
+          <a
+            href="https://katzert.github.io/templefit-wiki/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-temple-gold bg-temple-gold/10 border border-temple-gold/30 hover:bg-temple-gold hover:text-black transition-all duration-200 mb-4 group shadow-sm"
+          >
+            <div className="flex items-center gap-2">
+              <BookOpen size={16} />
+              <span>TempleFit Wiki</span>
+            </div>
+            <ExternalLink size={14} className="group-hover:translate-x-0.5 transition" />
+          </a>
+
           <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Módulos del Sistema</div>
 
           {filteredNav.map(item => {
@@ -100,11 +112,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <button
                 key={item.id}
                 onClick={() => {
-                  if (item.id === 'templefit-wiki') {
-                    window.open('https://katzert.github.io/templefit-wiki/', '_blank');
-                  } else {
-                    setActiveTab(item.id);
-                  }
+                  setActiveTab(item.id);
                   setSidebarOpen(false);
                 }}
                 className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-medium transition-all duration-200 ${
