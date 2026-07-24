@@ -68,7 +68,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <h1 className="text-lg font-serif font-black tracking-wider uppercase text-white flex items-center gap-1">
                 TEMPLE<span className="text-temple-gold">FIT</span>
               </h1>
-              <p className="text-[9px] text-temple-gold uppercase tracking-[0.2em] font-extrabold">Life System v3.5 (Actualizado)</p>
+              <p className="text-[9px] text-gray-400 uppercase tracking-[0.2em] font-extrabold">Panel de Control</p>
             </div>
           </div>
           <button className="md:hidden text-temple-gold hover:text-white transition" onClick={() => setSidebarOpen(false)}>
@@ -163,10 +163,6 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             <button className="md:hidden text-gray-400 hover:text-white" onClick={() => setSidebarOpen(true)}>
               <Menu size={22} />
             </button>
-            <div className="hidden sm:flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs font-semibold text-gray-300">Sistema en Vivo</span>
-            </div>
           </div>
 
           {/* Right Header Controls */}
