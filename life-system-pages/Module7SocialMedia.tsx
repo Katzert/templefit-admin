@@ -212,16 +212,6 @@ export function Module7SocialMedia() {
           </button>
         </div>
 
-        <a
-          href="https://katzert.github.io/templefit-wiki/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mx-2 mt-2 p-2 bg-temple-gold/10 border border-temple-gold/30 rounded-xl text-[11px] font-bold text-temple-gold flex items-center justify-between hover:bg-temple-gold/20 transition shadow-sm"
-        >
-          <span>🧠 Abrir TempleFit Wiki</span>
-          <ExternalLink size={12} />
-        </a>
-
         <div className="flex-1 overflow-y-auto p-2 space-y-4 custom-scrollbar">
           
           {/* Category: Libros */}
