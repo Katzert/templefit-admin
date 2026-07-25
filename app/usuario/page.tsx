@@ -7,7 +7,6 @@ import { LoginPage } from '@/life-system-pages/LoginPage';
 import { HomePage } from '@/life-system-pages/HomePage';
 import { Module1Profile } from '@/life-system-pages/Module1Profile';
 import { Module2DailyLog } from '@/life-system-pages/Module2DailyLog';
-import { Module7SocialMedia } from '@/life-system-pages/Module7SocialMedia';
 import { Module8TeamOperations } from '@/life-system-pages/Module8TeamOperations';
 import { FinancialDashboard } from '@/life-system-pages/FinancialDashboard';
 import { CalendarWidget } from '@/components/CalendarWidget';
@@ -23,7 +22,6 @@ export default function UsuarioPage() {
   const renderPage = () => {
     switch (activeTab) {
       case 'home': return <HomePage onNavigate={setActiveTab} />;
-      case 'social-media': return <Module7SocialMedia />;
       case 'team-ops': return <Module8TeamOperations />;
       case 'daily': return <Module2DailyLog />;
       case 'calendar': return <CalendarWidget />;

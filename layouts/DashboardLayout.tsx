@@ -15,7 +15,6 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'home', icon: <Home size={18} />, label: 'Inicio / Resumen' },
-  { id: 'social-media', icon: <Share2 size={18} />, label: 'ADM & Redes Sociales' },
   { id: 'team-ops', icon: <Users size={18} />, label: 'Alumnos e Instructores' },
   { id: 'daily', icon: <Target size={18} />, label: 'Hábitos & Mi Día' },
   { id: 'calendar', icon: <CalendarDays size={18} />, label: 'Calendario & Eventos' },
@@ -117,17 +116,13 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                   setSidebarOpen(false);
                 }}
                 className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-medium transition-all duration-200 ${
-                  item.id === 'social-media'
-                    ? isActive
-                      ? 'bg-white text-black font-extrabold border-2 border-white shadow-xl shadow-white/20'
-                      : 'bg-white/10 text-white font-bold border border-white/40 hover:bg-white/20'
-                    : isActive
+                  isActive
                     ? 'bg-gradient-to-r from-temple-gold/20 to-amber-500/10 text-white border border-temple-gold/40 shadow-lg shadow-temple-gold/5 font-bold'
                     : 'text-gray-400 hover:bg-white/5 hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <span className={item.id === 'social-media' ? (isActive ? 'text-black' : 'text-white') : (isActive ? 'text-temple-gold' : 'text-gray-500')}>{item.icon}</span>
+                  <span className={isActive ? 'text-temple-gold' : 'text-gray-500'}>{item.icon}</span>
                   <span>{item.label}</span>
                 </div>
                 {isActive && (
