@@ -52,6 +52,14 @@ export function FinancialDashboard() {
         </div>
       </motion.div>
 
+      {/* Monday 8:00 AM Rule Notice */}
+      <motion.div variants={item} className="bg-temple-gold/10 border border-temple-gold/20 p-4 rounded-xl flex items-center justify-between">
+        <div>
+          <h3 className="text-sm font-bold text-temple-gold uppercase tracking-wider">Corte Semanal Ejecutivo</h3>
+          <p className="text-xs text-gray-300">Obligatorio revisar estos KPIs todos los Lunes a las 08:00 AM (Regla 3-3-3).</p>
+        </div>
+      </motion.div>
+
       {/* Financial KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
@@ -107,9 +115,30 @@ export function FinancialDashboard() {
                   </div>
                   <Slider value={[retention]} onValueChange={(v) => setRetention(v[0])} max={100} step={5} />
                 </div>
-                <div className="pt-4 border-t border-white/5 text-center">
-                  <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Proyección 6 meses</p>
-                  <p className="text-4xl font-black text-temple-gold">{formatBs(projection)}</p>
+                <div className="pt-4 border-t border-white/5">
+                  <div className="text-center mb-4">
+                    <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Proyección Bruta (6 meses)</p>
+                    <p className="text-4xl font-black text-temple-gold">{formatBs(projection)}</p>
+                  </div>
+                  
+                  {/* Strict Utility Distribution */}
+                  <div className="bg-black/60 p-4 rounded-xl border border-white/5 space-y-2">
+                    <h4 className="text-[10px] font-bold text-temple-gold uppercase tracking-widest text-center mb-3">Distribución de Utilidades (Regla 50/50)</h4>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className="flex justify-between items-center text-temple-green font-bold bg-temple-green/10 p-2 rounded">
+                        <span>Re-inversión</span><span>50%</span>
+                      </div>
+                      <div className="flex justify-between items-center text-white bg-white/5 p-2 rounded">
+                        <span>Fundador</span><span>25%</span>
+                      </div>
+                      <div className="flex justify-between items-center text-gray-400 bg-white/5 p-2 rounded">
+                        <span>Regalías</span><span>10%</span>
+                      </div>
+                      <div className="flex justify-between items-center text-gray-400 bg-white/5 p-2 rounded">
+                        <span>Staff Hub</span><span>20%</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>

@@ -20,7 +20,10 @@ const DEFAULT_DB: CRMDatabase = {
       nutritionPlan: 'Nutrición Anti-inflamatoria + Proteína Limpia',
       allergiesOrRestrictions: 'Intolerante a la lactosa',
       spiritualIntention: 'Fortalecer el hábito de oración matutina y vencer el estrés',
-      mentorshipNotes: 'Demuestra gran compromiso en CristoFit Camp. Trabajar constancia en fines de semana.'
+      mentorshipNotes: 'Demuestra gran compromiso en CristoFit Camp. Trabajar constancia en fines de semana.',
+      escuadronId: 'Alfa-1',
+      phase: '2 - Desarrollo',
+      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
     },
     {
       id: '2',
@@ -38,7 +41,10 @@ const DEFAULT_DB: CRMDatabase = {
       nutritionPlan: 'Plan Detox + Recomposición Corporal',
       allergiesOrRestrictions: 'Ninguna',
       spiritualIntention: 'Renovación de mentalidad y enfoque espiritual diario',
-      mentorshipNotes: 'Avance notable en 2 semanas. Recordar renovación de plan antes del viernes.'
+      mentorshipNotes: 'Avance notable en 2 semanas. Recordar renovación de plan antes del viernes.',
+      escuadronId: 'Alfa-1',
+      phase: '1 - Iniciación',
+      hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
     }
   ],
   transactions: [

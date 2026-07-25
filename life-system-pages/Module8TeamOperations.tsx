@@ -42,7 +42,16 @@ export function Module8TeamOperations() {
   });
 
   const sendWhatsAppReminder = (student: Student) => {
-    const message = `¡Hola ${student.name}! 💪 Espero que estés teniendo una excelente semana. Te escribo desde TempleFit para recordarte que tu plan (${student.plan}) está próximo a renovar el ${student.renewalDate}. ¿Sigues listo para continuar tu transformación en cuerpo, mente y espíritu? ¡Confirmame para reservar tu cupo! 🙏⚡`;
+    let message = `¡Hola ${student.name}! 💪 Espero que estés teniendo una excelente semana.`;
+    
+    if (student.status === 'expiring' || student.status === 'inactive') {
+      // Embudo F2 Recovery
+      message += ` Te escribo desde TempleFit porque notamos que tu plan (${student.plan}) está por vencer o vencido. ¿Qué te parece si nos vemos este sábado? Te regalamos un pase a nuestra clase de Cardio y 20% de descuento en el Snack Bar (F2 Recovery). ¡Confirmame para reservar tu cupo! 🙏⚡`;
+    } else {
+      // Seguimiento Normal
+      message += ` Te escribo para recordarte que sigas firme con tu objetivo: ${student.physicalGoal}. ¡Nos vemos en el Escuadrón ${student.escuadronId}! 🛡️`;
+    }
+
     const cleanPhone = student.phone.replace(/[^0-9]/g, '');
     window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -72,7 +81,10 @@ export function Module8TeamOperations() {
       nutritionPlan: 'Plan Nutricional Base',
       allergiesOrRestrictions: 'Ninguna',
       spiritualIntention: 'Definir propósito espiritual',
-      mentorshipNotes: 'Notas iniciales de evaluación.'
+      mentorshipNotes: 'Notas iniciales de evaluación.',
+      escuadronId: 'Nuevo Escuadrón',
+      phase: '1 - Iniciación',
+      hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
     };
     saveStudents([newStudent, ...students]);
     setSelectedStudent(newStudent);
@@ -264,6 +276,70 @@ export function Module8TeamOperations() {
                   >
                     <MessageCircle size={12} /> WhatsApp
                   </button>
+                </div>
+
+                {/* Marco Operativo y Modelo Hub */}
+                <div className="space-y-3 bg-black/40 p-4 rounded-xl border border-white/5">
+                  <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                    <Target className="text-white" size={16} />
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">Operación & Hub TempleFit</h4>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <span className="text-[10px] text-gray-500 uppercase block font-bold">Fase (Nivel)</span>
+                      <select
+                        value={selectedStudent.phase}
+                        onChange={(e) => updateStudentField(selectedStudent.id, 'phase', e.target.value)}
+                        className="bg-black/60 border border-white/10 text-white rounded-lg p-1.5 text-xs w-full focus:outline-none focus:border-temple-gold"
+                      >
+                        <option value="1 - Iniciación">1 - Iniciación</option>
+                        <option value="2 - Desarrollo">2 - Desarrollo</option>
+                        <option value="3 - Perfeccionamiento">3 - Perfeccionamiento</option>
+                      </select>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-gray-500 uppercase block font-bold">Escuadrón</span>
+                      <input
+                        type="text"
+                        value={selectedStudent.escuadronId}
+                        onChange={(e) => updateStudentField(selectedStudent.id, 'escuadronId', e.target.value)}
+                        placeholder="Ej: Alfa-1"
+                        className="bg-black/60 border border-white/10 text-white rounded-lg p-1.5 text-xs w-full focus:outline-none focus:border-temple-gold"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-gray-500 uppercase block font-bold mb-1">Consumo en el Hub (Cross-Selling)</span>
+                    <div className="flex gap-4">
+                      <label className="flex items-center gap-1.5 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStudent.hubConsumption?.snackBar || false}
+                          onChange={(e) => updateStudentField(selectedStudent.id, 'hubConsumption', { ...selectedStudent.hubConsumption, snackBar: e.target.checked })}
+                          className="accent-temple-gold"
+                        />
+                        <span className="text-[10px] text-gray-300">Snack Bar</span>
+                      </label>
+                      <label className="flex items-center gap-1.5 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStudent.hubConsumption?.merchandise || false}
+                          onChange={(e) => updateStudentField(selectedStudent.id, 'hubConsumption', { ...selectedStudent.hubConsumption, merchandise: e.target.checked })}
+                          className="accent-temple-gold"
+                        />
+                        <span className="text-[10px] text-gray-300">Ropa</span>
+                      </label>
+                      <label className="flex items-center gap-1.5 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStudent.hubConsumption?.preventiveMedicine || false}
+                          onChange={(e) => updateStudentField(selectedStudent.id, 'hubConsumption', { ...selectedStudent.hubConsumption, preventiveMedicine: e.target.checked })}
+                          className="accent-temple-gold"
+                        />
+                        <span className="text-[10px] text-gray-300">Med. Prev.</span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Pilar 1: CUERPO */}

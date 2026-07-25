@@ -21,13 +21,23 @@ export interface Student {
   // Pilar 3: ESPÍRITU (Coaching & Fe)
   spiritualIntention: string;
   mentorshipNotes: string;
+  // Operational Framework
+  escuadronId: string; // Máximo 12 atletas
+  phase: '1 - Iniciación' | '2 - Desarrollo' | '3 - Perfeccionamiento';
+  
+  // Hub Model Consumption
+  hubConsumption: {
+    snackBar: boolean;
+    merchandise: boolean;
+    preventiveMedicine: boolean;
+  };
 }
 
 export interface Transaction {
   id: string;
   date: string;
   type: 'income' | 'expense';
-  category: 'membership' | 'snack' | 'merchandise' | 'ads' | 'operations';
+  category: 'membership' | 'snack' | 'merchandise' | 'medicine' | 'ads' | 'operations';
   amount: number;
   description: string;
 }
