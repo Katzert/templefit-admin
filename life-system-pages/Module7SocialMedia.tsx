@@ -14,11 +14,93 @@ interface NotionDocument {
   icon: string;
   title: string;
   content: string;
-  category: 'templates' | 'book' | 'materials' | 'banco_3meses';
+  category: 'templates' | 'book' | 'materials' | 'banco_3meses' | 'sops' | 'planificacion';
   attachments?: NotionAttachment[];
 }
 
 const DEFAULT_DOCUMENTS: NotionDocument[] = [
+  {
+    id: 'doc_sops',
+    icon: '📋',
+    title: 'Procedimientos Operativos Estándar (12 SOPs)',
+    category: 'sops',
+    content: `# 📋 Procedimientos Operativos Estándar (SOPs) - TempleFit
+
+## 1. Operaciones & Seguridad Digital
+- **SOP 1:** Protocolo de contratación y seguridad digital.
+- **SOP 2:** SOP de ventas y atención al cliente.
+- **SOP 3:** SOP de entrenamiento físico y mental.
+- **SOP 4:** Protocolo de logística en espacios públicos.
+
+## 2. Eventos & Audiencias
+- **SOP 5:** SOP de fidelización y seguimiento.
+- **SOP 6:** SOP de producción de eventos masivos (CristoFit Camp).
+- **SOP 7:** SOP de gestión de audiencias masivas.
+- **SOP 8:** SOP de comunicación y RRPP.
+
+## 3. Expansión & Auditoría
+- **SOP 9:** SOP de apertura de nuevas sedes.
+- **SOP 10:** SOP de gestión de alianzas comerciales.
+- **SOP 11:** SOP de auditoría y cierre de ciclo.
+- **SOP 12:** SOP de planificación anual y expansión.`,
+    attachments: []
+  },
+  {
+    id: 'doc_plan_12meses',
+    icon: '🗓️',
+    title: 'Plan Operativo 12 Meses & Fases',
+    category: 'planificacion',
+    content: `# 🗓️ Plan Operativo Anual de Expansión (12 Meses)
+
+| Mes | Fase / Concepto | Actividades Clave |
+|---|---|---|
+| **Mes 1** | F1: Cimentación | Contratos, Sistema Digital, Reclutamiento, Permisos. |
+| **Mes 2** | F2: Captación (A) | Ventas Reto 21 Días, Medios, Citas comerciales. |
+| **Mes 3** | F3: Inicio CAMP (A) | Entrenamiento, Discipulado (1-30), Eventos al aire libre. |
+| **Mes 4** | F3: Inicio CAMP (B) | Discipulado (31-60), Transición Parque Urbano. |
+| **Mes 5** | F4: Consolidación | Práctica supervisada, Discipulado (61-90). |
+| **Mes 6** | F5: Multiplicación (A) | Eventos masivos, Premiación (Copa/Corona). |
+| **Mes 7** | F5: Multiplicación (B) | Segundo evento masivo, Evaluación de impacto. |
+| **Mes 8** | F5: Multiplicación (C) | Tercer evento masivo, Lanzamiento de iniciativas. |
+| **Mes 9** | F6: Expansión (A) | Escalado a nuevas zonas, Atracción masiva. |
+| **Mes 10** | F6: Expansión (B) | Consolidación de nuevas zonas, Alianzas regionales. |
+| **Mes 11** | F7: Proyección | Auditoría de KPIs, Sumatoria de logros. |
+| **Mes 12** | F7: Consolidación | Plan Año 2, Movimiento Consolidado, Celebración. |`,
+    attachments: []
+  },
+  {
+    id: 'doc_tablero_agosto',
+    icon: '📊',
+    title: 'Tablero de Planificación Mensual (Agosto 2026)',
+    category: 'planificacion',
+    content: `# 📊 Tablero de Planificación Mensual - Agosto 2026
+
+**Fundamento del Mes (Versículo):**
+*"Todo lo que hagan, háganlo de corazón, como para el Señor y no para los hombres." — Colosenses 3:23*
+
+---
+
+## 🎯 Metas Financieras Clave (Ingresos Objetivo)
+- **Snack & Nutrición:** Bs. ---
+- **Gimnasio & Cuotas:** Bs. ---
+- **Cursos / Coaching:** Bs. ---
+- **Venta de Productos (Armadura):** Bs. ---
+
+---
+
+## 📈 KPIs de Crecimiento & Retención
+- **Nuevos Miembros:** Meta: 10
+- **% Retención Miembros:** Meta: 85%
+- **Ticket Promedio:** Bs. ---
+
+---
+
+## ⚡ Metas de Misión & Eventos
+- **Reto 21 Días:** Transformación activa de vidas y familias.
+- **Campañas CristoFit Camp:** Ejecución de 4 semanas continuas.
+- **Evento Especial:** 1er Gran Evento del Mes.`,
+    attachments: []
+  },
   {
     id: 'doc_3meses',
     icon: '📱',
@@ -236,9 +318,25 @@ export function Module7SocialMedia() {
 
         <div className="flex-1 overflow-y-auto p-2 space-y-4 custom-scrollbar">
           
-          {/* Category: Plan 3 Meses Redes */}
+          {/* Category: SOPs */}
           <div className="p-2 rounded-xl bg-white/5 border border-white/20 shadow-sm">
-            <p className="text-[10px] font-extrabold text-white uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">Plan 3 Meses Redes</p>
+            <p className="text-[10px] font-extrabold text-white uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">Procedimientos (12 SOPs)</p>
+            {documents.filter(d => d.category === 'sops').map(doc => (
+              <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
+            ))}
+          </div>
+
+          {/* Category: Planificacion */}
+          <div className="p-2 rounded-xl bg-white/5 border border-white/20 shadow-sm">
+            <p className="text-[10px] font-extrabold text-white uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">Planificación & Tablero</p>
+            {documents.filter(d => d.category === 'planificacion').map(doc => (
+              <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
+            ))}
+          </div>
+
+          {/* Category: Plan 3 Meses Redes */}
+          <div>
+            <p className="text-[10px] font-extrabold text-temple-gold uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">Plan 3 Meses Redes</p>
             {documents.filter(d => d.category === 'banco_3meses').map(doc => (
               <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
             ))}
