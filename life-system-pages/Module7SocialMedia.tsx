@@ -14,29 +14,11 @@ interface NotionDocument {
   icon: string;
   title: string;
   content: string;
-  category: 'templates' | 'book' | 'materials' | 'antonio_eid' | 'banco_3meses';
+  category: 'templates' | 'book' | 'materials' | 'banco_3meses';
   attachments?: NotionAttachment[];
 }
 
 const DEFAULT_DOCUMENTS: NotionDocument[] = [
-  {
-    id: 'doc_antonio',
-    icon: '👤',
-    title: 'Plan Personalizado - Antonio Eid',
-    category: 'antonio_eid',
-    content: `# 🛡️ Plan Personalizado & Seguimiento: Antonio Eid
-
-## 1. Enfoque de Hábitos 3 Pilares
-- **Cuerpo:** Rutina de Fuerza 4x/semana + 2.5L Agua + 8h Sueño Reparador.
-- **Mente:** 15 min de Lectura de Liderazgo al despertar + Registro diario.
-- **Espíritu:** Devocional Matutino + Asistencia activa a CristoFit Camp (Sábados 07:00 AM).
-
-## 2. Estrategia de Contenido Personalizado
-- Publicación de evolución semanal de hábitos y victorias.
-- Testimonio de transformación física, mental y espiritual.
-- Llamados a la acción para sumar nuevos integrantes al Reto 21 Días.`,
-    attachments: []
-  },
   {
     id: 'doc_3meses',
     icon: '📱',
@@ -254,14 +236,6 @@ export function Module7SocialMedia() {
 
         <div className="flex-1 overflow-y-auto p-2 space-y-4 custom-scrollbar">
           
-          {/* Category: Antonio Eid */}
-          <div className="p-2 rounded-xl bg-white/5 border border-white/20 shadow-sm">
-            <p className="text-[10px] font-extrabold text-white uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">Personalizado: Antonio Eid</p>
-            {documents.filter(d => d.category === 'antonio_eid').map(doc => (
-              <SidebarItem key={doc.id} doc={doc} isActive={activeDocId === doc.id} onClick={() => setActiveDocId(doc.id)} onDelete={() => deleteDoc(doc.id)} />
-            ))}
-          </div>
-
           {/* Category: Plan 3 Meses Redes */}
           <div className="p-2 rounded-xl bg-white/5 border border-white/20 shadow-sm">
             <p className="text-[10px] font-extrabold text-white uppercase tracking-[0.2em] px-2 mb-1.5 font-sans">Plan 3 Meses Redes</p>
