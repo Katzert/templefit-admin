@@ -1,16 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '../components/ui/card';
-import { DollarSign, Users, TrendingUp, BarChart3, Target, Rocket } from 'lucide-react';
+import { DollarSign, Users, TrendingUp, BarChart3, Target, Rocket, Plus } from 'lucide-react';
 import { Slider } from '../components/ui/slider';
+import { getCRMDatabase, saveCRMDatabase } from '../store';
+import { Transaction } from '../types';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } } };
 
 export function FinancialDashboard() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [newStudents, setNewStudents] = useState(8);
   const [avgTicket, setAvgTicket] = useState(350);
   const [retention, setRetention] = useState(75);
+
+  useEffect(() => {
+    const db = getCRMDatabase();
+    setTransactions(db.transactions || []);
+  }, []);
+
+  const totalIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+  const totalExpense = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+  const netMargin = totalIncome > 0 ? ((totalIncome - totalExpense) / totalIncome) * 100 : 0;
 
   // Calculate 6-month projection: cumulative revenue accounting for retention
   const projection = (() => {
@@ -43,9 +55,9 @@ export function FinancialDashboard() {
       {/* Financial KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { icon: <DollarSign size={36} />, value: '10,500', unit: 'Bs.', label: 'INGRESOS DEL MES', color: 'border-t-temple-gold', accent: 'text-temple-gold' },
+          { icon: <DollarSign size={36} />, value: totalIncome.toLocaleString('es-BO'), unit: 'Bs.', label: 'INGRESOS DEL MES', color: 'border-t-temple-gold', accent: 'text-temple-gold' },
           { icon: <Users size={36} />, value: '65', unit: '', label: 'VIDAS IMPACTADAS', color: 'border-t-temple-gold-bright', accent: 'text-temple-gold-bright' },
-          { icon: <TrendingUp size={36} />, value: '+12%', unit: '', label: 'MARGEN NETO', color: 'border-t-temple-green', accent: 'text-temple-green' },
+          { icon: <TrendingUp size={36} />, value: `${netMargin.toFixed(1)}%`, unit: '', label: 'MARGEN NETO', color: 'border-t-temple-green', accent: 'text-temple-green' },
         ].map((kpi, i) => (
           <motion.div key={i} variants={item}>
             <Card className={`${kpi.color} border-t-4`}>

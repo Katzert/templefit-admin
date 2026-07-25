@@ -7,149 +7,30 @@ import {
   MessageCircle, Plus, Search, Filter, CheckCircle2, AlertCircle, Clock, Save, Edit3, Trash2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { Student } from '../types';
+import { getCRMDatabase, saveCRMDatabase } from '../store';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } } };
 
-export interface HolisticStudent {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  instructorAssigned: string;
-  status: 'active' | 'expiring' | 'inactive';
-  plan: 'Reto 21 Días' | 'CristoFit Camp' | 'Coaching 1 a 1' | 'Plan Integral Mensual';
-  startDate: string;
-  renewalDate: string;
-  
-  // Pilar 1: CUERPO (Body)
-  physicalGoal: string;
-  weightKg: number;
-  workoutLevel: 'Principiante' | 'Intermedio' | 'Avanzado';
-  
-  // Pilar 2: MENTE (Alimentación)
-  nutritionPlan: string;
-  allergiesOrRestrictions: string;
-  
-  // Pilar 3: ESPÍRITU (Coaching & Fe)
-  spiritualIntention: string;
-  mentorshipNotes: string;
-}
-
-const DEFAULT_STUDENTS: HolisticStudent[] = [
-  {
-    id: '1',
-    name: 'Carlos Gutiérrez',
-    phone: '+59170012345',
-    email: 'carlos.g@gmail.com',
-    instructorAssigned: 'Paulo (Head Coach)',
-    status: 'active',
-    plan: 'Plan Integral Mensual',
-    startDate: '2026-07-01',
-    renewalDate: '2026-08-01',
-    physicalGoal: 'Perder 5kg de grasa y mejorar resistencia física',
-    weightKg: 82.5,
-    workoutLevel: 'Intermedio',
-    nutritionPlan: 'Nutrición Anti-inflamatoria + Proteína Limpia',
-    allergiesOrRestrictions: 'Intolerante a la lactosa',
-    spiritualIntention: 'Fortalecer el hábito de oración matutina y vencer el estrés',
-    mentorshipNotes: 'Demuestra gran compromiso en CristoFit Camp. Trabajar constancia en fines de semana.'
-  },
-  {
-    id: '2',
-    name: 'Mariana Flores',
-    phone: '+59178945612',
-    email: 'mariana.f@gmail.com',
-    instructorAssigned: 'Paulo (Head Coach)',
-    status: 'expiring',
-    plan: 'Reto 21 Días',
-    startDate: '2026-07-05',
-    renewalDate: '2026-07-26',
-    physicalGoal: 'Tonificación muscular y postura',
-    weightKg: 61.0,
-    workoutLevel: 'Principiante',
-    nutritionPlan: 'Plan Detox + Recomposición Corporal',
-    allergiesOrRestrictions: 'Ninguna',
-    spiritualIntention: 'Renovación de mentalidad y enfoque espiritual diario',
-    mentorshipNotes: 'Avance notable en 2 semanas. Recordar renovación de plan antes del viernes.'
-  },
-  {
-    id: '3',
-    name: 'Roberto Vaca',
-    phone: '+59176543210',
-    email: 'roberto.vaca@hotmail.com',
-    instructorAssigned: 'Equipo TempleFit',
-    status: 'active',
-    plan: 'CristoFit Camp',
-    startDate: '2026-06-15',
-    renewalDate: '2026-08-15',
-    physicalGoal: 'Aumentar masa magra y energía vital',
-    weightKg: 76.0,
-    workoutLevel: 'Avanzado',
-    nutritionPlan: 'Hipertrofia Funcional',
-    allergiesOrRestrictions: 'Evitar exceso de sodio',
-    spiritualIntention: 'Liderazgo familiar con ejemplo de disciplina',
-    mentorshipNotes: 'Asiste puntualmente los sábados a las 7am.'
-  },
-  {
-    id: '4',
-    name: 'Sofía Mendizábal',
-    phone: '+59171239876',
-    email: 'sofia.m@gmail.com',
-    instructorAssigned: 'Paulo (Head Coach)',
-    status: 'active',
-    plan: 'Coaching 1 a 1',
-    startDate: '2026-07-10',
-    renewalDate: '2026-08-10',
-    physicalGoal: 'Rehabilitación de hombro y fortalecimiento de core',
-    weightKg: 58.5,
-    workoutLevel: 'Intermedio',
-    nutritionPlan: 'Proteína Bio-optimizada y Suplementación limpia',
-    allergiesOrRestrictions: 'Sensible al gluten',
-    spiritualIntention: 'Paz mental en la toma de decisiones ejecutivas',
-    mentorshipNotes: 'Sesiones personalizadas los martes y jueves a las 18:00.'
-  },
-  {
-    id: '5',
-    name: 'Diego Roca',
-    phone: '+59174561230',
-    email: 'diego.roca@gmail.com',
-    instructorAssigned: 'Equipo TempleFit',
-    status: 'expiring',
-    plan: 'Reto 21 Días',
-    startDate: '2026-07-03',
-    renewalDate: '2026-07-24',
-    physicalGoal: 'Reducir porcentaje de grasa corporal y mejorar cardio',
-    weightKg: 89.0,
-    workoutLevel: 'Principiante',
-    nutritionPlan: 'Déficit Calórico Estructurado',
-    allergiesOrRestrictions: 'Ninguna',
-    spiritualIntention: 'Construir carácter inquebrantable y eliminar procrastinación',
-    mentorshipNotes: 'Contactar por WhatsApp para agendar renovación de ciclo.'
-  }
-];
 
 export function Module8TeamOperations() {
   const { user } = useAuth();
-  const [students, setStudents] = useState<HolisticStudent[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'expiring' | 'inactive'>('all');
-  const [selectedStudent, setSelectedStudent] = useState<HolisticStudent | null>(null);
-
-  const studentsKey = 'templefit_holistic_students_v3';
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem(studentsKey);
-    if (saved) {
-      try { setStudents(JSON.parse(saved)); } catch (e) { setStudents(DEFAULT_STUDENTS); }
-    } else {
-      setStudents(DEFAULT_STUDENTS);
-    }
+    const db = getCRMDatabase();
+    setStudents(db.students);
   }, []);
 
-  const saveStudents = (newStudents: HolisticStudent[]) => {
+  const saveStudents = (newStudents: Student[]) => {
     setStudents(newStudents);
-    localStorage.setItem(studentsKey, JSON.stringify(newStudents));
+    const db = getCRMDatabase();
+    db.students = newStudents;
+    saveCRMDatabase(db);
   };
 
   const filteredStudents = students.filter(s => {
@@ -160,13 +41,13 @@ export function Module8TeamOperations() {
     return matchesSearch && matchesStatus;
   });
 
-  const sendWhatsAppReminder = (student: HolisticStudent) => {
+  const sendWhatsAppReminder = (student: Student) => {
     const message = `¡Hola ${student.name}! 💪 Espero que estés teniendo una excelente semana. Te escribo desde TempleFit para recordarte que tu plan (${student.plan}) está próximo a renovar el ${student.renewalDate}. ¿Sigues listo para continuar tu transformación en cuerpo, mente y espíritu? ¡Confirmame para reservar tu cupo! 🙏⚡`;
     const cleanPhone = student.phone.replace(/[^0-9]/g, '');
     window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  const updateStudentField = (id: string, field: keyof HolisticStudent, value: any) => {
+  const updateStudentField = (id: string, field: keyof Student, value: any) => {
     const updated = students.map(s => s.id === id ? { ...s, [field]: value } : s);
     saveStudents(updated);
     if (selectedStudent?.id === id) {
@@ -175,7 +56,7 @@ export function Module8TeamOperations() {
   };
 
   const addStudent = () => {
-    const newStudent: HolisticStudent = {
+    const newStudent: Student = {
       id: Date.now().toString(),
       name: 'Nuevo Alumno',
       phone: '+591',
