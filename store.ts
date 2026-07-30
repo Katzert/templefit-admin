@@ -182,6 +182,105 @@ const DEFAULT_DB: CRMDatabase = {
       imageUrl: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?w=500&h=500&fit=crop',
       status: 'active'
     }
+  ],
+  recipes: [
+    {
+      id: "avocado-power-bowl",
+      name: "Power Bowl de Aguacate y Huevos",
+      category: "desayuno",
+      time: 15,
+      difficulty: "Fácil",
+      servings: 1,
+      description: "Arranca tu día con grasas saludables y proteína de alta biodisponibilidad.",
+      ingredientsText: [
+        "1 aguacate maduro",
+        "2 huevos de pastoreo",
+        "1 puñado de microgreens",
+        "6 tomates cherry",
+        "1 cdta de aceite de oliva extra virgen",
+        "Sal rosada y pimienta al gusto"
+      ],
+      steps: [
+        "Corta el aguacate por la mitad y retira la semilla.",
+        "Calienta el aceite de oliva en sartén a fuego medio-alto.",
+        "Fríe los huevos al gusto sin romper la yema.",
+        "Monta el bowl: base de aguacate, huevos encima, rodea con tomates.",
+        "Sazona con sal rosada y pimienta."
+      ],
+      macros: { calories: 420, protein: 18, fat: 34, carbs: 8 },
+      crmIngredients: [],
+      image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      id: "pollo-grillado-tactical",
+      name: "Pollo Grillado Táctico",
+      category: "almuerzo",
+      time: 25,
+      difficulty: "Media",
+      servings: 2,
+      description: "Proteína magra con vegetales de hoja verde y grasas esenciales.",
+      ingredientsText: [
+        "2 pechugas de pollo deshuesadas",
+        "2 tazas de mix de lechugas verdes",
+        "1 aguacate en láminas",
+        "1 limón",
+        "2 cdas de aceite de oliva",
+        "Sal y pimienta"
+      ],
+      steps: [
+        "Sazona las pechugas con sal, pimienta y orégano.",
+        "Grilla las pechugas 6-7 minutos por lado.",
+        "Corta en láminas y sirve con ensalada verde y limón."
+      ],
+      macros: { calories: 480, protein: 42, fat: 28, carbs: 6 },
+      crmIngredients: [],
+      image: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      id: "salmon-omega-force",
+      name: "Salmón Omega Force",
+      category: "cena",
+      time: 20,
+      difficulty: "Media",
+      servings: 2,
+      description: "Omega-3 para recuperación muscular y función cerebral superior.",
+      ingredientsText: [
+        "2 filetes de salmón (180g c/u)",
+        "2 tazas de brócoli en floretes",
+        "2 cdas de mantequilla ghee",
+        "1 limón"
+      ],
+      steps: [
+        "Hornea el salmón a 200°C por 12-15 minutos.",
+        "Cocina al vapor el brócoli por 5 minutos.",
+        "Sirve con mantequilla ghee y limón."
+      ],
+      macros: { calories: 510, protein: 38, fat: 32, carbs: 10 },
+      crmIngredients: [],
+      image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      id: "shake-warrior",
+      name: "Shake del Guerrero",
+      category: "snack",
+      time: 5,
+      difficulty: "Fácil",
+      servings: 1,
+      description: "Proteína + grasas saludables en menos de 5 minutos.",
+      ingredientsText: [
+        "1 scoop de proteína de suero (chocolate)",
+        "1 cda de mantequilla de almendras",
+        "200ml de leche de almendras sin azúcar",
+        "Hielo al gusto"
+      ],
+      steps: [
+        "Licúa todos los ingredientes a máxima potencia por 45 segundos.",
+        "Sirve en vaso alto y disfruta."
+      ],
+      macros: { calories: 320, protein: 30, fat: 16, carbs: 6 },
+      crmIngredients: [],
+      image: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?q=80&w=800&auto=format&fit=crop"
+    }
   ]
 };
 

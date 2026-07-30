@@ -10,6 +10,7 @@ export function Module20Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isAdding, setIsAdding] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   
   const [newRecipe, setNewRecipe] = useState<Partial<Recipe>>({
     name: '',
@@ -65,7 +66,7 @@ export function Module20Recipes() {
     const cleanedSteps = newRecipe.steps?.filter(s => s.trim() !== '') || [];
     
     const recipe: Recipe = {
-      id: `rec-${Date.now()}`,
+      id: editingId || `rec-${Date.now()}`,
       name: newRecipe.name,
       category: newRecipe.category || 'desayuno',
       time: newRecipe.time || 15,
@@ -80,8 +81,14 @@ export function Module20Recipes() {
       image: newRecipe.image || ''
     };
     
-    saveToDb([recipe, ...recipes]);
+    if (editingId) {
+      saveToDb(recipes.map(r => r.id === editingId ? recipe : r));
+    } else {
+      saveToDb([recipe, ...recipes]);
+    }
+    
     setIsAdding(false);
+    setEditingId(null);
     resetForm();
   };
 
@@ -97,6 +104,13 @@ export function Module20Recipes() {
   const filteredRecipes = recipes.filter(r => 
     r.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const startEdit = (recipe: Recipe) => {
+    setNewRecipe(recipe);
+    setEditingId(recipe.id);
+    setIsAdding(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
@@ -114,7 +128,7 @@ export function Module20Recipes() {
           </div>
           
           <button 
-            onClick={() => { setIsAdding(!isAdding); resetForm(); }} 
+            onClick={() => { setIsAdding(!isAdding); setEditingId(null); resetForm(); }} 
             className="flex items-center gap-2 px-6 py-3 bg-temple-gold text-black rounded-xl font-bold uppercase tracking-wider text-xs hover:bg-temple-gold-bright transition-colors shadow-[0_0_15px_rgba(212,175,55,0.3)] w-max"
           >
             {isAdding ? <X size={18} /> : <Plus size={18} />}
@@ -133,7 +147,8 @@ export function Module20Recipes() {
           >
             <div className="bg-[#0B0F19] border border-temple-gold/20 rounded-2xl p-6 mb-6">
               <h3 className="text-sm font-bold text-temple-gold uppercase tracking-widest mb-4 flex items-center gap-2">
-                <Plus size={16} /> Crear Nueva Receta Pública
+                {editingId ? <Edit3 size={16} /> : <Plus size={16} />} 
+                {editingId ? 'Editar Receta' : 'Crear Nueva Receta Pública'}
               </h3>
               <form onSubmit={submitRecipe} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
@@ -279,7 +294,7 @@ export function Module20Recipes() {
               </div>
               
               <div className="mt-auto pt-2 flex justify-between gap-2">
-                <button className="flex-1 py-2 bg-white/5 hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white rounded-lg transition-colors border border-white/5">
+                <button onClick={() => startEdit(recipe)} className="flex-1 py-2 bg-white/5 hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white rounded-lg transition-colors border border-white/5">
                   Editar
                 </button>
                 <button onClick={() => deleteRecipe(recipe.id)} className="px-3 py-2 bg-temple-red/10 hover:bg-temple-red/20 text-temple-red rounded-lg transition-colors border border-temple-red/20">
