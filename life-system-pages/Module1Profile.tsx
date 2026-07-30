@@ -24,6 +24,9 @@ export function Module1Profile() {
   const [bloodType, setBloodType] = useState("O+");
   const [allergies, setAllergies] = useState("Ninguna");
   const [routine, setRoutine] = useState("Rutina no asignada");
+  const [paymentMethod, setPaymentMethod] = useState("QR / Efectivo");
+  const [sessions, setSessions] = useState("3 veces por semana");
+  const [nutritionPlan, setNutritionPlan] = useState("Plan Base Anti-inflamatorio");
 
   const profileKey = `templefit_profile_v3_${selectedStudent?.email || 'default'}`;
 
@@ -45,6 +48,9 @@ export function Module1Profile() {
         setBloodType(parsed.bloodType || "O+");
         setAllergies(parsed.allergies || "Ninguna");
         setRoutine(parsed.routine || "Rutina no asignada");
+        setPaymentMethod(parsed.paymentMethod || "QR / Efectivo");
+        setSessions(parsed.sessions || "3 veces por semana");
+        setNutritionPlan(parsed.nutritionPlan || "Plan Base Anti-inflamatorio");
       } catch (e) {
         // Fallback
       }
@@ -59,6 +65,9 @@ export function Module1Profile() {
         setBloodType(parsed.bloodType || "O+");
         setAllergies(parsed.allergies || "Ninguna");
         setRoutine(parsed.routine || "Rutina no asignada");
+        setPaymentMethod(parsed.paymentMethod || "QR / Efectivo");
+        setSessions(parsed.sessions || "3 veces por semana");
+        setNutritionPlan(parsed.nutritionPlan || "Plan Base Anti-inflamatorio");
       } catch (e) {}
     } else {
       setTraits("Disciplinado, Resiliente, Líder");
@@ -69,12 +78,15 @@ export function Module1Profile() {
       setBloodType("O+");
       setAllergies("Ninguna");
       setRoutine("Rutina no asignada");
+      setPaymentMethod("QR / Efectivo");
+      setSessions("3 veces por semana");
+      setNutritionPlan("Plan Base Anti-inflamatorio");
     }
   }, [selectedStudent, profileKey]);
 
-  const handleSave = (field: 'traits' | 'admires' | 'purpose' | 'heightCm' | 'weightKg' | 'bloodType' | 'allergies' | 'routine', newValue: any) => {
+  const handleSave = (field: 'traits' | 'admires' | 'purpose' | 'heightCm' | 'weightKg' | 'bloodType' | 'allergies' | 'routine' | 'paymentMethod' | 'sessions' | 'nutritionPlan', newValue: any) => {
     if (!selectedStudent) return;
-    const current = { traits, admires, purpose, heightCm, weightKg, bloodType, allergies, routine, [field]: newValue };
+    const current = { traits, admires, purpose, heightCm, weightKg, bloodType, allergies, routine, paymentMethod, sessions, nutritionPlan, [field]: newValue };
     
     localStorage.setItem(profileKey, JSON.stringify(current));
     
@@ -86,6 +98,9 @@ export function Module1Profile() {
     if (field === 'bloodType') setBloodType(newValue);
     if (field === 'allergies') setAllergies(newValue);
     if (field === 'routine') setRoutine(newValue);
+    if (field === 'paymentMethod') setPaymentMethod(newValue);
+    if (field === 'sessions') setSessions(newValue);
+    if (field === 'nutritionPlan') setNutritionPlan(newValue);
   };
 
   const bmi = (weightKg / Math.pow(heightCm / 100, 2)).toFixed(1);
@@ -155,6 +170,21 @@ export function Module1Profile() {
                     className="font-serif text-lg font-bold leading-relaxed text-temple-gold-bright"
                     placeholder="Ej. Bajar 10kg, aumentar masa muscular..."
                   />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-white/5">
+                  <div>
+                    <FieldLabel label="Forma de Pago" />
+                    <InlineEdit value={paymentMethod} onSave={(val) => handleSave('paymentMethod', val)} placeholder="Ej. QR, Efectivo" />
+                  </div>
+                  <div>
+                    <FieldLabel label="Sesiones / Asistencia" />
+                    <InlineEdit value={sessions} onSave={(val) => handleSave('sessions', val)} placeholder="Ej. Lunes a Viernes" />
+                  </div>
+                  <div className="md:col-span-2">
+                    <FieldLabel label="Alimentación / Nutrición" />
+                    <InlineEdit value={nutritionPlan} onSave={(val) => handleSave('nutritionPlan', val)} placeholder="Ej. Keto, Ayuno 16/8..." />
+                  </div>
                 </div>
               </CardContent>
             </Card>
