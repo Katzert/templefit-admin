@@ -166,7 +166,7 @@ export function Module20Recipes() {
                     <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Descripción Breve</label>
                     <textarea value={newRecipe.description} onChange={e => setNewRecipe({ ...newRecipe, description: e.target.value })} required rows={2} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" placeholder="El desayuno oficial del Reto 21 Días..." />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Categoría</label>
                       <select value={newRecipe.category} onChange={e => setNewRecipe({ ...newRecipe, category: e.target.value })} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none">
@@ -199,7 +199,7 @@ export function Module20Recipes() {
                 <div className="space-y-4">
                   <div>
                     <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Macros</label>
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                       <input type="number" placeholder="Kcal" value={newRecipe.macros?.calories || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, calories: Number(e.target.value) }})} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-xs text-center text-white outline-none" />
                       <input type="number" placeholder="Prot(g)" value={newRecipe.macros?.protein || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, protein: Number(e.target.value) }})} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-xs text-center text-white outline-none" />
                       <input type="number" placeholder="Gras(g)" value={newRecipe.macros?.fat || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, fat: Number(e.target.value) }})} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-xs text-center text-white outline-none" />

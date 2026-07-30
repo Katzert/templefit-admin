@@ -171,7 +171,7 @@ export function Module1Profile() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col justify-center items-center gap-1">
                     <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Peso (kg)</span>
                     <input 

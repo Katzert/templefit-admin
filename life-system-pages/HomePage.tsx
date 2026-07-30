@@ -83,7 +83,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       </motion.div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { icon: <Users size={22} />, label: 'Alumnos Activos', value: `${activeStudents}`, sub: 'en comunidad', color: 'text-temple-gold' },
           { icon: <AlertCircle size={22} />, label: 'Por Vencer', value: `${expiringStudentsList.length}`, sub: 'esta semana', color: 'text-amber-400' },
