@@ -14,6 +14,8 @@ import { Module19SOPs } from '@/life-system-pages/Module19SOPs';
 import { Module14Showcase } from '@/life-system-pages/Module14Showcase';
 import { Module14Inventory } from '@/life-system-pages/Module14Inventory';
 import { Module20Recipes } from '@/life-system-pages/Module20Recipes';
+import { Module30SalesPipeline } from '@/life-system-pages/Module30SalesPipeline';
+import { Module40CorteEjecutivo } from '@/life-system-pages/Module40CorteEjecutivo';
 
 export default function UsuarioPage() {
   const { isAuthenticated, hasRole } = useAuth();
@@ -29,12 +31,14 @@ export default function UsuarioPage() {
       case 'home': return <HomePage onNavigate={setActiveTab} />;
       case 'daily': return <Module2DailyLog />;
       case 'sops': return hasRole('admin') ? <Module19SOPs /> : <HomePage onNavigate={setActiveTab} />;
+      case 'corte-ejecutivo': return hasRole('admin') ? <Module40CorteEjecutivo /> : <HomePage onNavigate={setActiveTab} />;
       
       // Atletas
       case 'directory': return hasRole('instructor') ? <Module18Directory onNavigate={setActiveTab} /> : <HomePage onNavigate={setActiveTab} />;
       case 'profile': return <Module1Profile />;
       
       // Negocio / Finanzas
+      case 'sales-pipeline': return hasRole('admin') ? <Module30SalesPipeline /> : <HomePage onNavigate={setActiveTab} />;
       case 'leads-pipeline': return hasRole('admin') ? <Module12LeadsPipeline /> : <HomePage onNavigate={setActiveTab} />;
       case 'finance-ledger': return hasRole('admin') ? <Module13FinanceLedger /> : <HomePage onNavigate={setActiveTab} />;
       case 'showcase': return hasRole('admin') ? <Module14Showcase /> : <HomePage onNavigate={setActiveTab} />;

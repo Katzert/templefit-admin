@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat } from 'lucide-react';
+import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { GlobalSearch } from '../components/GlobalSearch';
 import { syncFromCloud } from '../store';
@@ -25,6 +25,7 @@ const FLAT_NAV_GROUPS: NavGroup[] = [
       { id: 'home', icon: <Home size={18} />, label: 'Resumen Diario' },
       { id: 'daily', icon: <Activity size={18} />, label: 'Hábitos & Mi Día' },
       { id: 'sops', icon: <BookOpen size={18} />, label: 'SOPs & Estrategia', minRole: 'admin' },
+      { id: 'corte-ejecutivo', icon: <PieChart size={18} />, label: 'Corte Ejecutivo 50/50', minRole: 'admin' },
     ]
   },
   {
@@ -35,8 +36,9 @@ const FLAT_NAV_GROUPS: NavGroup[] = [
     ]
   },
   {
-    groupName: 'Negocio',
+    groupName: 'Negocio & Ventas',
     items: [
+      { id: 'sales-pipeline', icon: <Kanban size={18} />, label: 'Pipeline F1-F3', minRole: 'admin' },
       { id: 'leads-pipeline', icon: <Briefcase size={18} />, label: 'CRM Prospectos', minRole: 'admin' },
       { id: 'inventory', icon: <Database size={18} />, label: 'Inventario (Data)', minRole: 'admin' },
       { id: 'recipes', icon: <ChefHat size={18} />, label: 'Gestión de Recetas', minRole: 'admin' },

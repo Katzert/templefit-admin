@@ -171,29 +171,51 @@ export function Module1Profile() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col justify-center items-center gap-1">
-                    <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Peso (kg)</span>
-                    <input 
-                      type="number" 
-                      value={weightKg} 
-                      onChange={e => handleSave('weightKg', Number(e.target.value))}
-                      className="bg-transparent text-white text-2xl font-black text-center w-full focus:outline-none"
-                    />
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  {/* Weight Dial */}
+                  <div className="relative bg-[#050505] p-6 rounded-2xl border border-white/10 flex flex-col items-center justify-center group shadow-xl">
+                    <svg className="absolute w-32 h-32 -rotate-90">
+                      <circle cx="64" cy="64" r="58" className="stroke-white/5 fill-none" strokeWidth="6" />
+                      <circle cx="64" cy="64" r="58" className="stroke-temple-gold fill-none transition-all duration-1000" strokeWidth="6" strokeDasharray="364" strokeDashoffset={364 - (364 * Math.min(weightKg, 150) / 150)} strokeLinecap="round" />
+                    </svg>
+                    <div className="relative z-10 flex flex-col items-center">
+                      <input 
+                        type="number" 
+                        value={weightKg} 
+                        onChange={e => handleSave('weightKg', Number(e.target.value))}
+                        className="bg-transparent text-white text-3xl font-black text-center w-20 focus:outline-none focus:text-temple-gold transition-colors"
+                      />
+                      <span className="text-[9px] text-gray-500 uppercase tracking-widest font-bold mt-1">Peso (kg)</span>
+                    </div>
                   </div>
-                  <div className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col justify-center items-center gap-1">
-                    <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Altura (cm)</span>
-                    <input 
-                      type="number" 
-                      value={heightCm} 
-                      onChange={e => handleSave('heightCm', Number(e.target.value))}
-                      className="bg-transparent text-white text-2xl font-black text-center w-full focus:outline-none"
-                    />
+
+                  {/* Height Dial */}
+                  <div className="relative bg-[#050505] p-6 rounded-2xl border border-white/10 flex flex-col items-center justify-center group shadow-xl">
+                    <svg className="absolute w-32 h-32 -rotate-90">
+                      <circle cx="64" cy="64" r="58" className="stroke-white/5 fill-none" strokeWidth="6" />
+                      <circle cx="64" cy="64" r="58" className="stroke-amber-600 fill-none transition-all duration-1000" strokeWidth="6" strokeDasharray="364" strokeDashoffset={364 - (364 * Math.min(heightCm, 220) / 220)} strokeLinecap="round" />
+                    </svg>
+                    <div className="relative z-10 flex flex-col items-center">
+                      <input 
+                        type="number" 
+                        value={heightCm} 
+                        onChange={e => handleSave('heightCm', Number(e.target.value))}
+                        className="bg-transparent text-white text-3xl font-black text-center w-20 focus:outline-none focus:text-amber-500 transition-colors"
+                      />
+                      <span className="text-[9px] text-gray-500 uppercase tracking-widest font-bold mt-1">Altura (cm)</span>
+                    </div>
                   </div>
-                  <div className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col justify-center items-center gap-1">
-                    <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">IMC</span>
-                    <span className="text-white text-2xl font-black text-center w-full">{bmi}</span>
-                    <span className={`text-[9px] uppercase tracking-widest font-bold ${bmiStatus.color}`}>{bmiStatus.label}</span>
+
+                  {/* IMC Dial */}
+                  <div className="relative bg-[#050505] p-6 rounded-2xl border border-white/10 flex flex-col items-center justify-center group shadow-xl">
+                    <svg className="absolute w-32 h-32 -rotate-90">
+                      <circle cx="64" cy="64" r="58" className="stroke-white/5 fill-none" strokeWidth="6" />
+                      <circle cx="64" cy="64" r="58" className={`fill-none transition-all duration-1000 ${bmiStatus.color === 'text-green-400' ? 'stroke-green-400' : bmiStatus.color === 'text-temple-gold' ? 'stroke-temple-gold' : 'stroke-red-500'}`} strokeWidth="6" strokeDasharray="364" strokeDashoffset={364 - (364 * Math.min(Number(bmi), 40) / 40)} strokeLinecap="round" />
+                    </svg>
+                    <div className="relative z-10 flex flex-col items-center">
+                      <span className="text-white text-3xl font-black text-center">{bmi}</span>
+                      <span className={`text-[9px] uppercase tracking-widest font-bold mt-1 ${bmiStatus.color}`}>{bmiStatus.label}</span>
+                    </div>
                   </div>
                 </div>
 
