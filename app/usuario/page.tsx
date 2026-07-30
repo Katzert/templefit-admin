@@ -7,12 +7,16 @@ import { LoginPage } from '@/life-system-pages/LoginPage';
 import { HomePage } from '@/life-system-pages/HomePage';
 import { Module1Profile } from '@/life-system-pages/Module1Profile';
 import { Module2DailyLog } from '@/life-system-pages/Module2DailyLog';
-import { Module8TeamOperations } from '@/life-system-pages/Module8TeamOperations';
-import { FinancialDashboard } from '@/life-system-pages/FinancialDashboard';
-import { CalendarWidget } from '@/components/CalendarWidget';
+import { Module12LeadsPipeline } from '@/life-system-pages/Module12LeadsPipeline';
+import { Module13FinanceLedger } from '@/life-system-pages/Module13FinanceLedger';
+import { Module18Directory } from '@/life-system-pages/Module18Directory';
+import { Module19SOPs } from '@/life-system-pages/Module19SOPs';
+import { Module14Showcase } from '@/life-system-pages/Module14Showcase';
+import { Module14Inventory } from '@/life-system-pages/Module14Inventory';
+import { Module20Recipes } from '@/life-system-pages/Module20Recipes';
 
 export default function UsuarioPage() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, hasRole } = useAuth();
   const [activeTab, setActiveTab] = useState('home');
 
   if (!isAuthenticated) {
@@ -21,12 +25,22 @@ export default function UsuarioPage() {
 
   const renderPage = () => {
     switch (activeTab) {
+      // Centro de Mando
       case 'home': return <HomePage onNavigate={setActiveTab} />;
-      case 'team-ops': return <Module8TeamOperations />;
       case 'daily': return <Module2DailyLog />;
-      case 'calendar': return <CalendarWidget />;
-      case 'financial': return <FinancialDashboard />;
+      case 'sops': return hasRole('admin') ? <Module19SOPs /> : <HomePage onNavigate={setActiveTab} />;
+      
+      // Atletas
+      case 'directory': return hasRole('instructor') ? <Module18Directory onNavigate={setActiveTab} /> : <HomePage onNavigate={setActiveTab} />;
       case 'profile': return <Module1Profile />;
+      
+      // Negocio / Finanzas
+      case 'leads-pipeline': return hasRole('admin') ? <Module12LeadsPipeline /> : <HomePage onNavigate={setActiveTab} />;
+      case 'finance-ledger': return hasRole('admin') ? <Module13FinanceLedger /> : <HomePage onNavigate={setActiveTab} />;
+      case 'showcase': return hasRole('admin') ? <Module14Showcase /> : <HomePage onNavigate={setActiveTab} />;
+      case 'inventory': return hasRole('admin') ? <Module14Inventory /> : <HomePage onNavigate={setActiveTab} />;
+      case 'recipes': return hasRole('admin') ? <Module20Recipes /> : <HomePage onNavigate={setActiveTab} />;
+      
       default: return <HomePage onNavigate={setActiveTab} />;
     }
   };

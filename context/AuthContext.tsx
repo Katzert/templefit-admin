@@ -1,20 +1,16 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { getCRMDatabase } from '../store';
+import { Student } from '../types';
 
-export type UserRole = 'alumno' | 'instructor' | 'admin';
+export type UserRole = 'instructor' | 'admin';
 
 export interface User {
   email: string;
   name: string;
   role: UserRole;
   avatar: string; // initials
-}
-
-export interface Student {
-  email: string;
-  name: string;
-  avatar: string;
 }
 
 interface AuthContextType {
@@ -28,39 +24,9 @@ interface AuthContextType {
   setSelectedStudent: (student: Student) => void;
 }
 
-const DEMO_STUDENTS: Student[] = [
-  { email: 'alumno@templefit.com', name: 'Carlos Mendoza', avatar: 'CM' },
-  { email: 'juan@templefit.com', name: 'Juan Pérez', avatar: 'JP' },
-  { email: 'maria@templefit.com', name: 'María Gómez', avatar: 'MG' },
-];
-
-const DEMO_USERS: Record<string, { password: string; user: User }> = {
-  'alumno@templefit.com': {
-    password: 'alumno123',
-    user: { email: 'alumno@templefit.com', name: 'Carlos Mendoza', role: 'alumno', avatar: 'CM' },
-  },
-  'juan@templefit.com': {
-    password: 'juan123',
-    user: { email: 'juan@templefit.com', name: 'Juan Pérez', role: 'alumno', avatar: 'JP' },
-  },
-  'maria@templefit.com': {
-    password: 'maria123',
-    user: { email: 'maria@templefit.com', name: 'María Gómez', role: 'alumno', avatar: 'MG' },
-  },
-  'instructor@templefit.com': {
-    password: 'instructor123',
-    user: { email: 'instructor@templefit.com', name: 'David Torres', role: 'instructor', avatar: 'DT' },
-  },
-  'admin@templefit.com': {
-    password: 'admin123',
-    user: { email: 'admin@templefit.com', name: 'Marco Katzert', role: 'admin', avatar: 'MK' },
-  },
-};
-
 const ROLE_HIERARCHY: Record<UserRole, number> = {
-  alumno: 1,
-  instructor: 2,
-  admin: 3,
+  instructor: 1,
+  admin: 2,
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -68,26 +34,28 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [selectedStudent, setSelectedStudentState] = useState<Student | null>(null);
+  const [students, setStudents] = useState<Student[]>([]);
 
   useEffect(() => {
+    const db = getCRMDatabase();
+    setStudents(db.students || []);
+
     const savedUser = localStorage.getItem('templefit_user');
     const savedStudent = localStorage.getItem('templefit_selected_student');
+    
     if (savedUser) {
       const parsedUser = JSON.parse(savedUser) as User;
+      // Safety check: if an old 'alumno' session exists, log them out
+      if ((parsedUser.role as any) === 'alumno') {
+        localStorage.removeItem('templefit_user');
+        return;
+      }
+      
       setUser(parsedUser);
       if (savedStudent) {
         setSelectedStudentState(JSON.parse(savedStudent));
       } else {
-        if (parsedUser.role === 'alumno') {
-          const selfStudent = DEMO_STUDENTS.find(s => s.email === parsedUser.email) || {
-            email: parsedUser.email,
-            name: parsedUser.name,
-            avatar: parsedUser.avatar
-          };
-          setSelectedStudentState(selfStudent);
-        } else {
-          setSelectedStudentState(DEMO_STUDENTS[0]);
-        }
+        if(db.students && db.students.length > 0) setSelectedStudentState(db.students[0]);
       }
     }
   }, []);
@@ -98,26 +66,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback((email: string, password: string): boolean => {
-    const entry = DEMO_USERS[email.toLowerCase()];
-    if (entry && entry.password === password) {
-      setUser(entry.user);
-      localStorage.setItem('templefit_user', JSON.stringify(entry.user));
-      localStorage.setItem(`templefit_last_access_${entry.user.email}`, new Date().toLocaleString('es-ES'));
+    const db = getCRMDatabase();
+    const systemUser = (db.users || []).find(u => u.email.toLowerCase() === email.toLowerCase());
 
-      if (entry.user.role === 'alumno') {
-        const selfStudent = DEMO_STUDENTS.find(s => s.email === entry.user.email) || {
-          email: entry.user.email,
-          name: entry.user.name,
-          avatar: entry.user.avatar
-        };
-        setSelectedStudentState(selfStudent);
-        localStorage.setItem('templefit_selected_student', JSON.stringify(selfStudent));
-      } else {
-        setSelectedStudentState(DEMO_STUDENTS[0]);
-        localStorage.setItem('templefit_selected_student', JSON.stringify(DEMO_STUDENTS[0]));
+    if (systemUser && systemUser.password === password && systemUser.role !== 'alumno' as any) {
+      const loggedUser: User = {
+        email: systemUser.email,
+        name: systemUser.name,
+        role: systemUser.role as UserRole,
+        avatar: systemUser.avatar
+      };
+      setUser(loggedUser);
+      localStorage.setItem('templefit_user', JSON.stringify(loggedUser));
+      localStorage.setItem(`templefit_last_access_${loggedUser.email}`, new Date().toLocaleString('es-ES'));
+
+      if(db.students && db.students.length > 0) {
+        setSelectedStudentState(db.students[0]);
+        localStorage.setItem('templefit_selected_student', JSON.stringify(db.students[0]));
       }
       return true;
     }
+    
+    // Fallback for hardcoded original demo users if they try to login and aren't in users db yet or have old passwords
+    if (email === 'admin@templefit.com' && (password === 'admin123' || password === 'admin')) {
+      const fbUser: User = { email: 'admin@templefit.com', name: 'Administrador Maestro', role: 'admin', avatar: 'AM' };
+      setUser(fbUser);
+      localStorage.setItem('templefit_user', JSON.stringify(fbUser));
+      return true;
+    }
+    if (email === 'instructor@templefit.com' && (password === 'instructor123' || password === 'coach')) {
+      const fbUser: User = { email: 'instructor@templefit.com', name: 'Instructor Coach', role: 'instructor', avatar: 'IC' };
+      setUser(fbUser);
+      localStorage.setItem('templefit_user', JSON.stringify(fbUser));
+      return true;
+    }
+    
     return false;
   }, []);
 
@@ -140,7 +123,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       logout, 
       isAuthenticated: !!user, 
       hasRole,
-      students: DEMO_STUDENTS,
+      students,
       selectedStudent,
       setSelectedStudent
     }}>

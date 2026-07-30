@@ -1,25 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Bell, LogOut, ChevronDown, Globe, Activity, Share2, Briefcase, ExternalLink, Sparkles } from 'lucide-react';
-import { Home, User, Users, ClipboardList, CalendarDays, Microscope, Target, UtensilsCrossed, ShoppingBag, BarChart3, Brain, FileText, Settings, HelpCircle, BookOpen } from 'lucide-react';
-import { useAuth, type UserRole } from '../context/AuthContext';
+import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { GlobalSearch } from '../components/GlobalSearch';
+import { syncFromCloud } from '../store';
 import type { ReactNode } from 'react';
 
 interface NavItem {
   id: string;
   icon: ReactNode;
   label: string;
-  minRole?: UserRole;
-  children?: { id: string; label: string; minRole?: UserRole }[];
+  minRole?: 'instructor' | 'admin';
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { id: 'home', icon: <Home size={18} />, label: 'Inicio / Resumen' },
-  { id: 'team-ops', icon: <Users size={18} />, label: 'Alumnos e Instructores' },
-  { id: 'daily', icon: <Target size={18} />, label: 'Hábitos & Mi Día' },
-  { id: 'calendar', icon: <CalendarDays size={18} />, label: 'Calendario & Eventos' },
-  { id: 'financial', icon: <BarChart3 size={18} />, label: 'Finanzas & Control', minRole: 'admin' },
-  { id: 'profile', icon: <User size={18} />, label: 'Mi Perfil' },
+interface NavGroup {
+  groupName: string;
+  items: NavItem[];
+}
+
+const FLAT_NAV_GROUPS: NavGroup[] = [
+  {
+    groupName: 'Centro de Mando',
+    items: [
+      { id: 'home', icon: <Home size={18} />, label: 'Resumen Diario' },
+      { id: 'daily', icon: <Activity size={18} />, label: 'Hábitos & Mi Día' },
+      { id: 'sops', icon: <BookOpen size={18} />, label: 'SOPs & Estrategia', minRole: 'admin' },
+    ]
+  },
+  {
+    groupName: 'Atletas',
+    items: [
+      { id: 'directory', icon: <Users size={18} />, label: 'Directorio', minRole: 'instructor' },
+      { id: 'profile', icon: <User size={18} />, label: 'Mi Perfil Físico' },
+    ]
+  },
+  {
+    groupName: 'Negocio',
+    items: [
+      { id: 'leads-pipeline', icon: <Briefcase size={18} />, label: 'CRM Prospectos', minRole: 'admin' },
+      { id: 'inventory', icon: <Database size={18} />, label: 'Inventario (Data)', minRole: 'admin' },
+      { id: 'recipes', icon: <ChefHat size={18} />, label: 'Gestión de Recetas', minRole: 'admin' },
+      { id: 'showcase', icon: <ImageIcon size={18} />, label: 'Vitrina Pública', minRole: 'admin' },
+      { id: 'finance-ledger', icon: <FileText size={18} />, label: 'Libro Diario', minRole: 'admin' },
+    ]
+  }
 ];
 
 interface DashboardLayoutProps {
@@ -34,8 +58,13 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
   const { user, logout, hasRole } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadNotifications, setUnreadNotifications] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(true);
 
-  const filteredNav = NAV_ITEMS.filter(item => !item.minRole || hasRole(item.minRole));
+  useEffect(() => {
+    syncFromCloud().finally(() => {
+      setIsSyncing(false);
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#07090E] text-white overflow-hidden flex font-sans selection:bg-temple-gold selection:text-black">
@@ -77,143 +106,202 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto custom-scrollbar">
-          {onBackToWeb && (
-            <button
-              onClick={onBackToWeb}
+        <nav className="flex-1 p-3 space-y-4 overflow-y-auto custom-scrollbar mt-2">
+          <div>
+            {onBackToWeb && (
+              <button
+                onClick={onBackToWeb}
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-temple-gold bg-temple-gold/10 border border-temple-gold/30 hover:bg-temple-gold hover:text-black transition-all duration-200 mb-2 group shadow-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <Globe size={16} />
+                  <span>Web Pública</span>
+                </div>
+                <ExternalLink size={14} className="group-hover:translate-x-0.5 transition" />
+              </button>
+            )}
+
+            <a
+              href="https://katzert.github.io/templefit-wiki/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-temple-gold bg-temple-gold/10 border border-temple-gold/30 hover:bg-temple-gold hover:text-black transition-all duration-200 mb-2 group shadow-sm"
             >
               <div className="flex items-center gap-2">
-                <Globe size={16} />
-                <span>Web Pública</span>
+                <ClipboardList size={16} />
+                <span>TempleFit Wiki</span>
               </div>
               <ExternalLink size={14} className="group-hover:translate-x-0.5 transition" />
-            </button>
-          )}
-
-          <a
-            href="https://katzert.github.io/templefit-wiki/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-temple-gold bg-temple-gold/10 border border-temple-gold/30 hover:bg-temple-gold hover:text-black transition-all duration-200 mb-4 group shadow-sm"
-          >
-            <div className="flex items-center gap-2">
-              <BookOpen size={16} />
-              <span>TempleFit Wiki</span>
-            </div>
-            <ExternalLink size={14} className="group-hover:translate-x-0.5 transition" />
-          </a>
-
-          <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Módulos del Sistema</div>
-
-          {filteredNav.map(item => {
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id);
-                  setSidebarOpen(false);
-                }}
-                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-medium transition-all duration-200 ${
-                  isActive
-                    ? 'bg-gradient-to-r from-temple-gold/20 to-amber-500/10 text-white border border-temple-gold/40 shadow-lg shadow-temple-gold/5 font-bold'
-                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className={isActive ? 'text-temple-gold' : 'text-gray-500'}>{item.icon}</span>
-                  <span>{item.label}</span>
-                </div>
-                {isActive && (
-                  <motion.div layoutId="activePill" className="w-1.5 h-1.5 rounded-full bg-temple-gold shadow-sm shadow-temple-gold" />
-                )}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Footer User Info */}
-        <div className="p-4 border-t border-white/5 bg-black/40 flex items-center justify-between">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-full bg-temple-gold/20 border border-temple-gold/40 flex items-center justify-center font-bold text-temple-gold text-xs flex-shrink-0">
-              {user?.name?.[0] || 'P'}
-            </div>
-            <div className="truncate">
-              <p className="text-xs font-bold text-white truncate">{user?.name || 'Paulo Coach'}</p>
-              <p className="text-[10px] text-gray-500 truncate">{user?.email || 'admin@templefit.com'}</p>
-            </div>
+            </a>
           </div>
 
-          <button
-            onClick={logout}
-            className="p-2 hover:bg-white/10 rounded-lg text-gray-500 hover:text-red-400 transition"
-            title="Cerrar sesión"
-          >
-            <LogOut size={16} />
-          </button>
+          <div className="space-y-4">
+            {FLAT_NAV_GROUPS.map((group) => {
+              // Filter items by role
+              const visibleItems = group.items.filter(item => !item.minRole || hasRole(item.minRole));
+              if (visibleItems.length === 0) return null;
+
+              return (
+                <div key={group.groupName} className="space-y-1">
+                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
+                    {group.groupName}
+                  </div>
+                  {visibleItems.map(item => {
+                    const isActive = activeTab === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          setActiveTab(item.id);
+                          setSidebarOpen(false);
+                        }}
+                        className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-medium transition-all duration-200 ${
+                          isActive
+                            ? 'bg-gradient-to-r from-temple-gold/20 to-amber-500/10 text-white border border-temple-gold/40 shadow-lg shadow-temple-gold/5 font-bold'
+                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className={isActive ? 'text-temple-gold' : 'text-gray-500'}>{item.icon}</span>
+                          <span>{item.label}</span>
+                        </div>
+                        {isActive && (
+                          <motion.div layoutId="activePill" className="w-1.5 h-1.5 rounded-full bg-temple-gold shadow-sm shadow-temple-gold" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </nav>
+
+        {/* User Profile */}
+        <div className="p-4 border-t border-white/5 bg-black/20">
+          <div className="flex items-center justify-between group cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-temple-gold to-amber-600 flex items-center justify-center text-black font-bold shadow-md shadow-temple-gold/20">
+                {user?.avatar || 'U'}
+              </div>
+              <div className="text-left max-w-[120px]">
+                <p className="text-sm font-bold text-white truncate">{user?.name}</p>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider">{user?.role}</p>
+              </div>
+            </div>
+            <button 
+              onClick={logout}
+              className="text-gray-500 hover:text-red-400 transition-colors p-2"
+              title="Cerrar Sesión"
+            >
+              <LogOut size={16} />
+            </button>
+          </div>
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden bg-gradient-to-b from-[#07090E] via-[#0A0E17] to-[#07090E]">
-        {/* Top Header Bar */}
-        <header className="h-16 border-b border-white/5 bg-[#0B0F19]/80 backdrop-blur-xl px-4 md:px-8 flex items-center justify-between z-30 sticky top-0">
-          <div className="flex items-center gap-4">
-            <button className="md:hidden text-gray-400 hover:text-white" onClick={() => setSidebarOpen(true)}>
-              <Menu size={22} />
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col min-w-0 bg-[#0B0F19] relative">
+        {/* Glow effect */}
+        <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-temple-gold/5 blur-[120px] pointer-events-none" />
+
+        {/* Top Header Mobile */}
+        <header className="md:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#0B0F19]/80 backdrop-blur-lg sticky top-0 z-30">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 text-temple-gold bg-white/5 rounded-lg">
+            <Menu size={20} />
+          </button>
+          
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-temple-gold/20 to-amber-500/10 border border-temple-gold/40 flex items-center justify-center">
+              <span className="text-xs font-serif font-black text-temple-gold">TF</span>
+            </div>
+          </div>
+          
+          <div className="relative">
+            <button 
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="p-2 text-gray-400 hover:text-temple-gold transition relative"
+            >
+              <Bell size={20} />
+              {unreadNotifications && (
+                <span className="absolute top-2 right-2 w-2 h-2 bg-temple-gold rounded-full ring-2 ring-[#0B0F19]" />
+              )}
             </button>
           </div>
+        </header>
 
-          {/* Right Header Controls */}
+        {/* Desktop Header */}
+        <header className="hidden md:flex items-center justify-between px-8 py-5 border-b border-white/5 bg-[#0B0F19]/80 backdrop-blur-lg sticky top-0 z-30">
           <div className="flex items-center gap-4">
+            <h2 className="text-lg font-bold text-white tracking-wide">
+              {FLAT_NAV_GROUPS.flatMap(g => g.items).find(i => i.id === activeTab)?.label || 'Sistema CRM'}
+            </h2>
+          </div>
+          
+          <div className="flex items-center gap-6">
+            <GlobalSearch />
+            
             <div className="relative">
-              <button
+              <button 
                 onClick={() => {
                   setShowNotifications(!showNotifications);
                   setUnreadNotifications(false);
                 }}
-                className="p-2 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white relative transition"
+                className="p-2.5 text-gray-400 hover:text-temple-gold bg-white/5 rounded-xl transition relative group"
               >
-                <Bell size={18} />
+                <Bell size={18} className="group-hover:scale-110 transition-transform" />
                 {unreadNotifications && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-temple-gold shadow-sm shadow-temple-gold" />
+                  <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-temple-gold rounded-full ring-2 ring-[#0B0F19] animate-pulse" />
                 )}
               </button>
-
-              {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-[#0F1420] border border-white/10 rounded-2xl shadow-2xl p-4 z-50">
-                  <div className="flex items-center justify-between pb-3 border-b border-white/5 mb-3">
-                    <span className="text-xs font-bold uppercase tracking-wider text-white">Notificaciones</span>
-                    <span className="text-[10px] text-temple-gold">Al día</span>
-                  </div>
-                  <div className="space-y-2 text-xs text-gray-400">
-                    <p className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition cursor-pointer">
-                      💡 3 alumnos tienen su suscripción venciendo en los próximos 3 días.
-                    </p>
-                    <p className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition cursor-pointer">
-                      🏋️‍♂️ Recordatorio: Sábado CristoFit Camp a las 07:00 AM.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="h-6 w-[1px] bg-white/10 hidden sm:block" />
-
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-temple-gold px-2.5 py-1 rounded-full bg-temple-gold/10 border border-temple-gold/30">
-                Santa Cruz, BO
-              </span>
+              
+              <AnimatePresence>
+                {showNotifications && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute right-0 mt-3 w-80 bg-[#121826] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50"
+                  >
+                    <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                      <h3 className="text-sm font-bold text-white">Notificaciones</h3>
+                      <button className="text-[10px] uppercase tracking-wider text-temple-gold font-bold">Marcar leídas</button>
+                    </div>
+                    <div className="max-h-[300px] overflow-y-auto">
+                      <div className="p-4 border-b border-white/5 hover:bg-white/5 transition flex gap-3">
+                        <div className="w-8 h-8 rounded-full bg-temple-gold/20 flex items-center justify-center text-temple-gold flex-shrink-0 mt-1">
+                          <Sparkles size={14} />
+                        </div>
+                        <div>
+                          <p className="text-sm text-white">Directorio de Atletas activado</p>
+                          <p className="text-xs text-gray-400 mt-1">El nuevo sistema de Workspaces está listo.</p>
+                          <p className="text-[10px] text-gray-500 mt-2">Ahora</p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </header>
 
-        {/* Page View Container */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar max-w-7xl mx-auto w-full">
-          {children}
-        </main>
-      </div>
+        {/* Page Content Area */}
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 relative z-10">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="h-full"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </main>
     </div>
   );
 }

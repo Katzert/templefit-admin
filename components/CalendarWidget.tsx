@@ -27,7 +27,7 @@ const DEMO_EVENTS: EventItem[] = [
   { id: '8', day: 1, title: 'Inicio Oficial Reto 21 Días Íntegros', type: 'reto21' },
   { id: '9', day: 7, title: 'Evaluación 1: Recomposición & Hábitos', type: 'reto21' },
   { id: '10', day: 14, title: 'Evaluación 2: Ajuste Nutricional & Fuerza', type: 'reto21' },
-  { id: '11', day: 21, title: 'Graduación Reto 21 Días Íntegros 🏆', type: 'reto21' }
+  { id: '11', day: 21, title: 'Graduación Reto 21 Días Íntegros', type: 'reto21' }
 ];
 
 export function CalendarWidget() {

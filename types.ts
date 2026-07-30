@@ -21,6 +21,8 @@ export interface Student {
   // Pilar 3: ESPÍRITU (Coaching & Fe)
   spiritualIntention: string;
   mentorshipNotes: string;
+  medicalProfile?: MedicalProfile;
+  medicalAndRoutineNotes?: string; // Legacy string format
   // Operational Framework
   escuadronId: string; // Máximo 12 atletas
   phase: '1 - Iniciación' | '2 - Desarrollo' | '3 - Perfeccionamiento';
@@ -51,8 +53,140 @@ export interface DailyLog {
   readingCompleted: boolean;
 }
 
+export type UserRole = 'instructor' | 'admin';
+
+export interface SystemUser {
+  id: string;
+  name: string;
+  email: string;
+  password?: string; // Optional for security, but we store it locally for now
+  role: UserRole;
+  avatar: string;
+}
+
+export interface Ingredient {
+  id: string;
+  name: string;
+  unit: string;
+  costPerUnit: number;
+  stock: number;
+  minStock: number;
+}
+
+export interface Recipe {
+  id: string;
+  name: string;
+  category?: string;
+  time?: number;
+  difficulty?: string;
+  servings?: number;
+  description?: string;
+  ingredientsText?: string[]; // for public display
+  steps?: string[];
+  macros?: { calories: number; protein: number; fat: number; carbs: number };
+  image?: string; // Base64 or URL
+  crmIngredients: { ingredientId: string; quantity: number }[]; // internal link for costs
+  suggestedPrice: number;
+}
+
+export interface MentorshipSession {
+  id: string;
+  studentId: string;
+  date: string;
+  type: 'Mentoría Espiritual' | 'Psicología' | 'Coaching';
+  emotionalState: string;
+  clinicalNotes: string;
+  actionItems: string;
+}
+
+export interface InventoryItem {
+  id: string;
+  name: string;
+  category: 'snack' | 'apparel';
+  cost: number;
+  price: number;
+  stock: number;
+  minStock: number;
+  size?: 'S' | 'M' | 'L' | 'XL' | 'N/A';
+  color?: string;
+}
+
 export interface CRMDatabase {
   students: Student[];
   transactions: Transaction[];
   dailyLogs: DailyLog[];
+  users: SystemUser[];
+  ingredients?: Ingredient[];
+  recipes?: Recipe[];
+  mentorshipSessions?: MentorshipSession[];
+  inventory?: InventoryItem[];
+  leads?: Lead[];
+  weeklyChecklist?: WeeklyChecklist;
+  marketingStrategy?: string;
+  sopsContent?: string;
+  claimsHelp?: string;
+  
+  marketingTasks?: MarketingTask[];
+  sopsList?: SOPItem[];
+  claimsTickets?: ClaimTicket[];
+  
+  showcaseItems?: ShowcaseItem[];
 }
+
+export interface MedicalProfile {
+  heightCm: number;
+  bloodType: string;
+  allergiesOrConditions: string;
+  currentRoutine: string;
+}
+
+export interface SOPItem {
+  id: string;
+  title: string;
+  content: string;
+}
+
+export interface MarketingTask {
+  id: string;
+  month: string;
+  campaignName: string;
+  driveLink: string;
+  strategy: string;
+}
+
+export interface ClaimTicket {
+  id: string;
+  date: string;
+  clientName: string;
+  issue: string;
+  status: 'pending' | 'resolved';
+  resolution: string;
+}
+
+export interface ShowcaseItem {
+  id: string;
+  type: 'recipe' | 'merch';
+  title: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  status: 'active' | 'draft';
+}
+
+export interface Lead {
+  id: string;
+  name: string;
+  phone: string;
+  source: 'instagram' | 'whatsapp' | 'referral' | 'walk-in';
+  status: 'new' | 'contacted' | 'appointment_set' | 'trial' | 'enrolled' | 'lost';
+  notes: string;
+  dateAdded: string;
+}
+
+export type DayTask = {
+  id: string;
+  task: string;
+  done: boolean;
+};
+
+export type WeeklyChecklist = Record<string, DayTask[]>;

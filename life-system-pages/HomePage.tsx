@@ -60,7 +60,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
         <div className="relative z-10 p-6 md:p-10 w-full flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-temple-gold mb-2">
-              SISTEMA DE GESTIÓN HOLÍSTICO TEMPLEFIT
+              CENTRO DE MANDO TEMPLEFIT
             </p>
             <h1 className="text-3xl md:text-5xl font-serif font-black uppercase leading-tight text-white">
               Bienvenido,<br />
@@ -159,7 +159,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
-                  { title: 'TempleFit Wiki ↗', desc: 'Cerebro & Bóveda Obsidian', emoji: '🧠', tab: 'templefit-wiki', isExternal: true },
+                  { title: 'SOPs & Estrategia', desc: 'Reglas y Marketing', emoji: '🧠', tab: 'sops' },
                   { title: 'Alumnos e Instructores', desc: 'Fichas holísticas 3 pilares', emoji: '👥', tab: 'team-ops' },
                   { title: 'Hábitos & Mi Día', desc: 'Registro de agua y rachas', emoji: '☀️', tab: 'daily' },
                   { title: 'Control Financiero', desc: 'Ingresos MRR y proyecciones', emoji: '💰', tab: 'financial' },

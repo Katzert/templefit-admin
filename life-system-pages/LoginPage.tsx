@@ -140,27 +140,12 @@ export function LoginPage() {
             <p className="text-[10px] text-gray-500 uppercase tracking-widest text-center mb-3">
               Acceso Rápido (Demo)
             </p>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                onClick={() => quickLogin('alumno@templefit.com', 'alumno123')}
-                className="py-2.5 px-2 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-gray-300 hover:border-temple-gold/30 hover:text-temple-gold transition-all text-center"
-              >
-                <div className="text-lg mb-0.5">🎓</div>
-                Alumno
-              </button>
-              <button
-                onClick={() => quickLogin('instructor@templefit.com', 'instructor123')}
-                className="py-2.5 px-2 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-gray-300 hover:border-temple-gold/30 hover:text-temple-gold transition-all text-center"
-              >
-                <div className="text-lg mb-0.5">🏋️</div>
-                Instructor
-              </button>
+            <div className="grid grid-cols-1 gap-2">
               <button
                 onClick={() => quickLogin('admin@templefit.com', 'admin123')}
                 className="py-2.5 px-2 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-gray-300 hover:border-temple-gold/30 hover:text-temple-gold transition-all text-center"
               >
-                <div className="text-lg mb-0.5">👑</div>
-                Admin
+                Acceso Rápido Administrador (Paulo)
               </button>
             </div>
           </div>
