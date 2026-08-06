@@ -131,6 +131,7 @@ export interface CRMDatabase {
   claimsTickets?: ClaimTicket[];
   
   showcaseItems?: ShowcaseItem[];
+  monthlyBoard?: MonthlyBoard;
 }
 
 export interface MedicalProfile {
@@ -190,3 +191,17 @@ export type DayTask = {
 };
 
 export type WeeklyChecklist = Record<string, DayTask[]>;
+
+export interface MonthlyGoal {
+  area: 'Snack' | 'Gimnasio' | 'Cursos' | 'Productos';
+  targetBs: number;
+}
+
+export interface MonthlyBoard {
+  month: string; // ej. 'Agosto 2026'
+  verse: string; // Fundamento del Mes (Versículo / Enfoque)
+  goals: MonthlyGoal[]; // Metas por área
+  retentionTarget: number; // % Retención objetivo
+  averageTicket: number; // Ticket promedio objetivo
+  newMembersTarget: number; // KPI Nuevos Miembros
+}

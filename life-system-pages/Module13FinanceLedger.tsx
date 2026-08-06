@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DollarSign, Search, Plus, Filter, ArrowUpRight, ArrowDownRight, Trash2, X, Check } from 'lucide-react';
+import { DollarSign, Search, Plus, Filter, ArrowUpRight, ArrowDownRight, Trash2, X, Check, TrendingUp } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Transaction } from '../types';
@@ -34,6 +34,23 @@ export function Module13FinanceLedger() {
     const matchesType = typeFilter === 'todos' || t.type === typeFilter;
     return matchesSearch && matchesType;
   }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // --- KPIs financieros calculados desde transacciones reales (no hardcodeados) ---
+  const kpis = useMemo(() => {
+    const totalIncome = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+    const totalExpense = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const mrr = transactions
+      .filter(t => t.type === 'income' && t.category === 'membership' && t.date.startsWith(currentMonth))
+      .reduce((s, t) => s + t.amount, 0);
+    return {
+      totalIncome,
+      totalExpense,
+      netProfit: totalIncome - totalExpense,
+      mrr,
+    };
+  }, [transactions]);
 
   const formatBs = (n: number) => `Bs. ${n.toLocaleString('es-BO')}`;
 
@@ -91,6 +108,30 @@ export function Module13FinanceLedger() {
             {isAdding ? 'Cancelar' : 'Nueva Transacción'}
           </button>
         </div>
+      </div>
+
+      {/* KPIs financieros calculados */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { label: 'Utilidad Neta', value: formatBs(kpis.netProfit), icon: TrendingUp, color: kpis.netProfit >= 0 ? 'text-emerald-400' : 'text-red-400', bg: kpis.netProfit >= 0 ? 'bg-emerald-400/10' : 'bg-red-400/10' },
+          { label: 'Ingresos Totales', value: formatBs(kpis.totalIncome), icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+          { label: 'Gastos Totales', value: formatBs(kpis.totalExpense), icon: ArrowDownRight, color: 'text-red-400', bg: 'bg-red-400/10' },
+          { label: 'MRR (Membresías)', value: formatBs(kpis.mrr), icon: DollarSign, color: 'text-temple-gold', bg: 'bg-temple-gold/10' },
+        ].map((kpi, i) => (
+          <motion.div key={i} variants={item}>
+            <Card className="bg-black/40 border-white/5 hover:border-white/20 transition-colors">
+              <CardContent className="!p-5 flex items-center gap-4">
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${kpi.bg}`}>
+                  <kpi.icon className={kpi.color} size={20} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">{kpi.label}</p>
+                  <p className="text-xl font-black text-white truncate">{kpi.value}</p>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </div>
 
       <AnimatePresence>
