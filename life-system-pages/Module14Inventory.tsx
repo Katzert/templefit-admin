@@ -9,7 +9,7 @@ import { InventoryItem } from '../types';
 export function Module14Inventory() {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<'all' | 'snack' | 'apparel'>('all');
+  const [categoryFilter, setCategoryFilter] = useState<'all' | 'snack' | 'apparel' | 'suplementos'>('all');
   const [sortConfig, setSortConfig] = useState<{ key: keyof InventoryItem, direction: 'asc' | 'desc' } | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<InventoryItem>>({});
@@ -38,7 +38,7 @@ export function Module14Inventory() {
     const newItem: InventoryItem = {
       id: `inv-${Date.now()}`,
       name: 'Nuevo Artículo',
-      category: 'snack',
+      category: 'suplementos',
       cost: 0,
       price: 0,
       stock: 0,
@@ -88,7 +88,7 @@ export function Module14Inventory() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <div>
-            <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Valor Inventario</p>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Valor Total Inventario</p>
             <p className="text-2xl font-black text-white">Bs. {totalValue.toLocaleString()}</p>
           </div>
           <div className="w-12 h-12 rounded-full bg-temple-gold/20 flex items-center justify-center text-temple-gold">
@@ -107,7 +107,7 @@ export function Module14Inventory() {
         <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between md:col-start-3">
           <button 
             onClick={addItem}
-            className="w-full h-full flex items-center justify-center gap-2 bg-temple-gold text-black rounded-xl font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all"
+            className="w-full h-full flex items-center justify-center gap-2 bg-temple-gold text-black rounded-xl font-bold uppercase tracking-widest hover:bg-amber-400 transition-all shadow-lg"
           >
             <Plus size={20} /> Añadir Ítem
           </button>
@@ -127,13 +127,13 @@ export function Module14Inventory() {
           />
         </div>
         <div className="flex gap-2 w-full md:w-auto overflow-x-auto custom-scrollbar pb-2 md:pb-0">
-          {(['all', 'snack', 'apparel'] as const).map(cat => (
+          {(['all', 'suplementos', 'apparel', 'snack'] as const).map(cat => (
             <button
               key={cat}
               onClick={() => setCategoryFilter(cat)}
-              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${categoryFilter === cat ? 'bg-temple-gold text-black' : 'bg-black/50 text-gray-400 border border-white/10 hover:border-white/30'}`}
+              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${categoryFilter === cat ? 'bg-temple-gold text-black font-black' : 'bg-black/50 text-gray-400 border border-white/10 hover:border-white/30'}`}
             >
-              {cat === 'all' ? 'Todos' : cat}
+              {cat === 'all' ? 'Todos' : cat === 'suplementos' ? 'Botica & Suplementos' : cat === 'apparel' ? 'Textil & Ropa' : 'Snacks & Bebidas'}
             </button>
           ))}
         </div>
@@ -180,10 +180,11 @@ export function Module14Inventory() {
                           <select 
                             value={editForm.category}
                             onChange={e => setEditForm({...editForm, category: e.target.value as any})}
-                            className="bg-black/50 text-white px-3 py-1.5 rounded border border-temple-gold/30 focus:outline-none"
+                            className="bg-black/50 text-white px-3 py-1.5 rounded-xl border border-temple-gold/30 focus:outline-none text-xs"
                           >
+                            <option value="suplementos">Botica & Suplementos</option>
+                            <option value="apparel">Textil & Ropa</option>
                             <option value="snack">Snack / Bebida</option>
-                            <option value="apparel">Ropa / Merch</option>
                           </select>
                         </td>
                         <td className="p-4">
@@ -202,13 +203,13 @@ export function Module14Inventory() {
                         <td className="p-4">
                           <input 
                             type="number" value={editForm.price} onChange={e => setEditForm({...editForm, price: Number(e.target.value)})}
-                            className="bg-black/50 text-temple-gold px-3 py-1.5 rounded border border-temple-gold/30 w-24 text-right focus:outline-none"
+                            className="bg-black/50 text-temple-gold px-3 py-1.5 rounded border border-temple-gold/30 w-24 text-right focus:outline-none font-bold"
                           />
                         </td>
                         <td className="p-4 text-center">
                           <div className="flex items-center justify-center gap-2">
-                            <button onClick={saveEdit} className="p-1.5 bg-emerald-500 text-white rounded hover:bg-emerald-400"><Save size={16}/></button>
-                            <button onClick={() => setEditingId(null)} className="p-1.5 bg-gray-700 text-white rounded hover:bg-gray-600"><X size={16}/></button>
+                            <button onClick={saveEdit} className="p-1.5 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 font-bold transition"><Save size={16}/></button>
+                            <button onClick={() => setEditingId(null)} className="p-1.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"><X size={16}/></button>
                           </div>
                         </td>
                       </motion.tr>
@@ -236,7 +237,11 @@ export function Module14Inventory() {
                       </td>
                       <td className="p-4">
                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                          item.category === 'snack' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
+                          item.category === 'snack' 
+                            ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' 
+                            : item.category === 'suplementos'
+                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                            : 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
                         }`}>
                           {item.category}
                         </span>
