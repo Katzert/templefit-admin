@@ -1,12 +1,14 @@
 /** @type {import('next').NextConfig} */
+const isExport = process.env.NEXT_EXPORT === 'true';
+
 const nextConfig = {
-  output: 'export',
+  ...(isExport ? { output: 'export' } : {}),
   images: {
     unoptimized: true,
   },
-  basePath: '/templefit-admin',
-  assetPrefix: '/templefit-admin/',
-  trailingSlash: true,
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH ? `${process.env.NEXT_PUBLIC_BASE_PATH}/` : undefined,
+  trailingSlash: isExport,
   eslint: {
     ignoreDuringBuilds: true,
   },
