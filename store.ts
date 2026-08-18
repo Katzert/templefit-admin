@@ -7,214 +7,172 @@ const STORAGE_KEY = 'templefit_holistic_students_v3';
 const DEFAULT_DB: CRMDatabase = {
   students: [
     {
-      id: '1',
+      id: 'std-1',
       name: 'Carlos Gutiérrez',
       phone: '+59170012345',
-      email: 'carlos.g@gmail.com',
+      email: 'carlos.g@templefit.com',
       instructorAssigned: 'Paulo (Head Coach)',
       status: 'active',
-      plan: 'Plan Integral Mensual',
-      startDate: '2026-07-01',
-      renewalDate: '2026-08-01',
-      physicalGoal: 'Perder 5kg de grasa y mejorar resistencia física',
-      weightKg: 82.5,
+      plan: 'Reto 21 Días',
+      startDate: '2026-08-01',
+      renewalDate: '2026-08-22',
+      physicalGoal: 'Perder 5kg de grasa y ganar potencia en calistenia',
+      weightKg: 81.5,
       workoutLevel: 'Intermedio',
-      nutritionPlan: 'Nutrición Anti-inflamatoria + Proteína Limpia',
+      nutritionPlan: 'ElectroHidra + Nutrición Anti-inflamatoria',
       allergiesOrRestrictions: 'Intolerante a la lactosa',
-      spiritualIntention: 'Fortalecer el hábito de oración matutina y vencer el estrés',
-      mentorshipNotes: 'Demuestra gran compromiso en CristoFit Camp. Trabajar constancia en fines de semana.',
-      escuadronId: 'Alfa-1',
-      phase: '2 - Desarrollo',
-      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
-    },
-    {
-      id: '2',
-      name: 'Mariana Flores',
-      phone: '+59178945612',
-      email: 'mariana.f@gmail.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'expiring',
-      plan: 'Reto 21 Días',
-      startDate: '2026-07-05',
-      renewalDate: '2026-07-26',
-      physicalGoal: 'Tonificación muscular y postura',
-      weightKg: 61.0,
-      workoutLevel: 'Principiante',
-      nutritionPlan: 'Plan Detox + Recomposición Corporal',
-      allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Renovación de mentalidad y enfoque espiritual diario',
-      mentorshipNotes: 'Avance notable en 2 semanas. Recordar renovación de plan antes del viernes.',
-      escuadronId: 'Alfa-1',
-      phase: '1 - Iniciación',
-      hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
-    },
-    {
-      id: '3',
-      name: 'José Luis Mamani',
-      phone: '+59170123456',
-      email: 'jluis.mamani@gmail.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Plan Integral Mensual',
-      startDate: '2026-06-15',
-      renewalDate: '2026-08-15',
-      physicalGoal: 'Reducir grasa abdominal y ganar masa muscular',
-      weightKg: 88.0,
-      workoutLevel: 'Intermedio',
-      nutritionPlan: 'Alta Proteína + Déficit Calórico Moderado',
-      allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Consistencia en devocional diario y orden en sus finanzas',
-      mentorshipNotes: 'Excelente asistencia. Candidato a líder de escuadrón.',
-      escuadronId: 'Alfa-1',
-      phase: '2 - Desarrollo',
-      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
-    },
-    {
-      id: '4',
-      name: 'Daniela Quispe',
-      phone: '+59171234567',
-      email: 'dani.quispe@gmail.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'CristoFit Camp',
-      startDate: '2026-07-20',
-      renewalDate: '2026-08-20',
-      physicalGoal: 'Mejorar condición cardiovascular y disciplina',
-      weightKg: 58.5,
-      workoutLevel: 'Principiante',
-      nutritionPlan: 'Plan Equilibrado + Hidratación 2.1L diarios',
-      allergiesOrRestrictions: 'Alergia al maní',
-      spiritualIntention: 'Sanidad interior y constancia en la oración',
-      mentorshipNotes: 'Se unió por invitación al CristoFit Camp. Muy motivada.',
-      escuadronId: 'Alfa-1',
-      phase: '1 - Iniciación',
-      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
-    },
-    {
-      id: '5',
-      name: 'Miguel Ángel Rojas',
-      phone: '+59172345678',
-      email: 'miguel.rojas@gmail.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Coaching 1 a 1',
-      startDate: '2026-05-01',
-      renewalDate: '2026-08-01',
-      physicalGoal: 'Rendimiento deportivo y prevención de lesiones',
-      weightKg: 74.0,
-      workoutLevel: 'Avanzado',
-      nutritionPlan: 'Nutrición Deportiva + Suplementación guiada',
-      allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Liderazgo espiritual en su familia y en el gym',
-      mentorshipNotes: 'Atleta referencia. Entrena para competencia regional.',
-      escuadronId: 'Omega-2',
-      phase: '3 - Perfeccionamiento',
-      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: true }
-    },
-    {
-      id: '6',
-      name: 'Valeria Condori',
-      phone: '+59173456789',
-      email: 'vale.condori@gmail.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'expiring',
-      plan: 'Reto 21 Días',
-      startDate: '2026-07-10',
-      renewalDate: '2026-07-31',
-      physicalGoal: 'Tonificar piernas y glúteos',
-      weightKg: 63.2,
-      workoutLevel: 'Principiante',
-      nutritionPlan: 'Plan Detox + Proteína Vegetal',
-      allergiesOrRestrictions: 'Intolerancia al gluten',
-      spiritualIntention: 'Paz mental y liberación de ansiedad',
-      mentorshipNotes: 'Necesita seguimiento para renovar antes de que venza.',
-      escuadronId: 'Omega-2',
-      phase: '1 - Iniciación',
-      hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
-    },
-    {
-      id: '7',
-      name: 'Andrés Paredes',
-      phone: '+59174567890',
-      email: 'andres.paredes@gmail.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Plan Integral Mensual',
-      startDate: '2026-04-01',
-      renewalDate: '2026-08-25',
-      physicalGoal: 'Hipertrofia general y fuerza',
-      weightKg: 79.8,
-      workoutLevel: 'Intermedio',
-      nutritionPlan: 'Superávit Controlado + Comidas cada 3h',
-      allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Disciplina en lectura bíblica semanal',
-      mentorshipNotes: 'Progreso constante en cargas. Buen compañero de equipo.',
-      escuadronId: 'Omega-2',
+      spiritualIntention: 'Consistencia en la oración 06:00 AM y control del estrés',
+      mentorshipNotes: 'Excelente disciplina en CristoFit Camp. Superó récord en barras paralelas.',
+      escuadronId: 'Gedeón-1',
       phase: '2 - Desarrollo',
       hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: false }
     },
     {
-      id: '8',
-      name: 'Camila Vargas',
-      phone: '+59175678901',
-      email: 'camila.vargas@gmail.com',
+      id: 'std-2',
+      name: 'Mariana Flores',
+      phone: '+59178945612',
+      email: 'mariana.f@templefit.com',
       instructorAssigned: 'Paulo (Head Coach)',
       status: 'active',
-      plan: 'CristoFit Camp',
-      startDate: '2026-06-01',
-      renewalDate: '2026-08-10',
-      physicalGoal: 'Bajar 8kg y ganar energía',
-      weightKg: 71.4,
+      plan: 'Reto 21 Días',
+      startDate: '2026-08-05',
+      renewalDate: '2026-08-26',
+      physicalGoal: 'Tonificación muscular, postura y flexibilidad',
+      weightKg: 59.5,
       workoutLevel: 'Principiante',
-      nutritionPlan: 'Nutrición Anti-inflamatoria + Ayuno intermitente suave',
-      allergiesOrRestrictions: 'Alergia a mariscos',
-      spiritualIntention: 'Renovación espiritual completa y nuevos hábitos',
-      mentorshipNotes: 'Gran cambio de actitud desde que entró al camp.',
-      escuadronId: 'Delta-3',
-      phase: '2 - Desarrollo',
-      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: true }
+      nutritionPlan: 'Smoothie de Salomón + Plan Detox sin azúcar',
+      allergiesOrRestrictions: 'Ninguna',
+      spiritualIntention: 'Renovación de mentalidad y lectura de NeuroBiblia',
+      mentorshipNotes: 'Notable mejoría en niveles de energía matutina. Integrada a su escuadrón.',
+      escuadronId: 'Paz-Alfa',
+      phase: '1 - Iniciación',
+      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
     },
     {
-      id: '9',
-      name: 'Rodrigo Choque',
-      phone: '+59176789012',
-      email: 'rodrigo.choque@gmail.com',
+      id: 'std-3',
+      name: 'José Luis Mamani',
+      phone: '+59170123456',
+      email: 'jluis.mamani@templefit.com',
       instructorAssigned: 'Paulo (Head Coach)',
       status: 'active',
-      plan: 'Coaching 1 a 1',
-      startDate: '2026-03-15',
-      renewalDate: '2026-08-18',
-      physicalGoal: 'Mejorar movilidad y corregir postura',
-      weightKg: 91.3,
-      workoutLevel: 'Intermedio',
-      nutritionPlan: 'Recomposición Corporal + Hidratación monitoreada',
+      plan: 'Formación E.A.G.E. (Guerra Espiritual)',
+      startDate: '2026-07-15',
+      renewalDate: '2026-08-15',
+      physicalGoal: 'Fuerza extrema, calistenia avanzada y combate ético',
+      weightKg: 78.0,
+      workoutLevel: 'Avanzado',
+      nutritionPlan: 'Bowl de Elías + Suplementación con Glutamina',
       allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Fortalecer su rol de mentor en el escuadrón',
-      mentorshipNotes: 'Asistió a la ficha de medicina preventiva. Sigue plan de movilidad.',
-      escuadronId: 'Delta-3',
+      spiritualIntention: 'Capitán de Escuadrón y formador de nuevos atletas',
+      mentorshipNotes: 'Capitán del Escuadrón Cristo-1. Lidera las brigadas de servicio Palabra y Pan.',
+      escuadronId: 'Cristo-1',
       phase: '3 - Perfeccionamiento',
-      hubConsumption: { snackBar: false, merchandise: true, preventiveMedicine: true }
+      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: true }
     },
     {
-      id: '10',
-      name: 'Nicole Zambrana',
-      phone: '+59177890123',
-      email: 'nico.zambrana@gmail.com',
+      id: 'std-4',
+      name: 'Daniela Quispe',
+      phone: '+59171234567',
+      email: 'dani.quispe@templefit.com',
+      instructorAssigned: 'Paulo (Head Coach)',
+      status: 'active',
+      plan: 'Reto 21 Días',
+      startDate: '2026-08-01',
+      renewalDate: '2026-08-22',
+      physicalGoal: 'Resistencia cardiovascular y hábitos matutinos',
+      weightKg: 57.0,
+      workoutLevel: 'Principiante',
+      nutritionPlan: 'Infusión de Daniel + Hidratación 2.8L',
+      allergiesOrRestrictions: 'Alergia al maní',
+      spiritualIntention: 'Paz espiritual, vencer la ansiedad y devocional diario',
+      mentorshipNotes: 'Asistió puntual al CristoFit Camp del sábado. Muy comprometida.',
+      escuadronId: 'Paz-Alfa',
+      phase: '1 - Iniciación',
+      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
+    },
+    {
+      id: 'std-5',
+      name: 'Miguel Ángel Rojas',
+      phone: '+59172345678',
+      email: 'miguel.rojas@templefit.com',
+      instructorAssigned: 'Paulo (Head Coach)',
+      status: 'active',
+      plan: 'Formación E.A.G.E. (Guerra Espiritual)',
+      startDate: '2026-06-01',
+      renewalDate: '2026-08-30',
+      physicalGoal: 'Atleta de Alto Rendimiento y prevención de lesiones',
+      weightKg: 75.0,
+      workoutLevel: 'Avanzado',
+      nutritionPlan: 'Nutrición Metabólica + Ginkgo Biloba + Omega-3',
+      allergiesOrRestrictions: 'Ninguna',
+      spiritualIntention: 'Liderazgo ético en su empresa y mentoría en escuadrón',
+      mentorshipNotes: 'Completó 210 horas académicas del ciclo 1. Excelente testimonio.',
+      escuadronId: 'Cristo-1',
+      phase: '3 - Perfeccionamiento',
+      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: true }
+    },
+    {
+      id: 'std-6',
+      name: 'Valeria Condori',
+      phone: '+59173456789',
+      email: 'vale.condori@templefit.com',
       instructorAssigned: 'Paulo (Head Coach)',
       status: 'expiring',
       plan: 'Reto 21 Días',
-      startDate: '2026-07-15',
-      renewalDate: '2026-08-05',
-      physicalGoal: 'Definición y hábitos sostenibles',
-      weightKg: 60.7,
+      startDate: '2026-07-20',
+      renewalDate: '2026-08-10',
+      physicalGoal: 'Reducir grasa corporal y mejorar digestión',
+      weightKg: 62.0,
       workoutLevel: 'Principiante',
-      nutritionPlan: 'Plan Detox + Snacks saludables del Hub',
+      nutritionPlan: 'ElectroDetox Blast + Pan sin levadura (Abuela Fit)',
+      allergiesOrRestrictions: 'Intolerancia al gluten',
+      spiritualIntention: 'Vencer el insomnio y alinear ritmo circadiano (22:00 a 06:00)',
+      mentorshipNotes: 'Membresía por vencer en 3 días. Enviar mensaje de renovación cordial vía WhatsApp.',
+      escuadronId: 'Gedeón-2',
+      phase: '2 - Desarrollo',
+      hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
+    },
+    {
+      id: 'std-7',
+      name: 'Andrés Paredes',
+      phone: '+59174567890',
+      email: 'andres.paredes@templefit.com',
+      instructorAssigned: 'Paulo (Head Coach)',
+      status: 'active',
+      plan: 'Neuro-Entrenamiento en Ventas (Completo)',
+      startDate: '2026-07-25',
+      renewalDate: '2026-08-25',
+      physicalGoal: 'Acondicionamiento físico de atleta comercial',
+      weightKg: 80.0,
+      workoutLevel: 'Intermedio',
+      nutritionPlan: 'Superávit limpio + Alimentos Neuro-cognitivos',
       allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Consistencia espiritual y emocional',
-      mentorshipNotes: 'Renovación pendiente hoy. Aplicar embudo F2 de recuperación.',
-      escuadronId: 'Delta-3',
+      spiritualIntention: 'Integrar principios bíblicos en negociaciones y ventas',
+      mentorshipNotes: 'Módulo 02 (Respiración Buteyko) completado con éxito.',
+      escuadronId: 'Gedeón-2',
+      phase: '2 - Desarrollo',
+      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: false }
+    },
+    {
+      id: 'std-8',
+      name: 'Camila Vargas',
+      phone: '+59175678901',
+      email: 'camila.vargas@templefit.com',
+      instructorAssigned: 'Paulo (Head Coach)',
+      status: 'active',
+      plan: 'Reto 21 Días',
+      startDate: '2026-08-01',
+      renewalDate: '2026-08-22',
+      physicalGoal: 'Bajar 6kg de grasa y ganar energía vital',
+      weightKg: 68.0,
+      workoutLevel: 'Principiante',
+      nutritionPlan: 'Catering Saludable Abuela Fit + Hidratación activa',
+      allergiesOrRestrictions: 'Alergia a mariscos',
+      spiritualIntention: 'Disciplina diaria de oración y enfoque',
+      mentorshipNotes: 'Excelente progreso en los primeros 10 días de reto.',
+      escuadronId: 'Paz-Beta',
       phase: '1 - Iniciación',
-      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
+      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: true }
     }
   ],
   transactions: [
@@ -223,303 +181,357 @@ const DEFAULT_DB: CRMDatabase = {
       date: '2026-08-01',
       type: 'income',
       category: 'membership',
-      amount: 50,
-      description: 'Mensualidad Reto 21 Días - Juan'
+      amount: 200,
+      description: 'Membresía Reto 21 Días - Carlos Gutiérrez'
+    },
+    {
+      id: 'tx-2',
+      date: '2026-08-01',
+      type: 'income',
+      category: 'membership',
+      amount: 1200,
+      description: 'Programa E.A.G.E. Guerra Espiritual - José Luis Mamani'
+    },
+    {
+      id: 'tx-3',
+      date: '2026-08-02',
+      type: 'income',
+      category: 'membership',
+      amount: 200,
+      description: 'Membresía Reto 21 Días - Daniela Quispe'
+    },
+    {
+      id: 'tx-4',
+      date: '2026-08-03',
+      type: 'income',
+      category: 'snack',
+      amount: 350,
+      description: 'Venta Bebidas ElectroHidra y Pudines H-Control (Sábado Camp)'
+    },
+    {
+      id: 'tx-5',
+      date: '2026-08-04',
+      type: 'income',
+      category: 'merchandise',
+      amount: 470,
+      description: 'Venta Indumentaria (2 Poleras + 1 Shorts + 1 Canguro)'
+    },
+    {
+      id: 'tx-6',
+      date: '2026-08-05',
+      type: 'income',
+      category: 'courses',
+      amount: 1200,
+      description: 'Neuro-Entrenamiento de Impacto en Ventas - Andrés Paredes'
+    },
+    {
+      id: 'tx-7',
+      date: '2026-08-06',
+      type: 'expense',
+      category: 'operations',
+      amount: 650,
+      description: 'Compra de insumos botánicos (jengibre, cúrcuma, miel, sal marina, chía)'
+    },
+    {
+      id: 'tx-8',
+      date: '2026-08-07',
+      type: 'expense',
+      category: 'rent',
+      amount: 1500,
+      description: 'Aporte de espacio físico / Centro de Entrenamiento'
     }
   ],
   dailyLogs: [],
   users: [
     {
       id: 'usr-admin',
-      name: 'Administrador Maestro',
+      name: 'Paulo Alberto Gil Cuellar (Head Coach)',
       email: 'admin@templefit.com',
       password: 'admin',
       role: 'admin',
-      avatar: 'AM'
+      avatar: 'PG'
     },
     {
       id: 'usr-instructor',
-      name: 'Instructor Coach',
+      name: 'Capitán de Escuadrón',
       email: 'instructor@templefit.com',
       password: 'coach',
       role: 'instructor',
-      avatar: 'IC'
+      avatar: 'CE'
     }
   ],
   ingredients: [
-    { id: 'ing-1', name: 'Proteína Whey (Scoop)', unit: 'scoop', costPerUnit: 8, stock: 50, minStock: 20 },
-    { id: 'ing-2', name: 'Leche de Almendras', unit: 'ml', costPerUnit: 0.02, stock: 5000, minStock: 1000 },
-    { id: 'ing-3', name: 'Avena', unit: 'gr', costPerUnit: 0.05, stock: 2000, minStock: 500 },
+    { id: 'ing-1', name: 'Sal Marina Natural Pura', unit: 'gr', costPerUnit: 0.04, stock: 2500, minStock: 500 },
+    { id: 'ing-2', name: 'Miel Pura de Abeja', unit: 'gr', costPerUnit: 0.06, stock: 5000, minStock: 1000 },
+    { id: 'ing-3', name: 'Cúrcuma en Polvo (Cupesí)', unit: 'gr', costPerUnit: 0.14, stock: 1500, minStock: 300 },
+    { id: 'ing-4', name: 'Jengibre Fresco Rallado', unit: 'gr', costPerUnit: 0.03, stock: 3000, minStock: 500 },
+    { id: 'ing-5', name: 'Canela en Rama', unit: 'gr', costPerUnit: 0.08, stock: 1000, minStock: 200 },
+    { id: 'ing-6', name: 'Avena Integral en Hojuelas', unit: 'gr', costPerUnit: 0.02, stock: 10000, minStock: 2000 },
+    { id: 'ing-7', name: 'Semillas de Chía', unit: 'gr', costPerUnit: 0.05, stock: 4000, minStock: 1000 },
+    { id: 'ing-8', name: 'Shake H-Control (Porción)', unit: 'unidad', costPerUnit: 7.5, stock: 45, minStock: 15 },
+    { id: 'ing-9', name: 'Leche de Almendras sin azúcar', unit: 'ml', costPerUnit: 0.02, stock: 6000, minStock: 1500 }
   ],
   recipes: [
     { 
       id: 'rec-1', 
-      name: 'Batido Post-Entreno (Ganancia Muscular)',
-      category: 'snack',
+      name: 'ElectroHidra "Elite-Hydration" (Isotónica)',
+      category: 'bebidas',
       time: 5,
       difficulty: 'Fácil',
       servings: 1,
-      description: 'Proteína pura de rápida asimilación para reconstruir fibra muscular post-entrenamiento.',
+      description: 'Bebida isotónica 280-300 mOsm/kg con buffer contra el lactato muscular.',
       ingredientsText: [
-        '2 scoops de proteína whey',
-        '300ml de leche de almendras',
-        '50g de avena'
+        '1L agua filtrada',
+        '1.2g sal marina natural',
+        '0.6g bicarbonato de sodio',
+        '0.6g cloruro de potasio',
+        '100mg citrato de magnesio',
+        '60g miel pura de abeja',
+        '30ml jugo de limón fresco'
       ],
       steps: [
-        'Vierte la leche de almendras en la licuadora.',
-        'Añade la proteína y la avena.',
-        'Licúa por 30 segundos hasta que esté suave y homogéneo.'
+        'Disolver los minerales en el agua.',
+        'Añadir la miel pura y mezclar.',
+        'Incorporar el jugo de limón y servir fresco.'
       ],
-      macros: { calories: 350, protein: 50, fat: 5, carbs: 35 },
-      image: '',
+      macros: { calories: 190, protein: 0, fat: 0, carbs: 48 },
+      image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop',
       crmIngredients: [
-        { ingredientId: 'ing-1', quantity: 2 },
-        { ingredientId: 'ing-2', quantity: 300 },
-        { ingredientId: 'ing-3', quantity: 50 }
+        { ingredientId: 'ing-1', quantity: 1.2 },
+        { ingredientId: 'ing-2', quantity: 60 }
+      ], 
+      suggestedPrice: 15 
+    },
+    { 
+      id: 'rec-2', 
+      name: 'Smoothie Cerebral de Salomón',
+      category: 'bebidas',
+      time: 5,
+      difficulty: 'Fácil',
+      servings: 1,
+      description: 'Potenciador cognitivo con cúrcuma activada por piperina (+2000% absorción).',
+      ingredientsText: [
+        '60g aguacate maduro',
+        '50g espinaca fresca',
+        '60g arándanos',
+        '150ml leche de almendras',
+        '15g semillas de chía',
+        '2g cúrcuma Cupesí + pizca de pimienta negra'
+      ],
+      steps: [
+        'Colocar todos los ingredientes en licuadora.',
+        'Licuar por 60 segundos hasta consistencia cremosa.'
+      ],
+      macros: { calories: 260, protein: 6, fat: 18, carbs: 19 },
+      image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?q=80&w=800&auto=format&fit=crop',
+      crmIngredients: [
+        { ingredientId: 'ing-3', quantity: 2 },
+        { ingredientId: 'ing-7', quantity: 15 },
+        { ingredientId: 'ing-9', quantity: 150 }
+      ], 
+      suggestedPrice: 20 
+    },
+    { 
+      id: 'rec-3', 
+      name: 'Pudín de Shake H-Control (Snack Bar)',
+      category: 'snack',
+      time: 10,
+      difficulty: 'Fácil',
+      servings: 1,
+      description: 'Pudín proteico bajo en calorías sin azúcares refinados formulado para el Reto 21 Días.',
+      ingredientsText: [
+        '30g Shake H-Control',
+        '150ml agua o leche vegetal',
+        '10g chía',
+        'Canela al gusto'
+      ],
+      steps: [
+        'Batir el Shake H-Control con el líquido y la chía.',
+        'Refrigerar 20 minutos hasta gelificar.',
+        'Espolvorear canela y servir frío.'
+      ],
+      macros: { calories: 180, protein: 22, fat: 4, carbs: 12 },
+      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop',
+      crmIngredients: [
+        { ingredientId: 'ing-8', quantity: 1 },
+        { ingredientId: 'ing-7', quantity: 10 }
       ], 
       suggestedPrice: 25 
     }
   ],
   mentorshipSessions: [],
   inventory: [
-    { id: 'inv-1', name: 'Agua Vital 600ml', category: 'snack', cost: 3, price: 5, stock: 45, minStock: 24, size: 'N/A' },
-    { id: 'inv-2', name: 'Polera TempleFit Oversize', category: 'apparel', cost: 80, price: 150, stock: 2, minStock: 5, size: 'M', color: 'Negro' },
+    { id: 'inv-1', name: 'Polera Oficial TempleFit (Algodón Vintage)', category: 'apparel', cost: 50, price: 100, stock: 24, minStock: 8, size: 'L', color: 'Azul Marino / Oro' },
+    { id: 'inv-2', name: 'Shorts Deportivos Tácticos', category: 'apparel', cost: 35, price: 70, stock: 18, minStock: 6, size: 'M', color: 'Azul Marino' },
+    { id: 'inv-3', name: 'Canguro / Hoodie Oficial TempleFit', category: 'apparel', cost: 80, price: 150, stock: 12, minStock: 4, size: 'L', color: 'Negro / Oro' },
+    { id: 'inv-4', name: 'Ginkgo Biloba Neuro-Circulatorio (120 caps)', category: 'suplementos', cost: 95, price: 150, stock: 15, minStock: 5, size: '120 caps' },
+    { id: 'inv-5', name: 'Óleo de Coco Extra Virgen (200 ml)', category: 'suplementos', cost: 45, price: 75, stock: 20, minStock: 5, size: '200 ml' },
+    { id: 'inv-6', name: 'Colágeno Hidrolizado Articular', category: 'suplementos', cost: 60, price: 95, stock: 14, minStock: 4, size: '100 ml' },
+    { id: 'inv-7', name: 'Glutamina Pura Anticatabólica (300 gr)', category: 'suplementos', cost: 95, price: 150, stock: 10, minStock: 3, size: '300 gr' },
+    { id: 'inv-8', name: 'Tabletas Omega-3 Pescado Puro', category: 'suplementos', cost: 5, price: 10, stock: 50, minStock: 15, size: '20 tabletas' },
+    { id: 'inv-9', name: 'Cúrcuma Cupesí Pura en Polvo', category: 'suplementos', cost: 18, price: 35, stock: 30, minStock: 10, size: '250 gr' }
   ],
   leads: [
-    { id: 'ld-1', name: 'Roberto Sanchez', phone: '+59178901234', source: 'instagram', status: 'contacted', notes: 'Preguntó por el reto de 21 días', dateAdded: '2026-07-25' },
-    { id: 'ld-2', name: 'Camila Reyes', phone: '+59165432198', source: 'whatsapp', status: 'new', notes: 'Vio el anuncio en facebook', dateAdded: '2026-07-26' }
+    { id: 'ld-1', name: 'Samuel Ortiz', phone: '+59178901234', source: 'instagram', status: 'appointment_set', notes: 'Agendado para clase de prueba sábado 06:00 AM en CristoFit Camp', dateAdded: '2026-08-10' },
+    { id: 'ld-2', name: 'Valeria Justiniano', phone: '+59165432198', source: 'whatsapp', status: 'trial', notes: 'En semana de prueba gratuita (Escuadrón Paz). Muy interesada en nutrición.', dateAdded: '2026-08-12' },
+    { id: 'ld-3', name: 'Carlos Medina', phone: '+59170098765', source: 'walk-in', status: 'contacted', notes: 'Consultó por Neuro-Entrenamiento en Ventas y horario nocturno', dateAdded: '2026-08-14' },
+    { id: 'ld-4', name: 'Laura Torrez', phone: '+59171122334', source: 'referral', status: 'new', notes: 'Recomendada por Carlos Gutiérrez. Quiere unirse al Reto 21 Días.', dateAdded: '2026-08-16' }
   ],
   weeklyChecklist: {
     Lunes: [
-      { id: 'lun-1', task: 'Revisión Cuadro de Mando Ejecutivo (08:00 AM)', done: false },
-      { id: 'lun-2', task: 'Análisis de Regla 3-3-3 (Estancamiento)', done: false },
+      { id: 'lun-1', task: 'Revisión Cuadro de Mando Ejecutivo / Semáforo (08:00 AM)', done: false },
+      { id: 'lun-2', task: 'Análisis de Regla del Semáforo (Ingresos, Vidas, Margen)', done: false },
       { id: 'lun-3', task: 'Lanzamiento de Embudo F1 (Nuevos Leads)', done: false },
     ],
     Martes: [
-      { id: 'mar-1', task: 'Seguimiento de Asistencia Escuadrones', done: false },
+      { id: 'mar-1', task: 'Seguimiento de Asistencia a Escuadrones (Regla de los 12)', done: false },
       { id: 'mar-2', task: 'Activación de Embudo F2 Recovery (24h inactivos)', done: false },
-      { id: 'mar-3', task: 'Inventario Snack Bar y Suplementos', done: false },
+      { id: 'mar-3', task: 'Inventario Snack Bar y Suplementos Botánicos', done: false },
     ],
     Miercoles: [
-      { id: 'mie-1', task: 'Planificación Logística Sábado CristoFit', done: false },
-      { id: 'mie-2', task: 'Auditoría de NPS (Promotores vs Detractores)', done: false },
-      { id: 'mie-3', task: 'Revisión de Casos Médicos (Medicina Preventiva)', done: false },
+      { id: 'mie-1', task: 'Planificación Logística Sábado CristoFit Camp (06:00 AM)', done: false },
+      { id: 'mie-2', task: 'Coordinación brigadas Palabra y Pan / Ciudad sin Basura', done: false },
+      { id: 'mie-3', task: 'Revisión de Casos de Medicina Preventiva y Buteyko', done: false },
     ],
     Jueves: [
-      { id: 'jue-1', task: 'Confirmación Asistencia Sábado', done: false },
-      { id: 'jue-2', task: 'Lanzamiento F3 (Upsell Gym a Snack Bar)', done: false },
-      { id: 'jue-3', task: 'Revisión de Equipamiento de Entrenamiento', done: false },
+      { id: 'jue-1', task: 'Confirmación Asistencia al CristoFit Camp', done: false },
+      { id: 'jue-2', task: 'Cierre de pedidos Snack Bar con 50% de seña (Regla No Stock)', done: false },
+      { id: 'jue-3', task: 'Revisión de Barras de Calistenia y Equipamiento', done: false },
     ],
     Viernes: [
-      { id: 'vie-1', task: 'Preparación Catering Sábado (Snack Bar)', done: false },
-      { id: 'vie-2', task: 'Envío de Rutinas de Fin de Semana', done: false },
-      { id: 'vie-3', task: 'Revisión Contable Semanal', done: false },
+      { id: 'vie-1', task: 'Producción de Alimentos y Panadería Abuela Fit', done: false },
+      { id: 'vie-2', task: 'Show Fit y Taller de Capacitación en Salud Preventiva (18:00)', done: false },
+      { id: 'vie-3', task: 'Corte y Conciliación Financiera Semanal', done: false },
     ],
     Sabado: [
-      { id: 'sab-1', task: 'Ejecución CristoFit Camp', done: false },
-      { id: 'sab-2', task: 'Captura de Hoja de Asistencia', done: false },
-      { id: 'sab-3', task: 'Cierre de Ventas y Retención', done: false },
+      { id: 'sab-1', task: 'Ejecución CristoFit Camp (06:00 AM a 09:30 AM)', done: false },
+      { id: 'sab-2', task: 'Evaluación del Reto 21 Días y Servicio Comunitario (11:00 AM)', done: false },
+      { id: 'sab-3', task: 'Degustación Snack Bar, Testimonios y Cierre de Nuevos Atletas', done: false },
     ]
   },
   marketingTasks: [
-    { id: 'mkt-1', month: 'Julio 2026', campaignName: 'Lanzamiento Reto 21 Días', driveLink: 'https://drive.google.com/...', strategy: 'Publicar 3 reels por semana sobre transformación holística' }
+    { id: 'mkt-1', month: 'Agosto 2026', campaignName: 'Lanzamiento Reto 21 Días = ÍNTEGROS', driveLink: 'https://drive.google.com/...', strategy: 'Testimonios reales de atletas, rutina 06:00 AM y cobertura de CristoFit Camp' }
   ],
   sopsList: [
-    { id: 'sop-1', title: '1. Protocolo de Ventas (WhatsApp)', content: '1. Saludar con energía\n2. Preguntar el objetivo físico\n3. Enviar brochure PDF\n4. Seguimiento a las 24h' },
-    { id: 'sop-2', title: '2. Recepción de Alumnos Nuevos', content: '1. Presentación al instructor\n2. Tour del Gym\n3. Entrega de botella de agua' }
+    { 
+      id: 'sop-1', 
+      title: 'SOP-01: Protocolo Sábado CristoFit Camp', 
+      content: '06:00-09:30 Entrenamiento físico matutino al aire libre.\n10:00-11:00 Evaluación biométrica Reto 21 Días.\n11:00-13:00 Servicio solidario (Palabra y Pan / Ciudad sin Basura).\n17:30-18:00 Degustación Snack Bar y testimonios.\n18:00-21:00 Show Fit y cierre de inscripciones.' 
+    },
+    { 
+      id: 'sop-2', 
+      title: 'SOP-02: La Regla de los 12 Atletas y Escuadrones', 
+      content: '1. Capacidad estricta de 12 atletas por escuadrón.\n2. Cada escuadrón cuenta con un Capitán asignado.\n3. Si un atleta falta 3 días seguidos, el escuadrón activa visita de respaldo.\n4. Progresión de fases: Paz (Bronce) -> Salvación/Gedeón (Plata) -> Cristo (Oro).' 
+    },
+    { 
+      id: 'sop-3', 
+      title: 'SOP-03: Regla de Decisión del Semáforo', 
+      content: 'Lunes a las 08:00 AM se evalúan 3 números en el Dashboard:\n- VERDE: Replicar lo que funciona. No tocar lo que da fruto.\n- AMARILLO: Ajustar una sola variable a la vez y monitorear 7 días.\n- ROJO: Reunión de emergencia y acción correctiva inmediata.' 
+    },
+    { 
+      id: 'sop-4', 
+      title: 'SOP-04: Protocolo de Pedidos y Regla de No Stock', 
+      content: '1. Prohibido acumular stock perecedero en exceso.\n2. Todo pedido de viandas, catering y snacks requiere 50% de seña antes del viernes.\n3. Producción concentrada los viernes.\n4. Entrega presencial los sábados en CristoFit Camp.' 
+    },
+    { 
+      id: 'sop-5', 
+      title: 'SOP-05: Protocolo Anti-MLM en Productos Nutricionales', 
+      content: '1. Los productos nutricionales se comercializan exclusivamente por su valor nutricional de uso como consumidor.\n2. Prohibido cualquier lenguaje de redes, afiliaciones o negocios multinivel.\n3. Enfoque 100% en salud, energía y recuperación del atleta.' 
+    },
+    { 
+      id: 'sop-6', 
+      title: 'SOP-06: Los 9 Alimentos Prohibidos en Convalecencia', 
+      content: 'Si un atleta cursa con enfermedad o inflamación aguda, se restringen 9 alimentos:\n1. Café\n2. Zumo de naranja procesado\n3. Dulces y azúcares refinados\n4. Sodas y gaseosas\n5. Patatas fritas\n6. Alcohol\n7. Leche de vaca\n8. Comidas fritas\n9. Platos picantes irritantes.' 
+    }
   ],
   claimsTickets: [
-    { id: 'tck-1', date: '2026-07-28', clientName: 'Andrea D.', issue: 'Cobro duplicado de membresía', status: 'pending', resolution: '' }
+    { id: 'tck-1', date: '2026-08-04', clientName: 'Valeria Condori', issue: 'Consulta sobre compatibilidad de colágeno hidrolizado con ayuno', status: 'pending', resolution: '' }
   ],
   showcaseItems: [
     {
       id: 'show-1',
       type: 'merch',
-      title: 'TempleFit Pro Shirt',
-      description: 'Camiseta de alto rendimiento',
-      price: 150,
-      imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop',
+      title: 'Polera Oficial TempleFit (Algodón Vintage)',
+      description: 'Algodón pesado de alta densidad con distintivo de escuadrón',
+      price: 100,
+      imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&h=500&fit=crop',
       status: 'active'
     },
     {
       id: 'show-2',
       type: 'recipe',
-      title: 'Batido Proteico Post-Entreno',
-      description: 'Receta alta en proteínas',
-      price: 0,
-      imageUrl: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?w=500&h=500&fit=crop',
+      title: 'ElectroHidra "Elite-Hydration"',
+      description: 'Bebida isotónica con buffer contra lactato y electrolitos puros',
+      price: 15,
+      imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&h=500&fit=crop',
       status: 'active'
     }
   ],
   monthlyBoard: {
     month: 'Agosto 2026',
-    verse: 'No sabéis que vuestro cuerpo es templo del Espíritu Santo, el cual está en vosotros... (1 Corintios 6:19)',
+    verse: 'El espíritu da el diseño. El cuerpo es el templo. La mente crea y edifica vidas. (1 Corintios 6:19-20)',
     goals: [
-      { area: 'Snack', targetBs: 2000 },
-      { area: 'Gimnasio', targetBs: 8000 },
-      { area: 'Cursos', targetBs: 3000 },
-      { area: 'Productos', targetBs: 1500 }
+      { area: 'Gimnasio & Reto 21 Días', targetBs: 8000 },
+      { area: 'Snack Bar & Bebidas', targetBs: 3500 },
+      { area: 'Formación E.A.G.E. & Cursos', targetBs: 6000 },
+      { area: 'Armería & Suplementos', targetBs: 2500 }
     ],
-    retentionTarget: 90,
-    averageTicket: 350,
-    newMembersTarget: 10
-  },
-  recipes: [
-    {
-      id: "avocado-power-bowl",
-      name: "Power Bowl de Aguacate y Huevos",
-      category: "desayuno",
-      time: 15,
-      difficulty: "Fácil",
-      servings: 1,
-      description: "Arranca tu día con grasas saludables y proteína de alta biodisponibilidad.",
-      ingredientsText: [
-        "1 aguacate maduro",
-        "2 huevos de pastoreo",
-        "1 puñado de microgreens",
-        "6 tomates cherry",
-        "1 cdta de aceite de oliva extra virgen",
-        "Sal rosada y pimienta al gusto"
-      ],
-      steps: [
-        "Corta el aguacate por la mitad y retira la semilla.",
-        "Calienta el aceite de oliva en sartén a fuego medio-alto.",
-        "Fríe los huevos al gusto sin romper la yema.",
-        "Monta el bowl: base de aguacate, huevos encima, rodea con tomates.",
-        "Sazona con sal rosada y pimienta."
-      ],
-      macros: { calories: 420, protein: 18, fat: 34, carbs: 8 },
-      crmIngredients: [],
-      image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-      id: "pollo-grillado-tactical",
-      name: "Pollo Grillado Táctico",
-      category: "almuerzo",
-      time: 25,
-      difficulty: "Media",
-      servings: 2,
-      description: "Proteína magra con vegetales de hoja verde y grasas esenciales.",
-      ingredientsText: [
-        "2 pechugas de pollo deshuesadas",
-        "2 tazas de mix de lechugas verdes",
-        "1 aguacate en láminas",
-        "1 limón",
-        "2 cdas de aceite de oliva",
-        "Sal y pimienta"
-      ],
-      steps: [
-        "Sazona las pechugas con sal, pimienta y orégano.",
-        "Grilla las pechugas 6-7 minutos por lado.",
-        "Corta en láminas y sirve con ensalada verde y limón."
-      ],
-      macros: { calories: 480, protein: 42, fat: 28, carbs: 6 },
-      crmIngredients: [],
-      image: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-      id: "salmon-omega-force",
-      name: "Salmón Omega Force",
-      category: "cena",
-      time: 20,
-      difficulty: "Media",
-      servings: 2,
-      description: "Omega-3 para recuperación muscular y función cerebral superior.",
-      ingredientsText: [
-        "2 filetes de salmón (180g c/u)",
-        "2 tazas de brócoli en floretes",
-        "2 cdas de mantequilla ghee",
-        "1 limón"
-      ],
-      steps: [
-        "Hornea el salmón a 200°C por 12-15 minutos.",
-        "Cocina al vapor el brócoli por 5 minutos.",
-        "Sirve con mantequilla ghee y limón."
-      ],
-      macros: { calories: 510, protein: 38, fat: 32, carbs: 10 },
-      crmIngredients: [],
-      image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-      id: "shake-warrior",
-      name: "Shake del Guerrero",
-      category: "snack",
-      time: 5,
-      difficulty: "Fácil",
-      servings: 1,
-      description: "Proteína + grasas saludables en menos de 5 minutos.",
-      ingredientsText: [
-        "1 scoop de proteína de suero (chocolate)",
-        "1 cda de mantequilla de almendras",
-        "200ml de leche de almendras sin azúcar",
-        "Hielo al gusto"
-      ],
-      steps: [
-        "Licúa todos los ingredientes a máxima potencia por 45 segundos.",
-        "Sirve en vaso alto y disfruta."
-      ],
-      macros: { calories: 320, protein: 30, fat: 16, carbs: 6 },
-      crmIngredients: [],
-      image: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?q=80&w=800&auto=format&fit=crop"
-    }
-  ]
+    retentionTarget: 95,
+    averageTicket: 250,
+    newMembersTarget: 25
+  }
 };
 
-export const getCRMDatabase = (): CRMDatabase => {
+export function getCRMDatabase(): CRMDatabase {
   if (typeof window === 'undefined') return DEFAULT_DB;
   
-  const data = localStorage.getItem(STORAGE_KEY);
-  if (!data) {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (!saved) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DB));
     return DEFAULT_DB;
   }
+  
   try {
-    const parsed = JSON.parse(data) as CRMDatabase;
-    // Backward compatibility merge
-    return {
-      ...DEFAULT_DB,
-      ...parsed,
-      students: parsed.students || DEFAULT_DB.students,
-      marketingTasks: parsed.marketingTasks || DEFAULT_DB.marketingTasks,
-      sopsList: parsed.sopsList || DEFAULT_DB.sopsList,
-      claimsTickets: parsed.claimsTickets || DEFAULT_DB.claimsTickets,
-      showcaseItems: parsed.showcaseItems || DEFAULT_DB.showcaseItems,
-      inventory: parsed.inventory || DEFAULT_DB.inventory,
-      monthlyBoard: parsed.monthlyBoard || DEFAULT_DB.monthlyBoard
-    };
-  } catch (e) {
-    console.error('Error parsing CRM DB:', e);
+    return JSON.parse(saved);
+  } catch (err) {
+    console.error("Error al parsear CRMDatabase de localStorage:", err);
     return DEFAULT_DB;
   }
-};
+}
 
-export const saveCRMDatabase = (dbData: CRMDatabase) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dbData));
-    
-    // Sync with Firebase in the background
+export function saveCRMDatabase(db: CRMDatabase) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+
+  // Sync back to cloud in background
+  if (firestoreDb) {
     try {
       const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
-      setDoc(docRef, dbData, { merge: true }).catch(err => console.error("Firebase sync error:", err));
+      setDoc(docRef, db, { merge: true }).catch(err => {
+        console.warn("Error sincronizando a Firebase:", err);
+      });
     } catch (e) {
-      console.warn("Firebase not configured properly, skipping cloud sync.");
+      console.warn("Firebase no disponible:", e);
     }
   }
-};
+}
 
-export const syncFromCloud = async (): Promise<CRMDatabase | null> => {
+export async function syncFromCloud(): Promise<CRMDatabase> {
+  if (typeof window === 'undefined') return DEFAULT_DB;
+
+  if (!firestoreDb) return getCRMDatabase();
+
   try {
     const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const cloudData = docSnap.data() as CRMDatabase;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudData));
-      }
-      return cloudData;
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      const data = snap.data() as CRMDatabase;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      return data;
     }
-  } catch (e) {
-    console.warn("Failed to sync from cloud", e);
+  } catch (err) {
+    console.warn("No se pudo obtener datos de la nube, usando local:", err);
   }
-  return null;
-};
+
+  return getCRMDatabase();
+}
