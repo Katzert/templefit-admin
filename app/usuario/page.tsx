@@ -35,12 +35,14 @@ export default function UsuarioPage() {
       
       // Atletas
       case 'directory': return hasRole('instructor') ? <Module18Directory onNavigate={setActiveTab} /> : <HomePage onNavigate={setActiveTab} />;
-      case 'profile': return <Module1Profile />;
+      case 'profile':
+      case 'team-ops': return <Module1Profile onNavigate={setActiveTab} />;
       
       // Negocio / Finanzas
-      case 'sales-pipeline': return hasRole('admin') ? <Module30SalesPipeline /> : <HomePage onNavigate={setActiveTab} />;
-      case 'leads-pipeline': return hasRole('admin') ? <Module12LeadsPipeline /> : <HomePage onNavigate={setActiveTab} />;
-      case 'finance-ledger': return hasRole('admin') ? <Module13FinanceLedger /> : <HomePage onNavigate={setActiveTab} />;
+      case 'sales-pipeline': return hasRole('admin') ? <Module30SalesPipeline onNavigate={setActiveTab} /> : <HomePage onNavigate={setActiveTab} />;
+      case 'leads-pipeline': return hasRole('admin') ? <Module12LeadsPipeline onNavigate={setActiveTab} /> : <HomePage onNavigate={setActiveTab} />;
+      case 'finance-ledger':
+      case 'financial': return hasRole('admin') ? <Module13FinanceLedger /> : <HomePage onNavigate={setActiveTab} />;
       case 'showcase': return hasRole('admin') ? <Module14Showcase /> : <HomePage onNavigate={setActiveTab} />;
       case 'inventory': return hasRole('admin') ? <Module14Inventory /> : <HomePage onNavigate={setActiveTab} />;
       case 'recipes': return hasRole('admin') ? <Module20Recipes /> : <HomePage onNavigate={setActiveTab} />;

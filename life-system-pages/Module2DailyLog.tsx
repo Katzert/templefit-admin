@@ -158,7 +158,9 @@ export function Module2DailyLog() {
         </div>
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <p className="text-xl md:text-2xl font-black text-white">23 de Julio, 2026</p>
+            <p className="text-xl md:text-2xl font-black text-white capitalize">
+              {new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())}
+            </p>
             <p className="text-[10px] text-temple-gold uppercase tracking-widest font-extrabold">Racha Actual: 7 Días Seguidos 🔥</p>
           </div>
           <Button onClick={handleSave} className="bg-temple-gold text-black hover:bg-amber-400 font-extrabold text-xs uppercase tracking-widest px-6 h-12 rounded-xl shadow-lg">

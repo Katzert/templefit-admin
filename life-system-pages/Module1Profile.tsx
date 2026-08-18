@@ -6,19 +6,40 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { InlineEdit } from '../components/ui/inline-edit';
 import { FieldLabel } from '../components/ui/field-label';
 import { useAuth } from '../context/AuthContext';
-import { User, Quote, Activity } from 'lucide-react';
+import { getCRMDatabase, saveCRMDatabase } from '../store';
+import { Student } from '../types';
+import { 
+  User, 
+  Activity, 
+  ArrowLeft, 
+  ShieldCheck, 
+  Heart, 
+  BrainCircuit, 
+  Flame, 
+  Scale, 
+  Phone, 
+  Mail, 
+  Calendar,
+  Save,
+  CheckCircle2
+} from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } } };
 
-export function Module1Profile() {
-  const { selectedStudent } = useAuth();
+interface Module1ProfileProps {
+  onNavigate?: (tab: string) => void;
+}
 
+export function Module1Profile({ onNavigate }: Module1ProfileProps) {
+  const { selectedStudent, setSelectedStudent } = useAuth();
+  const [allStudents, setAllStudents] = useState<Student[]>([]);
+  const [showSavedToast, setShowSavedToast] = useState(false);
+
+  // Student Fields
   const [traits, setTraits] = useState("");
   const [admires, setAdmires] = useState("");
   const [purpose, setPurpose] = useState("");
-  
-  // Structured Medical Profile
   const [heightCm, setHeightCm] = useState(170);
   const [weightKg, setWeightKg] = useState(70);
   const [bloodType, setBloodType] = useState("O+");
@@ -27,263 +48,346 @@ export function Module1Profile() {
   const [paymentMethod, setPaymentMethod] = useState("QR / Efectivo");
   const [sessions, setSessions] = useState("3 veces por semana");
   const [nutritionPlan, setNutritionPlan] = useState("Plan Base Anti-inflamatorio");
+  const [mentorshipNotes, setMentorshipNotes] = useState("");
 
   const profileKey = `templefit_profile_v3_${selectedStudent?.email || 'default'}`;
+
+  // Load all students for the quick switcher
+  useEffect(() => {
+    const db = getCRMDatabase();
+    setAllStudents(db.students || []);
+    if (!selectedStudent && db.students && db.students.length > 0) {
+      setSelectedStudent(db.students[0]);
+    }
+  }, [selectedStudent, setSelectedStudent]);
 
   // Load profile when selected student changes
   useEffect(() => {
     if (!selectedStudent) return;
-    const saved = localStorage.getItem(profileKey);
-    // Backward compatibility for old key
-    const oldSaved = localStorage.getItem(`templefit_profile_v2_${selectedStudent?.email || 'default'}`);
     
+    setWeightKg(selectedStudent.weightKg || 70);
+    setNutritionPlan(selectedStudent.nutritionPlan || "Plan Base Anti-inflamatorio");
+    setAllergies(selectedStudent.allergiesOrRestrictions || "Ninguna");
+    setPurpose(selectedStudent.spiritualIntention || selectedStudent.physicalGoal || "Fortalecer cuerpo y espíritu.");
+    setMentorshipNotes(selectedStudent.mentorshipNotes || "");
+
+    const saved = localStorage.getItem(profileKey);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         setTraits(parsed.traits || "Disciplinado, Resiliente, Líder");
-        setAdmires(parsed.admires || "David Goggins por su fuerza mental.");
-        setPurpose(parsed.purpose || "Construir una vida de impacto.");
+        setAdmires(parsed.admires || "David Goggins / Referentes Bíblicos");
         setHeightCm(parsed.heightCm || 170);
-        setWeightKg(parsed.weightKg || 70);
         setBloodType(parsed.bloodType || "O+");
-        setAllergies(parsed.allergies || "Ninguna");
-        setRoutine(parsed.routine || "Rutina no asignada");
+        setRoutine(parsed.routine || selectedStudent.plan || "Rutina no asignada");
         setPaymentMethod(parsed.paymentMethod || "QR / Efectivo");
-        setSessions(parsed.sessions || "3 veces por semana");
-        setNutritionPlan(parsed.nutritionPlan || "Plan Base Anti-inflamatorio");
+        setSessions(parsed.sessions || "Lunes a Viernes");
       } catch (e) {
         // Fallback
       }
-    } else if (oldSaved) {
-      try {
-        const parsed = JSON.parse(oldSaved);
-        setTraits(parsed.traits || "Disciplinado, Resiliente, Líder");
-        setAdmires(parsed.admires || "David Goggins por su fuerza mental.");
-        setPurpose(parsed.purpose || "Construir una vida de impacto.");
-        setHeightCm(parsed.heightCm || 170);
-        setWeightKg(parsed.weightKg || 70);
-        setBloodType(parsed.bloodType || "O+");
-        setAllergies(parsed.allergies || "Ninguna");
-        setRoutine(parsed.routine || "Rutina no asignada");
-        setPaymentMethod(parsed.paymentMethod || "QR / Efectivo");
-        setSessions(parsed.sessions || "3 veces por semana");
-        setNutritionPlan(parsed.nutritionPlan || "Plan Base Anti-inflamatorio");
-      } catch (e) {}
     } else {
       setTraits("Disciplinado, Resiliente, Líder");
-      setAdmires("David Goggins por su fuerza mental.");
-      setPurpose("Construir una vida de impacto, guiando a otros a través del ejemplo de fortaleza física, mental y espiritual.");
+      setAdmires("David Goggins / Referentes Bíblicos");
       setHeightCm(170);
-      setWeightKg(70);
       setBloodType("O+");
-      setAllergies("Ninguna");
-      setRoutine("Rutina no asignada");
+      setRoutine(selectedStudent.plan || "Rutina no asignada");
       setPaymentMethod("QR / Efectivo");
-      setSessions("3 veces por semana");
-      setNutritionPlan("Plan Base Anti-inflamatorio");
+      setSessions("Lunes a Viernes");
     }
   }, [selectedStudent, profileKey]);
 
-  const handleSave = (field: 'traits' | 'admires' | 'purpose' | 'heightCm' | 'weightKg' | 'bloodType' | 'allergies' | 'routine' | 'paymentMethod' | 'sessions' | 'nutritionPlan', newValue: any) => {
+  const handleSaveField = (field: string, newValue: any) => {
     if (!selectedStudent) return;
-    const current = { traits, admires, purpose, heightCm, weightKg, bloodType, allergies, routine, paymentMethod, sessions, nutritionPlan, [field]: newValue };
-    
-    localStorage.setItem(profileKey, JSON.stringify(current));
-    
+
+    // Save in student-specific profile
+    const currentLocal = { traits, admires, purpose, heightCm, weightKg, bloodType, allergies, routine, paymentMethod, sessions, nutritionPlan, mentorshipNotes, [field]: newValue };
+    localStorage.setItem(profileKey, JSON.stringify(currentLocal));
+
+    // Also update root student database
+    const db = getCRMDatabase();
+    const updatedStudents = db.students.map(s => {
+      if (s.id === selectedStudent.id) {
+        const updated = { ...s };
+        if (field === 'weightKg') updated.weightKg = Number(newValue);
+        if (field === 'nutritionPlan') updated.nutritionPlan = String(newValue);
+        if (field === 'allergies') updated.allergiesOrRestrictions = String(newValue);
+        if (field === 'purpose') updated.spiritualIntention = String(newValue);
+        if (field === 'mentorshipNotes') updated.mentorshipNotes = String(newValue);
+        return updated;
+      }
+      return s;
+    });
+
+    db.students = updatedStudents;
+    saveCRMDatabase(db);
+
+    // Update state
     if (field === 'traits') setTraits(newValue);
     if (field === 'admires') setAdmires(newValue);
     if (field === 'purpose') setPurpose(newValue);
-    if (field === 'heightCm') setHeightCm(newValue);
-    if (field === 'weightKg') setWeightKg(newValue);
+    if (field === 'heightCm') setHeightCm(Number(newValue));
+    if (field === 'weightKg') setWeightKg(Number(newValue));
     if (field === 'bloodType') setBloodType(newValue);
     if (field === 'allergies') setAllergies(newValue);
     if (field === 'routine') setRoutine(newValue);
     if (field === 'paymentMethod') setPaymentMethod(newValue);
     if (field === 'sessions') setSessions(newValue);
     if (field === 'nutritionPlan') setNutritionPlan(newValue);
+    if (field === 'mentorshipNotes') setMentorshipNotes(newValue);
+
+    setShowSavedToast(true);
+    setTimeout(() => setShowSavedToast(false), 2000);
   };
 
-  const bmi = (weightKg / Math.pow(heightCm / 100, 2)).toFixed(1);
+  const bmi = (weightKg / Math.pow((heightCm || 170) / 100, 2)).toFixed(1);
   const getBmiStatus = (bmiValue: number) => {
-    if (bmiValue < 18.5) return { label: 'Bajo peso', color: 'text-blue-400' };
-    if (bmiValue < 25) return { label: 'Saludable', color: 'text-emerald-400' };
-    if (bmiValue < 30) return { label: 'Sobrepeso', color: 'text-orange-400' };
-    return { label: 'Obesidad', color: 'text-red-400' };
+    if (bmiValue < 18.5) return { label: 'Bajo peso', color: 'text-blue-400', bg: 'bg-blue-500/20' };
+    if (bmiValue < 25) return { label: 'Saludable / Óptimo', color: 'text-emerald-400', bg: 'bg-emerald-500/20' };
+    if (bmiValue < 30) return { label: 'Sobrepeso Leve', color: 'text-amber-400', bg: 'bg-amber-500/20' };
+    return { label: 'Recomposición Requerida', color: 'text-red-400', bg: 'bg-red-500/20' };
   };
   const bmiStatus = getBmiStatus(Number(bmi));
 
+  if (!selectedStudent) {
+    return (
+      <div className="text-center py-16">
+        <User size={48} className="text-gray-600 mx-auto mb-4" />
+        <h3 className="text-xl font-bold text-white mb-2">No hay ningún atleta seleccionado</h3>
+        <p className="text-sm text-gray-400 mb-6">Selecciona un atleta desde el Directorio para abrir su expediente.</p>
+        <button
+          onClick={() => onNavigate?.('directory')}
+          className="px-6 py-2.5 bg-temple-gold text-black rounded-xl font-bold uppercase text-xs hover:bg-amber-400 transition"
+        >
+          Ir al Directorio
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 md:space-y-8 pb-12">
-      <motion.div variants={item}>
-        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">
-          FICHA <span className="text-temple-gold">MÉDICA</span>
-        </h2>
-        <p className="text-sm text-gray-400 mt-1 uppercase tracking-widest border-l-2 border-temple-gold pl-3">
-          Datos Biométricos y Planificación Física del Alumno
-        </p>
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 md:space-y-8 pb-12 font-sans relative">
+      {/* Toast */}
+      {showSavedToast && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="fixed bottom-6 right-6 z-50 bg-emerald-500 text-black px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-2xl"
+        >
+          <CheckCircle2 size={16} />
+          <span>Ficha Actualizada</span>
+        </motion.div>
+      )}
+
+      {/* Header & Quick Switcher */}
+      <motion.div variants={item} className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => onNavigate?.('directory')}
+            className="p-3 bg-white/5 hover:bg-white/10 rounded-2xl text-temple-gold border border-white/10 transition flex items-center gap-2 text-xs font-bold uppercase tracking-wider"
+          >
+            <ArrowLeft size={16} />
+            <span className="hidden sm:inline">Directorio</span>
+          </button>
+          <div>
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-temple-gold">
+              Expediente Holístico de 3 Pilares
+            </span>
+            <h2 className="text-2xl md:text-4xl font-serif font-black uppercase text-white tracking-tight">
+              {selectedStudent.name}
+            </h2>
+          </div>
+        </div>
+
+        {/* Quick Athlete Switcher */}
+        <div className="flex items-center gap-3 bg-black/40 border border-white/10 p-2 rounded-2xl">
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider pl-2">Cambiar:</span>
+          <select
+            value={selectedStudent.id}
+            onChange={(e) => {
+              const std = allStudents.find(s => s.id === e.target.value);
+              if (std) setSelectedStudent(std);
+            }}
+            className="bg-[#121826] text-white text-xs font-bold px-3 py-2 rounded-xl border border-white/10 focus:outline-none focus:border-temple-gold/50 cursor-pointer max-w-[200px] truncate"
+          >
+            {allStudents.map(s => (
+              <option key={s.id} value={s.id} className="bg-[#121826] text-white">
+                {s.name} ({s.escuadronId || 'Alfa-1'})
+              </option>
+            ))}
+          </select>
+        </div>
       </motion.div>
 
+      {/* Athlete Snapshot Bar */}
+      <motion.div variants={item} className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Escuadrón</p>
+          <p className="text-lg font-black text-temple-gold">{selectedStudent.escuadronId || 'Alfa-1'}</p>
+        </div>
+        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Fase del Programa</p>
+          <p className="text-sm font-black text-white">{selectedStudent.phase}</p>
+        </div>
+        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Plan</p>
+          <p className="text-sm font-black text-white">{selectedStudent.plan}</p>
+        </div>
+        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Estado de Membresía</p>
+          <p className="text-xs font-black uppercase text-emerald-400 flex items-center gap-1 mt-1">
+            <ShieldCheck size={13} /> {selectedStudent.status}
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Main 2-Column Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column: Mente & Espíritu */}
         <div className="lg:col-span-6 space-y-6">
           <motion.div variants={item}>
-            <Card className="border-t-4 border-t-temple-gold h-full">
+            <Card className="border-temple-gold/30 bg-[#0E1424]/90 backdrop-blur-xl h-full shadow-2xl">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  <User className="text-temple-gold" size={20} />
-                  Perfil del Alumno
+                <CardTitle className="flex items-center gap-2.5 text-lg font-black uppercase tracking-wider text-white">
+                  <BrainCircuit className="text-temple-gold" size={20} />
+                  Pilar Mente & Espíritu (Coaching)
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-5">
                 <div>
                   <FieldLabel
-                    label="Rasgos Principales"
-                    tooltip="Cualidades físicas o mentales observadas en el alumno."
-                  />
-                  <InlineEdit 
-                    value={traits} 
-                    onSave={(val) => handleSave('traits', val)} 
-                    multiline 
-                    placeholder="Ej. Disciplinado, perseverante..." 
-                  />
-                </div>
-                <div>
-                  <FieldLabel
-                    label="Motivación / Referente"
-                    tooltip="¿Qué o a quién admira este alumno? Útil para la motivación."
-                  />
-                  <InlineEdit 
-                    value={admires} 
-                    onSave={(val) => handleSave('admires', val)} 
-                    multiline 
-                    placeholder="Ej. David Goggins..." 
-                  />
-                </div>
-                <div>
-                  <FieldLabel
-                    label="Objetivo Principal"
-                    tooltip="¿Cuál es la meta final que busca conseguir?"
+                    label="Propósito & Intención Espiritual"
+                    tooltip="Objetivo devocional, de oración o mental del atleta."
                   />
                   <InlineEdit
                     value={purpose}
-                    onSave={(val) => handleSave('purpose', val)}
+                    onSave={(val) => handleSaveField('purpose', val)}
                     multiline
-                    className="font-serif text-lg font-bold leading-relaxed text-temple-gold-bright"
-                    placeholder="Ej. Bajar 10kg, aumentar masa muscular..."
+                    className="font-serif text-sm md:text-base font-bold leading-relaxed text-temple-gold"
+                    placeholder="Ej. Consistencia en devocionales y oración matutina..."
                   />
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-white/5">
-                  <div>
-                    <FieldLabel label="Forma de Pago" />
-                    <InlineEdit value={paymentMethod} onSave={(val) => handleSave('paymentMethod', val)} placeholder="Ej. QR, Efectivo" />
-                  </div>
-                  <div>
-                    <FieldLabel label="Sesiones / Asistencia" />
-                    <InlineEdit value={sessions} onSave={(val) => handleSave('sessions', val)} placeholder="Ej. Lunes a Viernes" />
-                  </div>
-                  <div className="md:col-span-2">
-                    <FieldLabel label="Alimentación / Nutrición" />
-                    <InlineEdit value={nutritionPlan} onSave={(val) => handleSave('nutritionPlan', val)} placeholder="Ej. Keto, Ayuno 16/8..." />
-                  </div>
+
+                <div>
+                  <FieldLabel
+                    label="Rasgos y Fortalezas Observadas"
+                    tooltip="Cualidades de carácter, disciplina o liderazgo observadas por el coach."
+                  />
+                  <InlineEdit 
+                    value={traits} 
+                    onSave={(val) => handleSaveField('traits', val)} 
+                    multiline 
+                    placeholder="Ej. Disciplinado, perseverante, buen líder de equipo..." 
+                  />
+                </div>
+
+                <div>
+                  <FieldLabel
+                    label="Notas de Mentoría & Seguimiento"
+                    tooltip="Bitácora de progreso, recomendaciones o puntos a reforzar."
+                  />
+                  <InlineEdit 
+                    value={mentorshipNotes} 
+                    onSave={(val) => handleSaveField('mentorshipNotes', val)} 
+                    multiline 
+                    placeholder="Ej. Excelente asistencia a CristoFit Camp. Seguir monitoreando..." 
+                  />
+                </div>
+
+                <div className="pt-2 border-t border-white/10">
+                  <FieldLabel label="Alimentación / Nutrición Preventiva (Alianza AbuelaFit)" />
+                  <InlineEdit 
+                    value={nutritionPlan} 
+                    onSave={(val) => handleSaveField('nutritionPlan', val)} 
+                    placeholder="Ej. Plan Anti-inflamatorio + Proteína Limpia..." 
+                  />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
         </div>
 
-        <div className="lg:col-span-6">
-          <motion.div variants={item} className="h-full">
-            <Card className="border-t-4 border-t-temple-red/70 bg-gradient-to-br from-black to-temple-navy-dark/30 h-full">
+        {/* Right Column: Cuerpo & Biometría */}
+        <div className="lg:col-span-6 space-y-6">
+          <motion.div variants={item}>
+            <Card className="border-white/10 bg-[#0E1424]/90 backdrop-blur-xl h-full shadow-2xl">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  <Activity className="text-temple-red/70" size={20} />
-                  Ficha Biométrica
+                <CardTitle className="flex items-center gap-2.5 text-lg font-black uppercase tracking-wider text-white">
+                  <Activity className="text-red-400" size={20} />
+                  Pilar Cuerpo & Ficha Biométrica
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  {/* Weight Dial */}
-                  <div className="relative bg-[#050505] p-6 rounded-2xl border border-white/10 flex flex-col items-center justify-center group shadow-xl">
-                    <svg className="absolute w-32 h-32 -rotate-90">
-                      <circle cx="64" cy="64" r="58" className="stroke-white/5 fill-none" strokeWidth="6" />
-                      <circle cx="64" cy="64" r="58" className="stroke-temple-gold fill-none transition-all duration-1000" strokeWidth="6" strokeDasharray="364" strokeDashoffset={364 - (364 * Math.min(weightKg, 150) / 150)} strokeLinecap="round" />
-                    </svg>
-                    <div className="relative z-10 flex flex-col items-center">
-                      <input 
-                        type="number" 
-                        value={weightKg} 
-                        onChange={e => handleSave('weightKg', Number(e.target.value))}
-                        className="bg-transparent text-white text-3xl font-black text-center w-20 focus:outline-none focus:text-temple-gold transition-colors"
-                      />
-                      <span className="text-[9px] text-gray-500 uppercase tracking-widest font-bold mt-1">Peso (kg)</span>
-                    </div>
+              <CardContent className="space-y-5">
+                {/* IMC Score Box */}
+                <div className="p-4 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Índice Masa Corporal (IMC)</span>
+                    <p className="text-3xl font-black text-white">{bmi}</p>
                   </div>
+                  <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${bmiStatus.bg} ${bmiStatus.color}`}>
+                    {bmiStatus.label}
+                  </span>
+                </div>
 
-                  {/* Height Dial */}
-                  <div className="relative bg-[#050505] p-6 rounded-2xl border border-white/10 flex flex-col items-center justify-center group shadow-xl">
-                    <svg className="absolute w-32 h-32 -rotate-90">
-                      <circle cx="64" cy="64" r="58" className="stroke-white/5 fill-none" strokeWidth="6" />
-                      <circle cx="64" cy="64" r="58" className="stroke-amber-600 fill-none transition-all duration-1000" strokeWidth="6" strokeDasharray="364" strokeDashoffset={364 - (364 * Math.min(heightCm, 220) / 220)} strokeLinecap="round" />
-                    </svg>
-                    <div className="relative z-10 flex flex-col items-center">
-                      <input 
-                        type="number" 
-                        value={heightCm} 
-                        onChange={e => handleSave('heightCm', Number(e.target.value))}
-                        className="bg-transparent text-white text-3xl font-black text-center w-20 focus:outline-none focus:text-amber-500 transition-colors"
-                      />
-                      <span className="text-[9px] text-gray-500 uppercase tracking-widest font-bold mt-1">Altura (cm)</span>
-                    </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <FieldLabel label="Peso (Kg)" />
+                    <InlineEdit 
+                      value={String(weightKg)} 
+                      onSave={(val) => handleSaveField('weightKg', Number(val) || 70)} 
+                      placeholder="70" 
+                    />
                   </div>
-
-                  {/* IMC Dial */}
-                  <div className="relative bg-[#050505] p-6 rounded-2xl border border-white/10 flex flex-col items-center justify-center group shadow-xl">
-                    <svg className="absolute w-32 h-32 -rotate-90">
-                      <circle cx="64" cy="64" r="58" className="stroke-white/5 fill-none" strokeWidth="6" />
-                      <circle cx="64" cy="64" r="58" className={`fill-none transition-all duration-1000 ${bmiStatus.color === 'text-green-400' ? 'stroke-green-400' : bmiStatus.color === 'text-temple-gold' ? 'stroke-temple-gold' : 'stroke-red-500'}`} strokeWidth="6" strokeDasharray="364" strokeDashoffset={364 - (364 * Math.min(Number(bmi), 40) / 40)} strokeLinecap="round" />
-                    </svg>
-                    <div className="relative z-10 flex flex-col items-center">
-                      <span className="text-white text-3xl font-black text-center">{bmi}</span>
-                      <span className={`text-[9px] uppercase tracking-widest font-bold mt-1 ${bmiStatus.color}`}>{bmiStatus.label}</span>
-                    </div>
+                  <div>
+                    <FieldLabel label="Altura (cm)" />
+                    <InlineEdit 
+                      value={String(heightCm)} 
+                      onSave={(val) => handleSaveField('heightCm', Number(val) || 170)} 
+                      placeholder="170" 
+                    />
+                  </div>
+                  <div>
+                    <FieldLabel label="Grupo Sanguíneo" />
+                    <InlineEdit 
+                      value={bloodType} 
+                      onSave={(val) => handleSaveField('bloodType', val)} 
+                      placeholder="O+" 
+                    />
+                  </div>
+                  <div>
+                    <FieldLabel label="Alergias o Restricciones" />
+                    <InlineEdit 
+                      value={allergies} 
+                      onSave={(val) => handleSaveField('allergies', val)} 
+                      placeholder="Ninguna" 
+                    />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-white/10">
                   <div>
-                    <FieldLabel label="Tipo de Sangre" />
-                    <select 
-                      value={bloodType} 
-                      onChange={e => handleSave('bloodType', e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 text-white font-bold p-3 rounded-xl focus:border-temple-red/50 outline-none"
-                    >
-                      <option value="O+">O Positivo (O+)</option>
-                      <option value="O-">O Negativo (O-)</option>
-                      <option value="A+">A Positivo (A+)</option>
-                      <option value="A-">A Negativo (A-)</option>
-                      <option value="B+">B Positivo (B+)</option>
-                      <option value="B-">B Negativo (B-)</option>
-                      <option value="AB+">AB Positivo (AB+)</option>
-                      <option value="AB-">AB Negativo (AB-)</option>
-                    </select>
+                    <FieldLabel label="Forma de Pago Registrada" />
+                    <InlineEdit 
+                      value={paymentMethod} 
+                      onSave={(val) => handleSaveField('paymentMethod', val)} 
+                      placeholder="QR / Efectivo" 
+                    />
                   </div>
                   <div>
-                    <FieldLabel label="Alergias / Lesiones" />
-                    <InlineEdit
-                      value={allergies}
-                      onSave={(val) => handleSave('allergies', val)}
-                      placeholder="Ej. Lesión de rodilla, alergia al maní..."
+                    <FieldLabel label="Frecuencia Semanal" />
+                    <InlineEdit 
+                      value={sessions} 
+                      onSave={(val) => handleSaveField('sessions', val)} 
+                      placeholder="Lunes a Viernes" 
                     />
                   </div>
                 </div>
 
                 <div>
-                  <FieldLabel label="Rutina de Fuerza" />
-                  <InlineEdit
-                    value={routine}
-                    onSave={(val) => handleSave('routine', val)}
-                    multiline
-                    placeholder="Detalla aquí los ejercicios, enfoque y plan de alimentación..."
+                  <FieldLabel label="Rutina de Entrenamiento Asignada" />
+                  <InlineEdit 
+                    value={routine} 
+                    onSave={(val) => handleSaveField('routine', val)} 
+                    placeholder="Ej. Crossfit Funcional + Calistenia" 
                   />
                 </div>
               </CardContent>

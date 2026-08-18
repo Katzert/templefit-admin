@@ -3,7 +3,11 @@ import { Search, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 
-export function GlobalSearch() {
+interface GlobalSearchProps {
+  onNavigate?: (tab: string) => void;
+}
+
+export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
   const { students, selectedStudent, setSelectedStudent, hasRole } = useAuth();
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -66,6 +70,7 @@ export function GlobalSearch() {
                       setSelectedStudent(student);
                       setIsOpen(false);
                       setQuery('');
+                      onNavigate?.('profile');
                     }}
                     className={`w-full text-left px-4 py-3 hover:bg-white/5 transition flex items-center gap-3 ${selectedStudent?.id === student.id ? 'bg-temple-gold/10' : ''}`}
                   >

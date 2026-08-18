@@ -241,7 +241,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
           </div>
           
           <div className="flex items-center gap-6">
-            <GlobalSearch />
+            <GlobalSearch onNavigate={setActiveTab} />
             
             <div className="relative">
               <button 
