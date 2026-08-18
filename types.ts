@@ -33,6 +33,7 @@ export interface Student {
     merchandise: boolean;
     preventiveMedicine: boolean;
   };
+  avatarUrl?: string;
 }
 
 export interface Transaction {
@@ -109,6 +110,7 @@ export interface InventoryItem {
   minStock: number;
   size?: 'S' | 'M' | 'L' | 'XL' | 'N/A' | string;
   color?: string;
+  imageUrl?: string;
 }
 
 export interface CRMDatabase {

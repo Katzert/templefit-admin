@@ -221,13 +221,18 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <tr key={student.id} className="hover:bg-white/5 transition group">
                       <td className="py-4 pl-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-temple-gold/20 to-amber-500/10 border border-temple-gold/30 flex items-center justify-center text-temple-gold font-bold text-xs flex-shrink-0 shadow-md">
-                            {student.name.substring(0, 2).toUpperCase()}
+                          <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-temple-gold/20 to-amber-500/10 border border-temple-gold/30 flex items-center justify-center text-temple-gold font-bold text-xs flex-shrink-0 shadow-md">
+                            {student.avatarUrl ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={student.avatarUrl} alt={student.name} className="w-full h-full object-cover" />
+                            ) : (
+                              student.name.substring(0, 2).toUpperCase()
+                            )}
                           </div>
                           <div>
                             <p className="text-sm font-bold text-white group-hover:text-temple-gold transition">{student.name}</p>
                             <p className="text-[11px] text-gray-400">
-                              Escuadrón: <span className="text-temple-gold font-bold">{student.escuadronId || 'Alfa-1'}</span>
+                              Escuadrón: <span className="text-temple-gold font-bold">{student.escuadronId || 'Paz-Alfa'}</span>
                             </p>
                           </div>
                         </div>
@@ -330,6 +335,36 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
               </div>
 
               <form onSubmit={handleCreateStudent} className="space-y-4">
+                {/* Photo Upload */}
+                <div className="flex items-center gap-4 p-3 bg-black/40 border border-white/10 rounded-2xl">
+                  <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center text-temple-gold font-bold text-lg flex-shrink-0">
+                    {newAthlete.avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={newAthlete.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                    ) : (
+                      <span>{(newAthlete.name || 'TF').substring(0, 2).toUpperCase()}</span>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Foto del Atleta (Opcional)</label>
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      className="text-xs text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-temple-gold file:text-black hover:file:bg-amber-400 cursor-pointer"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            setNewAthlete({ ...newAthlete, avatarUrl: event.target?.result as string });
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Nombre Completo *</label>

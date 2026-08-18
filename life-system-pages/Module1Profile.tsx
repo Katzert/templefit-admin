@@ -22,7 +22,8 @@ import {
   Calendar,
   Save,
   CheckCircle2,
-  Edit3
+  Edit3,
+  Camera
 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -45,6 +46,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   const [phase, setPhase] = useState<Student['phase']>("1 - Iniciación");
   const [plan, setPlan] = useState<Student['plan']>("Reto 21 Días");
   const [status, setStatus] = useState<Student['status']>("active");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
 
   const [traits, setTraits] = useState("");
   const [admires, setAdmires] = useState("");
@@ -81,6 +83,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     setPhase(selectedStudent.phase || "1 - Iniciación");
     setPlan(selectedStudent.plan || "Reto 21 Días");
     setStatus(selectedStudent.status || "active");
+    setAvatarUrl(selectedStudent.avatarUrl || "");
 
     setWeightKg(selectedStudent.weightKg || 70);
     setNutritionPlan(selectedStudent.nutritionPlan || "ElectroHidra + Nutrición Anti-inflamatoria");
@@ -99,6 +102,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
         setRoutine(parsed.routine || selectedStudent.plan || "Calistenia + Crossfit + Combate Ético");
         setPaymentMethod(parsed.paymentMethod || "QR / Transferencia");
         setSessions(parsed.sessions || "Lunes a Viernes (06:00 AM)");
+        if (parsed.avatarUrl && !selectedStudent.avatarUrl) setAvatarUrl(parsed.avatarUrl);
       } catch (e) {
         // Fallback
       }
@@ -119,7 +123,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     // Save in student-specific profile
     const currentLocal = { 
       traits, admires, purpose, heightCm, weightKg, bloodType, allergies, 
-      routine, paymentMethod, sessions, nutritionPlan, mentorshipNotes, [field]: newValue 
+      routine, paymentMethod, sessions, nutritionPlan, mentorshipNotes, avatarUrl, [field]: newValue 
     };
     localStorage.setItem(profileKey, JSON.stringify(currentLocal));
 
@@ -137,6 +141,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
         if (field === 'phase') updated.phase = newValue;
         if (field === 'plan') updated.plan = newValue;
         if (field === 'status') updated.status = newValue;
+        if (field === 'avatarUrl') updated.avatarUrl = String(newValue);
         if (field === 'weightKg') updated.weightKg = Number(newValue);
         if (field === 'nutritionPlan') updated.nutritionPlan = String(newValue);
         if (field === 'allergies') updated.allergiesOrRestrictions = String(newValue);
@@ -162,6 +167,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     if (field === 'phase') setPhase(newValue);
     if (field === 'plan') setPlan(newValue);
     if (field === 'status') setStatus(newValue);
+    if (field === 'avatarUrl') setAvatarUrl(newValue);
     if (field === 'traits') setTraits(newValue);
     if (field === 'admires') setAdmires(newValue);
     if (field === 'purpose') setPurpose(newValue);
@@ -228,6 +234,40 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <ArrowLeft size={16} />
             <span className="hidden sm:inline">Directorio</span>
           </button>
+
+          {/* Avatar Upload Container */}
+          <div className="relative group cursor-pointer">
+            <label className="cursor-pointer block">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                      const base64 = event.target?.result as string;
+                      handleSaveField('avatarUrl', base64);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+              />
+              <div className="w-16 h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-temple-gold/20 to-amber-500/10 border-2 border-temple-gold/40 flex items-center justify-center text-temple-gold font-bold text-xl relative shadow-xl">
+                {avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />
+                ) : (
+                  <span>{(name || 'TF').substring(0, 2).toUpperCase()}</span>
+                )}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                  <Camera size={18} className="text-temple-gold" />
+                </div>
+              </div>
+            </label>
+          </div>
+
           <div>
             <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-temple-gold">
               Expediente Holístico de 3 Pilares
