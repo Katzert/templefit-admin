@@ -39,7 +39,7 @@ export interface Transaction {
   id: string;
   date: string;
   type: 'income' | 'expense';
-  category: 'membership' | 'snack' | 'merchandise' | 'medicine' | 'ads' | 'operations';
+  category: 'membership' | 'snack' | 'merchandise' | 'medicine' | 'courses' | 'ads' | 'operations' | 'rent';
   amount: number;
   description: string;
 }
@@ -102,12 +102,12 @@ export interface MentorshipSession {
 export interface InventoryItem {
   id: string;
   name: string;
-  category: 'snack' | 'apparel';
+  category: 'snack' | 'apparel' | 'suplementos';
   cost: number;
   price: number;
   stock: number;
   minStock: number;
-  size?: 'S' | 'M' | 'L' | 'XL' | 'N/A';
+  size?: 'S' | 'M' | 'L' | 'XL' | 'N/A' | string;
   color?: string;
 }
 

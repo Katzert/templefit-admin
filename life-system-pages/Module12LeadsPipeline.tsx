@@ -15,8 +15,10 @@ import {
   MessageSquare, 
   Trash2, 
   Sparkles,
+  Edit3,
   X,
-  Check
+  Check,
+  Save
 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
@@ -38,13 +40,15 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<LocalLeadStatus | 'todos'>('todos');
   
-  // Modal state
+  // Modal State (Add or Edit)
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newLead, setNewLead] = useState({
+  const [editingLeadId, setEditingLeadId] = useState<string | null>(null);
+  const [leadForm, setLeadForm] = useState({
     name: '',
     phone: '+591 ',
     source: 'instagram' as Lead['source'],
-    notes: ''
+    notes: '',
+    status: 'new' as LocalLeadStatus
   });
 
   useEffect(() => {
@@ -76,23 +80,54 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
     }
   };
 
-  const handleCreateLead = (e: React.FormEvent) => {
+  const handleOpenAddModal = () => {
+    setEditingLeadId(null);
+    setLeadForm({ name: '', phone: '+591 ', source: 'instagram', notes: '', status: 'new' });
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEditModal = (lead: Lead) => {
+    setEditingLeadId(lead.id);
+    setLeadForm({
+      name: lead.name,
+      phone: lead.phone,
+      source: lead.source,
+      notes: lead.notes,
+      status: lead.status
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleSubmitLead = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newLead.name) return;
+    if (!leadForm.name) return;
 
-    const lead: Lead = {
-      id: 'ld-' + Date.now(),
-      name: newLead.name,
-      phone: newLead.phone,
-      source: newLead.source,
-      status: 'new',
-      dateAdded: new Date().toISOString().split('T')[0],
-      notes: newLead.notes || 'Prospecto captado por canales digitales'
-    };
+    if (editingLeadId) {
+      const updated = leads.map(l => l.id === editingLeadId ? {
+        ...l,
+        name: leadForm.name,
+        phone: leadForm.phone,
+        source: leadForm.source,
+        notes: leadForm.notes,
+        status: leadForm.status
+      } : l);
+      saveLeads(updated);
+    } else {
+      const lead: Lead = {
+        id: 'ld-' + Date.now(),
+        name: leadForm.name,
+        phone: leadForm.phone,
+        source: leadForm.source,
+        status: leadForm.status,
+        dateAdded: new Date().toISOString().split('T')[0],
+        notes: leadForm.notes || 'Prospecto captado por canales digitales'
+      };
+      saveLeads([lead, ...leads]);
+    }
 
-    saveLeads([lead, ...leads]);
     setIsModalOpen(false);
-    setNewLead({ name: '', phone: '+591 ', source: 'instagram', notes: '' });
+    setEditingLeadId(null);
+    setLeadForm({ name: '', phone: '+591 ', source: 'instagram', notes: '', status: 'new' });
   };
 
   const updateLeadStatus = (id: string, newStatus: LocalLeadStatus) => {
@@ -101,7 +136,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
   };
 
   const handleDeleteLead = (id: string) => {
-    if (!confirm('¿Eliminar este prospecto?')) return;
+    if (!confirm('¿Eliminar este prospecto del CRM?')) return;
     saveLeads(leads.filter(l => l.id !== id));
   };
 
@@ -121,11 +156,11 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
       physicalGoal: 'Ganar disciplina y acondicionamiento inicial',
       weightKg: 70,
       workoutLevel: 'Principiante',
-      nutritionPlan: 'Plan Base Anti-inflamatorio',
+      nutritionPlan: 'ElectroHidra + Nutrición Anti-inflamatoria',
       allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Inicio de hábitos y devocional diario',
+      spiritualIntention: 'Inicio de hábitos y devocional 06:00 AM',
       mentorshipNotes: `Convertido desde CRM Prospectos (${lead.source}). Notas: ${lead.notes}`,
-      escuadronId: 'Alfa-1',
+      escuadronId: 'Paz-Alfa',
       phase: '1 - Iniciación',
       hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
     };
@@ -161,12 +196,12 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
               CRM de Captación & Leads
             </h2>
             <p className="text-xs md:text-sm text-gray-400 mt-1">
-              Seguimiento desde el primer contacto digital hasta la conversión a Atleta.
+              Seguimiento desde el primer contacto digital hasta la conversión a Atleta de Escuadrón.
             </p>
           </div>
           
           <button 
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleOpenAddModal}
             className="flex items-center gap-2 px-5 py-3 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max"
           >
             <Plus size={18} /> Nuevo Prospecto
@@ -211,13 +246,13 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
 
             {/* Leads Table */}
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse min-w-[750px]">
                 <thead>
                   <tr className="border-b border-white/10 text-[10px] uppercase tracking-[0.2em] text-gray-400">
                     <th className="pb-3 pl-4 font-black">Prospecto</th>
                     <th className="pb-3 font-black">Origen & Fecha</th>
                     <th className="pb-3 font-black">Estado del Embudo</th>
-                    <th className="pb-3 font-black">Notas / WhatsApp</th>
+                    <th className="pb-3 font-black">Notas / Seguimiento</th>
                     <th className="pb-3 text-right pr-4 font-black">Acciones</th>
                   </tr>
                 </thead>
@@ -225,8 +260,8 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   {filteredLeads.map(lead => (
                     <tr key={lead.id} className="hover:bg-white/5 transition group">
                       <td className="py-4 pl-4">
-                        <p className="text-sm font-bold text-white">{lead.name}</p>
-                        <p className="text-xs text-gray-400">{lead.phone}</p>
+                        <p className="text-sm font-bold text-white group-hover:text-temple-gold transition">{lead.name}</p>
+                        <p className="text-xs text-gray-400 font-mono">{lead.phone}</p>
                       </td>
                       <td className="py-4">
                         <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase font-bold text-temple-gold">
@@ -249,10 +284,10 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                         </select>
                       </td>
                       <td className="py-4 max-w-xs">
-                        <p className="text-xs text-gray-300 truncate">{lead.notes}</p>
+                        <p className="text-xs text-gray-300 truncate" title={lead.notes}>{lead.notes}</p>
                       </td>
                       <td className="py-4 pr-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
+                        <div className="flex items-center justify-end gap-1.5">
                           <a
                             href={`https://wa.me/${lead.phone?.replace(/[^0-9]/g, '') || '59170000000'}?text=${encodeURIComponent(
                               `¡Hola ${lead.name}! 👋 Te escribo de TempleFit. ¿Te gustaría agendar tu clase de prueba gratuita este sábado a las 6:00 AM en el CristoFit Camp?`
@@ -262,8 +297,16 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                             className="p-2 text-emerald-400 hover:bg-emerald-500/20 rounded-lg transition"
                             title="Chat WhatsApp"
                           >
-                            <MessageSquare size={16} />
+                            <MessageSquare size={15} />
                           </a>
+
+                          <button
+                            onClick={() => handleOpenEditModal(lead)}
+                            className="p-2 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition"
+                            title="Editar Prospecto"
+                          >
+                            <Edit3 size={15} />
+                          </button>
 
                           <button
                             onClick={() => handleConvertToAthlete(lead)}
@@ -301,7 +344,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
         </Card>
       </motion.div>
 
-      {/* Modal Nuevo Prospecto */}
+      {/* Modal Nuevo / Editar Prospecto */}
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
@@ -314,16 +357,18 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
               <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                 <div className="flex items-center gap-2">
                   <div className="p-2 rounded-xl bg-temple-gold/10 text-temple-gold border border-temple-gold/30">
-                    <Plus size={18} />
+                    {editingLeadId ? <Edit3 size={18} /> : <Plus size={18} />}
                   </div>
-                  <h3 className="text-lg font-black text-white uppercase tracking-wider">Nuevo Prospecto</h3>
+                  <h3 className="text-lg font-black text-white uppercase tracking-wider">
+                    {editingLeadId ? 'Editar Prospecto' : 'Nuevo Prospecto'}
+                  </h3>
                 </div>
                 <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-white transition">
                   <X size={20} />
                 </button>
               </div>
 
-              <form onSubmit={handleCreateLead} className="space-y-4">
+              <form onSubmit={handleSubmitLead} className="space-y-4">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Nombre Completo *</label>
                   <input 
@@ -331,8 +376,8 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     required
                     placeholder="Ej. Andrés Morales"
                     className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
-                    value={newLead.name}
-                    onChange={e => setNewLead({ ...newLead, name: e.target.value })}
+                    value={leadForm.name}
+                    onChange={e => setLeadForm({ ...leadForm, name: e.target.value })}
                   />
                 </div>
 
@@ -343,33 +388,51 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     required
                     placeholder="+591 71234567"
                     className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
-                    value={newLead.phone}
-                    onChange={e => setNewLead({ ...newLead, phone: e.target.value })}
+                    value={leadForm.phone}
+                    onChange={e => setLeadForm({ ...leadForm, phone: e.target.value })}
                   />
                 </div>
 
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Canal de Origen</label>
-                  <select 
-                    className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
-                    value={newLead.source}
-                    onChange={e => setNewLead({ ...newLead, source: e.target.value as any })}
-                  >
-                    <option className="bg-[#121826]" value="instagram">Instagram / Redes</option>
-                    <option className="bg-[#121826]" value="whatsapp">WhatsApp Directo</option>
-                    <option className="bg-[#121826]" value="referral">Recomendación de Atleta</option>
-                    <option className="bg-[#121826]" value="walk-in">Visita Presencial al Hub</option>
-                  </select>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Canal de Origen</label>
+                    <select 
+                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      value={leadForm.source}
+                      onChange={e => setLeadForm({ ...leadForm, source: e.target.value as any })}
+                    >
+                      <option className="bg-[#121826]" value="instagram">Instagram</option>
+                      <option className="bg-[#121826]" value="whatsapp">WhatsApp Directo</option>
+                      <option className="bg-[#121826]" value="referral">Recomendación</option>
+                      <option className="bg-[#121826]" value="walk-in">Visita Presencial</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Estado</label>
+                    <select 
+                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      value={leadForm.status}
+                      onChange={e => setLeadForm({ ...leadForm, status: e.target.value as any })}
+                    >
+                      <option className="bg-[#121826]" value="new">Nuevo</option>
+                      <option className="bg-[#121826]" value="contacted">Contactado</option>
+                      <option className="bg-[#121826]" value="appointment_set">Cita Agendada</option>
+                      <option className="bg-[#121826]" value="trial">En Prueba (F1)</option>
+                      <option className="bg-[#121826]" value="enrolled">Inscrito (F1)</option>
+                      <option className="bg-[#121826]" value="lost">Perdido</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Notas Iniciales</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Notas / Objetivo</label>
                   <textarea 
                     rows={2}
-                    placeholder="Interesado en Reto 21 Días o Crossfit..."
+                    placeholder="Interesado en Reto 21 Días, Crossfit o Neuro-Ventas..."
                     className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
-                    value={newLead.notes}
-                    onChange={e => setNewLead({ ...newLead, notes: e.target.value })}
+                    value={leadForm.notes}
+                    onChange={e => setLeadForm({ ...leadForm, notes: e.target.value })}
                   />
                 </div>
 
@@ -385,7 +448,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     type="submit"
                     className="px-6 py-2.5 bg-temple-gold text-black rounded-xl text-xs font-extrabold uppercase tracking-wider hover:bg-amber-400 transition shadow-lg shadow-temple-gold/20 flex items-center gap-2"
                   >
-                    <Check size={16} /> Guardar Prospecto
+                    <Check size={16} /> Guardar Cambios
                   </button>
                 </div>
               </form>

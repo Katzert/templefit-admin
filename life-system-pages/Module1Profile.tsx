@@ -21,7 +21,8 @@ import {
   Mail, 
   Calendar,
   Save,
-  CheckCircle2
+  CheckCircle2,
+  Edit3
 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -37,6 +38,14 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   const [showSavedToast, setShowSavedToast] = useState(false);
 
   // Student Fields
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [escuadronId, setEscuadronId] = useState("Paz-Alfa");
+  const [phase, setPhase] = useState<Student['phase']>("1 - Iniciación");
+  const [plan, setPlan] = useState<Student['plan']>("Reto 21 Días");
+  const [status, setStatus] = useState<Student['status']>("active");
+
   const [traits, setTraits] = useState("");
   const [admires, setAdmires] = useState("");
   const [purpose, setPurpose] = useState("");
@@ -46,7 +55,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   const [allergies, setAllergies] = useState("Ninguna");
   const [routine, setRoutine] = useState("Rutina no asignada");
   const [paymentMethod, setPaymentMethod] = useState("QR / Efectivo");
-  const [sessions, setSessions] = useState("3 veces por semana");
+  const [sessions, setSessions] = useState("Lunes a Viernes (06:00 AM)");
   const [nutritionPlan, setNutritionPlan] = useState("Plan Base Anti-inflamatorio");
   const [mentorshipNotes, setMentorshipNotes] = useState("");
 
@@ -65,34 +74,42 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   useEffect(() => {
     if (!selectedStudent) return;
     
+    setName(selectedStudent.name || "");
+    setPhone(selectedStudent.phone || "");
+    setEmail(selectedStudent.email || "");
+    setEscuadronId(selectedStudent.escuadronId || "Paz-Alfa");
+    setPhase(selectedStudent.phase || "1 - Iniciación");
+    setPlan(selectedStudent.plan || "Reto 21 Días");
+    setStatus(selectedStudent.status || "active");
+
     setWeightKg(selectedStudent.weightKg || 70);
-    setNutritionPlan(selectedStudent.nutritionPlan || "Plan Base Anti-inflamatorio");
+    setNutritionPlan(selectedStudent.nutritionPlan || "ElectroHidra + Nutrición Anti-inflamatoria");
     setAllergies(selectedStudent.allergiesOrRestrictions || "Ninguna");
-    setPurpose(selectedStudent.spiritualIntention || selectedStudent.physicalGoal || "Fortalecer cuerpo y espíritu.");
+    setPurpose(selectedStudent.spiritualIntention || selectedStudent.physicalGoal || "Fortalecer cuerpo, mente y espíritu.");
     setMentorshipNotes(selectedStudent.mentorshipNotes || "");
 
     const saved = localStorage.getItem(profileKey);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setTraits(parsed.traits || "Disciplinado, Resiliente, Líder");
-        setAdmires(parsed.admires || "David Goggins / Referentes Bíblicos");
+        setTraits(parsed.traits || "Disciplinado, Resiliente, Líder de Escuadrón");
+        setAdmires(parsed.admires || "David Goggins / Héroes Bíblicos");
         setHeightCm(parsed.heightCm || 170);
         setBloodType(parsed.bloodType || "O+");
-        setRoutine(parsed.routine || selectedStudent.plan || "Rutina no asignada");
-        setPaymentMethod(parsed.paymentMethod || "QR / Efectivo");
-        setSessions(parsed.sessions || "Lunes a Viernes");
+        setRoutine(parsed.routine || selectedStudent.plan || "Calistenia + Crossfit + Combate Ético");
+        setPaymentMethod(parsed.paymentMethod || "QR / Transferencia");
+        setSessions(parsed.sessions || "Lunes a Viernes (06:00 AM)");
       } catch (e) {
         // Fallback
       }
     } else {
-      setTraits("Disciplinado, Resiliente, Líder");
-      setAdmires("David Goggins / Referentes Bíblicos");
+      setTraits("Disciplinado, Resiliente, Líder de Escuadrón");
+      setAdmires("David Goggins / Héroes Bíblicos");
       setHeightCm(170);
       setBloodType("O+");
-      setRoutine(selectedStudent.plan || "Rutina no asignada");
-      setPaymentMethod("QR / Efectivo");
-      setSessions("Lunes a Viernes");
+      setRoutine("Calistenia + Crossfit + Combate Ético");
+      setPaymentMethod("QR / Transferencia");
+      setSessions("Lunes a Viernes (06:00 AM)");
     }
   }, [selectedStudent, profileKey]);
 
@@ -100,19 +117,33 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     if (!selectedStudent) return;
 
     // Save in student-specific profile
-    const currentLocal = { traits, admires, purpose, heightCm, weightKg, bloodType, allergies, routine, paymentMethod, sessions, nutritionPlan, mentorshipNotes, [field]: newValue };
+    const currentLocal = { 
+      traits, admires, purpose, heightCm, weightKg, bloodType, allergies, 
+      routine, paymentMethod, sessions, nutritionPlan, mentorshipNotes, [field]: newValue 
+    };
     localStorage.setItem(profileKey, JSON.stringify(currentLocal));
 
     // Also update root student database
     const db = getCRMDatabase();
+    let updatedActiveStudent = { ...selectedStudent };
+
     const updatedStudents = db.students.map(s => {
       if (s.id === selectedStudent.id) {
         const updated = { ...s };
+        if (field === 'name') updated.name = String(newValue);
+        if (field === 'phone') updated.phone = String(newValue);
+        if (field === 'email') updated.email = String(newValue);
+        if (field === 'escuadronId') updated.escuadronId = String(newValue);
+        if (field === 'phase') updated.phase = newValue;
+        if (field === 'plan') updated.plan = newValue;
+        if (field === 'status') updated.status = newValue;
         if (field === 'weightKg') updated.weightKg = Number(newValue);
         if (field === 'nutritionPlan') updated.nutritionPlan = String(newValue);
         if (field === 'allergies') updated.allergiesOrRestrictions = String(newValue);
         if (field === 'purpose') updated.spiritualIntention = String(newValue);
         if (field === 'mentorshipNotes') updated.mentorshipNotes = String(newValue);
+        
+        updatedActiveStudent = updated;
         return updated;
       }
       return s;
@@ -120,8 +151,17 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
     db.students = updatedStudents;
     saveCRMDatabase(db);
+    setSelectedStudent(updatedActiveStudent);
+    setAllStudents(updatedStudents);
 
-    // Update state
+    // Update component state
+    if (field === 'name') setName(newValue);
+    if (field === 'phone') setPhone(newValue);
+    if (field === 'email') setEmail(newValue);
+    if (field === 'escuadronId') setEscuadronId(newValue);
+    if (field === 'phase') setPhase(newValue);
+    if (field === 'plan') setPlan(newValue);
+    if (field === 'status') setStatus(newValue);
     if (field === 'traits') setTraits(newValue);
     if (field === 'admires') setAdmires(newValue);
     if (field === 'purpose') setPurpose(newValue);
@@ -174,7 +214,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           className="fixed bottom-6 right-6 z-50 bg-emerald-500 text-black px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-2xl"
         >
           <CheckCircle2 size={16} />
-          <span>Ficha Actualizada</span>
+          <span>Ficha Sincronizada</span>
         </motion.div>
       )}
 
@@ -192,15 +232,30 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-temple-gold">
               Expediente Holístico de 3 Pilares
             </span>
-            <h2 className="text-2xl md:text-4xl font-serif font-black uppercase text-white tracking-tight">
-              {selectedStudent.name}
-            </h2>
+            <div className="flex items-center gap-2">
+              <InlineEdit
+                value={name}
+                onSave={(val) => handleSaveField('name', val)}
+                className="text-2xl md:text-4xl font-serif font-black uppercase text-white tracking-tight"
+                placeholder="Nombre del Atleta"
+              />
+            </div>
+            <div className="flex flex-wrap items-center gap-4 mt-1 text-xs text-gray-400">
+              <div className="flex items-center gap-1.5">
+                <Phone size={13} className="text-temple-gold" />
+                <InlineEdit value={phone} onSave={(val) => handleSaveField('phone', val)} placeholder="+591 70000000" />
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Mail size={13} className="text-temple-gold" />
+                <InlineEdit value={email} onSave={(val) => handleSaveField('email', val)} placeholder="correo@templefit.com" />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Quick Athlete Switcher */}
         <div className="flex items-center gap-3 bg-black/40 border border-white/10 p-2 rounded-2xl">
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider pl-2">Cambiar:</span>
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider pl-2">Cambiar Atleta:</span>
           <select
             value={selectedStudent.id}
             onChange={(e) => {
@@ -211,32 +266,63 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           >
             {allStudents.map(s => (
               <option key={s.id} value={s.id} className="bg-[#121826] text-white">
-                {s.name} ({s.escuadronId || 'Alfa-1'})
+                {s.name} ({s.escuadronId || 'Paz-Alfa'})
               </option>
             ))}
           </select>
         </div>
       </motion.div>
 
-      {/* Athlete Snapshot Bar */}
+      {/* Athlete Snapshot Bar (Fully Editable Dropdowns) */}
       <motion.div variants={item} className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Escuadrón</p>
-          <p className="text-lg font-black text-temple-gold">{selectedStudent.escuadronId || 'Alfa-1'}</p>
+        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl space-y-1">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Escuadrón Asignado</p>
+          <InlineEdit 
+            value={escuadronId} 
+            onSave={(val) => handleSaveField('escuadronId', val)} 
+            className="text-base font-black text-temple-gold"
+            placeholder="Ej. Gedeón-1" 
+          />
         </div>
-        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
+
+        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl space-y-1">
           <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Fase del Programa</p>
-          <p className="text-sm font-black text-white">{selectedStudent.phase}</p>
+          <select
+            value={phase}
+            onChange={(e) => handleSaveField('phase', e.target.value as any)}
+            className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-white focus:outline-none focus:border-temple-gold cursor-pointer"
+          >
+            <option className="bg-[#121826]" value="1 - Iniciación">Fase 1 - Escuadrón de Paz</option>
+            <option className="bg-[#121826]" value="2 - Desarrollo">Fase 2 - Gedeón (21 Días)</option>
+            <option className="bg-[#121826]" value="3 - Perfeccionamiento">Fase 3 - Escuadrón de Cristo</option>
+          </select>
         </div>
-        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Plan</p>
-          <p className="text-sm font-black text-white">{selectedStudent.plan}</p>
+
+        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl space-y-1">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Plan de Membresía</p>
+          <select
+            value={plan}
+            onChange={(e) => handleSaveField('plan', e.target.value as any)}
+            className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-white focus:outline-none focus:border-temple-gold cursor-pointer"
+          >
+            <option className="bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
+            <option className="bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
+            <option className="bg-[#121826]" value="CristoFit Camp">CristoFit Camp</option>
+            <option className="bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1</option>
+          </select>
         </div>
-        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
+
+        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl space-y-1">
           <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Estado de Membresía</p>
-          <p className="text-xs font-black uppercase text-emerald-400 flex items-center gap-1 mt-1">
-            <ShieldCheck size={13} /> {selectedStudent.status}
-          </p>
+          <select
+            value={status}
+            onChange={(e) => handleSaveField('status', e.target.value as any)}
+            className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-emerald-400 focus:outline-none focus:border-temple-gold cursor-pointer uppercase"
+          >
+            <option className="bg-[#121826] text-emerald-400" value="active">Activo</option>
+            <option className="bg-[#121826] text-amber-400" value="expiring">Por Vencer</option>
+            <option className="bg-[#121826] text-red-400" value="inactive">Inactivo</option>
+          </select>
         </div>
       </motion.div>
 
@@ -249,14 +335,14 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2.5 text-lg font-black uppercase tracking-wider text-white">
                   <BrainCircuit className="text-temple-gold" size={20} />
-                  Pilar Mente & Espíritu (Coaching)
+                  Pilar Mente & Espíritu (Coaching & Fe)
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-5">
                 <div>
                   <FieldLabel
                     label="Propósito & Intención Espiritual"
-                    tooltip="Objetivo devocional, de oración o mental del atleta."
+                    tooltip="Objetivo devocional, oración 06:00 AM o mental del atleta."
                   />
                   <InlineEdit
                     value={purpose}
@@ -298,7 +384,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   <InlineEdit 
                     value={nutritionPlan} 
                     onSave={(val) => handleSaveField('nutritionPlan', val)} 
-                    placeholder="Ej. Plan Anti-inflamatorio + Proteína Limpia..." 
+                    placeholder="Ej. ElectroHidra + Nutrición Anti-inflamatoria..." 
                   />
                 </div>
               </CardContent>
@@ -369,15 +455,15 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     <InlineEdit 
                       value={paymentMethod} 
                       onSave={(val) => handleSaveField('paymentMethod', val)} 
-                      placeholder="QR / Efectivo" 
+                      placeholder="QR / Efectivo / Transferencia" 
                     />
                   </div>
                   <div>
-                    <FieldLabel label="Frecuencia Semanal" />
+                    <FieldLabel label="Frecuencia y Horario" />
                     <InlineEdit 
                       value={sessions} 
                       onSave={(val) => handleSaveField('sessions', val)} 
-                      placeholder="Lunes a Viernes" 
+                      placeholder="Lunes a Viernes (06:00 AM)" 
                     />
                   </div>
                 </div>
@@ -387,7 +473,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   <InlineEdit 
                     value={routine} 
                     onSave={(val) => handleSaveField('routine', val)} 
-                    placeholder="Ej. Crossfit Funcional + Calistenia" 
+                    placeholder="Ej. Calistenia + Crossfit + Combate Ético" 
                   />
                 </div>
               </CardContent>
