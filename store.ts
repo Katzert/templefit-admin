@@ -302,8 +302,37 @@ const DEFAULT_DB: CRMDatabase = {
       ], 
       suggestedPrice: 15 
     },
+    {
+      id: 'rec-2',
+      name: 'ElectroDetox Blast (Descanso & Autofagia)',
+      category: 'bebidas',
+      time: 10,
+      difficulty: 'Fácil',
+      servings: 1,
+      description: 'Infusión antiparasitaria y desintoxicante. Cero azúcares para estimular autofagia en días de reposo.',
+      ingredientsText: [
+        '1L infusión de clavo de olor y canela',
+        '1/2 taza de jugo de pepino colado',
+        '2 tallos de apio colados',
+        'Zumo de 1 limón fresco',
+        '1 cdta jengibre fresco rallado',
+        '6 a 8 hojas de menta fresca'
+      ],
+      steps: [
+        'Hervir clavo y canela en 1L de agua durante 5 minutos.',
+        'Dejar enfriar y añadir pepino, apio, jengibre y limón.',
+        'Machacar hojas de menta y servir en ayunas sin endulzar.'
+      ],
+      macros: { calories: 35, protein: 1, fat: 0, carbs: 7 },
+      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop',
+      crmIngredients: [
+        { ingredientId: 'ing-4', quantity: 5 },
+        { ingredientId: 'ing-5', quantity: 5 }
+      ],
+      suggestedPrice: 15
+    },
     { 
-      id: 'rec-2', 
+      id: 'rec-3', 
       name: 'Smoothie Cerebral de Salomón',
       category: 'bebidas',
       time: 5,
@@ -331,8 +360,69 @@ const DEFAULT_DB: CRMDatabase = {
       ], 
       suggestedPrice: 20 
     },
-    { 
-      id: 'rec-3', 
+    {
+      id: 'rec-4',
+      name: 'Bowl del Guerrero de Elías (Pre-Entreno)',
+      category: 'desayuno',
+      time: 8,
+      difficulty: 'Fácil',
+      servings: 1,
+      description: 'Carga de energía de combustión lenta para sostener el esfuerzo en jaula de calistenia.',
+      ingredientsText: [
+        '60g avena integral en hojuelas',
+        '80g plátano maduro en rodajas',
+        '15g semillas de chía',
+        '20g nueces o almendras troceadas',
+        '10g miel pura de abeja',
+        '1g canela en polvo'
+      ],
+      steps: [
+        'Hidratar o cocinar la avena con agua tibia.',
+        'Montar con rodajas de plátano, semillas de chía y nueces.',
+        'Rociar miel pura y espolvorear canela.'
+      ],
+      macros: { calories: 430, protein: 12, fat: 16, carbs: 62 },
+      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop',
+      crmIngredients: [
+        { ingredientId: 'ing-6', quantity: 60 },
+        { ingredientId: 'ing-7', quantity: 15 },
+        { ingredientId: 'ing-2', quantity: 10 }
+      ],
+      suggestedPrice: 22
+    },
+    {
+      id: 'rec-5',
+      name: 'Infusión Desintoxicante de Daniel',
+      category: 'bebidas',
+      time: 7,
+      difficulty: 'Fácil',
+      servings: 1,
+      description: 'Infusión anti-inflamatoria de tradición bíblica para depuración hepática.',
+      ingredientsText: [
+        '300ml agua pura',
+        '5g jengibre fresco rallado',
+        '2g cúrcuma en polvo',
+        '15ml jugo de limón',
+        '10g miel pura',
+        '1 rama de canela entera'
+      ],
+      steps: [
+        'Hervir el agua con jengibre y canela por 4 minutos.',
+        'Apagar, agregar cúrcuma e infusionar 2 minutos.',
+        'Colar, añadir zumo de limón y miel pura.'
+      ],
+      macros: { calories: 55, protein: 0, fat: 0, carbs: 14 },
+      image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=800&auto=format&fit=crop',
+      crmIngredients: [
+        { ingredientId: 'ing-4', quantity: 5 },
+        { ingredientId: 'ing-3', quantity: 2 },
+        { ingredientId: 'ing-5', quantity: 5 },
+        { ingredientId: 'ing-2', quantity: 10 }
+      ],
+      suggestedPrice: 12
+    },
+    {
+      id: 'rec-6',
       name: 'Pudín de Shake H-Control (Snack Bar)',
       category: 'snack',
       time: 10,
@@ -341,12 +431,12 @@ const DEFAULT_DB: CRMDatabase = {
       description: 'Pudín proteico bajo en calorías sin azúcares refinados formulado para el Reto 21 Días.',
       ingredientsText: [
         '30g Shake H-Control',
-        '150ml agua o leche vegetal',
-        '10g chía',
+        '150ml leche de almendras',
+        '15g semillas de chía',
         'Canela al gusto'
       ],
       steps: [
-        'Batir el Shake H-Control con el líquido y la chía.',
+        'Batir el Shake H-Control con la leche de almendras y la chía.',
         'Refrigerar 20 minutos hasta gelificar.',
         'Espolvorear canela y servir frío.'
       ],
@@ -354,9 +444,38 @@ const DEFAULT_DB: CRMDatabase = {
       image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop',
       crmIngredients: [
         { ingredientId: 'ing-8', quantity: 1 },
-        { ingredientId: 'ing-7', quantity: 10 }
-      ], 
-      suggestedPrice: 25 
+        { ingredientId: 'ing-7', quantity: 15 },
+        { ingredientId: 'ing-9', quantity: 150 }
+      ],
+      suggestedPrice: 25
+    },
+    {
+      id: 'rec-7',
+      name: 'Panqueques de Plátano con Shake H-Control',
+      category: 'snack',
+      time: 12,
+      difficulty: 'Fácil',
+      servings: 1,
+      description: 'Panqueque fit de plátano y Shake proteico para desayuno o post-entrenamiento.',
+      ingredientsText: [
+        '30g Shake H-Control',
+        '1 plátano maduro',
+        '1 huevo de pastoreo',
+        '20g avena en hojuelas',
+        'Canela al gusto'
+      ],
+      steps: [
+        'Mezclar plátano triturado, huevo, avena y Shake.',
+        'Cocinar en sartén antiadherente 2-3 minutos por lado.',
+        'Servir tibio con canela.'
+      ],
+      macros: { calories: 290, protein: 25, fat: 7, carbs: 32 },
+      image: 'https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=800&auto=format&fit=crop',
+      crmIngredients: [
+        { ingredientId: 'ing-8', quantity: 1 },
+        { ingredientId: 'ing-6', quantity: 20 }
+      ],
+      suggestedPrice: 28
     }
   ],
   mentorshipSessions: [],
@@ -366,10 +485,16 @@ const DEFAULT_DB: CRMDatabase = {
     { id: 'inv-3', name: 'Canguro / Hoodie Oficial TempleFit', category: 'apparel', cost: 80, price: 150, stock: 12, minStock: 4, size: 'L', color: 'Negro / Oro' },
     { id: 'inv-4', name: 'Ginkgo Biloba Neuro-Circulatorio (120 caps)', category: 'suplementos', cost: 95, price: 150, stock: 15, minStock: 5, size: '120 caps' },
     { id: 'inv-5', name: 'Óleo de Coco Extra Virgen (200 ml)', category: 'suplementos', cost: 45, price: 75, stock: 20, minStock: 5, size: '200 ml' },
-    { id: 'inv-6', name: 'Colágeno Hidrolizado Articular', category: 'suplementos', cost: 60, price: 95, stock: 14, minStock: 4, size: '100 ml' },
+    { id: 'inv-6', name: 'Colágeno Hidrolizado Articular (100 ml)', category: 'suplementos', cost: 60, price: 95, stock: 14, minStock: 4, size: '100 ml' },
     { id: 'inv-7', name: 'Glutamina Pura Anticatabólica (300 gr)', category: 'suplementos', cost: 95, price: 150, stock: 10, minStock: 3, size: '300 gr' },
-    { id: 'inv-8', name: 'Tabletas Omega-3 Pescado Puro', category: 'suplementos', cost: 5, price: 10, stock: 50, minStock: 15, size: '20 tabletas' },
-    { id: 'inv-9', name: 'Cúrcuma Cupesí Pura en Polvo', category: 'suplementos', cost: 18, price: 35, stock: 30, minStock: 10, size: '250 gr' }
+    { id: 'inv-8', name: 'Tabletas Omega-3 Pescado Puro (20 u)', category: 'suplementos', cost: 5, price: 10, stock: 50, minStock: 15, size: '20 caps' },
+    { id: 'inv-9', name: 'Levadura de Cerveza Nutricional (500 gr)', category: 'suplementos', cost: 50, price: 85, stock: 16, minStock: 5, size: '500 gr' },
+    { id: 'inv-10', name: 'Cúrcuma Cupesí Pura en Polvo (250 gr)', category: 'suplementos', cost: 18, price: 35, stock: 30, minStock: 10, size: '250 gr' },
+    { id: 'inv-11', name: 'Complejo B12 Neuro-Protector', category: 'suplementos', cost: 45, price: 80, stock: 12, minStock: 4, size: 'cápsulas' },
+    { id: 'inv-12', name: 'Reumasan Crema Articular y Muscular', category: 'suplementos', cost: 8, price: 15, stock: 25, minStock: 8, size: 'tubo' },
+    { id: 'inv-13', name: 'Sal Marina Natural Pura (50 gr)', category: 'suplementos', cost: 10, price: 20, stock: 40, minStock: 10, size: '50 gr' },
+    { id: 'inv-14', name: 'Pudín Proteico Shake H-Control (Snack)', category: 'snack', cost: 12, price: 25, stock: 20, minStock: 5, size: 'porción' },
+    { id: 'inv-15', name: 'Panqueques de Plátano con Shake (Snack)', category: 'snack', cost: 14, price: 28, stock: 15, minStock: 5, size: 'porción' }
   ],
   leads: [
     { id: 'ld-1', name: 'Samuel Ortiz', phone: '+59178901234', source: 'instagram', status: 'appointment_set', notes: 'Agendado para clase de prueba sábado 06:00 AM en CristoFit Camp', dateAdded: '2026-08-10' },

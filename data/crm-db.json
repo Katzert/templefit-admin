@@ -102,113 +102,46 @@
     },
     {
       "id": "std-5",
-      "name": "Miguel Ángel Rojas",
+      "name": "Andrés Paredes",
       "phone": "+59172345678",
-      "email": "miguel.rojas@templefit.com",
+      "email": "andres.p@templefit.com",
       "instructorAssigned": "Paulo (Head Coach)",
       "status": "active",
       "plan": "Formación E.A.G.E. (Guerra Espiritual)",
-      "startDate": "2026-06-01",
-      "renewalDate": "2026-08-30",
-      "physicalGoal": "Atleta de Alto Rendimiento y prevención de lesiones",
-      "weightKg": 75,
-      "workoutLevel": "Avanzado",
-      "nutritionPlan": "Nutrición Metabólica + Ginkgo Biloba + Omega-3",
-      "allergiesOrRestrictions": "Ninguna",
-      "spiritualIntention": "Liderazgo ético en su empresa y mentoría en escuadrón",
-      "mentorshipNotes": "Completó 210 horas académicas del ciclo 1. Excelente testimonio.",
-      "escuadronId": "Cristo-1",
-      "phase": "3 - Perfeccionamiento",
-      "hubConsumption": {
-        "snackBar": true,
-        "merchandise": true,
-        "preventiveMedicine": true
-      }
-    },
-    {
-      "id": "std-6",
-      "name": "Valeria Condori",
-      "phone": "+59173456789",
-      "email": "vale.condori@templefit.com",
-      "instructorAssigned": "Paulo (Head Coach)",
-      "status": "expiring",
-      "plan": "Reto 21 Días",
-      "startDate": "2026-07-20",
-      "renewalDate": "2026-08-10",
-      "physicalGoal": "Reducir grasa corporal y mejorar digestión",
-      "weightKg": 62,
-      "workoutLevel": "Principiante",
-      "nutritionPlan": "ElectroDetox Blast + Pan sin levadura (Abuela Fit)",
-      "allergiesOrRestrictions": "Intolerancia al gluten",
-      "spiritualIntention": "Vencer el insomnio y alinear ritmo circadiano (22:00 a 06:00)",
-      "mentorshipNotes": "Membresía por vencer en 3 días. Enviar mensaje de renovación cordial vía WhatsApp.",
-      "escuadronId": "Gedeón-2",
-      "phase": "2 - Desarrollo",
-      "hubConsumption": {
-        "snackBar": false,
-        "merchandise": false,
-        "preventiveMedicine": false
-      }
-    },
-    {
-      "id": "std-7",
-      "name": "Andrés Paredes",
-      "phone": "+59174567890",
-      "email": "andres.paredes@templefit.com",
-      "instructorAssigned": "Paulo (Head Coach)",
-      "status": "active",
-      "plan": "Neuro-Entrenamiento en Ventas (Completo)",
-      "startDate": "2026-07-25",
-      "renewalDate": "2026-08-25",
-      "physicalGoal": "Acondicionamiento físico de atleta comercial",
-      "weightKg": 80,
-      "workoutLevel": "Intermedio",
-      "nutritionPlan": "Superávit limpio + Alimentos Neuro-cognitivos",
-      "allergiesOrRestrictions": "Ninguna",
-      "spiritualIntention": "Integrar principios bíblicos en negociaciones y ventas",
-      "mentorshipNotes": "Módulo 02 (Respiración Buteyko) completado con éxito.",
-      "escuadronId": "Gedeón-2",
-      "phase": "2 - Desarrollo",
-      "hubConsumption": {
-        "snackBar": true,
-        "merchandise": true,
-        "preventiveMedicine": false
-      }
-    },
-    {
-      "id": "std-8",
-      "name": "Camila Vargas",
-      "phone": "+59175678901",
-      "email": "camila.vargas@templefit.com",
-      "instructorAssigned": "Paulo (Head Coach)",
-      "status": "active",
-      "plan": "Reto 21 Días",
       "startDate": "2026-08-01",
-      "renewalDate": "2026-08-22",
-      "physicalGoal": "Bajar 6kg de grasa y ganar energía vital",
-      "weightKg": 68,
-      "workoutLevel": "Principiante",
-      "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación activa",
-      "allergiesOrRestrictions": "Alergia a mariscos",
-      "spiritualIntention": "Disciplina diaria de oración y enfoque",
-      "mentorshipNotes": "Excelente progreso en los primeros 10 días de reto.",
-      "escuadronId": "Paz-Beta",
-      "phase": "1 - Iniciación",
+      "renewalDate": "2026-09-01",
+      "physicalGoal": "Hipertrofia funcional y agilidad en combate",
+      "weightKg": 75,
+      "workoutLevel": "Intermedio",
+      "nutritionPlan": "ElectroHidra + Dieta Bíblica para el Atleta",
+      "allergiesOrRestrictions": "Ninguna",
+      "spiritualIntention": "Liderazgo en ventas éticas y mentoría a jóvenes",
+      "mentorshipNotes": "Excelente orador en el devocional. Apoya en la coordinación de escuadrones.",
+      "escuadronId": "Gedeón-1",
+      "phase": "2 - Desarrollo",
       "hubConsumption": {
         "snackBar": true,
-        "merchandise": false,
+        "merchandise": true,
         "preventiveMedicine": true
       }
     }
   ],
   "transactions": [
     {
+      "id": "tx-1787268793278",
+      "date": "2026-08-20",
+      "type": "income",
+      "category": "snack",
+      "amount": 50,
+      "description": "Venta de Smoothie de Salomón (Test API)"
+    },
+    {
       "id": "tx-1787030824569",
       "date": "2026-08-18",
       "type": "income",
       "category": "snack",
       "amount": 50,
-      "description": "Venta de Smoothie de Salomón (Test API)"
+      "description": "Venta de Smoothie de Salomón y Pudín Shake"
     },
     {
       "id": "tx-1",
@@ -264,7 +197,7 @@
       "type": "expense",
       "category": "operations",
       "amount": 650,
-      "description": "Compra de insumos botánicos (jengibre, cúrcuma, miel, sal marina, chía)"
+      "description": "Compra de insumos botánicos (jengibre, cúrcuma, miel, sal marina, chía, clavo)"
     },
     {
       "id": "tx-8",
@@ -353,7 +286,7 @@
     },
     {
       "id": "ing-8",
-      "name": "Shake H-Control (Porción)",
+      "name": "Shake H-Control (Porción 30g)",
       "unit": "unidad",
       "costPerUnit": 7.5,
       "stock": 45,
@@ -366,6 +299,22 @@
       "costPerUnit": 0.02,
       "stock": 6000,
       "minStock": 1500
+    },
+    {
+      "id": "ing-10",
+      "name": "Clavos de Olor",
+      "unit": "gr",
+      "costPerUnit": 0.12,
+      "stock": 500,
+      "minStock": 100
+    },
+    {
+      "id": "ing-11",
+      "name": "Bicarbonato de Sodio",
+      "unit": "gr",
+      "costPerUnit": 0.03,
+      "stock": 1500,
+      "minStock": 300
     }
   ],
   "recipes": [
@@ -376,7 +325,7 @@
       "time": 5,
       "difficulty": "Fácil",
       "servings": 1,
-      "description": "Bebida isotónica 280-300 mOsm/kg con buffer contra el lactato muscular.",
+      "description": "Bebida isotónica 280-300 mOsm/kg con buffer contra el lactato muscular y electrolitos esenciales.",
       "ingredientsText": [
         "1L agua filtrada",
         "1.2g sal marina natural",
@@ -387,9 +336,9 @@
         "30ml jugo de limón fresco"
       ],
       "steps": [
-        "Disolver los minerales en el agua.",
-        "Añadir la miel pura y mezclar.",
-        "Incorporar el jugo de limón y servir fresco."
+        "Disolver los minerales en el agua filtrada.",
+        "Añadir la miel pura y mezclar vigorosamente.",
+        "Incorporar el jugo de limón fresco al final y servir frío."
       ],
       "macros": {
         "calories": 190,
@@ -406,18 +355,66 @@
         {
           "ingredientId": "ing-2",
           "quantity": 60
+        },
+        {
+          "ingredientId": "ing-11",
+          "quantity": 0.6
         }
       ],
       "suggestedPrice": 15
     },
     {
       "id": "rec-2",
+      "name": "ElectroDetox Blast (Descanso & Autofagia)",
+      "category": "bebidas",
+      "time": 10,
+      "difficulty": "Fácil",
+      "servings": 1,
+      "description": "Infusión antiparasitaria y desintoxicante. Cero azúcares para estimular autofagia en días de reposo.",
+      "ingredientsText": [
+        "1L infusión de clavo de olor y canela",
+        "1/2 taza de jugo de pepino colado",
+        "2 tallos de apio colados",
+        "Zumo de 1 limón fresco",
+        "1 cdta jengibre fresco rallado",
+        "6 a 8 hojas de menta fresca"
+      ],
+      "steps": [
+        "Hervir clavo y canela en 1L de agua durante 5 minutos.",
+        "Dejar enfriar y añadir pepino, apio, jengibre y limón.",
+        "Machacar hojas de menta y servir en ayunas sin endulzar."
+      ],
+      "macros": {
+        "calories": 35,
+        "protein": 1,
+        "fat": 0,
+        "carbs": 7
+      },
+      "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop",
+      "crmIngredients": [
+        {
+          "ingredientId": "ing-4",
+          "quantity": 5
+        },
+        {
+          "ingredientId": "ing-5",
+          "quantity": 5
+        },
+        {
+          "ingredientId": "ing-10",
+          "quantity": 2
+        }
+      ],
+      "suggestedPrice": 15
+    },
+    {
+      "id": "rec-3",
       "name": "Smoothie Cerebral de Salomón",
       "category": "bebidas",
       "time": 5,
       "difficulty": "Fácil",
       "servings": 1,
-      "description": "Potenciador cognitivo con cúrcuma activada por piperina (+2000% absorción).",
+      "description": "Potenciador cognitivo con cúrcuma activada por piperina (+2000% absorción) para salud cerebral.",
       "ingredientsText": [
         "60g aguacate maduro",
         "50g espinaca fresca",
@@ -427,8 +424,8 @@
         "2g cúrcuma Cupesí + pizca de pimienta negra"
       ],
       "steps": [
-        "Colocar todos los ingredientes en licuadora.",
-        "Licuar por 60 segundos hasta consistencia cremosa."
+        "Colocar todos los ingredientes en la licuadora.",
+        "Licuar por 60 segundos hasta consistencia cremosa y homogénea."
       ],
       "macros": {
         "calories": 260,
@@ -454,7 +451,99 @@
       "suggestedPrice": 20
     },
     {
-      "id": "rec-3",
+      "id": "rec-4",
+      "name": "Bowl del Guerrero de Elías (Pre-Entreno)",
+      "category": "desayuno",
+      "time": 8,
+      "difficulty": "Fácil",
+      "servings": 1,
+      "description": "Carga de energía de combustión lenta para sostener el esfuerzo en jaula de calistenia y crossfit.",
+      "ingredientsText": [
+        "60g avena integral en hojuelas",
+        "80g plátano maduro en rodajas",
+        "15g semillas de chía",
+        "20g nueces o almendras troceadas",
+        "10g miel pura de abeja",
+        "1g canela en polvo"
+      ],
+      "steps": [
+        "Hidratar o cocinar la avena con agua tibia.",
+        "Montar con rodajas de plátano, semillas de chía y nueces.",
+        "Rociar miel pura y espolvorear canela."
+      ],
+      "macros": {
+        "calories": 430,
+        "protein": 12,
+        "fat": 16,
+        "carbs": 62
+      },
+      "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop",
+      "crmIngredients": [
+        {
+          "ingredientId": "ing-6",
+          "quantity": 60
+        },
+        {
+          "ingredientId": "ing-7",
+          "quantity": 15
+        },
+        {
+          "ingredientId": "ing-2",
+          "quantity": 10
+        }
+      ],
+      "suggestedPrice": 22
+    },
+    {
+      "id": "rec-5",
+      "name": "Infusión Desintoxicante de Daniel",
+      "category": "bebidas",
+      "time": 7,
+      "difficulty": "Fácil",
+      "servings": 1,
+      "description": "Infusión anti-inflamatoria de tradición bíblica para depuración hepática y control glucémico.",
+      "ingredientsText": [
+        "300ml agua pura",
+        "5g jengibre fresco rallado",
+        "2g cúrcuma en polvo",
+        "15ml jugo de limón",
+        "10g miel pura",
+        "1 rama de canela entera"
+      ],
+      "steps": [
+        "Hervir el agua con jengibre y canela por 4 minutos.",
+        "Apagar, agregar cúrcuma e infusionar 2 minutos.",
+        "Colar, añadir zumo de limón y miel pura."
+      ],
+      "macros": {
+        "calories": 55,
+        "protein": 0,
+        "fat": 0,
+        "carbs": 14
+      },
+      "image": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=800&auto=format&fit=crop",
+      "crmIngredients": [
+        {
+          "ingredientId": "ing-4",
+          "quantity": 5
+        },
+        {
+          "ingredientId": "ing-3",
+          "quantity": 2
+        },
+        {
+          "ingredientId": "ing-5",
+          "quantity": 5
+        },
+        {
+          "ingredientId": "ing-2",
+          "quantity": 10
+        }
+      ],
+      "suggestedPrice": 12
+    },
+    {
+      "id": "rec-6",
       "name": "Pudín de Shake H-Control (Snack Bar)",
       "category": "snack",
       "time": 10,
@@ -463,12 +552,12 @@
       "description": "Pudín proteico bajo en calorías sin azúcares refinados formulado para el Reto 21 Días.",
       "ingredientsText": [
         "30g Shake H-Control",
-        "150ml agua o leche vegetal",
-        "10g chía",
+        "150ml leche de almendras",
+        "15g semillas de chía",
         "Canela al gusto"
       ],
       "steps": [
-        "Batir el Shake H-Control con el líquido y la chía.",
+        "Batir el Shake H-Control con la leche de almendras y la chía.",
         "Refrigerar 20 minutos hasta gelificar.",
         "Espolvorear canela y servir frío."
       ],
@@ -486,10 +575,53 @@
         },
         {
           "ingredientId": "ing-7",
-          "quantity": 10
+          "quantity": 15
+        },
+        {
+          "ingredientId": "ing-9",
+          "quantity": 150
         }
       ],
       "suggestedPrice": 25
+    },
+    {
+      "id": "rec-7",
+      "name": "Panqueques de Plátano con Shake H-Control",
+      "category": "snack",
+      "time": 12,
+      "difficulty": "Fácil",
+      "servings": 1,
+      "description": "Panqueque fit de plátano y Shake proteico para desayuno o post-entrenamiento.",
+      "ingredientsText": [
+        "30g Shake H-Control",
+        "1 plátano maduro",
+        "1 huevo de pastoreo",
+        "20g avena en hojuelas",
+        "Canela al gusto"
+      ],
+      "steps": [
+        "Mezclar plátano triturado, huevo, avena y Shake.",
+        "Cocinar en sartén antiadherente 2-3 minutos por lado.",
+        "Servir tibio con canela."
+      ],
+      "macros": {
+        "calories": 290,
+        "protein": 25,
+        "fat": 7,
+        "carbs": 32
+      },
+      "image": "https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=800&auto=format&fit=crop",
+      "crmIngredients": [
+        {
+          "ingredientId": "ing-8",
+          "quantity": 1
+        },
+        {
+          "ingredientId": "ing-6",
+          "quantity": 20
+        }
+      ],
+      "suggestedPrice": 28
     }
   ],
   "mentorshipSessions": [],
@@ -549,7 +681,7 @@
     },
     {
       "id": "inv-6",
-      "name": "Colágeno Hidrolizado Articular",
+      "name": "Colágeno Hidrolizado Articular (100 ml)",
       "category": "suplementos",
       "cost": 60,
       "price": 95,
@@ -569,23 +701,83 @@
     },
     {
       "id": "inv-8",
-      "name": "Tabletas Omega-3 Pescado Puro",
+      "name": "Tabletas Omega-3 Pescado Puro (20 u)",
       "category": "suplementos",
       "cost": 5,
       "price": 10,
       "stock": 50,
       "minStock": 15,
-      "size": "20 tabletas"
+      "size": "20 caps"
     },
     {
       "id": "inv-9",
-      "name": "Cúrcuma Cupesí Pura en Polvo",
+      "name": "Levadura de Cerveza Nutricional (500 gr)",
+      "category": "suplementos",
+      "cost": 50,
+      "price": 85,
+      "stock": 16,
+      "minStock": 5,
+      "size": "500 gr"
+    },
+    {
+      "id": "inv-10",
+      "name": "Cúrcuma Cupesí Pura en Polvo (250 gr)",
       "category": "suplementos",
       "cost": 18,
       "price": 35,
       "stock": 30,
       "minStock": 10,
       "size": "250 gr"
+    },
+    {
+      "id": "inv-11",
+      "name": "Complejo B12 Neuro-Protector",
+      "category": "suplementos",
+      "cost": 45,
+      "price": 80,
+      "stock": 12,
+      "minStock": 4,
+      "size": "cápsulas"
+    },
+    {
+      "id": "inv-12",
+      "name": "Reumasan Crema Articular y Muscular",
+      "category": "suplementos",
+      "cost": 8,
+      "price": 15,
+      "stock": 25,
+      "minStock": 8,
+      "size": "tubo"
+    },
+    {
+      "id": "inv-13",
+      "name": "Sal Marina Natural Pura (50 gr)",
+      "category": "suplementos",
+      "cost": 10,
+      "price": 20,
+      "stock": 40,
+      "minStock": 10,
+      "size": "50 gr"
+    },
+    {
+      "id": "inv-14",
+      "name": "Pudín Proteico Shake H-Control (Snack)",
+      "category": "snack",
+      "cost": 12,
+      "price": 25,
+      "stock": 20,
+      "minStock": 5,
+      "size": "porción"
+    },
+    {
+      "id": "inv-15",
+      "name": "Panqueques de Plátano con Shake (Snack)",
+      "category": "snack",
+      "cost": 14,
+      "price": 28,
+      "stock": 15,
+      "minStock": 5,
+      "size": "porción"
     }
   ],
   "leads": [
@@ -595,7 +787,7 @@
       "phone": "+59178901234",
       "source": "instagram",
       "status": "appointment_set",
-      "notes": "Agendado para clase de prueba sábado 06:00 AM en CristoFit Camp",
+      "notes": "Agendado para clase de prueba sábado 06:00 AM en CristoFit Camp (Embudo 2 Gym)",
       "dateAdded": "2026-08-10"
     },
     {
@@ -604,7 +796,7 @@
       "phone": "+59165432198",
       "source": "whatsapp",
       "status": "trial",
-      "notes": "En semana de prueba gratuita (Escuadrón Paz). Muy interesada en nutrición.",
+      "notes": "En semana de prueba gratuita (Escuadrón Paz). Muy interesada en nutrición y Reto 21 Días (Embudo 1).",
       "dateAdded": "2026-08-12"
     },
     {
@@ -613,7 +805,7 @@
       "phone": "+59170098765",
       "source": "walk-in",
       "status": "contacted",
-      "notes": "Consultó por Neuro-Entrenamiento en Ventas y horario nocturno",
+      "notes": "Consultó por Catering Abuela Fit (Embudo 3, 900 Bs) y horario nocturno.",
       "dateAdded": "2026-08-14"
     },
     {
@@ -629,13 +821,49 @@
   "sopsList": [
     {
       "id": "sop-1",
-      "title": "SOP-01: Protocolo Sábado CristoFit Camp",
-      "content": "06:00-09:30 Entrenamiento físico matutino al aire libre.\n10:00-11:00 Evaluación biométrica Reto 21 Días.\n11:00-13:00 Servicio solidario (Palabra y Pan / Ciudad sin Basura).\n17:30-18:00 Degustación Snack Bar y testimonios.\n18:00-21:00 Show Fit y cierre de inscripciones."
+      "title": "SOP-01: Protocolo Sábado CristoFit Camp (06:00 AM - 09:00 PM)",
+      "content": "06:00 - 09:30 AM: Bloque de entrenamiento físico matutino (calistenia, crossfit, boxeo ético).\n10:00 - 11:00 AM: Evaluaciones biométricas y de conocimientos del Reto de 21 Días.\n11:00 - 01:00 PM: 'Sábado yo te Sirvo' — Servicio al prójimo: Distribución solidaria de alimentos 'Palabra y Pan' + Campaña ecológica 'Ciudad sin Basura' (Plogging vecinal).\n02:00 - 05:30 PM: Bloque de entrenamiento físico vespertino.\n05:30 - 06:00 PM: Degustación en Snack Bar + testimonios de atletas.\n06:00 - 09:00 PM: Show Fit nocturno + cierre semanal de nuevas inscripciones."
     },
     {
       "id": "sop-2",
-      "title": "SOP-02: La Regla de los 12 Atletas y Escuadrones",
-      "content": "1. Capacidad estricta de 12 atletas por escuadrón.\n2. Cada escuadrón cuenta con un Capitán asignado.\n3. Si un atleta falta 3 días seguidos, el escuadrón activa visita de respaldo.\n4. Progresión de fases: Paz (Bronce) -> Salvación/Gedeón (Plata) -> Cristo (Oro)."
+      "title": "SOP-02: La Regla de los 12 Atletas y Estructura de 25 Escuadrones",
+      "content": "1. Capacidad estricta de 12 atletas por escuadrón para garantizar rendición de cuentas.\n2. Cada escuadrón cuenta con un Capitán asignado.\n3. Protocolo de inasistencia: Si un atleta falta 3 días consecutivos, el escuadrón activa visita pastoral/compañerismo.\n4. Progresión de fases anuales:\n  - Fase 1: Brigada de Paz (Polera blanca, distintivo Paz -> Corona de Bronce al 4to mes).\n  - Fase 2: Brigada de Salvación (Shorts azul marino, guantes -> Corona de Plata al 8vo mes).\n  - Fase 3: Brigada de Cristo (Shorts amarillos, guantes personalizados -> Corona de Oro al 12vo mes)."
+    },
+    {
+      "id": "sop-3",
+      "title": "SOP-03: Viernes de Show Fit (Evento de Captación)",
+      "content": "1. 04:00 - 05:30 PM: Demostración deportiva de instructores (Sparring de boxeo ético, pirámides de calistenia y circuitos de crossfit).\n2. 06:00 - 07:00 PM: Taller de capacitación comunitaria SIN COSTO (Desarrollo mental, nutrición y salud cerebral).\n3. 07:00 PM: Degustación de infusiones (Té de los Profetas / Infusión de Daniel) y venta de productos en Snack Bar."
+    },
+    {
+      "id": "sop-4",
+      "title": "SOP-04: Protocolo en Enfermedad y Sincronización Circadiana",
+      "content": "1. Ritmo circadiano innegociable: Dormir a las 10:00 PM y despertar a las 06:00 AM para máxima regeneración celular.\n2. Alimentos prohibidos durante procesos inflamatorios o enfermedad:\n  - Café, jugos concentrados de naranja, dulces/azúcar refinada, gaseosas, frituras, alcohol, leche de vaca y comidas muy picantes.\n3. Protocolo de rehidratación: Ingerir el 150% del peso perdido post-entrenamiento con ElectroHidra."
+    },
+    {
+      "id": "sop-5",
+      "title": "SOP-05: Los 6 Embudos de Conversión por WhatsApp",
+      "content": "Embudo 1 (Reto 21 Días): Lead Magnet evaluación 15 min -> Día 1 Propuesta -> Día 2 1 Corintios 6:19-20 -> Día 3-4 CTA 200 Bs/mes.\nEmbudo 2 (Gym Funcional): Clase de prueba gratis -> Máquina Humana -> Objeción tiempo -> CTA 200 Bs/mes.\nEmbudo 3 (Catering Abuela Fit): Cotización 900 Bs -> Seguimiento 2-3h -> Pregunta objeción 24h -> Cierre llamada 48-72h.\nEmbudo 4 (Salud Preventiva): Venta estricta de 'valor de uso' clínico (Omega 3, Cúrcuma, B12) — PROHIBIDO hablar de MLM/negocio.\nEmbudo 5 (Ropa Cristiana): Tallas y stock para Poleras (100 Bs), Shorts (70 Bs) y Canguros (150 Bs).\nEmbudo 6 (Upsell Atleta Inquebrantable): Tras culminar 21 días -> Salto transparente a E.A.G.E. por 1.200 Bs (3 meses de formación)."
+    },
+    {
+      "id": "sop-6",
+      "title": "SOP-06: KPIs Directivos y Margen Operativo (Fase 1)",
+      "content": "1. TCP (Tasa de Conversión de Pedido Confirmado): (Pedidos con seña pagada ÷ Consultas recibidas) × 100. Meta: TCP ≥ 40%.\n2. MNR (Margen Neto Real por Lote): Ingreso del lote − (Costos variables + Costos fijos proporcionales + Merma + Tiempo). Meta: MNR ≥ 8 Bs por unidad producida.\n3. Regla de Oro: Producción los viernes con 50% de seña previa -> Entrega los sábados en CristoFit Camp."
+    }
+  ],
+  "marketingTasks": [
+    {
+      "id": "mkt-1",
+      "month": "Agosto 2026",
+      "campaignName": "Campaña Reto 21 Días — Reseteo Holístico",
+      "driveLink": "https://drive.google.com/drive/folders/templefit-reto21",
+      "strategy": "Reels y testimonios enfocados en romper con la ansiedad y el sedentarismo. CTA a clase de prueba gratuita los sábados."
+    },
+    {
+      "id": "mkt-2",
+      "month": "Septiembre 2026",
+      "campaignName": "Festival Corona de Victoria y Vida",
+      "driveLink": "https://drive.google.com/drive/folders/templefit-corona",
+      "strategy": "Lanzamiento y graduación de la Fase 1 (Entrega de Coronas de Bronce a los primeros escuadrones de Paz)."
     }
   ],
   "monthlyBoard": {
