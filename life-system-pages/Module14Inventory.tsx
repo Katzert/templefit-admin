@@ -9,7 +9,7 @@ import { InventoryItem } from '../types';
 export function Module14Inventory() {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<'all' | 'snack' | 'apparel' | 'suplementos'>('all');
+  const [categoryFilter, setCategoryFilter] = useState<'all' | 'snack' | 'apparel' | 'suplementos' | 'equipamiento'>('all');
   const [sortConfig, setSortConfig] = useState<{ key: keyof InventoryItem, direction: 'asc' | 'desc' } | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<InventoryItem>>({});
@@ -98,24 +98,28 @@ export function Module14Inventory() {
         <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <div>
             <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Stock Bajo / Crítico</p>
-            <p className={`text-2xl font-black ${lowStockCount > 0 ? 'text-red-400' : 'text-emerald-400'}`}>{lowStockCount} artículos</p>
+            <p className="text-2xl font-black text-red-500">{lowStockCount}</p>
           </div>
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${lowStockCount > 0 ? 'bg-red-500/20 text-red-500' : 'bg-emerald-500/20 text-emerald-500'}`}>
+          <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center text-red-500">
             <AlertCircle size={24} />
           </div>
         </div>
-        <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between md:col-start-3">
+        <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between">
+          <div>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Total Referencias</p>
+            <p className="text-2xl font-black text-white">{items.length}</p>
+          </div>
           <button 
             onClick={addItem}
-            className="w-full h-full flex items-center justify-center gap-2 bg-temple-gold text-black rounded-xl font-bold uppercase tracking-widest hover:bg-amber-400 transition-all shadow-lg"
+            className="flex items-center gap-2 px-4 py-2.5 bg-temple-gold text-black rounded-xl text-xs font-black uppercase tracking-wider hover:bg-temple-gold/80 transition-colors shadow-lg shadow-temple-gold/20"
           >
-            <Plus size={20} /> Añadir Ítem
+            <Plus size={16} /> Añadir Artículo
           </button>
         </div>
       </div>
 
-      {/* Table Toolbar */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white/5 p-3 rounded-2xl border border-white/10">
+      {/* Search and Filters */}
+      <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/10">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
           <input 
@@ -127,13 +131,13 @@ export function Module14Inventory() {
           />
         </div>
         <div className="flex gap-2 w-full md:w-auto overflow-x-auto custom-scrollbar pb-2 md:pb-0">
-          {(['all', 'suplementos', 'apparel', 'snack'] as const).map(cat => (
+          {(['all', 'suplementos', 'apparel', 'snack', 'equipamiento'] as const).map(cat => (
             <button
               key={cat}
               onClick={() => setCategoryFilter(cat)}
               className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${categoryFilter === cat ? 'bg-temple-gold text-black font-black' : 'bg-black/50 text-gray-400 border border-white/10 hover:border-white/30'}`}
             >
-              {cat === 'all' ? 'Todos' : cat === 'suplementos' ? 'Botica & Suplementos' : cat === 'apparel' ? 'Textil & Ropa' : 'Snacks & Bebidas'}
+              {cat === 'all' ? 'Todos' : cat === 'suplementos' ? 'Botica & Suplementos' : cat === 'apparel' ? 'Textil & Ropa' : cat === 'snack' ? 'Snacks & Bebidas' : 'Equipamiento & Gym'}
             </button>
           ))}
         </div>
@@ -185,6 +189,7 @@ export function Module14Inventory() {
                             <option value="suplementos">Botica & Suplementos</option>
                             <option value="apparel">Textil & Ropa</option>
                             <option value="snack">Snack / Bebida</option>
+                            <option value="equipamiento">Equipamiento & Gym</option>
                           </select>
                         </td>
                         <td className="p-4">
@@ -241,6 +246,8 @@ export function Module14Inventory() {
                             ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' 
                             : item.category === 'suplementos'
                             ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                            : item.category === 'equipamiento'
+                            ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
                             : 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
                         }`}>
                           {item.category}
