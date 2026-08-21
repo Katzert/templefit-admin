@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, AlertCircle, Plus, FileSpreadsheet, ArrowUpDown, Trash2, Edit3, Save, X } from 'lucide-react';
+import { Search, Filter, AlertCircle, Plus, FileSpreadsheet, ArrowUpDown, Trash2, Edit3, Save, X, Copy } from 'lucide-react';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { InventoryItem } from '../types';
 
@@ -43,6 +43,17 @@ export function Module14Inventory() {
       price: 0,
       stock: 0,
       minStock: 10
+    };
+    saveToDb([newItem, ...items]);
+    startEditing(newItem);
+  };
+
+  const duplicateItem = (item: InventoryItem) => {
+    const newItem: InventoryItem = {
+      ...item,
+      id: `inv-${Date.now()}`,
+      name: `${item.name} (Copia)`,
+      stock: 0
     };
     saveToDb([newItem, ...items]);
     startEditing(newItem);
@@ -262,9 +273,10 @@ export function Module14Inventory() {
                         <div className="text-[10px] text-gray-500">Costo: Bs. {item.cost}</div>
                       </td>
                       <td className="p-4">
-                        <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => startEditing(item)} className="p-2 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors"><Edit3 size={16}/></button>
-                          <button onClick={() => deleteItem(item.id)} className="p-2 text-gray-400 hover:text-red-500 bg-white/5 hover:bg-red-500/10 rounded-lg transition-colors"><Trash2 size={16}/></button>
+                        <div className="flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => startEditing(item)} className="p-2 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors" title="Editar"><Edit3 size={15}/></button>
+                          <button onClick={() => duplicateItem(item)} className="p-2 text-temple-gold hover:text-amber-300 bg-white/5 hover:bg-temple-gold/20 rounded-lg transition-colors" title="Duplicar como plantilla"><Copy size={15}/></button>
+                          <button onClick={() => deleteItem(item.id)} className="p-2 text-gray-400 hover:text-red-500 bg-white/5 hover:bg-red-500/10 rounded-lg transition-colors" title="Eliminar"><Trash2 size={15}/></button>
                         </div>
                       </td>
                     </motion.tr>

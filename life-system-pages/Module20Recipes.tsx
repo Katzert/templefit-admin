@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, Trash2, Edit3, X, Save, ChefHat, Upload, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Search, Plus, Trash2, Edit3, X, Save, ChefHat, Upload, Image as ImageIcon, Copy, Sparkles } from 'lucide-react';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Recipe } from '../types';
 
@@ -31,8 +31,11 @@ export function Module20Recipes() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const db = getCRMDatabase();
-    setRecipes(db.recipes || []);
+    const load = () => {
+      const db = getCRMDatabase();
+      setRecipes(db.recipes || []);
+    };
+    load();
   }, []);
 
   const saveToDb = (newRecipes: Recipe[]) => {
@@ -45,6 +48,18 @@ export function Module20Recipes() {
   const deleteRecipe = (id: string) => {
     if (!confirm('¿Eliminar esta receta del catálogo?')) return;
     saveToDb(recipes.filter(r => r.id !== id));
+  };
+
+  const duplicateRecipe = (recipe: Recipe) => {
+    const duplicated: Partial<Recipe> = {
+      ...recipe,
+      name: `${recipe.name} (Nueva Variante)`,
+      id: undefined
+    };
+    setNewRecipe(duplicated);
+    setEditingId(null);
+    setIsAdding(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,8 +132,8 @@ export function Module20Recipes() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-temple-navy-dark to-black p-6 rounded-xl border border-white/5 relative overflow-hidden">
+    <div className="space-y-6 max-w-7xl mx-auto pb-12 font-sans">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-temple-navy-dark to-black p-6 rounded-2xl border border-white/5 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ChefHat size={120} />
         </div>
@@ -126,9 +141,9 @@ export function Module20Recipes() {
           <div>
             <h2 className="text-2xl font-black text-white uppercase tracking-wider flex items-center gap-2">
               <ChefHat className="text-temple-gold" size={24} />
-              Gestión de Recetas
+              Gestión de Recetas & Plantillas Nutricionales
             </h2>
-            <p className="text-sm text-gray-400 mt-1">Catálogo oficial sincronizado con la Web Pública ({recipes.length} recetas)</p>
+            <p className="text-sm text-gray-400 mt-1">Catálogo oficial sincronizado con la Web Pública ({recipes.length} recetas como plantilla editable)</p>
           </div>
           
           <button 
@@ -149,10 +164,10 @@ export function Module20Recipes() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="bg-[#0B0F19] border border-temple-gold/20 rounded-2xl p-6 mb-6">
+            <div className="bg-[#0B0F19] border border-temple-gold/30 rounded-2xl p-6 mb-6 shadow-2xl">
               <h3 className="text-sm font-bold text-temple-gold uppercase tracking-widest mb-4 flex items-center gap-2">
                 {editingId ? <Edit3 size={16} /> : <Plus size={16} />} 
-                {editingId ? 'Editar Receta' : 'Crear Nueva Receta Pública'}
+                {editingId ? 'Editar Receta' : 'Crear Receta (O usando plantilla seleccionada)'}
               </h3>
               <form onSubmit={submitRecipe} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
@@ -234,7 +249,7 @@ export function Module20Recipes() {
                       value={newRecipe.ingredientsText?.join('\n')} 
                       onChange={e => setNewRecipe({ ...newRecipe, ingredientsText: e.target.value.split('\n') })} 
                       rows={4} 
-                      className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" 
+                      className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none font-sans" 
                       placeholder="1L agua filtrada\n1.2g sal marina..." 
                     />
                   </div>
@@ -244,7 +259,7 @@ export function Module20Recipes() {
                       value={newRecipe.steps?.join('\n')} 
                       onChange={e => setNewRecipe({ ...newRecipe, steps: e.target.value.split('\n') })} 
                       rows={4} 
-                      className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" 
+                      className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none font-sans" 
                       placeholder="1. Disolver electrolitos...\n2. Servir frío..." 
                     />
                   </div>
@@ -325,13 +340,18 @@ export function Module20Recipes() {
                 </div>
               </div>
               
-              <div className="pt-2 flex justify-between gap-2">
-                <button onClick={() => startEdit(recipe)} className="flex-1 py-2 bg-white/5 hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white rounded-lg transition-colors border border-white/5">
-                  Editar
-                </button>
-                <button onClick={() => deleteRecipe(recipe.id)} className="px-3 py-2 bg-temple-red/10 hover:bg-temple-red/20 text-temple-red rounded-lg transition-colors border border-temple-red/20">
-                  <Trash2 size={16} />
-                </button>
+              <div className="pt-2 flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <button onClick={() => startEdit(recipe)} className="flex-1 py-2 bg-white/5 hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white rounded-lg transition-colors border border-white/5 flex items-center justify-center gap-1.5">
+                    <Edit3 size={13} /> Editar
+                  </button>
+                  <button onClick={() => duplicateRecipe(recipe)} className="flex-1 py-2 bg-temple-gold/10 hover:bg-temple-gold/20 text-[10px] font-bold uppercase tracking-widest text-temple-gold rounded-lg transition-colors border border-temple-gold/30 flex items-center justify-center gap-1.5" title="Duplicar como plantilla para nueva receta">
+                    <Copy size={13} /> Plantilla
+                  </button>
+                  <button onClick={() => deleteRecipe(recipe.id)} className="px-3 py-2 bg-temple-red/10 hover:bg-temple-red/20 text-temple-red rounded-lg transition-colors border border-temple-red/20" title="Eliminar">
+                    <Trash2 size={15} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
