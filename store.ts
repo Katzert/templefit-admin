@@ -2,7 +2,7 @@ import { CRMDatabase } from './types';
 import { db as firestoreDb } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const STORAGE_KEY = 'templefit_holistic_students_v3';
+const STORAGE_KEY = 'templefit_holistic_students_v4';
 
 const DEFAULT_DB: CRMDatabase = {
   students: [
@@ -928,9 +928,20 @@ export function getCRMDatabase(): CRMDatabase {
   }
 }
 
+export function resetToDefaultDB(): CRMDatabase {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DB));
+  }
+  return DEFAULT_DB;
+}
+
 export function saveCRMDatabase(db: CRMDatabase) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+  } catch (err) {
+    console.warn("Storage quota exceeded, keeping in memory:", err);
+  }
 
   // Sync back to cloud in background
   if (firestoreDb) {
@@ -963,7 +974,11 @@ export async function syncFromCloud(): Promise<CRMDatabase> {
         ingredients: mergeListById(data.ingredients, DEFAULT_DB.ingredients || []),
         showcaseItems: mergeListById(data.showcaseItems, DEFAULT_DB.showcaseItems || []),
       };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+      } catch (e) {
+        console.warn("Could not write merged cloud data to localStorage:", e);
+      }
       return merged;
     }
   } catch (err) {

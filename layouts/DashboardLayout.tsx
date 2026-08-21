@@ -240,8 +240,21 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             </h2>
           </div>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             <GlobalSearch onNavigate={setActiveTab} />
+
+            <button
+              onClick={() => {
+                syncFromCloud().then(() => {
+                  window.location.reload();
+                });
+              }}
+              className="p-2.5 text-gray-400 hover:text-temple-gold bg-white/5 rounded-xl transition flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider"
+              title="Sincronizar con la Nube y Refrescar"
+            >
+              <Activity size={16} className={isSyncing ? "animate-spin text-temple-gold" : ""} />
+              <span className="hidden lg:inline">Sincronizar</span>
+            </button>
             
             <div className="relative">
               <button 

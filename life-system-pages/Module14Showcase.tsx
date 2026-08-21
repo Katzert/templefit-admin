@@ -1,17 +1,16 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Image as ImageIcon, Utensils, ShoppingBag, Plus, Save, Trash2, Eye, EyeOff, Upload, Copy, Search, Sparkles } from 'lucide-react';
+import { Image as ImageIcon, Utensils, ShoppingBag, Plus, Save, Trash2, Eye, EyeOff, Upload, Copy, Search, Sparkles, RefreshCw } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
-import { getCRMDatabase, saveCRMDatabase } from '../store';
+import { getCRMDatabase, saveCRMDatabase, resetToDefaultDB } from '../store';
 import { ShowcaseItem } from '../types';
 
 export function Module14Showcase() {
   const [items, setItems] = useState<ShowcaseItem[]>([]);
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
 
   useEffect(() => {
     const db = getCRMDatabase();
@@ -23,6 +22,13 @@ export function Module14Showcase() {
     db.showcaseItems = newItems;
     saveCRMDatabase(db);
     setItems(newItems);
+  };
+
+  const resetCatalog = () => {
+    if (confirm('¿Restablecer el catálogo con los 22 productos y recetas oficiales de fábrica?')) {
+      const freshDb = resetToDefaultDB();
+      setItems(freshDb.showcaseItems || []);
+    }
   };
 
   const addItem = (type: 'recipe' | 'merch') => {
@@ -58,8 +64,8 @@ export function Module14Showcase() {
   };
 
   const handleFileUpload = (id: string, file: File) => {
-    if (!file.type.startsWith('image/')) {
-      alert('Por favor selecciona un archivo de imagen válido.');
+    if (!file || !file.type.startsWith('image/')) {
+      alert('Por favor selecciona un archivo de imagen válido (JPG, PNG, WebP).');
       return;
     }
     const reader = new FileReader();
@@ -68,23 +74,33 @@ export function Module14Showcase() {
       img.src = event.target?.result as string;
       img.onload = () => {
         const canvas = document.createElement('canvas');
+        const maxDim = 500;
         let width = img.width;
         let height = img.height;
-        const maxWidth = 800;
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
         }
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0, width, height);
-          const compressed = canvas.toDataURL('image/jpeg', 0.8);
+          const compressed = canvas.toDataURL('image/jpeg', 0.7);
           updateItem(id, 'imageUrl', compressed);
         } else {
           updateItem(id, 'imageUrl', event.target?.result as string);
         }
+      };
+      img.onerror = () => {
+        updateItem(id, 'imageUrl', event.target?.result as string);
       };
     };
     reader.readAsDataURL(file);
@@ -122,7 +138,14 @@ export function Module14Showcase() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 relative z-10">
+        <div className="flex flex-wrap items-center gap-3 relative z-10">
+          <button
+            onClick={resetCatalog}
+            className="px-4 py-3 rounded-2xl bg-white/5 hover:bg-white/10 text-gray-300 font-bold text-xs uppercase tracking-wider transition flex items-center gap-2 border border-white/10"
+            title="Recargar catálogo inicial"
+          >
+            <RefreshCw size={15} /> Restaurar Catálogo
+          </button>
           <button
             onClick={() => addItem('merch')}
             className="px-5 py-3 rounded-2xl bg-temple-gold text-black font-black text-xs uppercase tracking-wider hover:bg-amber-400 transition flex items-center gap-2 shadow-lg shadow-temple-gold/20"
@@ -180,70 +203,82 @@ export function Module14Showcase() {
               <Card className="bg-[#0B0F19] border-white/10 hover:border-temple-gold/40 transition-all rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between">
                 
                 {/* Media Header */}
-                <div className="h-52 relative overflow-hidden bg-black flex flex-col items-center justify-center">
+                <div className="h-56 relative overflow-hidden bg-black flex flex-col items-center justify-center">
                   <img 
-                    src={itemData.imageUrl} 
+                    src={itemData.imageUrl || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500&auto=format&fit=crop'} 
                     alt={itemData.title} 
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition-opacity duration-300" 
+                    className="w-full h-full object-cover" 
                     onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500&auto=format&fit=crop'; }} 
                   />
-                  
-                  {/* Overlay Controls */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() => fileInputRefs.current[itemData.id]?.click()}
-                      className="px-4 py-2 bg-temple-gold text-black rounded-xl font-black text-xs uppercase tracking-wider flex items-center gap-2 hover:bg-amber-400 transition shadow-lg"
-                    >
-                      <Upload size={14} /> Cambiar Foto
-                    </button>
-                    <input 
-                      type="file"
-                      ref={el => { fileInputRefs.current[itemData.id] = el; }}
-                      onChange={e => {
-                        if (e.target.files?.[0]) handleFileUpload(itemData.id, e.target.files[0]);
-                      }}
-                      accept="image/*"
-                      className="hidden"
-                    />
-                    <input 
-                      value={itemData.imageUrl}
-                      onChange={e => updateItem(itemData.id, 'imageUrl', e.target.value)}
-                      className="w-full bg-black/80 text-white text-[11px] font-mono px-3 py-1.5 rounded-xl border border-white/20 focus:outline-none focus:border-temple-gold text-center"
-                      placeholder="o pega URL de la foto..."
-                    />
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-transparent to-black/40 pointer-events-none" />
 
                   {/* Status Badge */}
                   <button 
+                    type="button"
                     onClick={() => updateItem(itemData.id, 'status', itemData.status === 'active' ? 'draft' : 'active')}
-                    className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center gap-1 backdrop-blur-md ${itemData.status === 'active' ? 'bg-emerald-500/80 text-white' : 'bg-black/80 text-gray-400 border border-white/20'}`}
+                    className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center gap-1 backdrop-blur-md z-10 ${itemData.status === 'active' ? 'bg-emerald-500/80 text-white' : 'bg-black/80 text-gray-400 border border-white/20'}`}
                   >
                     {itemData.status === 'active' ? <Eye size={12}/> : <EyeOff size={12}/>}
                     {itemData.status === 'active' ? 'Público' : 'Borrador'}
                   </button>
 
                   {/* Type Badge */}
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/80 text-[9px] font-bold uppercase tracking-widest text-white border border-white/10 flex items-center gap-1 backdrop-blur-md">
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/80 text-[9px] font-bold uppercase tracking-widest text-white border border-white/10 flex items-center gap-1 backdrop-blur-md z-10">
                     {itemData.type === 'merch' ? <ShoppingBag size={12} className="text-temple-gold"/> : <Utensils size={12} className="text-emerald-500"/>}
                     {itemData.type === 'merch' ? 'Tienda' : 'Receta'}
                   </div>
                 </div>
 
+                {/* Direct Visible Photo Controls */}
+                <div className="p-3 bg-white/[0.03] border-y border-white/5 flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <label 
+                      htmlFor={`file-input-${itemData.id}`}
+                      className="cursor-pointer px-3 py-1.5 bg-temple-gold/20 hover:bg-temple-gold text-temple-gold hover:text-black rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition border border-temple-gold/40"
+                    >
+                      <Upload size={12} /> Subir Foto
+                    </label>
+                    <input 
+                      id={`file-input-${itemData.id}`}
+                      type="file" 
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files?.[0]) {
+                          handleFileUpload(itemData.id, e.target.files[0]);
+                        }
+                      }} 
+                      className="hidden"
+                    />
+                    <input 
+                      type="text"
+                      value={itemData.imageUrl || ''}
+                      onChange={(e) => updateItem(itemData.id, 'imageUrl', e.target.value)}
+                      placeholder="o pega URL de la imagen..."
+                      className="flex-1 bg-black/60 text-white text-[10px] px-2.5 py-1.5 rounded-lg border border-white/10 focus:outline-none focus:border-temple-gold font-mono"
+                    />
+                  </div>
+                </div>
+
                 <CardContent className="!p-5 flex flex-col gap-3 bg-gradient-to-b from-[#0E1424] to-[#07090E]">
-                  <input 
-                    value={itemData.title} 
-                    onChange={e => updateItem(itemData.id, 'title', e.target.value)}
-                    className="bg-transparent text-white font-black text-base focus:outline-none w-full border-b border-transparent focus:border-temple-gold/40 pb-1"
-                    placeholder="Título del producto..."
-                  />
+                  <div>
+                    <label className="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-1">Título del Producto</label>
+                    <input 
+                      value={itemData.title} 
+                      onChange={e => updateItem(itemData.id, 'title', e.target.value)}
+                      className="bg-black/40 text-white font-bold text-sm focus:outline-none w-full border border-white/10 rounded-lg px-3 py-2 focus:border-temple-gold"
+                      placeholder="Título del elemento..."
+                    />
+                  </div>
                   
-                  <textarea
-                    value={itemData.description}
-                    onChange={e => updateItem(itemData.id, 'description', e.target.value)}
-                    className="w-full bg-transparent text-gray-400 text-xs min-h-[50px] focus:outline-none resize-none leading-relaxed"
-                    placeholder="Descripción para la página web..."
-                  />
+                  <div>
+                    <label className="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-1">Descripción</label>
+                    <textarea
+                      value={itemData.description}
+                      onChange={e => updateItem(itemData.id, 'description', e.target.value)}
+                      className="w-full bg-black/40 text-gray-300 text-xs min-h-[55px] focus:outline-none rounded-lg p-2.5 border border-white/10 focus:border-temple-gold resize-none leading-relaxed"
+                      placeholder="Descripción para la tienda pública..."
+                    />
+                  </div>
 
                   <div className="flex items-center justify-between mt-2 pt-3 border-t border-white/10">
                     <div className="flex items-center gap-2">
@@ -257,6 +292,7 @@ export function Module14Showcase() {
                     </div>
                     <div className="flex items-center gap-1">
                       <button 
+                        type="button"
                         onClick={() => duplicateItem(itemData)} 
                         className="text-temple-gold hover:text-amber-300 transition-colors p-2 rounded-xl hover:bg-white/5 flex items-center gap-1 text-[10px] font-bold uppercase"
                         title="Duplicar como plantilla"
@@ -264,6 +300,7 @@ export function Module14Showcase() {
                         <Copy size={14} /> Plantilla
                       </button>
                       <button 
+                        type="button"
                         onClick={() => deleteItem(itemData.id)} 
                         className="text-gray-500 hover:text-red-400 transition-colors p-2 rounded-xl hover:bg-white/5"
                         title="Eliminar de Vitrina"
