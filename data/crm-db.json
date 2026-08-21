@@ -614,6 +614,100 @@
         }
       ],
       "suggestedPrice": 28
+    },
+    {
+      "id": "rec-8",
+      "name": "Té de los Profetas (Inmunoestimulante)",
+      "category": "bebidas",
+      "time": 8,
+      "difficulty": "Fácil",
+      "servings": 1,
+      "description": "Bálsamo medicinal con clavo, canela, jengibre y menta para blindar el sistema inmune.",
+      "ingredientsText": [
+        "350ml agua hervida",
+        "10g jengibre fresco",
+        "1 rama de canela",
+        "3 clavos de olor",
+        "1 cdta cúrcuma",
+        "5 hojas de menta fresca",
+        "1 cdta miel pura",
+        "Zumo de 1/2 limón"
+      ],
+      "steps": [
+        "Hervir agua con jengibre, canela y clavos por 5 minutos.",
+        "Agregar cúrcuma y menta, reposar 3 minutos tapado.",
+        "Colar, añadir miel pura y limón."
+      ],
+      "macros": {
+        "calories": 45,
+        "protein": 0,
+        "fat": 0,
+        "carbs": 11
+      },
+      "image": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=800&auto=format&fit=crop",
+      "crmIngredients": [
+        {
+          "ingredientId": "ing-4",
+          "quantity": 10
+        },
+        {
+          "ingredientId": "ing-5",
+          "quantity": 5
+        },
+        {
+          "ingredientId": "ing-10",
+          "quantity": 3
+        },
+        {
+          "ingredientId": "ing-3",
+          "quantity": 2
+        },
+        {
+          "ingredientId": "ing-2",
+          "quantity": 10
+        }
+      ],
+      "suggestedPrice": 12
+    },
+    {
+      "id": "rec-9",
+      "name": "Ensalada del Jardín del Edén (Detox Celular)",
+      "category": "almuerzo",
+      "time": 12,
+      "difficulty": "Fácil",
+      "servings": 1,
+      "description": "Nutrición celular viva inspirada en la dieta bíblica original. Regeneración tisular y salud vascular.",
+      "ingredientsText": [
+        "100g hojas de espinaca",
+        "1/2 remolacha fresca rallada",
+        "1 zanahoria rallada",
+        "8 tomates cherry en mitades",
+        "1/2 aguacate maduro en cubos",
+        "25g nueces picadas",
+        "2 cdas aceite de oliva extra virgen",
+        "1 diente de ajo rallado",
+        "Zumo de 1/2 limón y sal marina"
+      ],
+      "steps": [
+        "Disponer la espinaca como base del plato.",
+        "Distribuir remolacha, zanahoria, tomates cherry y aguacate.",
+        "Preparar aderezo con aceite de oliva, ajo, limón y sal marina.",
+        "Verter aderezo y espolvorear nueces."
+      ],
+      "macros": {
+        "calories": 380,
+        "protein": 7,
+        "fat": 31,
+        "carbs": 22
+      },
+      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop",
+      "crmIngredients": [
+        {
+          "ingredientId": "ing-1",
+          "quantity": 1
+        }
+      ],
+      "suggestedPrice": 25
     }
   ],
   "mentorshipSessions": [],
