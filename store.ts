@@ -2,7 +2,7 @@ import { CRMDatabase } from './types';
 import { db as firestoreDb } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const STORAGE_KEY = 'templefit_holistic_students_v4';
+const STORAGE_KEY = 'templefit_holistic_students_v5';
 
 const DEFAULT_DB: CRMDatabase = {
   students: [
