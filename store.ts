@@ -888,6 +888,18 @@ const DEFAULT_DB: CRMDatabase = {
   }
 };
 
+function mergeListById<T extends { id: string }>(custom: T[] | undefined, defaults: T[]): T[] {
+  if (!Array.isArray(custom) || custom.length === 0) return defaults;
+  const map = new Map<string, T>();
+  defaults.forEach(d => map.set(d.id, d));
+  custom.forEach(c => {
+    if (c && c.id) {
+      map.set(c.id, { ...(map.get(c.id) || {}), ...c });
+    }
+  });
+  return Array.from(map.values());
+}
+
 export function getCRMDatabase(): CRMDatabase {
   if (typeof window === 'undefined') return DEFAULT_DB;
   
@@ -902,12 +914,12 @@ export function getCRMDatabase(): CRMDatabase {
     const merged: CRMDatabase = {
       ...DEFAULT_DB,
       ...parsed,
-      recipes: (parsed.recipes && parsed.recipes.length > 0) ? parsed.recipes : DEFAULT_DB.recipes,
-      inventory: (parsed.inventory && parsed.inventory.length > 0) ? parsed.inventory : DEFAULT_DB.inventory,
-      ingredients: (parsed.ingredients && parsed.ingredients.length > 0) ? parsed.ingredients : DEFAULT_DB.ingredients,
-      showcaseItems: (parsed.showcaseItems && parsed.showcaseItems.length > 0) ? parsed.showcaseItems : DEFAULT_DB.showcaseItems,
-      sopsList: (parsed.sopsList && parsed.sopsList.length > 0) ? parsed.sopsList : DEFAULT_DB.sopsList,
-      marketingTasks: (parsed.marketingTasks && parsed.marketingTasks.length > 0) ? parsed.marketingTasks : DEFAULT_DB.marketingTasks,
+      recipes: mergeListById(parsed.recipes, DEFAULT_DB.recipes || []),
+      inventory: mergeListById(parsed.inventory, DEFAULT_DB.inventory || []),
+      ingredients: mergeListById(parsed.ingredients, DEFAULT_DB.ingredients || []),
+      showcaseItems: mergeListById(parsed.showcaseItems, DEFAULT_DB.showcaseItems || []),
+      sopsList: mergeListById(parsed.sopsList, DEFAULT_DB.sopsList || []),
+      marketingTasks: mergeListById(parsed.marketingTasks, DEFAULT_DB.marketingTasks || []),
     };
     return merged;
   } catch (err) {
@@ -946,10 +958,10 @@ export async function syncFromCloud(): Promise<CRMDatabase> {
       const merged: CRMDatabase = {
         ...DEFAULT_DB,
         ...data,
-        recipes: (data.recipes && data.recipes.length > 0) ? data.recipes : DEFAULT_DB.recipes,
-        inventory: (data.inventory && data.inventory.length > 0) ? data.inventory : DEFAULT_DB.inventory,
-        ingredients: (data.ingredients && data.ingredients.length > 0) ? data.ingredients : DEFAULT_DB.ingredients,
-        showcaseItems: (data.showcaseItems && data.showcaseItems.length > 0) ? data.showcaseItems : DEFAULT_DB.showcaseItems,
+        recipes: mergeListById(data.recipes, DEFAULT_DB.recipes || []),
+        inventory: mergeListById(data.inventory, DEFAULT_DB.inventory || []),
+        ingredients: mergeListById(data.ingredients, DEFAULT_DB.ingredients || []),
+        showcaseItems: mergeListById(data.showcaseItems, DEFAULT_DB.showcaseItems || []),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
       return merged;

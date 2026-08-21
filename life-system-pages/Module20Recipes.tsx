@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, Trash2, Edit3, X, Save, ChefHat, Upload, Image as ImageIcon } from 'lucide-react';
+import { Search, Plus, Trash2, Edit3, X, Save, ChefHat, Upload, Image as ImageIcon, Sparkles } from 'lucide-react';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Recipe } from '../types';
 
 export function Module20Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState<'all' | 'bebidas' | 'desayuno' | 'almuerzo' | 'snack'>('all');
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   
@@ -101,9 +102,12 @@ export function Module20Recipes() {
     });
   };
 
-  const filteredRecipes = recipes.filter(r => 
-    r.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredRecipes = (recipes || []).filter(r => {
+    if (!r) return false;
+    const matchesSearch = (r.name || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = categoryFilter === 'all' || (r.category || '').toLowerCase() === categoryFilter;
+    return matchesSearch && matchesCategory;
+  });
 
   const startEdit = (recipe: Recipe) => {
     setNewRecipe(recipe);
@@ -124,7 +128,7 @@ export function Module20Recipes() {
               <ChefHat className="text-temple-gold" size={24} />
               Gestión de Recetas
             </h2>
-            <p className="text-sm text-gray-400 mt-1">Sincronizado con la Web Pública</p>
+            <p className="text-sm text-gray-400 mt-1">Catálogo oficial sincronizado con la Web Pública ({recipes.length} recetas)</p>
           </div>
           
           <button 
@@ -154,7 +158,7 @@ export function Module20Recipes() {
                 
                 {/* Image Upload Area */}
                 <div className="col-span-1 md:col-span-2">
-                  <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-2 block">Foto del Platillo (Click para subir)</label>
+                  <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-2 block">Foto del Platillo (Click para subir o pega URL)</label>
                   <div 
                     onClick={() => fileInputRef.current?.click()}
                     className="h-48 border-2 border-dashed border-white/20 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-temple-gold/50 transition bg-black/40 overflow-hidden relative"
@@ -162,41 +166,44 @@ export function Module20Recipes() {
                     {newRecipe.image ? (
                       <img src={newRecipe.image} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
-                      <div className="text-center text-gray-500">
-                        <Upload size={32} className="mx-auto mb-2" />
-                        <span className="text-xs uppercase font-bold tracking-widest">Subir Imagen</span>
+                      <div className="text-center p-4 text-gray-500">
+                        <Upload size={32} className="mx-auto mb-2 opacity-50" />
+                        <p className="text-xs uppercase font-bold tracking-wider">Arrastra o haz clic para subir imagen</p>
                       </div>
                     )}
-                    <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
+                    <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                   </div>
+                  <input 
+                    type="text" 
+                    placeholder="O pega aquí la URL de la imagen..." 
+                    value={newRecipe.image || ''} 
+                    onChange={e => setNewRecipe({ ...newRecipe, image: e.target.value })}
+                    className="w-full mt-2 bg-black border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-temple-gold font-mono"
+                  />
                 </div>
 
-                {/* Basics */}
+                {/* Basic Fields */}
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Nombre</label>
-                    <input type="text" value={newRecipe.name} onChange={e => setNewRecipe({ ...newRecipe, name: e.target.value })} required className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" placeholder="Ej. Batido de Proteína" />
+                    <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Nombre de la Receta</label>
+                    <input type="text" required value={newRecipe.name} onChange={e => setNewRecipe({ ...newRecipe, name: e.target.value })} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" placeholder="Ej. ElectroHidra Elite..." />
                   </div>
                   <div>
-                    <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Descripción Breve</label>
-                    <textarea value={newRecipe.description} onChange={e => setNewRecipe({ ...newRecipe, description: e.target.value })} required rows={2} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" placeholder="El desayuno oficial del Reto 21 Días..." />
+                    <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Descripción Terapéutica / Beneficios</label>
+                    <textarea value={newRecipe.description} onChange={e => setNewRecipe({ ...newRecipe, description: e.target.value })} rows={3} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" placeholder="Beneficios metabólicos y recuperación..." />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-3">
                     <div>
                       <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Categoría</label>
-                      <select value={newRecipe.category} onChange={e => setNewRecipe({ ...newRecipe, category: e.target.value })} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none">
-                        <option value="desayuno">Desayuno</option>
-                        <option value="almuerzo">Almuerzo</option>
-                        <option value="cena">Cena</option>
-                        <option value="snack">Snack / Batido</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1 block">Dificultad</label>
-                      <select value={newRecipe.difficulty} onChange={e => setNewRecipe({ ...newRecipe, difficulty: e.target.value })} className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none">
-                        <option value="Fácil">Fácil</option>
-                        <option value="Media">Media</option>
-                        <option value="Difícil">Difícil</option>
+                      <select 
+                        value={newRecipe.category} 
+                        onChange={e => setNewRecipe({ ...newRecipe, category: e.target.value as any })}
+                        className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-xs text-white focus:border-temple-gold outline-none"
+                      >
+                        <option value="bebidas">Bebidas</option>
+                        <option value="desayuno">Desayunos</option>
+                        <option value="almuerzo">Almuerzos</option>
+                        <option value="snack">Snack Bar</option>
                       </select>
                     </div>
                     <div>
@@ -228,7 +235,7 @@ export function Module20Recipes() {
                       onChange={e => setNewRecipe({ ...newRecipe, ingredientsText: e.target.value.split('\n') })} 
                       rows={4} 
                       className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" 
-                      placeholder="2 huevos\n1 aguacate..." 
+                      placeholder="1L agua filtrada\n1.2g sal marina..." 
                     />
                   </div>
                   <div>
@@ -238,7 +245,7 @@ export function Module20Recipes() {
                       onChange={e => setNewRecipe({ ...newRecipe, steps: e.target.value.split('\n') })} 
                       rows={4} 
                       className="w-full bg-black border border-white/10 rounded-lg p-2.5 text-sm text-white focus:border-temple-gold outline-none" 
-                      placeholder="1. Batir los huevos\n2. Cocinar a fuego lento..." 
+                      placeholder="1. Disolver electrolitos...\n2. Servir frío..." 
                     />
                   </div>
                 </div>
@@ -254,46 +261,71 @@ export function Module20Recipes() {
         )}
       </AnimatePresence>
 
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-        <input type="text" placeholder="Buscar receta..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-[#0B0F19] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold transition-colors" />
+      {/* Filters Toolbar */}
+      <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/10">
+        <div className="relative w-full md:w-96">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+          <input 
+            type="text" 
+            placeholder="Buscar por nombre..." 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            className="w-full bg-black/50 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-temple-gold transition-colors text-white" 
+          />
+        </div>
+        <div className="flex gap-2 w-full md:w-auto overflow-x-auto custom-scrollbar pb-2 md:pb-0">
+          {(['all', 'bebidas', 'desayuno', 'almuerzo', 'snack'] as const).map(cat => (
+            <button
+              key={cat}
+              onClick={() => setCategoryFilter(cat)}
+              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
+                categoryFilter === cat 
+                  ? 'bg-temple-gold text-black font-black' 
+                  : 'bg-black/50 text-gray-400 border border-white/10 hover:border-white/30'
+              }`}
+            >
+              {cat === 'all' ? 'Todas' : cat === 'bebidas' ? 'Bebidas' : cat === 'desayuno' ? 'Desayunos' : cat === 'almuerzo' ? 'Almuerzos' : 'Snack Bar'}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredRecipes.map((recipe) => (
-          <div key={recipe.id} className="bg-[#0B0F19] border border-white/10 rounded-2xl overflow-hidden hover:border-temple-gold/30 transition-colors flex flex-col group">
-            <div className="h-40 bg-black relative overflow-hidden">
-              {recipe.image ? (
-                <img src={recipe.image} alt={recipe.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center text-gray-700 bg-white/5">
-                  <ImageIcon size={32} className="mb-2" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Sin Imagen</span>
-                </div>
-              )}
-              <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-full border border-white/10 text-[9px] font-bold text-temple-gold uppercase">
+          <div key={recipe.id} className="bg-[#0B0F19] border border-white/10 rounded-2xl overflow-hidden hover:border-temple-gold/30 transition-colors flex flex-col group shadow-xl">
+            <div className="h-44 bg-black relative overflow-hidden">
+              <img 
+                src={recipe.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop'} 
+                alt={recipe.name} 
+                onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop'; }}
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+              />
+              <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[9px] font-bold text-temple-gold uppercase">
                 {recipe.category}
               </div>
             </div>
             
-            <div className="p-5 flex flex-col flex-1">
-              <h3 className="font-bold text-lg text-white mb-2">{recipe.name}</h3>
-              <div className="grid grid-cols-3 gap-2 mb-4 border-b border-white/10 pb-4">
-                <div className="text-center bg-white/5 rounded-lg py-2">
-                  <span className="block text-[9px] uppercase tracking-widest text-gray-500">Kcal</span>
-                  <span className="font-bold text-xs text-white">{recipe.macros?.calories || 0}</span>
-                </div>
-                <div className="text-center bg-white/5 rounded-lg py-2">
-                  <span className="block text-[9px] uppercase tracking-widest text-gray-500">Prot</span>
-                  <span className="font-bold text-xs text-white">{recipe.macros?.protein || 0}g</span>
-                </div>
-                <div className="text-center bg-white/5 rounded-lg py-2">
-                  <span className="block text-[9px] uppercase tracking-widest text-gray-500">Tiempo</span>
-                  <span className="font-bold text-xs text-white">{recipe.time || 0}m</span>
+            <div className="p-5 flex flex-col flex-1 justify-between">
+              <div>
+                <h3 className="font-bold text-lg text-white mb-2 line-clamp-1">{recipe.name}</h3>
+                <p className="text-xs text-gray-400 mb-4 line-clamp-2 leading-relaxed">{recipe.description}</p>
+                <div className="grid grid-cols-3 gap-2 mb-4 border-b border-white/10 pb-4">
+                  <div className="text-center bg-white/5 rounded-lg py-2">
+                    <span className="block text-[9px] uppercase tracking-widest text-gray-500">Kcal</span>
+                    <span className="font-bold text-xs text-white">{recipe.macros?.calories || 0}</span>
+                  </div>
+                  <div className="text-center bg-white/5 rounded-lg py-2">
+                    <span className="block text-[9px] uppercase tracking-widest text-gray-500">Prot</span>
+                    <span className="font-bold text-xs text-white">{recipe.macros?.protein || 0}g</span>
+                  </div>
+                  <div className="text-center bg-white/5 rounded-lg py-2">
+                    <span className="block text-[9px] uppercase tracking-widest text-gray-500">Tiempo</span>
+                    <span className="font-bold text-xs text-white">{recipe.time || 0}m</span>
+                  </div>
                 </div>
               </div>
               
-              <div className="mt-auto pt-2 flex justify-between gap-2">
+              <div className="pt-2 flex justify-between gap-2">
                 <button onClick={() => startEdit(recipe)} className="flex-1 py-2 bg-white/5 hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white rounded-lg transition-colors border border-white/5">
                   Editar
                 </button>
@@ -307,8 +339,8 @@ export function Module20Recipes() {
 
         {filteredRecipes.length === 0 && (
           <div className="col-span-full py-12 text-center text-gray-500 border border-dashed border-white/10 rounded-2xl">
-            <ChefHat size={32} className="mx-auto mb-2 opacity-50" />
-            <p>No se encontraron recetas.</p>
+            <ChefHat size={32} className="mx-auto mb-2 opacity-50 text-temple-gold" />
+            <p className="text-xs uppercase font-bold tracking-wider">No se encontraron recetas.</p>
           </div>
         )}
       </div>
