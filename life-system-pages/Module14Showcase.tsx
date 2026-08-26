@@ -1,19 +1,16 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Image as ImageIcon, Utensils, ShoppingBag, Plus, Save, Trash2, Eye, EyeOff, Upload, Camera } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { Image as ImageIcon, Utensils, ShoppingBag, Plus, Trash2, Eye, EyeOff, Upload, Copy, Search, RefreshCw } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
-import { getCRMDatabase, saveCRMDatabase } from '../store';
+import { getCRMDatabase, saveCRMDatabase, resetToDefaultDB } from '../store';
 import { ShowcaseItem } from '../types';
-
-const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
-const item = { hidden: { opacity: 0, scale: 0.95 }, show: { opacity: 1, scale: 1 } };
 
 export function Module14Showcase() {
   const [items, setItems] = useState<ShowcaseItem[]>([]);
-  const [activeFilter, setActiveFilter] = useState<'all' | 'recipe' | 'merch'>('all');
-  const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const db = getCRMDatabase();
@@ -27,17 +24,33 @@ export function Module14Showcase() {
     setItems(newItems);
   };
 
+  const resetCatalog = () => {
+    if (confirm('¿Restablecer el catálogo con los 22 productos y recetas oficiales de fábrica?')) {
+      const freshDb = resetToDefaultDB();
+      setItems(freshDb.showcaseItems || []);
+    }
+  };
+
   const addItem = (type: 'recipe' | 'merch') => {
     const newItem: ShowcaseItem = {
       id: `show-${Date.now()}`,
       type,
-      title: type === 'recipe' ? 'Nueva Receta' : 'Nuevo Producto',
-      description: 'Añade una descripción llamativa...',
-      price: type === 'merch' ? 100 : 0,
-      imageUrl: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?w=500&h=500&fit=crop',
+      title: type === 'recipe' ? 'Nueva Receta Pública' : 'Nuevo Producto / Membresía',
+      description: 'Añade una descripción llamativa para la web...',
+      price: type === 'merch' ? 100 : 15,
+      imageUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=500&h=500&fit=crop',
       status: 'active'
     };
     saveToDb([newItem, ...items]);
+  };
+
+  const duplicateItem = (item: ShowcaseItem) => {
+    const duplicated: ShowcaseItem = {
+      ...item,
+      id: `show-${Date.now()}`,
+      title: `${item.title} (Nueva Plantilla)`
+    };
+    saveToDb([duplicated, ...items]);
   };
 
   const updateItem = (id: string, field: keyof ShowcaseItem, value: any) => {
@@ -51,8 +64,8 @@ export function Module14Showcase() {
   };
 
   const handleFileUpload = (id: string, file: File) => {
-    if (!file.type.startsWith('image/')) {
-      alert('Por favor selecciona un archivo de imagen válido.');
+    if (!file || !file.type.startsWith('image/')) {
+      alert('Por favor selecciona un archivo de imagen válido (JPG, PNG, WebP).');
       return;
     }
     const reader = new FileReader();
@@ -61,19 +74,26 @@ export function Module14Showcase() {
       img.src = event.target?.result as string;
       img.onload = () => {
         const canvas = document.createElement('canvas');
+        const maxDim = 500;
         let width = img.width;
         let height = img.height;
-        const maxWidth = 800;
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
         }
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0, width, height);
-          const compressed = canvas.toDataURL('image/jpeg', 0.8);
+          const compressed = canvas.toDataURL('image/jpeg', 0.7);
           updateItem(id, 'imageUrl', compressed);
         } else {
           updateItem(id, 'imageUrl', event.target?.result as string);
@@ -83,50 +103,54 @@ export function Module14Showcase() {
     reader.readAsDataURL(file);
   };
 
-  const filteredItems = items.filter(i => activeFilter === 'all' || i.type === activeFilter);
+  const filteredItems = items.filter(item => {
+    const matchesFilter = activeFilter === 'all' || item.type === activeFilter;
+    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          item.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 max-w-7xl mx-auto font-sans">
+    <div className="space-y-6 pb-12 max-w-7xl mx-auto font-sans">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-[#0a1128] via-black to-black p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-[#0B0F19] p-7 rounded-2xl border border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ImageIcon size={180} />
         </div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="px-2.5 py-0.5 rounded-full bg-pink-500/20 text-pink-400 border border-pink-500/40 text-[10px] font-black uppercase tracking-[0.2em]">
-              Multimedia & Catálogo
+        <div className="relative z-10 space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="px-3 py-1 rounded-full bg-temple-gold/10 text-temple-gold border border-temple-gold/30 text-[10px] font-extrabold uppercase tracking-[0.2em]">
+              Armería Oficial & Vitrina Pública
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
-            <ImageIcon className="text-pink-500" size={32} />
-            Vitrina Pública
+          <h2 className="text-2xl md:text-3xl font-serif font-black text-white uppercase tracking-tight">
+            Catálogo & Plantillas de Tienda
           </h2>
-          <p className="text-xs md:text-sm text-gray-400 mt-1 uppercase tracking-widest">
-            Gestor de Imágenes, Recetas y Merchandising para la Web
+          <p className="text-gray-400 text-xs md:text-sm max-w-xl font-light leading-relaxed">
+            Edita fotos, precios e inventario para la web pública. Usa cualquier producto como plantilla para nuevos lanzamientos.
           </p>
         </div>
-        
-        {/* Filters */}
-        <div className="relative z-10 flex bg-white/5 p-1 rounded-2xl border border-white/10 w-full md:w-auto">
-          <button 
-            onClick={() => setActiveFilter('all')}
-            className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'all' ? 'bg-white/20 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+
+        <div className="flex flex-wrap items-center gap-2.5 relative z-10">
+          <button
+            onClick={resetCatalog}
+            className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 font-bold text-xs uppercase tracking-wider transition flex items-center gap-2 border border-white/10"
+            title="Recargar catálogo inicial"
           >
-            Todo
+            <RefreshCw size={14} /> Restaurar Catálogo
           </button>
-          <button 
-            onClick={() => setActiveFilter('merch')}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'merch' ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+          <button
+            onClick={() => addItem('merch')}
+            className="px-4 py-2.5 rounded-xl bg-temple-gold text-black font-extrabold text-xs uppercase tracking-wider hover:bg-temple-gold-bright transition flex items-center gap-1.5 shadow-lg shadow-temple-gold/15"
           >
-            <ShoppingBag size={14} /> Merch
+            <Plus size={15} /> + Producto
           </button>
-          <button 
-            onClick={() => setActiveFilter('recipe')}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'recipe' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+          <button
+            onClick={() => addItem('recipe')}
+            className="px-4 py-2.5 rounded-xl bg-white/10 text-white font-bold text-xs uppercase tracking-wider hover:bg-white/20 transition flex items-center gap-1.5 border border-white/10"
           >
-            <Utensils size={14} /> Recetas
+            <Plus size={15} /> + Receta
           </button>
         </div>
       </div>
@@ -149,106 +173,134 @@ export function Module14Showcase() {
         </div>
       </div>
 
+      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence>
           {filteredItems.map(itemData => (
-            <motion.div key={itemData.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
-              <Card className={`group relative overflow-hidden rounded-3xl border-2 transition-all hover:border-white/20 shadow-2xl ${itemData.status === 'draft' ? 'border-white/5 opacity-60 hover:opacity-100' : (itemData.type === 'merch' ? 'border-temple-gold/20' : 'border-emerald-500/20')}`}>
+            <div key={itemData.id} className="group">
+              <Card className="bg-[#0B0F19] border-white/10 hover:border-temple-gold/40 transition-all rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between">
                 
-                {/* Image Preview & Upload Area */}
-                <div className="h-52 relative overflow-hidden bg-black flex flex-col items-center justify-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={itemData.imageUrl} alt={itemData.title} className="w-full h-full object-cover opacity-75 group-hover:opacity-40 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500&auto=format&fit=crop'; }} />
-                  
-                  {/* Overlay Controls */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() => fileInputRefs.current[itemData.id]?.click()}
-                      className="px-4 py-2 bg-temple-gold text-black rounded-xl font-black text-xs uppercase tracking-wider flex items-center gap-2 hover:bg-amber-400 transition shadow-lg"
-                    >
-                      <Upload size={14} /> Subir Imagen
-                    </button>
-                    <input 
-                      type="file"
-                      ref={el => { fileInputRefs.current[itemData.id] = el; }}
-                      onChange={e => {
-                        if (e.target.files?.[0]) handleFileUpload(itemData.id, e.target.files[0]);
-                      }}
-                      accept="image/*"
-                      className="hidden"
-                    />
-                    <input 
-                      value={itemData.imageUrl}
-                      onChange={e => updateItem(itemData.id, 'imageUrl', e.target.value)}
-                      className="w-full bg-black/80 text-white text-[11px] font-mono px-3 py-1.5 rounded-xl border border-white/20 focus:outline-none focus:border-temple-gold text-center"
-                      placeholder="o pega URL de la imagen..."
-                    />
-                  </div>
+                {/* Media Header with 16:10 Ratio */}
+                <div className="aspect-[16/10] relative overflow-hidden bg-black flex flex-col items-center justify-center">
+                  <img 
+                    src={itemData.imageUrl || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500&auto=format&fit=crop'} 
+                    alt={itemData.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500&auto=format&fit=crop'; }} 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-transparent to-black/40 pointer-events-none" />
 
                   {/* Status Badge */}
                   <button 
+                    type="button"
                     onClick={() => updateItem(itemData.id, 'status', itemData.status === 'active' ? 'draft' : 'active')}
-                    className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center gap-1 backdrop-blur-md ${itemData.status === 'active' ? 'bg-emerald-500/80 text-white' : 'bg-black/80 text-gray-400 border border-white/20'}`}
+                    className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest flex items-center gap-1 backdrop-blur-md z-10 ${itemData.status === 'active' ? 'bg-temple-olive text-white' : 'bg-black/80 text-gray-400 border border-white/20'}`}
                   >
                     {itemData.status === 'active' ? <Eye size={12}/> : <EyeOff size={12}/>}
-                    {itemData.status === 'active' ? 'Público' : 'Oculto'}
+                    {itemData.status === 'active' ? 'Público' : 'Borrador'}
                   </button>
 
                   {/* Type Badge */}
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/80 text-[9px] font-bold uppercase tracking-widest text-white border border-white/10 flex items-center gap-1 backdrop-blur-md">
-                    {itemData.type === 'merch' ? <ShoppingBag size={12} className="text-temple-gold"/> : <Utensils size={12} className="text-emerald-500"/>}
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/80 text-[9px] font-black uppercase tracking-widest text-temple-gold border border-white/10 flex items-center gap-1 backdrop-blur-md z-10">
+                    {itemData.type === 'merch' ? <ShoppingBag size={12} className="text-temple-gold"/> : <Utensils size={12} className="text-temple-olive"/>}
                     {itemData.type === 'merch' ? 'Tienda' : 'Receta'}
                   </div>
                 </div>
 
-                <CardContent className="!p-5 flex flex-col gap-3 bg-gradient-to-b from-[#0E1424] to-[#07090E]">
-                  <input 
-                    value={itemData.title} 
-                    onChange={e => updateItem(itemData.id, 'title', e.target.value)}
-                    className="bg-transparent text-white font-black text-lg focus:outline-none w-full border-b border-transparent focus:border-temple-gold/40 pb-1"
-                    placeholder="Título del elemento"
-                  />
-                  
-                  <textarea
-                    value={itemData.description}
-                    onChange={e => updateItem(itemData.id, 'description', e.target.value)}
-                    className="w-full bg-transparent text-gray-400 text-xs min-h-[50px] focus:outline-none resize-none leading-relaxed"
-                    placeholder="Descripción para la página web..."
-                  />
+                {/* Direct Visible Photo Controls */}
+                <div className="p-2.5 bg-black/40 border-y border-white/5 flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <label 
+                      htmlFor={`file-input-${itemData.id}`}
+                      className="cursor-pointer px-3 py-1.5 bg-temple-gold/15 hover:bg-temple-gold text-temple-gold hover:text-black rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 transition border border-temple-gold/30"
+                    >
+                      <Upload size={12} /> Subir Foto
+                    </label>
+                    <input 
+                      id={`file-input-${itemData.id}`}
+                      type="file" 
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files?.[0]) {
+                          handleFileUpload(itemData.id, e.target.files[0]);
+                        }
+                      }} 
+                      className="hidden"
+                    />
+                    <input 
+                      type="text"
+                      value={itemData.imageUrl || ''}
+                      onChange={(e) => updateItem(itemData.id, 'imageUrl', e.target.value)}
+                      placeholder="o pega URL de la foto..."
+                      className="flex-1 bg-black/60 text-white text-[10px] px-2.5 py-1.5 rounded-lg border border-white/10 focus:outline-none focus:border-temple-gold font-mono"
+                    />
+                  </div>
+                </div>
 
-                  <div className="flex items-center justify-between mt-2 pt-3 border-t border-white/10">
+                <CardContent className="!p-5 flex flex-col gap-3 bg-[#0E1424]">
+                  <div>
+                    <label className="text-[9px] text-gray-500 font-extrabold uppercase tracking-widest block mb-1">Título del Producto / Receta</label>
+                    <input 
+                      value={itemData.title} 
+                      onChange={e => updateItem(itemData.id, 'title', e.target.value)}
+                      className="bg-black/40 text-white font-bold text-sm focus:outline-none w-full border border-white/10 rounded-xl px-3 py-2 focus:border-temple-gold"
+                      placeholder="Título del elemento..."
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="text-[9px] text-gray-500 font-extrabold uppercase tracking-widest block mb-1">Descripción</label>
+                    <textarea
+                      value={itemData.description}
+                      onChange={e => updateItem(itemData.id, 'description', e.target.value)}
+                      className="w-full bg-black/40 text-gray-300 text-xs min-h-[55px] focus:outline-none rounded-xl p-2.5 border border-white/10 focus:border-temple-gold resize-none leading-relaxed"
+                      placeholder="Descripción para la tienda pública..."
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between mt-1 pt-3 border-t border-white/10">
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-gray-500 uppercase tracking-widest font-bold">Bs.</span>
                       <input 
                         type="number"
                         value={itemData.price} 
                         onChange={e => updateItem(itemData.id, 'price', Number(e.target.value))}
-                        className="bg-white/5 text-temple-gold font-black text-base focus:outline-none w-24 px-2.5 py-1 rounded-xl border border-white/10 focus:border-temple-gold/40"
+                        className="bg-white/5 text-temple-gold font-black text-sm focus:outline-none w-24 px-2.5 py-1.5 rounded-xl border border-white/10 focus:border-temple-gold/40 tabular-nums"
                       />
                     </div>
-                    <button 
-                      onClick={() => deleteItem(itemData.id)} 
-                      className="text-gray-500 hover:text-red-400 transition-colors p-2 rounded-xl hover:bg-white/5"
-                      title="Eliminar de Vitrina"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button 
+                        type="button"
+                        onClick={() => duplicateItem(itemData)} 
+                        className="text-temple-gold hover:text-temple-gold-bright transition-colors p-2 rounded-xl hover:bg-white/5 flex items-center gap-1 text-[10px] font-extrabold uppercase"
+                        title="Duplicar como plantilla"
+                      >
+                        <Copy size={13} /> Plantilla
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => deleteItem(itemData.id)} 
+                        className="text-gray-500 hover:text-red-400 transition-colors p-2 rounded-xl hover:bg-white/5"
+                        title="Eliminar de Vitrina"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </AnimatePresence>
         
         {filteredItems.length === 0 && (
-          <div className="col-span-full py-16 text-center text-gray-500 border border-dashed border-white/10 rounded-3xl">
-            <ImageIcon size={48} className="mx-auto mb-4 opacity-20" />
-            <p className="font-bold">No hay elementos en esta categoría.</p>
+          <div className="col-span-full py-16 text-center text-gray-500 border border-dashed border-white/10 rounded-2xl">
+            <ImageIcon size={40} className="mx-auto mb-3 opacity-30 text-temple-gold" />
+            <p className="font-bold text-sm">No hay elementos en esta categoría.</p>
           </div>
         )}
       </div>
 
-    </motion.div>
+    </div>
   );
 }

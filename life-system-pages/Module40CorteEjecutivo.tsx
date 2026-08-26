@@ -5,8 +5,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { MonthlyBoard } from '../types';
 
-const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
-const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
+const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 
 export function Module40CorteEjecutivo() {
   const [board, setBoard] = useState<MonthlyBoard | null>(null);
@@ -19,16 +18,40 @@ export function Module40CorteEjecutivo() {
     setBoard(db.monthlyBoard || null);
     setRawTransactions(db.transactions || []);
 
-    // --- KPIs reales calculados desde el CRM (no hardcodeados) ---
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const loadBoardData = () => {
+    const db = getCRMDatabase();
+    setBoard(db.monthlyBoard || {
+      month: 'Agosto 2026',
+      goals: [
+        { label: 'Ingresos Totales (Gym + Barra + Textil)', targetBs: 45000, currentBs: 0 },
+        { label: 'Retención de Atletas (>85%)', targetBs: 85, currentBs: 92 },
+        { label: 'Conversión Onboarding a Barra Nutricional', targetBs: 60, currentBs: 65 },
+        { label: 'Fondo de Reserva & Expansión (10%)', targetBs: 4500, currentBs: 0 }
+      ],
+      squadRankings: []
+    });
+
+    // KPIs calculados estrictamente desde el CRM
     const now = new Date();
     const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
     const txs = db.transactions || [];
-    const income = txs.filter(t => t.type === 'income' && t.date.startsWith(monthPrefix)).reduce((s, t) => s + t.amount, 0);
-    const expense = txs.filter(t => t.type === 'expense' && t.date.startsWith(monthPrefix)).reduce((s, t) => s + t.amount, 0);
+    const income = txs
+      .filter(t => t.type === 'income' && t.date.startsWith(monthPrefix))
+      .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    
+    const expense = txs
+      .filter(t => t.type === 'expense' && t.date.startsWith(monthPrefix))
+      .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    
     const students = db.students || [];
     const activeStudents = students.filter(s => s.status === 'active').length;
 
-    // Escuadrones: agrupación real desde estudiantes, progreso = promedio de fase
+    // Escuadrones reales
     const squadMap = new Map<string, { total: number; phaseSum: number }>();
     students.forEach(s => {
       const cur = squadMap.get(s.escuadronId) || { total: 0, phaseSum: 0 };
@@ -36,28 +59,26 @@ export function Module40CorteEjecutivo() {
       cur.phaseSum += s.phase.startsWith('1') ? 33 : s.phase.startsWith('2') ? 66 : 100;
       squadMap.set(s.escuadronId, cur);
     });
+
     const colors = ['from-blue-500 to-cyan-400', 'from-purple-500 to-pink-500', 'from-amber-500 to-orange-500', 'from-emerald-500 to-teal-400'];
     const squads = Array.from(squadMap.entries()).map(([name, d], i) => ({
       name,
-      progress: Math.round(d.phaseSum / d.total),
+      progress: Math.round(d.phaseSum / (d.total || 1)),
       color: colors[i % colors.length]
     }));
 
     setKpis({ income, expense, activeStudents, squads });
-  }, []);
-
-  const updateBoard = (patch: Partial<MonthlyBoard>) => {
-    if (!board) return;
-    const next = { ...board, ...patch };
-    setBoard(next);
-    const db = getCRMDatabase();
-    db.monthlyBoard = next;
-    saveCRMDatabase(db);
   };
 
   const updateGoal = (idx: number, value: number) => {
     if (!board) return;
-    updateBoard({ goals: board.goals.map((g, i) => (i === idx ? { ...g, targetBs: value } : g)) });
+    const updatedGoals = board.goals.map((g, i) => i === idx ? { ...g, targetBs: Math.max(0, Number(value) || 0) } : g);
+    const nextBoard = { ...board, goals: updatedGoals };
+    setBoard(nextBoard);
+    const db = getCRMDatabase();
+    db.monthlyBoard = nextBoard;
+    saveCRMDatabase(db);
+    showToast('Meta actualizada');
   };
 
   const categoryBreakdown = useMemo(() => {
@@ -103,13 +124,15 @@ export function Module40CorteEjecutivo() {
 
   if (!board) return null;
 
-  const formatBs = (n: number) => `Bs. ${n.toLocaleString('es-BO')}`;
-  const totalGoals = board.goals.reduce((s, g) => s + g.targetBs, 0);
-  const net = kpis.income - kpis.expense;
-  // Regla 50/50 real: % gastos operativos vs % utilidad/crecimiento
-  const totalFlow = kpis.income + kpis.expense;
-  const pctExpense = totalFlow > 0 ? Math.round((kpis.expense / totalFlow) * 100) : 50;
-  const pctProfit = 100 - pctExpense;
+  const formatBs = (n: number) => `Bs. ${Number(n || 0).toLocaleString('es-BO')}`;
+  
+  // Regla 50/50 del Cuaderno Oficial:
+  const grossIncome = kpis.income;
+  const operatingCosts = kpis.expense;
+  const netOperatingProfit = Math.max(0, grossIncome - operatingCosts);
+  const reserveFund = Math.round(netOperatingProfit * 0.10); // 10% fondo de reserva
+  const distributableProfit = netOperatingProfit - reserveFund;
+  const partnerShare50 = Math.round(distributableProfit * 0.50); // 50% cada socio
 
   const handleRegisterWithdrawal = () => {
     if (net <= 0) {
@@ -136,7 +159,7 @@ export function Module40CorteEjecutivo() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-temple-navy-dark to-black p-6 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
-          <PieChart size={120} />
+          <PieChart size={140} className="text-white" />
         </div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between w-full gap-4">
           <div>
@@ -346,55 +369,70 @@ export function Module40CorteEjecutivo() {
           </Card>
         </motion.div>
 
-        <motion.div variants={item}>
-          <Card className="bg-black/40 border-white/5 h-full">
-            <CardContent className="!p-6">
-              <h3 className="text-lg font-black text-white uppercase tracking-wider mb-6 flex items-center gap-2">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                Metas del Mes por Área (Bs.)
-              </h3>
-              <div className="space-y-4">
-                {board.goals.map((goal, i) => (
-                  <div key={goal.area} className="bg-white/5 p-4 rounded-xl border border-white/5">
-                    <div className="flex justify-between items-center mb-2 gap-3">
-                      <span className="text-sm font-bold text-white uppercase tracking-wider">{goal.area}</span>
-                      <input
-                        type="number"
-                        min={0}
-                        step={100}
-                        value={goal.targetBs}
-                        onChange={e => updateGoal(i, Number(e.target.value) || 0)}
-                        className="w-32 bg-black/50 border border-white/10 text-white text-right p-2 rounded-lg focus:border-temple-gold outline-none"
-                      />
-                    </div>
-                    <div className="w-full bg-black/50 rounded-full h-2 overflow-hidden">
-                      <div
-                        className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full"
-                        style={{ width: `${totalGoals > 0 ? Math.min(100, Math.round((goal.targetBs / totalGoals) * 100)) : 0}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                  <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Ticket Promedio (Bs.)</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          {/* Socio 1: Paulo Head Coach */}
+          <div className="bg-[#0E1424] border border-white/10 rounded-2xl p-5 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-gray-400 uppercase">Socio Operador</span>
+              <span className="px-2 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black">50%</span>
+            </div>
+            <h4 className="text-base font-bold text-white">Paulo (Head Coach & Dirección)</h4>
+            <div className="pt-2 border-t border-white/5">
+              <p className="text-2xl font-black text-temple-gold tabular-nums">{formatBs(partnerShare50)}</p>
+              <p className="text-[10px] text-gray-500 mt-1">Operaciones, entrenamientos y neuro-ventas</p>
+            </div>
+          </div>
+
+          {/* Socio 2: Socio Inversor */}
+          <div className="bg-[#0E1424] border border-white/10 rounded-2xl p-5 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-gray-400 uppercase">Socio Inversor</span>
+              <span className="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/40 text-[10px] font-black">50%</span>
+            </div>
+            <h4 className="text-base font-bold text-white">Socio Capital & Infraestructura</h4>
+            <div className="pt-2 border-t border-white/5">
+              <p className="text-2xl font-black text-blue-400 tabular-nums">{formatBs(partnerShare50)}</p>
+              <p className="text-[10px] text-gray-500 mt-1">Capital de trabajo y expansión del hub</p>
+            </div>
+          </div>
+
+          {/* Fondo de Reserva */}
+          <div className="bg-[#0E1424] border border-emerald-500/30 rounded-2xl p-5 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-gray-400 uppercase">Caja de Reserva</span>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-black">10%</span>
+            </div>
+            <h4 className="text-base font-bold text-white">Fondo de Reinversión & Camp</h4>
+            <div className="pt-2 border-t border-white/5">
+              <p className="text-2xl font-black text-emerald-400 tabular-nums">{formatBs(reserveFund)}</p>
+              <p className="text-[10px] text-gray-500 mt-1">Mantenimiento de jaula y reservas de snack bar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* METAS DEL MES EDITABLES */}
+      <div className="bg-[#0B0F19] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-5">
+        <div className="border-b border-white/10 pb-3">
+          <h3 className="text-lg font-serif font-black uppercase text-white">
+            Metas y Objetivos del Mes
+          </h3>
+          <p className="text-xs text-gray-400">Puedes editar las metas directamente en cada casilla</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {board.goals.map((g, idx) => (
+            <div key={idx} className="bg-[#0E1424] border border-white/10 p-4 rounded-xl space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-gray-300">{g.label}</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-gray-500 uppercase font-bold">Meta:</span>
                   <input
                     type="number"
-                    min={0}
-                    value={board.averageTicket}
-                    onChange={e => updateBoard({ averageTicket: Number(e.target.value) || 0 })}
-                    className="w-full bg-black/50 border border-white/10 text-white p-2 rounded-lg focus:border-temple-gold outline-none"
-                  />
-                </div>
-                <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                  <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Nuevos Miembros (KPI)</p>
-                  <input
-                    type="number"
-                    min={0}
-                    value={board.newMembersTarget}
-                    onChange={e => updateBoard({ newMembersTarget: Number(e.target.value) || 0 })}
-                    className="w-full bg-black/50 border border-white/10 text-white p-2 rounded-lg focus:border-temple-gold outline-none"
+                    value={g.targetBs}
+                    onChange={e => updateGoal(idx, Number(e.target.value))}
+                    className="w-24 bg-black/60 border border-temple-gold/40 rounded-lg px-2 py-1 text-xs text-temple-gold font-bold text-right focus:outline-none tabular-nums"
                   />
                 </div>
               </div>
@@ -436,78 +474,6 @@ export function Module40CorteEjecutivo() {
           </Card>
         </motion.div>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <motion.div variants={item}>
-          <Card className="bg-black/40 border-white/5 h-full">
-            <CardContent className="!p-6">
-              <h3 className="text-lg font-black text-white uppercase tracking-wider mb-6 flex items-center gap-2">
-                <div className="w-2 h-2 bg-temple-gold rounded-full" />
-                La Regla 50/50
-              </h3>
-              
-              <div className="space-y-6">
-                <div>
-                  <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-2">
-                    <span className="text-gray-400">Gastos Operativos (Target 50%)</span>
-                    <span className="text-red-400">{pctExpense}%</span>
-                  </div>
-                  <div className="w-full bg-white/5 rounded-full h-3 overflow-hidden">
-                    <div className={`bg-gradient-to-r from-red-500 to-red-400 h-full rounded-full ${pctExpense > 50 ? 'w-full' : ''}`} style={{ width: `${pctExpense}%` }} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-2">
-                    <span className="text-gray-400">Utilidad / Crecimiento (Target 50%)</span>
-                    <span className="text-emerald-400">{pctProfit}%</span>
-                  </div>
-                  <div className="w-full bg-white/5 rounded-full h-3 overflow-hidden">
-                    <div className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-full rounded-full" style={{ width: `${pctProfit}%` }} />
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-xs text-gray-500 mt-6 font-medium leading-relaxed">
-                * Porcentajes calculados automáticamente desde el flujo del mes ({formatBs(kpis.income)} ingresos / {formatBs(kpis.expense)} gastos).
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <motion.div variants={item}>
-          <Card className="bg-black/40 border-white/5 h-full">
-            <CardContent className="!p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-black text-white uppercase tracking-wider flex items-center gap-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                  Progreso de Escuadrones
-                </h3>
-              </div>
-
-              <div className="space-y-4">
-                {kpis.squads.length === 0 && (
-                  <p className="text-gray-500 text-sm p-4 text-center bg-white/5 rounded-xl border border-white/5">
-                    Aún no hay estudiantes asignados a escuadrones. El progreso se calcula desde el directorio de atletas.
-                  </p>
-                )}
-                {kpis.squads.map((squad, i) => (
-                  <div key={i} className="bg-white/5 p-4 rounded-xl border border-white/5">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-bold text-white">{squad.name}</span>
-                      <span className="text-xs font-black text-gray-300">{squad.progress}%</span>
-                    </div>
-                    <div className="w-full bg-black/50 rounded-full h-2 overflow-hidden">
-                      <div className={`bg-gradient-to-r ${squad.color} h-full rounded-full transition-all duration-1000`} style={{ width: `${squad.progress}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-
     </motion.div>
   );
 }

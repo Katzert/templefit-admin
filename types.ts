@@ -131,7 +131,7 @@ export interface MentorshipSession {
 export interface InventoryItem {
   id: string;
   name: string;
-  category: 'snack' | 'apparel' | 'suplementos';
+  category: 'snack' | 'apparel' | 'suplementos' | 'equipamiento' | string;
   cost: number;
   price: number;
   stock: number;
@@ -214,7 +214,7 @@ export interface ClaimTicket {
 
 export interface ShowcaseItem {
   id: string;
-  type: 'recipe' | 'merch';
+  type: 'recipe' | 'merch' | 'suplemento' | 'servicio' | string;
   title: string;
   description: string;
   price: number;
