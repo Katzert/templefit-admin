@@ -238,10 +238,9 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         </header>
 
         {/* Desktop Header */}
-        <header className="hidden md:flex items-center justify-between px-8 py-5 border-b border-white/5 bg-[#0B0F19]/85 backdrop-blur-lg sticky top-0 z-30 shadow-lg">
+        <header className="hidden md:flex items-center justify-between px-8 py-5 border-b border-white/5 bg-[#0B0F19]/80 backdrop-blur-lg sticky top-0 z-30">
           <div className="flex items-center gap-4">
-            <h2 className="text-xl font-serif font-black text-white uppercase tracking-tight flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-temple-gold" />
+            <h2 className="text-lg font-bold text-white tracking-wide">
               {FLAT_NAV_GROUPS.flatMap(g => g.items).find(i => i.id === activeTab)?.label || 'Sistema CRM'}
             </h2>
           </div>
@@ -266,19 +265,6 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             </button>
 
             <GlobalSearch onNavigate={setActiveTab} />
-
-            <button
-              onClick={() => {
-                syncFromCloud().then(() => {
-                  window.location.reload();
-                });
-              }}
-              className="p-2.5 text-gray-400 hover:text-temple-gold bg-white/5 rounded-xl transition flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider"
-              title="Sincronizar con la Nube y Refrescar"
-            >
-              <Activity size={16} className={isSyncing ? "animate-spin text-temple-gold" : ""} />
-              <span className="hidden lg:inline">Sincronizar</span>
-            </button>
             
             <div className="relative">
               <button 
