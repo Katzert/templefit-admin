@@ -14,6 +14,7 @@ import {
   Save, 
   X, 
   Check, 
+  CheckCircle2,
   TrendingUp, 
   Calendar 
 } from 'lucide-react';
@@ -32,6 +33,9 @@ export function Module13FinanceLedger() {
   
   // New Tx Form State
   const [isAdding, setIsAdding] = useState(false);
+  const [selectedStudentId, setSelectedStudentId] = useState<string>('');
+  const [autoMessage, setAutoMessage] = useState<string | null>(null);
+  const [studentsList, setStudentsList] = useState<any[]>([]);
   const [newTx, setNewTx] = useState({
     type: 'income' as 'income' | 'expense',
     amount: '',
@@ -47,6 +51,7 @@ export function Module13FinanceLedger() {
   useEffect(() => {
     const db = getCRMDatabase();
     setTransactions(db.transactions || []);
+    setStudentsList(db.students || []);
   }, []);
 
   const saveToDb = (newTxs: Transaction[]) => {
@@ -123,8 +128,46 @@ export function Module13FinanceLedger() {
       description: newTx.description
     };
 
-    saveToDb([tx, ...transactions]);
+    const db = getCRMDatabase();
+
+    // 1. Automatización: Descuento de stock en inventario
+    let stockAlert = '';
+    if (newTx.type === 'income' && (newTx.category === 'snack' || newTx.category === 'merchandise') && db.inventory) {
+      const matchIndex = db.inventory.findIndex(inv => 
+        newTx.description.toLowerCase().includes(inv.name.toLowerCase()) || 
+        inv.name.toLowerCase().includes(newTx.description.toLowerCase())
+      );
+      if (matchIndex >= 0) {
+        const item = db.inventory[matchIndex];
+        if (item.stock > 0) {
+          db.inventory[matchIndex].stock -= 1;
+          stockAlert = ` • Stock de ${item.name} actualizado: ${item.stock} unidades`;
+        }
+      }
+    }
+
+    // 2. Automatización: Auto-renovación de membresía del atleta
+    let renewalAlert = '';
+    if (newTx.type === 'income' && newTx.category === 'membership' && selectedStudentId && db.students) {
+      const sIndex = db.students.findIndex(s => s.id === selectedStudentId);
+      if (sIndex >= 0) {
+        const nextDate = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
+        db.students[sIndex].status = 'active';
+        db.students[sIndex].renewalDate = nextDate;
+        renewalAlert = ` • Membresía de ${db.students[sIndex].name} renovada hasta ${nextDate}`;
+      }
+    }
+
+    db.transactions = [tx, ...(db.transactions || [])];
+    saveCRMDatabase(db);
+    setTransactions(db.transactions);
+    setStudentsList(db.students || []);
+
+    setAutoMessage(`Asiento guardado con éxito${stockAlert}${renewalAlert}`);
+    setTimeout(() => setAutoMessage(null), 4000);
+
     setIsAdding(false);
+    setSelectedStudentId('');
     setNewTx({ 
       type: 'income', 
       amount: '', 
@@ -145,16 +188,16 @@ export function Module13FinanceLedger() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
-                Contabilidad & Caja
+                Caja & Finanzas
               </span>
-              <span className="text-xs text-gray-400 font-bold">Total: {transactions.length} Asientos</span>
+              <span className="text-xs text-gray-400 font-bold">Total: {transactions.length} registros</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider flex items-center gap-2">
               <DollarSign className="text-temple-gold" size={26} />
-              Libro Diario Financiero (Bs.)
+              Libro de Caja Diario (Bs.)
             </h2>
             <p className="text-xs md:text-sm text-gray-400 mt-1">
-              Flujo de caja en tiempo real, control de membresías, snack bar, cursos y gastos operativos.
+              Control de pagos de membresías, ventas del snack bar y compras operativas.
             </p>
           </div>
           
@@ -163,7 +206,7 @@ export function Module13FinanceLedger() {
             className="flex items-center gap-2 px-5 py-3 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max"
           >
             {isAdding ? <X size={18} /> : <Plus size={18} />}
-            <span>{isAdding ? 'Cerrar Formulario' : 'Nueva Transacción'}</span>
+            <span>{isAdding ? 'Cerrar Formulario' : 'Nuevo Registro'}</span>
           </button>
         </div>
       </div>
@@ -171,10 +214,10 @@ export function Module13FinanceLedger() {
       {/* KPIs financieros calculados */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Utilidad Neta Total', value: formatBs(kpis.netProfit), icon: TrendingUp, color: kpis.netProfit >= 0 ? 'text-emerald-400' : 'text-red-400', bg: kpis.netProfit >= 0 ? 'bg-emerald-400/10' : 'bg-red-400/10' },
-          { label: 'Ingresos Totales', value: formatBs(kpis.totalIncome), icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-          { label: 'Gastos / Egresos', value: formatBs(kpis.totalExpense), icon: ArrowDownRight, color: 'text-red-400', bg: 'bg-red-400/10' },
-          { label: 'MRR Membresías (Mes)', value: formatBs(kpis.mrr), icon: DollarSign, color: 'text-temple-gold', bg: 'bg-temple-gold/10' },
+          { label: 'Balance Neto', value: formatBs(kpis.netProfit), icon: TrendingUp, color: kpis.netProfit >= 0 ? 'text-emerald-400' : 'text-red-400', bg: kpis.netProfit >= 0 ? 'bg-emerald-400/10' : 'bg-red-400/10' },
+          { label: 'Total Ingresos', value: formatBs(kpis.totalIncome), icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+          { label: 'Total Gastos', value: formatBs(kpis.totalExpense), icon: ArrowDownRight, color: 'text-red-400', bg: 'bg-red-400/10' },
+          { label: 'Membresías del Mes', value: formatBs(kpis.mrr), icon: DollarSign, color: 'text-temple-gold', bg: 'bg-temple-gold/10' },
         ].map((kpi, i) => (
           <motion.div key={i} variants={item}>
             <Card className="bg-[#0E1424]/90 backdrop-blur-xl border-white/10 shadow-lg">
@@ -203,10 +246,56 @@ export function Module13FinanceLedger() {
           >
             <Card className="bg-[#121826] border-temple-gold/40 shadow-2xl">
               <CardContent className="!p-6">
-                <h3 className="text-base font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Plus className="text-temple-gold" size={18} />
-                  Registrar Asiento Contable
-                </h3>
+                <div className="flex flex-col gap-4 mb-5">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
+                      <Plus className="text-temple-gold" size={18} />
+                      Registrar Asiento Contable
+                    </h3>
+                    <span className="text-[10px] uppercase font-bold text-gray-500">Presets de 1-Clic</span>
+                  </div>
+
+                  {/* 1-Tap Quick Presets */}
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { label: '+ Reto 21 Días (Bs. 200)', type: 'income' as const, amount: '200', category: 'membership' as const, desc: 'Membresía Reto 21 Días' },
+                      { label: '+ E.A.G.E. (Bs. 1,200)', type: 'income' as const, amount: '1200', category: 'courses' as const, desc: 'Programa Formación E.A.G.E.' },
+                      { label: '+ ElectroHidra (Bs. 15)', type: 'income' as const, amount: '15', category: 'snack' as const, desc: 'Venta Bebida ElectroHidra' },
+                      { label: '+ Smoothie Salomón (Bs. 20)', type: 'income' as const, amount: '20', category: 'snack' as const, desc: 'Venta Smoothie Cerebral Salomón' },
+                      { label: '+ Polera Oficial (Bs. 100)', type: 'income' as const, amount: '100', category: 'merchandise' as const, desc: 'Venta Polera Oficial TempleFit' },
+                      { label: '- Insumos Botánicos (Bs. 650)', type: 'expense' as const, amount: '650', category: 'operations' as const, desc: 'Compra insumos botánicos' },
+                    ].map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          setNewTx({
+                            type: preset.type,
+                            amount: preset.amount,
+                            category: preset.category,
+                            description: preset.desc,
+                            date: new Date().toISOString().split('T')[0]
+                          });
+                        }}
+                        className={`text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-xl border transition-all ${
+                          preset.type === 'income'
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20'
+                            : 'bg-red-500/10 text-red-400 border-red-500/30 hover:bg-red-500/20'
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {autoMessage && (
+                  <div className="mb-4 p-3 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-xs text-emerald-300 font-bold flex items-center gap-2">
+                    <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
+                    <span>{autoMessage}</span>
+                  </div>
+                )}
+
                 <form onSubmit={submitTransaction} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-gray-400 mb-1">Tipo de Flujo</label>
@@ -259,7 +348,32 @@ export function Module13FinanceLedger() {
                     />
                   </div>
 
-                  <div className="sm:col-span-2 lg:col-span-4">
+                  {newTx.category === 'membership' && newTx.type === 'income' ? (
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase text-amber-400 mb-1">Atleta (Auto-renovar +30D)</label>
+                      <select
+                        value={selectedStudentId}
+                        onChange={e => {
+                          const sId = e.target.value;
+                          setSelectedStudentId(sId);
+                          const student = studentsList.find(s => s.id === sId);
+                          if (student && !newTx.description) {
+                            setNewTx(prev => ({ ...prev, description: `Renovación Reto 21 Días - ${student.name}` }));
+                          }
+                        }}
+                        className="w-full bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-400"
+                      >
+                        <option className="bg-[#121826]" value="">Seleccionar atleta...</option>
+                        {studentsList.map(s => (
+                          <option key={s.id} className="bg-[#121826]" value={s.id}>
+                            {s.name} ({s.status === 'expiring' ? '⚡ Por Vencer' : s.status})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : null}
+
+                  <div className={newTx.category === 'membership' && newTx.type === 'income' ? "sm:col-span-2 lg:col-span-4" : "sm:col-span-2 lg:col-span-4"}>
                     <label className="block text-[10px] font-bold uppercase text-gray-400 mb-1">Concepto / Glosa</label>
                     <input
                       type="text"
@@ -455,6 +569,23 @@ export function Module13FinanceLedger() {
                     </tr>
                   )}
                 </tbody>
+                <tfoot>
+                  <tr className="bg-black/90 border-t-2 border-temple-gold/40 font-black text-white text-xs">
+                    <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold font-mono">
+                      Total: {filteredTransactions.length} Asientos
+                    </td>
+                    <td className="py-4 text-gray-300 font-bold">
+                      Ingresos: <span className="text-emerald-400 font-mono">+{formatBs(filteredTransactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0))}</span>
+                    </td>
+                    <td className="py-4 text-gray-300 font-bold">
+                      Egresos: <span className="text-red-400 font-mono">-{formatBs(filteredTransactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0))}</span>
+                    </td>
+                    <td className="py-4 text-right font-mono font-black text-sm text-temple-gold">
+                      Neto: {formatBs(filteredTransactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0) - filteredTransactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0))}
+                    </td>
+                    <td className="py-4 text-center text-gray-500">-</td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </CardContent>

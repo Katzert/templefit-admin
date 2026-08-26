@@ -139,77 +139,98 @@ export function Module14Inventory() {
         </div>
       </div>
 
-      {/* Advanced Data Table */}
-      <div className="bg-[#121826] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+      {/* Advanced Symmetric Excel-Style Data Table */}
+      <div className="bg-[#0E1424]/90 border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse font-sans text-xs">
             <thead>
-              <tr className="bg-black/50 text-[10px] uppercase tracking-widest text-gray-400">
-                <th className="p-4 cursor-pointer hover:text-white" onClick={() => handleSort('name')}>
-                  <div className="flex items-center gap-1">Artículo <ArrowUpDown size={12}/></div>
+              <tr className="bg-black/60 border-y border-white/10 text-[10px] uppercase tracking-wider text-gray-400">
+                <th className="py-3.5 px-4 font-black cursor-pointer hover:text-white" onClick={() => handleSort('name')}>
+                  <div className="flex items-center gap-1.5">Ítem / Artículo <ArrowUpDown size={12}/></div>
                 </th>
-                <th className="p-4 cursor-pointer hover:text-white" onClick={() => handleSort('category')}>
-                  <div className="flex items-center gap-1">Categoría <ArrowUpDown size={12}/></div>
+                <th className="py-3.5 px-4 font-black cursor-pointer hover:text-white" onClick={() => handleSort('category')}>
+                  <div className="flex items-center gap-1.5">Categoría <ArrowUpDown size={12}/></div>
                 </th>
-                <th className="p-4 text-right cursor-pointer hover:text-white" onClick={() => handleSort('stock')}>
-                  <div className="flex items-center justify-end gap-1">Stock <ArrowUpDown size={12}/></div>
+                <th className="py-3.5 px-4 text-right font-black cursor-pointer hover:text-white" onClick={() => handleSort('stock')}>
+                  <div className="flex items-center justify-end gap-1.5">Stock Actual <ArrowUpDown size={12}/></div>
                 </th>
-                <th className="p-4 text-right cursor-pointer hover:text-white" onClick={() => handleSort('price')}>
-                  <div className="flex items-center justify-end gap-1">Precio <ArrowUpDown size={12}/></div>
+                <th className="py-3.5 px-4 text-right font-black">Stock Mín.</th>
+                <th className="py-3.5 px-4 text-right font-black">Costo Unit.</th>
+                <th className="py-3.5 px-4 text-right font-black cursor-pointer hover:text-white" onClick={() => handleSort('price')}>
+                  <div className="flex items-center justify-end gap-1.5">Precio Venta <ArrowUpDown size={12}/></div>
                 </th>
-                <th className="p-4 text-center">Acciones</th>
+                <th className="py-3.5 px-4 text-right font-black text-emerald-400">Margen Unit.</th>
+                <th className="py-3.5 px-4 text-right font-black text-temple-gold">Valor en Stock</th>
+                <th className="py-3.5 px-4 text-center font-black">Estado</th>
+                <th className="py-3.5 px-4 text-center font-black">Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-white/5">
               <AnimatePresence>
                 {filteredItems.map(item => {
                   const isEditing = editingId === item.id;
                   const isLowStock = item.stock <= item.minStock;
+                  const unitMargin = (item.price || 0) - (item.cost || 0);
+                  const totalStockValue = (item.price || 0) * (item.stock || 0);
 
                   if (isEditing) {
                     return (
-                      <motion.tr key={item.id} layout className="border-t border-white/5 bg-white/5">
-                        <td className="p-4">
+                      <motion.tr key={item.id} layout className="bg-white/5 border-t border-white/10">
+                        <td className="p-3">
                           <input 
                             value={editForm.name} 
                             onChange={e => setEditForm({...editForm, name: e.target.value})}
-                            className="bg-black/50 text-white px-3 py-1.5 rounded border border-temple-gold/30 w-full focus:outline-none"
+                            className="bg-black/50 text-white px-3 py-1.5 rounded-xl border border-temple-gold/30 w-full focus:outline-none text-xs font-bold"
                           />
                         </td>
-                        <td className="p-4">
+                        <td className="p-3">
                           <select 
                             value={editForm.category}
                             onChange={e => setEditForm({...editForm, category: e.target.value as any})}
-                            className="bg-black/50 text-white px-3 py-1.5 rounded-xl border border-temple-gold/30 focus:outline-none text-xs"
+                            className="bg-black/50 text-white px-2.5 py-1.5 rounded-xl border border-temple-gold/30 focus:outline-none text-xs font-bold"
                           >
                             <option value="suplementos">Botica & Suplementos</option>
                             <option value="apparel">Textil & Ropa</option>
                             <option value="snack">Snack / Bebida</option>
                           </select>
                         </td>
-                        <td className="p-4">
-                          <div className="flex items-center justify-end gap-2">
-                            <input 
-                              type="number" value={editForm.stock} onChange={e => setEditForm({...editForm, stock: Number(e.target.value)})}
-                              className="bg-black/50 text-white px-3 py-1.5 rounded border border-temple-gold/30 w-16 text-right focus:outline-none"
-                            />
-                            <span className="text-gray-500 text-xs">/</span>
-                            <input 
-                              type="number" value={editForm.minStock} onChange={e => setEditForm({...editForm, minStock: Number(e.target.value)})}
-                              className="bg-black/50 text-red-300 px-2 py-1.5 rounded border border-temple-gold/30 w-16 text-right focus:outline-none" title="Stock Mínimo"
-                            />
-                          </div>
-                        </td>
-                        <td className="p-4">
+                        <td className="p-3">
                           <input 
-                            type="number" value={editForm.price} onChange={e => setEditForm({...editForm, price: Number(e.target.value)})}
-                            className="bg-black/50 text-temple-gold px-3 py-1.5 rounded border border-temple-gold/30 w-24 text-right focus:outline-none font-bold"
+                            type="number" value={editForm.stock} onChange={e => setEditForm({...editForm, stock: Number(e.target.value)})}
+                            className="bg-black/50 text-white px-2 py-1.5 rounded-xl border border-temple-gold/30 w-20 text-right focus:outline-none font-mono text-xs"
                           />
                         </td>
-                        <td className="p-4 text-center">
-                          <div className="flex items-center justify-center gap-2">
-                            <button onClick={saveEdit} className="p-1.5 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 font-bold transition"><Save size={16}/></button>
-                            <button onClick={() => setEditingId(null)} className="p-1.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"><X size={16}/></button>
+                        <td className="p-3">
+                          <input 
+                            type="number" value={editForm.minStock} onChange={e => setEditForm({...editForm, minStock: Number(e.target.value)})}
+                            className="bg-black/50 text-red-300 px-2 py-1.5 rounded-xl border border-temple-gold/30 w-16 text-right focus:outline-none font-mono text-xs"
+                          />
+                        </td>
+                        <td className="p-3">
+                          <input 
+                            type="number" value={editForm.cost} onChange={e => setEditForm({...editForm, cost: Number(e.target.value)})}
+                            className="bg-black/50 text-gray-300 px-2 py-1.5 rounded-xl border border-temple-gold/30 w-20 text-right focus:outline-none font-mono text-xs"
+                          />
+                        </td>
+                        <td className="p-3">
+                          <input 
+                            type="number" value={editForm.price} onChange={e => setEditForm({...editForm, price: Number(e.target.value)})}
+                            className="bg-black/50 text-temple-gold px-2 py-1.5 rounded-xl border border-temple-gold/30 w-20 text-right focus:outline-none font-mono text-xs font-bold"
+                          />
+                        </td>
+                        <td className="p-3 text-right font-mono text-emerald-400 font-bold text-xs">
+                          Bs. {((editForm.price || 0) - (editForm.cost || 0)).toFixed(0)}
+                        </td>
+                        <td className="p-3 text-right font-mono text-temple-gold font-bold text-xs">
+                          Bs. {((editForm.price || 0) * (editForm.stock || 0)).toLocaleString()}
+                        </td>
+                        <td className="p-3 text-center">
+                          <span className="text-[10px] text-amber-400 uppercase font-black">Editando</span>
+                        </td>
+                        <td className="p-3 text-center">
+                          <div className="flex items-center justify-center gap-1.5">
+                            <button onClick={saveEdit} className="p-1.5 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 font-bold transition shadow-sm"><Save size={14}/></button>
+                            <button onClick={() => setEditingId(null)} className="p-1.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"><X size={14}/></button>
                           </div>
                         </td>
                       </motion.tr>
@@ -223,20 +244,13 @@ export function Module14Inventory() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="border-t border-white/5 hover:bg-white/5 transition-colors group"
+                      className="hover:bg-white/5 transition-colors group"
                     >
-                      <td className="p-4">
-                        <div className="font-bold text-white group-hover:text-temple-gold transition-colors flex items-center gap-2">
-                          {item.name}
-                          {isLowStock && (
-                            <span className="flex items-center gap-1 text-[9px] uppercase font-black text-red-500 bg-red-500/10 px-2 py-0.5 rounded-full">
-                              <AlertCircle size={10} /> Crítico
-                            </span>
-                          )}
-                        </div>
+                      <td className="py-3.5 px-4 font-bold text-white group-hover:text-temple-gold transition-colors">
+                        {item.name}
                       </td>
-                      <td className="p-4">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      <td className="py-3.5 px-4">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                           item.category === 'snack' 
                             ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' 
                             : item.category === 'suplementos'
@@ -246,18 +260,39 @@ export function Module14Inventory() {
                           {item.category}
                         </span>
                       </td>
-                      <td className="p-4 text-right">
-                        <div className="font-mono font-bold text-white">{item.stock}</div>
-                        <div className="text-[10px] text-gray-500">Min: {item.minStock}</div>
+                      <td className="py-3.5 px-4 text-right font-mono font-black text-white">
+                        {item.stock}
                       </td>
-                      <td className="p-4 text-right">
-                        <div className="font-bold text-temple-gold">Bs. {item.price}</div>
-                        <div className="text-[10px] text-gray-500">Costo: Bs. {item.cost}</div>
+                      <td className="py-3.5 px-4 text-right font-mono text-gray-400">
+                        {item.minStock}
                       </td>
-                      <td className="p-4">
-                        <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => startEditing(item)} className="p-2 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors"><Edit3 size={16}/></button>
-                          <button onClick={() => deleteItem(item.id)} className="p-2 text-gray-400 hover:text-red-500 bg-white/5 hover:bg-red-500/10 rounded-lg transition-colors"><Trash2 size={16}/></button>
+                      <td className="py-3.5 px-4 text-right font-mono text-gray-300">
+                        Bs. {item.cost || 0}
+                      </td>
+                      <td className="py-3.5 px-4 text-right font-mono font-bold text-temple-gold">
+                        Bs. {item.price}
+                      </td>
+                      <td className="py-3.5 px-4 text-right font-mono font-bold text-emerald-400">
+                        +Bs. {unitMargin}
+                      </td>
+                      <td className="py-3.5 px-4 text-right font-mono font-black text-white">
+                        Bs. {totalStockValue.toLocaleString()}
+                      </td>
+                      <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                        {isLowStock ? (
+                          <span className="inline-flex items-center gap-1 text-[9px] uppercase font-black text-red-400 bg-red-500/10 border border-red-500/30 px-2 py-0.5 rounded-full">
+                            <AlertCircle size={10} /> Crítico
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-[9px] uppercase font-black text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+                            Óptimo
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-3.5 px-4 text-center">
+                        <div className="flex items-center justify-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => startEditing(item)} className="p-1.5 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors" title="Editar"><Edit3 size={14}/></button>
+                          <button onClick={() => deleteItem(item.id)} className="p-1.5 text-gray-400 hover:text-red-400 bg-white/5 hover:bg-red-500/10 rounded-lg transition-colors" title="Eliminar"><Trash2 size={14}/></button>
                         </div>
                       </td>
                     </motion.tr>
@@ -265,6 +300,32 @@ export function Module14Inventory() {
                 })}
               </AnimatePresence>
             </tbody>
+            {/* Totales Consolidados (Footer Excel) */}
+            <tfoot>
+              <tr className="bg-black/80 border-t-2 border-temple-gold/40 font-black text-white text-xs">
+                <td className="py-4 px-4 uppercase tracking-wider text-temple-gold font-mono" colSpan={2}>
+                  Totales ({filteredItems.length} ítems)
+                </td>
+                <td className="py-4 px-4 text-right font-mono text-white">
+                  {filteredItems.reduce((sum, i) => sum + i.stock, 0)} uds
+                </td>
+                <td className="py-4 px-4 text-right font-mono text-gray-500">-</td>
+                <td className="py-4 px-4 text-right font-mono text-gray-300">
+                  Bs. {filteredItems.reduce((sum, i) => sum + ((i.cost || 0) * i.stock), 0).toLocaleString()}
+                </td>
+                <td className="py-4 px-4 text-right font-mono text-gray-500">-</td>
+                <td className="py-4 px-4 text-right font-mono text-emerald-400 font-bold">
+                  +Bs. {(filteredItems.reduce((sum, i) => sum + (i.price * i.stock), 0) - filteredItems.reduce((sum, i) => sum + ((i.cost || 0) * i.stock), 0)).toLocaleString()}
+                </td>
+                <td className="py-4 px-4 text-right font-mono text-temple-gold text-sm font-black">
+                  Bs. {filteredItems.reduce((sum, i) => sum + (i.price * i.stock), 0).toLocaleString()}
+                </td>
+                <td className="py-4 px-4 text-center font-mono text-[10px] text-emerald-400 uppercase font-black">
+                  Auditado
+                </td>
+                <td className="py-4 px-4 text-center text-gray-500">-</td>
+              </tr>
+            </tfoot>
           </table>
           
           {filteredItems.length === 0 && (

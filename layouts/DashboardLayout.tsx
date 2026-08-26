@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban } from 'lucide-react';
+import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban, ShoppingBag, DollarSign, Download, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { GlobalSearch } from '../components/GlobalSearch';
-import { syncFromCloud } from '../store';
+import { syncFromCloud, getCRMDatabase } from '../store';
 import type { ReactNode } from 'react';
 
 interface NavItem {
@@ -20,30 +20,13 @@ interface NavGroup {
 
 const FLAT_NAV_GROUPS: NavGroup[] = [
   {
-    groupName: 'Centro de Mando',
+    groupName: 'Administración TempleFit',
     items: [
-      { id: 'home', icon: <Home size={18} />, label: 'Resumen Diario' },
-      { id: 'daily', icon: <Activity size={18} />, label: 'Hábitos & Mi Día' },
-      { id: 'sops', icon: <BookOpen size={18} />, label: 'SOPs & Estrategia', minRole: 'admin' },
-      { id: 'corte-ejecutivo', icon: <PieChart size={18} />, label: 'Corte Ejecutivo 50/50', minRole: 'admin' },
-    ]
-  },
-  {
-    groupName: 'Atletas',
-    items: [
-      { id: 'directory', icon: <Users size={18} />, label: 'Directorio', minRole: 'instructor' },
-      { id: 'profile', icon: <User size={18} />, label: 'Mi Perfil Físico' },
-    ]
-  },
-  {
-    groupName: 'Negocio & Ventas',
-    items: [
-      { id: 'sales-pipeline', icon: <Kanban size={18} />, label: 'Pipeline F1-F3', minRole: 'admin' },
-      { id: 'leads-pipeline', icon: <Briefcase size={18} />, label: 'CRM Prospectos', minRole: 'admin' },
-      { id: 'inventory', icon: <Database size={18} />, label: 'Inventario (Data)', minRole: 'admin' },
-      { id: 'recipes', icon: <ChefHat size={18} />, label: 'Gestión de Recetas', minRole: 'admin' },
-      { id: 'showcase', icon: <ImageIcon size={18} />, label: 'Vitrina Pública', minRole: 'admin' },
-      { id: 'finance-ledger', icon: <FileText size={18} />, label: 'Libro Diario', minRole: 'admin' },
+      { id: 'home', icon: <Home size={18} />, label: '1. Centro de Mando' },
+      { id: 'directory', icon: <Users size={18} />, label: '2. Atletas & Fichas', minRole: 'instructor' },
+      { id: 'pipeline', icon: <Briefcase size={18} />, label: '3. Embudo Comercial', minRole: 'admin' },
+      { id: 'armeria', icon: <ShoppingBag size={18} />, label: '4. Armería & Snack Bar', minRole: 'admin' },
+      { id: 'finance', icon: <DollarSign size={18} />, label: '5. Finanzas & Caja', minRole: 'admin' },
     ]
   }
 ];
@@ -61,6 +44,28 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadNotifications, setUnreadNotifications] = useState(true);
   const [isSyncing, setIsSyncing] = useState(true);
+
+  const [backupDownloaded, setBackupDownloaded] = useState(false);
+
+  const handleDownloadBackup = () => {
+    try {
+      const data = getCRMDatabase();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `templefit_respaldo_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      setBackupDownloaded(true);
+      setTimeout(() => setBackupDownloaded(false), 3000);
+    } catch (e) {
+      console.error('Error al descargar respaldo:', e);
+    }
+  };
 
   useEffect(() => {
     syncFromCloud().finally(() => {
@@ -240,7 +245,25 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             </h2>
           </div>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={handleDownloadBackup}
+              title="Descargar copia de seguridad completa (JSON)"
+              className="flex items-center gap-2 px-3.5 py-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-temple-gold border border-white/10 rounded-xl text-xs font-bold transition shadow-md"
+            >
+              {backupDownloaded ? (
+                <>
+                  <CheckCircle2 size={15} className="text-emerald-400" />
+                  <span className="text-emerald-400">¡Respaldo Guardado!</span>
+                </>
+              ) : (
+                <>
+                  <Download size={15} className="text-temple-gold" />
+                  <span>Respaldar CRM</span>
+                </>
+              )}
+            </button>
+
             <GlobalSearch onNavigate={setActiveTab} />
             
             <div className="relative">
@@ -289,7 +312,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         </header>
 
         {/* Page Content Area */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 relative z-10">
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 relative z-10 pb-20">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -301,6 +324,40 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             >
               {children}
             </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Quick Action Floating Speed-Dial */}
+        <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
+          <AnimatePresence>
+            {showNotifications === false && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setActiveTab('finance')}
+                  className="px-3.5 py-2 rounded-xl bg-[#121826]/90 border border-emerald-500/40 text-emerald-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-2xl hover:bg-emerald-500 hover:text-black transition-all flex items-center gap-1.5"
+                  title="Nuevo Asiento Contable"
+                >
+                  <DollarSign size={13} />
+                  <span>+ Caja</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('pipeline')}
+                  className="px-3.5 py-2 rounded-xl bg-[#121826]/90 border border-blue-500/40 text-blue-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-2xl hover:bg-blue-500 hover:text-white transition-all flex items-center gap-1.5"
+                  title="Nuevo Prospecto"
+                >
+                  <Briefcase size={13} />
+                  <span>+ Lead</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('directory')}
+                  className="px-3.5 py-2 rounded-xl bg-temple-gold text-black text-[10px] font-black uppercase tracking-wider shadow-2xl hover:bg-amber-400 transition-all flex items-center gap-1.5 shadow-temple-gold/20"
+                  title="Directorio de Atletas"
+                >
+                  <Users size={13} />
+                  <span>+ Atleta</span>
+                </button>
+              </div>
+            )}
           </AnimatePresence>
         </div>
       </main>

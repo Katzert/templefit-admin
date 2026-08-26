@@ -56,7 +56,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
     {
       id: 'F1',
       title: 'Fase 1: Escuadrón de Paz',
-      subtitle: 'Iniciación & Acondicionamiento Bíblico-Físico',
+      subtitle: 'Iniciación y acondicionamiento integral',
       phaseKey: '1 - Iniciación' as Student['phase'],
       items: f1Students,
       color: 'border-blue-500/40',
@@ -67,7 +67,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
     {
       id: 'F2',
       title: 'Fase 2: Escuadrón de Gedeón',
-      subtitle: 'Reto 21 Días = ÍNTEGROS (Cuerpo, Mente, Espíritu)',
+      subtitle: 'Reto 21 Días (Consistencia en hábitos)',
       phaseKey: '2 - Desarrollo' as Student['phase'],
       items: f2Students,
       color: 'border-temple-gold/40',
@@ -78,7 +78,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
     {
       id: 'F3',
       title: 'Fase 3: Escuadrón de Cristo',
-      subtitle: 'E.A.G.E. & Multiplicación de Nuevos Líderes',
+      subtitle: 'Formación avanzada y liderazgo de escuadrón',
       phaseKey: '3 - Perfeccionamiento' as Student['phase'],
       items: f3Students,
       color: 'border-emerald-500/40',
@@ -101,10 +101,10 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
           </div>
           <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider flex items-center gap-2">
             <Kanban className="text-temple-gold" size={26} />
-            Pipeline F1-F3 (Evolución de Atletas)
+            Progresión de Atletas (Fases 1 a 3)
           </h2>
           <p className="text-xs md:text-sm text-gray-400 mt-1">
-            Promueve y supervisa el progreso de los atletas según su madurez física, cognitiva y espiritual.
+            Acompaña y registra el avance de cada alumno según su constancia y nivel de entrenamiento.
           </p>
         </div>
       </div>

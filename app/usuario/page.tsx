@@ -4,18 +4,12 @@ import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 import { LoginPage } from '@/life-system-pages/LoginPage';
-import { HomePage } from '@/life-system-pages/HomePage';
-import { Module1Profile } from '@/life-system-pages/Module1Profile';
-import { Module2DailyLog } from '@/life-system-pages/Module2DailyLog';
-import { Module12LeadsPipeline } from '@/life-system-pages/Module12LeadsPipeline';
-import { Module13FinanceLedger } from '@/life-system-pages/Module13FinanceLedger';
+import { HubCentroDeMando } from '@/life-system-pages/HubCentroDeMando';
 import { Module18Directory } from '@/life-system-pages/Module18Directory';
-import { Module19SOPs } from '@/life-system-pages/Module19SOPs';
-import { Module14Showcase } from '@/life-system-pages/Module14Showcase';
-import { Module14Inventory } from '@/life-system-pages/Module14Inventory';
-import { Module20Recipes } from '@/life-system-pages/Module20Recipes';
-import { Module30SalesPipeline } from '@/life-system-pages/Module30SalesPipeline';
-import { Module40CorteEjecutivo } from '@/life-system-pages/Module40CorteEjecutivo';
+import { Module1Profile } from '@/life-system-pages/Module1Profile';
+import { HubPipeline } from '@/life-system-pages/HubPipeline';
+import { HubArmeria } from '@/life-system-pages/HubArmeria';
+import { HubFinances } from '@/life-system-pages/HubFinances';
 
 export default function UsuarioPage() {
   const { isAuthenticated, hasRole } = useAuth();
@@ -27,27 +21,48 @@ export default function UsuarioPage() {
 
   const renderPage = () => {
     switch (activeTab) {
-      // Centro de Mando
-      case 'home': return <HomePage onNavigate={setActiveTab} />;
-      case 'daily': return <Module2DailyLog />;
-      case 'sops': return hasRole('admin') ? <Module19SOPs /> : <HomePage onNavigate={setActiveTab} />;
-      case 'corte-ejecutivo': return hasRole('admin') ? <Module40CorteEjecutivo /> : <HomePage onNavigate={setActiveTab} />;
+      // 1. Hub Centro de Mando
+      case 'home': 
+        return <HubCentroDeMando onNavigate={setActiveTab} defaultSubTab="home" />;
+      case 'daily': 
+        return <HubCentroDeMando onNavigate={setActiveTab} defaultSubTab="daily" />;
+      case 'sops': 
+        return <HubCentroDeMando onNavigate={setActiveTab} defaultSubTab="sops" />;
+      case 'content': 
+        return <HubCentroDeMando onNavigate={setActiveTab} defaultSubTab="content" />;
       
-      // Atletas
-      case 'directory': return hasRole('instructor') ? <Module18Directory onNavigate={setActiveTab} /> : <HomePage onNavigate={setActiveTab} />;
+      // 2. Hub Atletas & Fichas
+      case 'directory': 
+        return hasRole('instructor') ? <Module18Directory onNavigate={setActiveTab} /> : <HubCentroDeMando onNavigate={setActiveTab} />;
       case 'profile':
-      case 'team-ops': return <Module1Profile onNavigate={setActiveTab} />;
+      case 'team-ops': 
+        return <Module1Profile onNavigate={setActiveTab} />;
       
-      // Negocio / Finanzas
-      case 'sales-pipeline': return hasRole('admin') ? <Module30SalesPipeline onNavigate={setActiveTab} /> : <HomePage onNavigate={setActiveTab} />;
-      case 'leads-pipeline': return hasRole('admin') ? <Module12LeadsPipeline onNavigate={setActiveTab} /> : <HomePage onNavigate={setActiveTab} />;
+      // 3. Hub Embudo Comercial
+      case 'pipeline':
+      case 'leads-pipeline': 
+        return hasRole('admin') ? <HubPipeline onNavigate={setActiveTab} defaultSubTab="leads" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+      case 'sales-pipeline': 
+        return hasRole('admin') ? <HubPipeline onNavigate={setActiveTab} defaultSubTab="phases" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+      
+      // 4. Hub Armería & Snack Bar
+      case 'armeria':
+      case 'recipes': 
+        return hasRole('admin') ? <HubArmeria defaultSubTab="recipes" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+      case 'inventory': 
+      case 'showcase': 
+        return hasRole('admin') ? <HubArmeria defaultSubTab="inventory" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+      
+      // 5. Hub Finanzas & Corte 50/50
+      case 'finance':
       case 'finance-ledger':
-      case 'financial': return hasRole('admin') ? <Module13FinanceLedger /> : <HomePage onNavigate={setActiveTab} />;
-      case 'showcase': return hasRole('admin') ? <Module14Showcase /> : <HomePage onNavigate={setActiveTab} />;
-      case 'inventory': return hasRole('admin') ? <Module14Inventory /> : <HomePage onNavigate={setActiveTab} />;
-      case 'recipes': return hasRole('admin') ? <Module20Recipes /> : <HomePage onNavigate={setActiveTab} />;
+      case 'financial': 
+        return hasRole('admin') ? <HubFinances defaultSubTab="ledger" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+      case 'corte-ejecutivo': 
+        return hasRole('admin') ? <HubFinances defaultSubTab="corte" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
       
-      default: return <HomePage onNavigate={setActiveTab} />;
+      default: 
+        return <HubCentroDeMando onNavigate={setActiveTab} />;
     }
   };
 

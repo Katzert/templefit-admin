@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, Trash2, Edit3, X, Save, ChefHat, Upload, Image as ImageIcon } from 'lucide-react';
+import { Search, Plus, Trash2, Edit3, X, Save, ChefHat, Upload, Image as ImageIcon, Table, LayoutGrid, Flame } from 'lucide-react';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Recipe } from '../types';
 
 export function Module20Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   
@@ -137,6 +138,16 @@ export function Module20Recipes() {
         </div>
       </div>
 
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-red-500/10 border border-red-500/20 p-4 rounded-2xl">
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">⚠️</span>
+          <div>
+            <h4 className="text-red-400 font-bold uppercase tracking-widest text-xs">Regla de Oro de Producción</h4>
+            <p className="text-gray-300 text-sm">Producción sujeta a pedido mínimo de 5 unidades con 50% de seña antes del viernes.</p>
+          </div>
+        </div>
+      </div>
+
       <AnimatePresence>
         {isAdding && (
           <motion.div
@@ -254,64 +265,189 @@ export function Module20Recipes() {
         )}
       </AnimatePresence>
 
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-        <input type="text" placeholder="Buscar receta..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-[#0B0F19] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold transition-colors" />
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="relative flex-1 w-full">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+          <input type="text" placeholder="Buscar receta o ingrediente..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-[#0B0F19] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold transition-colors" />
+        </div>
+
+        {/* View Mode Toggle */}
+        <div className="flex bg-black/60 p-1 rounded-2xl border border-white/10 shrink-0">
+          <button
+            onClick={() => setViewMode('table')}
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
+              viewMode === 'table'
+                ? 'bg-temple-gold text-black font-extrabold shadow-md'
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            <Table size={14} />
+            <span>Tabla Costeo (Excel)</span>
+          </button>
+          <button
+            onClick={() => setViewMode('cards')}
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
+              viewMode === 'cards'
+                ? 'bg-temple-gold text-black font-extrabold shadow-md'
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            <LayoutGrid size={14} />
+            <span>Tarjetas</span>
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredRecipes.map((recipe) => (
-          <div key={recipe.id} className="bg-[#0B0F19] border border-white/10 rounded-2xl overflow-hidden hover:border-temple-gold/30 transition-colors flex flex-col group">
-            <div className="h-40 bg-black relative overflow-hidden">
-              {recipe.image ? (
-                <img src={recipe.image} alt={recipe.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center text-gray-700 bg-white/5">
-                  <ImageIcon size={32} className="mb-2" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Sin Imagen</span>
-                </div>
-              )}
-              <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-full border border-white/10 text-[9px] font-bold text-temple-gold uppercase">
-                {recipe.category}
-              </div>
-            </div>
-            
-            <div className="p-5 flex flex-col flex-1">
-              <h3 className="font-bold text-lg text-white mb-2">{recipe.name}</h3>
-              <div className="grid grid-cols-3 gap-2 mb-4 border-b border-white/10 pb-4">
-                <div className="text-center bg-white/5 rounded-lg py-2">
-                  <span className="block text-[9px] uppercase tracking-widest text-gray-500">Kcal</span>
-                  <span className="font-bold text-xs text-white">{recipe.macros?.calories || 0}</span>
-                </div>
-                <div className="text-center bg-white/5 rounded-lg py-2">
-                  <span className="block text-[9px] uppercase tracking-widest text-gray-500">Prot</span>
-                  <span className="font-bold text-xs text-white">{recipe.macros?.protein || 0}g</span>
-                </div>
-                <div className="text-center bg-white/5 rounded-lg py-2">
-                  <span className="block text-[9px] uppercase tracking-widest text-gray-500">Tiempo</span>
-                  <span className="font-bold text-xs text-white">{recipe.time || 0}m</span>
+      {viewMode === 'table' ? (
+        /* SYMMETRIC EXCEL-STYLE RECIPES & MACROS TABLE */
+        <div className="bg-[#0E1424]/90 border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse font-sans text-xs">
+              <thead>
+                <tr className="bg-black/60 border-y border-white/10 text-[10px] uppercase tracking-wider text-gray-400">
+                  <th className="py-3.5 px-4 font-black">Receta / Ítem</th>
+                  <th className="py-3.5 px-4 font-black">Categoría</th>
+                  <th className="py-3.5 px-4 font-black text-center">Tiempo</th>
+                  <th className="py-3.5 px-4 font-black text-right">Kcal</th>
+                  <th className="py-3.5 px-4 font-black text-right text-emerald-400">Proteína</th>
+                  <th className="py-3.5 px-4 font-black text-right text-amber-400">Grasas</th>
+                  <th className="py-3.5 px-4 font-black text-right text-blue-400">Carbos</th>
+                  <th className="py-3.5 px-4 font-black text-right text-temple-gold">Precio Sugerido</th>
+                  <th className="py-3.5 px-4 font-black text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {filteredRecipes.map((recipe) => (
+                  <tr key={recipe.id} className="hover:bg-white/5 transition-colors group">
+                    <td className="py-3.5 px-4 font-bold text-white group-hover:text-temple-gold transition-colors">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg overflow-hidden bg-white/5 border border-white/10 shrink-0 flex items-center justify-center">
+                          {recipe.image ? (
+                            <img src={recipe.image} alt={recipe.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <ChefHat size={14} className="text-gray-500" />
+                          )}
+                        </div>
+                        <div>
+                          <p className="font-bold text-white">{recipe.name}</p>
+                          <p className="text-[10px] text-gray-500">{recipe.servings || 1} porción</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase font-bold text-temple-gold">
+                        {recipe.category}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4 text-center font-mono text-gray-300">
+                      {recipe.time || 15}m
+                    </td>
+                    <td className="py-3.5 px-4 text-right font-mono font-black text-white">
+                      {recipe.macros?.calories || 0} kcal
+                    </td>
+                    <td className="py-3.5 px-4 text-right font-mono font-bold text-emerald-400">
+                      {recipe.macros?.protein || 0}g
+                    </td>
+                    <td className="py-3.5 px-4 text-right font-mono font-bold text-amber-400">
+                      {recipe.macros?.fat || 0}g
+                    </td>
+                    <td className="py-3.5 px-4 text-right font-mono font-bold text-blue-400">
+                      {recipe.macros?.carbs || 0}g
+                    </td>
+                    <td className="py-3.5 px-4 text-right font-mono font-black text-temple-gold">
+                      Bs. {recipe.suggestedPrice || 25}
+                    </td>
+                    <td className="py-3.5 px-4 text-center">
+                      <div className="flex items-center justify-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                        <button onClick={() => startEdit(recipe)} className="p-1.5 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition" title="Editar"><Edit3 size={14}/></button>
+                        <button onClick={() => deleteRecipe(recipe.id)} className="p-1.5 text-gray-400 hover:text-red-400 bg-white/5 hover:bg-red-500/10 rounded-lg transition" title="Eliminar"><Trash2 size={14}/></button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="bg-black/80 border-t-2 border-temple-gold/40 font-black text-white text-xs">
+                  <td className="py-4 px-4 uppercase tracking-wider text-temple-gold" colSpan={3}>
+                    Promedios del Menú ({filteredRecipes.length} recetas)
+                  </td>
+                  <td className="py-4 px-4 text-right font-mono text-white">
+                    {filteredRecipes.length > 0 ? Math.round(filteredRecipes.reduce((sum, r) => sum + (r.macros?.calories || 0), 0) / filteredRecipes.length) : 0} kcal
+                  </td>
+                  <td className="py-4 px-4 text-right font-mono text-emerald-400">
+                    {filteredRecipes.length > 0 ? (filteredRecipes.reduce((sum, r) => sum + (r.macros?.protein || 0), 0) / filteredRecipes.length).toFixed(1) : 0}g
+                  </td>
+                  <td className="py-4 px-4 text-right font-mono text-amber-400">
+                    {filteredRecipes.length > 0 ? (filteredRecipes.reduce((sum, r) => sum + (r.macros?.fat || 0), 0) / filteredRecipes.length).toFixed(1) : 0}g
+                  </td>
+                  <td className="py-4 px-4 text-right font-mono text-blue-400">
+                    {filteredRecipes.length > 0 ? (filteredRecipes.reduce((sum, r) => sum + (r.macros?.carbs || 0), 0) / filteredRecipes.length).toFixed(1) : 0}g
+                  </td>
+                  <td className="py-4 px-4 text-right font-mono text-temple-gold text-sm font-black">
+                    Bs. {filteredRecipes.length > 0 ? Math.round(filteredRecipes.reduce((sum, r) => sum + (r.suggestedPrice || 25), 0) / filteredRecipes.length) : 0}
+                  </td>
+                  <td className="py-4 px-4 text-center">-</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      ) : (
+        /* CARDS GRID VIEW */
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredRecipes.map((recipe) => (
+            <div key={recipe.id} className="bg-[#0B0F19] border border-white/10 rounded-2xl overflow-hidden hover:border-temple-gold/30 transition-colors flex flex-col group">
+              <div className="h-40 bg-black relative overflow-hidden">
+                {recipe.image ? (
+                  <img src={recipe.image} alt={recipe.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-gray-700 bg-white/5">
+                    <ImageIcon size={32} className="mb-2" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Sin Imagen</span>
+                  </div>
+                )}
+                <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-full border border-white/10 text-[9px] font-bold text-temple-gold uppercase">
+                  {recipe.category}
                 </div>
               </div>
               
-              <div className="mt-auto pt-2 flex justify-between gap-2">
-                <button onClick={() => startEdit(recipe)} className="flex-1 py-2 bg-white/5 hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white rounded-lg transition-colors border border-white/5">
-                  Editar
-                </button>
-                <button onClick={() => deleteRecipe(recipe.id)} className="px-3 py-2 bg-temple-red/10 hover:bg-temple-red/20 text-temple-red rounded-lg transition-colors border border-temple-red/20">
-                  <Trash2 size={16} />
-                </button>
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="font-bold text-lg text-white mb-2">{recipe.name}</h3>
+                <div className="grid grid-cols-3 gap-2 mb-4 border-b border-white/10 pb-4">
+                  <div className="text-center bg-white/5 rounded-lg py-2">
+                    <span className="block text-[9px] uppercase tracking-widest text-gray-500">Kcal</span>
+                    <span className="font-bold text-xs text-white">{recipe.macros?.calories || 0}</span>
+                  </div>
+                  <div className="text-center bg-white/5 rounded-lg py-2">
+                    <span className="block text-[9px] uppercase tracking-widest text-gray-500">Prot</span>
+                    <span className="font-bold text-xs text-white">{recipe.macros?.protein || 0}g</span>
+                  </div>
+                  <div className="text-center bg-white/5 rounded-lg py-2">
+                    <span className="block text-[9px] uppercase tracking-widest text-gray-500">Tiempo</span>
+                    <span className="font-bold text-xs text-white">{recipe.time || 0}m</span>
+                  </div>
+                </div>
+                
+                <div className="mt-auto pt-2 flex justify-between gap-2">
+                  <button onClick={() => startEdit(recipe)} className="flex-1 py-2 bg-white/5 hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white rounded-lg transition-colors border border-white/5">
+                    Editar
+                  </button>
+                  <button onClick={() => deleteRecipe(recipe.id)} className="px-3 py-2 bg-temple-red/10 hover:bg-temple-red/20 text-temple-red rounded-lg transition-colors border border-temple-red/20">
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
 
-        {filteredRecipes.length === 0 && (
-          <div className="col-span-full py-12 text-center text-gray-500 border border-dashed border-white/10 rounded-2xl">
-            <ChefHat size={32} className="mx-auto mb-2 opacity-50" />
-            <p>No se encontraron recetas.</p>
-          </div>
-        )}
-      </div>
+          {filteredRecipes.length === 0 && (
+            <div className="col-span-full py-12 text-center text-gray-500 border border-dashed border-white/10 rounded-2xl">
+              <ChefHat size={32} className="mx-auto mb-2 opacity-50" />
+              <p>No se encontraron recetas.</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

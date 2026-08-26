@@ -1,3 +1,18 @@
+export interface AttendanceRecord {
+  date: string;
+  attended: boolean;
+  notes?: string;
+}
+
+export interface ProgressAssessment {
+  date: string;
+  weightKg: number;
+  heightM: number;
+  imc: number;
+  bodyFatPct?: number;
+  notes: string;
+}
+
 export interface Student {
   id: string;
   name: string;
@@ -5,27 +20,40 @@ export interface Student {
   email: string;
   instructorAssigned: string;
   status: 'active' | 'expiring' | 'inactive';
-  plan: 'Reto 21 Días' | 'CristoFit Camp' | 'Coaching 1 a 1' | 'Plan Integral Mensual';
+  plan: 'Reto 21 Días' | 'CristoFit Camp' | 'Coaching 1 a 1' | 'Plan Integral Mensual' | 'Formación E.A.G.E. (Guerra Espiritual)' | 'Neuro-Entrenamiento en Ventas (Completo)';
   startDate: string;
   renewalDate: string;
+  birthDate?: string;
   
-  // Pilar 1: CUERPO (Body)
+  // Pilar 1: CUERPO (Biometría & Antropometría)
   physicalGoal: string;
   weightKg: number;
+  heightM?: number; // Altura en metros (ej. 1.75)
   workoutLevel: 'Principiante' | 'Intermedio' | 'Avanzado';
+  currentRoutineExercises?: string; // Ejercicios y rutina actual con ejemplos
   
-  // Pilar 2: MENTE (Alimentación)
+  // Pilar 2: MENTE & NUTRICIÓN (Clínica y Hábitos)
   nutritionPlan: string;
+  currentDiet?: string; // Alimentación actual con la que llega
+  prescribedDiet?: string; // Alimentación programada TempleFit
   allergiesOrRestrictions: string;
+  eatingDisordersOrIssues?: string; // Trastornos alimenticios, intolerancias o atracones
+  neuroticAndStressFactors?: string; // Factores neuróticos, estrés crónico, ansiedad o insomnio
   
   // Pilar 3: ESPÍRITU (Coaching & Fe)
   spiritualIntention: string;
   mentorshipNotes: string;
   medicalProfile?: MedicalProfile;
   medicalAndRoutineNotes?: string; // Legacy string format
+  
+  // Historial de Seguimiento
+  attendanceHistory?: AttendanceRecord[];
+  assessments?: ProgressAssessment[];
+  
   // Operational Framework
   escuadronId: string; // Máximo 12 atletas
   phase: '1 - Iniciación' | '2 - Desarrollo' | '3 - Perfeccionamiento';
+  isVipProfile?: boolean; // Para Antonio Eid y atletas VIP
   
   // Hub Model Consumption
   hubConsumption: {
@@ -134,6 +162,21 @@ export interface CRMDatabase {
   
   showcaseItems?: ShowcaseItem[];
   monthlyBoard?: MonthlyBoard;
+  contentPosts?: ContentPost[];
+}
+
+export interface ContentPost {
+  id: string;
+  monthIndex: 1 | 2 | 3; // Mes 1, Mes 2, Mes 3 (Replicable a 90 días)
+  dayOfWeek: 'Lunes' | 'Martes' | 'Miércoles' | 'Jueves' | 'Viernes' | 'Sábado' | 'Domingo';
+  pillar: 'CristoFit Camp' | 'Hábitos 3 Áreas' | 'Consumo Consciente & Snack' | 'Storytelling & Testimonios' | 'Llamadas a la Acción (CTA)' | 'Lives & Retos';
+  title: string;
+  hookAndStory: string;
+  callToAction: string;
+  mediaUrl?: string; // Link a imagen o documento
+  driveDocLink?: string; // Link a Google Drive / PDF
+  status: 'draft' | 'scheduled' | 'published';
+  targetAudience?: string; // ej. General, Antonio Eid / VIP, Nuevos Prospectos
 }
 
 export interface MedicalProfile {
@@ -146,7 +189,10 @@ export interface MedicalProfile {
 export interface SOPItem {
   id: string;
   title: string;
-  content: string;
+  content?: string;
+  step1?: string;
+  step2?: string;
+  step3?: string;
 }
 
 export interface MarketingTask {
@@ -195,7 +241,7 @@ export type DayTask = {
 export type WeeklyChecklist = Record<string, DayTask[]>;
 
 export interface MonthlyGoal {
-  area: 'Snack' | 'Gimnasio' | 'Cursos' | 'Productos';
+  area: 'Snack' | 'Gimnasio' | 'Cursos' | 'Productos' | 'Gimnasio & Reto 21 Días' | 'Snack Bar & Bebidas' | 'Formación E.A.G.E. & Cursos' | 'Armería & Suplementos' | string;
   targetBs: number;
 }
 
@@ -206,4 +252,5 @@ export interface MonthlyBoard {
   retentionTarget: number; // % Retención objetivo
   averageTicket: number; // Ticket promedio objetivo
   newMembersTarget: number; // KPI Nuevos Miembros
+  notes?: string; // Notas adicionales / Información de AI
 }

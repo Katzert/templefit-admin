@@ -59,7 +59,7 @@ export function LoginPage() {
             TEMPLE<span className="text-temple-gold">FIT</span>
           </h1>
           <p className="text-xs text-gray-400 uppercase tracking-[0.25em] mt-1">
-            Life System — Centro de Impacto
+            Comunidad y Entrenamiento Funcional
           </p>
         </div>
 

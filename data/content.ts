@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "TempleFit",
-  slogan: "Centro de Transformación Integral",
+  slogan: "Centro de Entrenamiento",
   tagline: "Valores Eternos",
   contact: {
     whatsapp: "59169127691",

@@ -131,13 +131,22 @@ export function Module14Showcase() {
         </div>
       </div>
 
-      <div className="flex justify-end gap-3">
-        <button onClick={() => addItem('merch')} className="flex items-center gap-2 px-4 py-2 bg-temple-gold/20 text-temple-gold rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-temple-gold/30 transition-colors border border-temple-gold/50 shadow-sm">
-          <Plus size={16} /> Añadir Merch
-        </button>
-        <button onClick={() => addItem('recipe')} className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-emerald-500/30 transition-colors border border-emerald-500/50 shadow-sm">
-          <Plus size={16} /> Añadir Receta
-        </button>
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-red-500/10 border border-red-500/20 p-4 rounded-2xl">
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">⚠️</span>
+          <div>
+            <h4 className="text-red-400 font-bold uppercase tracking-widest text-xs">Regla de Oro de Producción</h4>
+            <p className="text-gray-300 text-sm">Producción sujeta a pedido mínimo de 5 unidades con 50% de seña antes del viernes.</p>
+          </div>
+        </div>
+        <div className="flex gap-3">
+          <button onClick={() => addItem('merch')} className="flex items-center gap-2 px-4 py-2 bg-temple-gold/20 text-temple-gold rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-temple-gold/30 transition-colors border border-temple-gold/50 shadow-sm">
+            <Plus size={16} /> Añadir Merch
+          </button>
+          <button onClick={() => addItem('recipe')} className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-emerald-500/30 transition-colors border border-emerald-500/50 shadow-sm">
+            <Plus size={16} /> Añadir Receta
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

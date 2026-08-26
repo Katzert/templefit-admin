@@ -15,7 +15,10 @@ import {
   MessageSquare, 
   X, 
   Check, 
-  Trash2 
+  Trash2,
+  Share2,
+  Copy,
+  CheckCircle2
 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { useAuth } from '../context/AuthContext';
@@ -38,6 +41,41 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
   
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRetentionModalOpen, setIsRetentionModalOpen] = useState(false);
+  const [isBatchModalOpen, setIsBatchModalOpen] = useState(false);
+  const [batchToast, setBatchToast] = useState<string | null>(null);
+
+  const squadsList = useMemo(() => {
+    return Array.from(new Set(localStudents.map(s => s.escuadronId || 'Paz-Alfa'))).filter(Boolean);
+  }, [localStudents]);
+
+  const handleBatchAttendance = (squadId: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    const db = getCRMDatabase();
+    let count = 0;
+    db.students = (db.students || []).map(s => {
+      if (s.escuadronId === squadId && s.status === 'active') {
+        const history = s.attendanceHistory || [];
+        if (!history.some(a => a.date === today && a.attended)) {
+          history.unshift({ date: today, attended: true, notes: `Sesión grupal ${squadId} (06:00 AM)` });
+          s.attendanceHistory = history;
+          count++;
+        }
+      }
+      return s;
+    });
+    saveCRMDatabase(db);
+    setLocalStudents(db.students);
+    setIsBatchModalOpen(false);
+    setBatchToast(`¡Pase de lista completado! ${count} atleta(s) del escuadrón ${squadId} marcados presentes.`);
+    setTimeout(() => setBatchToast(null), 3500);
+  };
+
+  // Squad WhatsApp Broadcast State
+  const [isBroadcastModalOpen, setIsBroadcastModalOpen] = useState(false);
+  const [selectedBroadcastSquad, setSelectedBroadcastSquad] = useState('Paz-Alfa');
+  const [copiedBroadcastIdx, setCopiedBroadcastIdx] = useState<number | null>(null);
+
   const [newAthlete, setNewAthlete] = useState<Partial<Student>>({
     name: '',
     phone: '+591 ',
@@ -50,7 +88,10 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
     physicalGoal: 'Ganar fuerza y reducir grasa',
     spiritualIntention: 'Consistencia en devocionales diarios y oración',
     workoutLevel: 'Principiante',
-    weightKg: 70
+    weightKg: 70,
+    heightM: 1.75,
+    birthDate: '1995-01-01',
+    isVipProfile: false
   });
 
   // Sync with context if it changes externally
@@ -83,20 +124,30 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       name: newAthlete.name,
       phone: newAthlete.phone || '+591',
       email: newAthlete.email || `${newAthlete.name.toLowerCase().replace(/\s+/g, '.')}@templefit.com`,
-      instructorAssigned: newAthlete.instructorAssigned || 'Paulo (Head Coach)',
+      instructorAssigned: newAthlete.instructorAssigned || 'Paulo Alberto Gil Cuellar (Head Coach)',
       status: (newAthlete.status as any) || 'active',
       plan: (newAthlete.plan as any) || 'Reto 21 Días',
       startDate: new Date().toISOString().split('T')[0],
       renewalDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
-      physicalGoal: newAthlete.physicalGoal || 'Definir objetivo físico',
+      birthDate: newAthlete.birthDate || '1995-01-01',
+      heightM: Number(newAthlete.heightM) || 1.75,
       weightKg: Number(newAthlete.weightKg) || 70,
+      isVipProfile: Boolean(newAthlete.isVipProfile),
+      physicalGoal: newAthlete.physicalGoal || 'Definir objetivo físico',
       workoutLevel: (newAthlete.workoutLevel as any) || 'Principiante',
+      currentRoutineExercises: '1. Calistenia funcional básica\n2. Flexiones y dominadas asistidas\n3. Respiración 06:00 AM',
       nutritionPlan: 'Plan Base Anti-inflamatorio + Proteína Limpia',
+      currentDiet: 'Alimentación regular con la que ingresa.',
+      prescribedDiet: 'Protocolo anti-inflamatorio con ElectroHidra y proteína limpia.',
       allergiesOrRestrictions: 'Ninguna',
+      eatingDisordersOrIssues: 'Sin trastornos diagnosticados.',
+      neuroticAndStressFactors: 'Manejo de estrés laboral.',
       spiritualIntention: newAthlete.spiritualIntention || 'Fortaleza y devoción diaria',
       mentorshipNotes: 'Atleta ingresado al sistema.',
       escuadronId: newAthlete.escuadronId || 'Alfa-1',
       phase: (newAthlete.phase as any) || '1 - Iniciación',
+      attendanceHistory: [{ date: new Date().toISOString().split('T')[0], attended: true, notes: 'Ingreso inicial' }],
+      assessments: [{ date: new Date().toISOString().split('T')[0], weightKg: Number(newAthlete.weightKg) || 70, heightM: Number(newAthlete.heightM) || 1.75, imc: Number(((Number(newAthlete.weightKg) || 70) / Math.pow(Number(newAthlete.heightM) || 1.75, 2)).toFixed(1)), notes: 'Evaluación inicial' }],
       hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
     };
     
@@ -134,16 +185,16 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
-                Directorio Maestro
+                Atletas & Comunidad
               </span>
-              <span className="text-xs text-gray-400 font-bold">Total: {localStudents.length} Atletas</span>
+              <span className="text-xs text-gray-400 font-bold">Total: {localStudents.length} alumnos</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider flex items-center gap-2">
               <User className="text-temple-gold" size={26} />
-              Comunidad & Expedientes
+              Directorio de Atletas
             </h2>
             <p className="text-xs md:text-sm text-gray-400 mt-1">
-              Gestión holística de los 3 pilares (Cuerpo, Mente, Espíritu) por Escuadrón.
+              Fichas técnicas, escuadrones asignados y seguimiento de cada alumno.
             </p>
           </div>
           
@@ -151,7 +202,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
             onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-2 px-5 py-3 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max"
           >
-            <Plus size={18} /> Añadir Atleta
+            <Plus size={18} /> Nuevo Atleta
           </button>
         </div>
       </div>
@@ -172,37 +223,85 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   onChange={e => setSearchTerm(e.target.value)}
                 />
               </div>
-              
-              <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                <div className="flex items-center gap-2 bg-black/40 border border-white/10 rounded-xl px-3 py-2">
-                  <Filter size={14} className="text-temple-gold" />
-                  <select 
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer"
+
+              {/* Quick Filter Pills */}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => { setStatusFilter('all'); setPhaseFilter('all'); }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${statusFilter === 'all' && phaseFilter === 'all' ? 'bg-temple-gold text-black shadow-md' : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'}`}
+                >
+                  Todos ({localStudents.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setStatusFilter('expiring'); setPhaseFilter('all'); }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 ${statusFilter === 'expiring' ? 'bg-amber-500 text-black shadow-md font-extrabold' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20'}`}
+                >
+                  <span>⚡ Por Vencer ({localStudents.filter(s => s.status === 'expiring').length})</span>
+                </button>
+
+                {localStudents.filter(s => s.status === 'expiring').length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setIsRetentionModalOpen(true)}
+                    className="px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30"
                   >
-                    <option className="bg-[#0E1424] text-white" value="all">Estado: Todos</option>
-                    <option className="bg-[#0E1424] text-white" value="active">Activos</option>
-                    <option className="bg-[#0E1424] text-white" value="expiring">Por Vencer</option>
-                    <option className="bg-[#0E1424] text-white" value="inactive">Inactivos</option>
-                  </select>
-                </div>
-                
-                <div className="flex items-center gap-2 bg-black/40 border border-white/10 rounded-xl px-3 py-2">
-                  <Dumbbell size={14} className="text-temple-gold" />
-                  <select 
-                    value={phaseFilter}
-                    onChange={(e) => setPhaseFilter(e.target.value)}
-                    className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer"
-                  >
-                    <option className="bg-[#0E1424] text-white" value="all">Fase: Todas</option>
-                    <option className="bg-[#0E1424] text-white" value="1">Fase 1 - Escuadrón de Paz</option>
-                    <option className="bg-[#0E1424] text-white" value="2">Fase 2 - Gedeón (21 Días)</option>
-                    <option className="bg-[#0E1424] text-white" value="3">Fase 3 - Escuadrón de Cristo</option>
-                  </select>
-                </div>
+                    <MessageSquare size={13} />
+                    <span>Notificar Vencimientos ({localStudents.filter(s => s.status === 'expiring').length})</span>
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setIsBatchModalOpen(true)}
+                  className="px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 bg-temple-gold text-black hover:bg-amber-400 shadow-md font-extrabold"
+                  title="Marcar asistencia a un escuadrón completo en 1 toque"
+                >
+                  <Check size={14} />
+                  <span>Pase de Lista Grupal</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsBroadcastModalOpen(true)}
+                  className="px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 bg-emerald-500 text-black hover:bg-emerald-400 shadow-md font-extrabold"
+                  title="Generar y copiar comunicados para WhatsApp en 1 toque"
+                >
+                  <Share2 size={14} />
+                  <span>Comunicado WhatsApp</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => { setStatusFilter('all'); setPhaseFilter('1'); }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${phaseFilter === '1' ? 'bg-blue-500 text-white shadow-md' : 'bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/20'}`}
+                >
+                  Fase 1 Paz ({localStudents.filter(s => s.phase.startsWith('1')).length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setStatusFilter('all'); setPhaseFilter('2'); }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${phaseFilter === '2' ? 'bg-amber-500 text-black shadow-md' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20'}`}
+                >
+                  Fase 2 Gedeón ({localStudents.filter(s => s.phase.startsWith('2')).length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setStatusFilter('all'); setPhaseFilter('3'); }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${phaseFilter === '3' ? 'bg-emerald-500 text-white shadow-md' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20'}`}
+                >
+                  Fase 3 Cristo ({localStudents.filter(s => s.phase.startsWith('3')).length})
+                </button>
               </div>
             </div>
+
+            {batchToast && (
+              <div className="mb-4 p-3 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-xs text-emerald-300 font-bold flex items-center gap-2">
+                <Check size={16} className="text-emerald-400 shrink-0" />
+                <span>{batchToast}</span>
+              </div>
+            )}
 
             {/* Table */}
             <div className="overflow-x-auto">
@@ -238,8 +337,15 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                         </div>
                       </td>
                       <td className="py-4">
-                        <p className="text-xs font-bold text-gray-200">{student.plan}</p>
-                        <p className="text-[10px] text-gray-400 font-semibold">{student.phase}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-xs font-bold text-gray-200">{student.plan}</p>
+                          {student.status === 'active' && ((new Date().getTime() - new Date(student.startDate).getTime()) / (1000 * 3600 * 24)) > 21 && (
+                            <span className="bg-red-500/20 text-red-400 border border-red-500/30 text-[8px] uppercase font-black px-1.5 py-0.5 rounded-sm" title="Más de 21 días en la fase actual">
+                              Revisión 21 Días
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-gray-400 font-semibold mt-1">{student.phase}</p>
                       </td>
                       <td className="py-4">
                         <p className="text-xs text-gray-300">{student.email}</p>
@@ -266,7 +372,9 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                         <div className="flex items-center justify-end gap-2">
                           <a
                             href={`https://wa.me/${student.phone?.replace(/[^0-9]/g, '') || '59170000000'}?text=${encodeURIComponent(
-                              `¡Hola ${student.name}! 👋 Te escribo de TempleFit. ¿Cómo va tu plan de entrenamiento hoy?`
+                              student.status === 'expiring'
+                                ? `Hola ${student.name}, te saluda Paulo de TempleFit. ¿Cómo estás? Te escribo para coordinar la renovación de tu membresía y seguir firmes con tus metas.`
+                                : `Hola ${student.name}, te saluda Paulo de TempleFit. ¿Cómo va tu plan de entrenamiento de esta semana?`
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -303,6 +411,28 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     </tr>
                   )}
                 </tbody>
+                <tfoot>
+                  <tr className="bg-black/80 border-t-2 border-temple-gold/40 font-black text-white text-xs">
+                    <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold font-mono">
+                      Total: {filteredStudents.length} Atletas
+                    </td>
+                    <td className="py-4 text-gray-300 font-mono">
+                      {filteredStudents.filter(s => s.phase?.startsWith('1')).length} F1 • {filteredStudents.filter(s => s.phase?.startsWith('2')).length} F2 • {filteredStudents.filter(s => s.phase?.startsWith('3')).length} F3
+                    </td>
+                    <td className="py-4 text-emerald-400 font-mono">
+                      {filteredStudents.filter(s => s.phone).length} WhatsApps
+                    </td>
+                    <td className="py-4 font-mono">
+                      <span className="text-emerald-400">{filteredStudents.filter(s => s.status === 'active').length} Activos</span>
+                      {filteredStudents.filter(s => s.status === 'expiring').length > 0 && (
+                        <span className="text-amber-400 ml-1.5">({filteredStudents.filter(s => s.status === 'expiring').length} vence)</span>
+                      )}
+                    </td>
+                    <td className="py-4 pr-4 text-right font-mono text-temple-gold font-black">
+                      Cuotas: Bs. {(filteredStudents.filter(s => s.status === 'active').length * 200).toLocaleString()}
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </CardContent>
@@ -479,6 +609,261 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   </button>
                 </div>
               </form>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Modal de Retención Rápida por WhatsApp */}
+        {isRetentionModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-[#0E1424] border border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl"
+            >
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <MessageSquare size={16} />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black uppercase tracking-wider text-white">
+                      Notificar Próximos Vencimientos
+                    </h3>
+                    <p className="text-xs text-gray-400">
+                      Mensajes cálidos preconfigurados para renovar en 1 toque.
+                    </p>
+                  </div>
+                </div>
+                <button onClick={() => setIsRetentionModalOpen(false)} className="text-gray-400 hover:text-white p-1">
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+                {localStudents.filter(s => s.status === 'expiring').map(expiringStudent => {
+                  const message = `Hola ${expiringStudent.name}! Te saluda Paulo de TempleFit. Quería felicitarte por tu constancia y disciplina en los entrenamientos. Tu ciclo de membresía cumple el ${expiringStudent.renewalDate}. ¿Te aparto tu lugar en el escuadrón para el siguiente mes?`;
+                  const cleanPhone = expiringStudent.phone.replace(/[^0-9]/g, '');
+
+                  return (
+                    <div 
+                      key={expiringStudent.id}
+                      className="p-4 bg-black/40 border border-white/10 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    >
+                      <div>
+                        <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                          {expiringStudent.name}
+                          <span className="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                            Vence: {expiringStudent.renewalDate}
+                          </span>
+                        </h4>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {expiringStudent.plan} • Escuadrón: {expiringStudent.escuadronId || 'Paz-Alfa'}
+                        </p>
+                      </div>
+
+                      <a
+                        href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 bg-emerald-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider hover:bg-emerald-400 transition flex items-center justify-center gap-1.5 shadow-lg shrink-0"
+                      >
+                        <MessageSquare size={14} />
+                        <span>Abrir WhatsApp</span>
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="flex justify-end pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setIsRetentionModalOpen(false)}
+                  className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Modal de Pase de Lista Grupal */}
+        {isBatchModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-[#0E1424] border border-white/10 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl"
+            >
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-temple-gold/20 border border-temple-gold/30 flex items-center justify-center text-temple-gold">
+                    <Check size={16} />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black uppercase tracking-wider text-white">
+                      Pase de Lista Grupal (Hoy)
+                    </h3>
+                    <p className="text-xs text-gray-400">
+                      Marca el 100% de asistencia de un escuadrón en 1 solo clic.
+                    </p>
+                  </div>
+                </div>
+                <button onClick={() => setIsBatchModalOpen(false)} className="text-gray-400 hover:text-white p-1">
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="space-y-3 max-h-[60vh] overflow-y-auto">
+                {squadsList.map(squad => {
+                  const squadAthletes = localStudents.filter(s => (s.escuadronId || 'Paz-Alfa') === squad && s.status === 'active');
+                  const today = new Date().toISOString().split('T')[0];
+                  const alreadyMarked = squadAthletes.filter(s => (s.attendanceHistory || []).some(a => a.date === today && a.attended)).length;
+
+                  return (
+                    <div 
+                      key={squad}
+                      className="p-4 bg-black/40 border border-white/10 rounded-2xl flex items-center justify-between gap-4"
+                    >
+                      <div>
+                        <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+                          Escuadrón {squad}
+                        </h4>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {squadAthletes.length} atleta(s) activos • {alreadyMarked} presente(s) hoy
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => handleBatchAttendance(squad)}
+                        disabled={squadAthletes.length === 0}
+                        className="px-4 py-2 bg-temple-gold hover:bg-amber-400 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider transition shadow-md shrink-0 disabled:opacity-40"
+                      >
+                        Marcar Todo ({squadAthletes.length})
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="flex justify-end pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setIsBatchModalOpen(false)}
+                  className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {/* MODAL DE COMUNICADO WHATSAPP POR ESCUADRÓN (ANTI-BURNOUT) */}
+        {isBroadcastModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-[#0E1424] border border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-5 shadow-2xl"
+            >
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <Share2 size={16} />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black uppercase tracking-wider text-white">
+                      Comunicados Rápidos de WhatsApp
+                    </h3>
+                    <p className="text-xs text-gray-400">
+                      Copia mensajes pre-diseñados en 1 toque para enviar al grupo del escuadrón.
+                    </p>
+                  </div>
+                </div>
+                <button onClick={() => setIsBroadcastModalOpen(false)} className="text-gray-400 hover:text-white p-1">
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Selector de Escuadrón */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                {squadsList.map(squad => (
+                  <button
+                    key={squad}
+                    onClick={() => setSelectedBroadcastSquad(squad)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all ${
+                      selectedBroadcastSquad === squad
+                        ? 'bg-temple-gold text-black font-extrabold shadow-md'
+                        : 'bg-white/5 text-gray-400 hover:text-white'
+                    }`}
+                  >
+                    Escuadrón {squad}
+                  </button>
+                ))}
+              </div>
+
+              {/* Plantillas de Mensaje */}
+              <div className="space-y-3 max-h-[50vh] overflow-y-auto">
+                {[
+                  {
+                    title: '🌅 Convocatoria Entrenamiento Mañana (06:00 AM)',
+                    body: `¡Familia de Escuadrón ${selectedBroadcastSquad}! 🌅\n\nMañana nos vemos a las 06:00 AM puntuales en el Parque Urbano para nuestra sesión de CristoFit Camp. Recuerden traer su hidratación con ElectroHidra y su toalla.\n\n"Todo lo puedo en Cristo que me fortalece." ¡A darle con todo! 🔥`
+                  },
+                  {
+                    title: '🔥 Recordatorio de Hidratación & Cierre de Radar',
+                    body: `¡Atletas de ${selectedBroadcastSquad}! 💧\n\nNo olviden registrar su radar de hábitos diario antes de las 21:00 (sueño 7h, hidratación 3L y devocional). La disciplina en lo secreto se refleja en la fuerza del cuerpo.\n\n¡Cuentan con mi apoyo! - Coach Paulo 🛡️`
+                  },
+                  {
+                    title: '👑 Mentoría Grupal Semanal (30 Min)',
+                    body: `¡Atención Escuadrón ${selectedBroadcastSquad}! 👑\n\nHoy tenemos nuestra Mentoría Grupal de 30 minutos enfocada en Liderazgo, Rendimiento y Nutrición Anti-inflamatoria. Conéctense a las 20:00 con libreta en mano.\n\n¡Nos vemos pronto!`
+                  }
+                ].map((tpl, idx) => (
+                  <div key={idx} className="p-4 bg-black/40 border border-white/10 rounded-2xl space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-black uppercase text-temple-gold tracking-wider">{tpl.title}</h4>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(tpl.body);
+                          setCopiedBroadcastIdx(idx);
+                          setTimeout(() => setCopiedBroadcastIdx(null), 2500);
+                        }}
+                        className="px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition"
+                      >
+                        {copiedBroadcastIdx === idx ? (
+                          <>
+                            <CheckCircle2 size={12} className="text-emerald-400" />
+                            <span className="text-emerald-400">¡Copiado!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy size={12} />
+                            <span>Copiar Texto</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-300 whitespace-pre-line leading-relaxed font-sans bg-black/30 p-2.5 rounded-xl border border-white/5">
+                      {tpl.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-end pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setIsBroadcastModalOpen(false)}
+                  className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                >
+                  Listo / Cerrar
+                </button>
+              </div>
             </motion.div>
           </div>
         )}

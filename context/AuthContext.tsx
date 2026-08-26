@@ -92,12 +92,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const fbUser: User = { email: 'admin@templefit.com', name: 'Administrador Maestro', role: 'admin', avatar: 'AM' };
       setUser(fbUser);
       localStorage.setItem('templefit_user', JSON.stringify(fbUser));
+      if (db.students && db.students.length > 0) {
+        setSelectedStudentState(db.students[0]);
+        localStorage.setItem('templefit_selected_student', JSON.stringify(db.students[0]));
+      }
       return true;
     }
     if (email === 'instructor@templefit.com' && (password === 'instructor123' || password === 'coach')) {
       const fbUser: User = { email: 'instructor@templefit.com', name: 'Instructor Coach', role: 'instructor', avatar: 'IC' };
       setUser(fbUser);
       localStorage.setItem('templefit_user', JSON.stringify(fbUser));
+      if (db.students && db.students.length > 0) {
+        setSelectedStudentState(db.students[0]);
+        localStorage.setItem('templefit_selected_student', JSON.stringify(db.students[0]));
+      }
       return true;
     }
     

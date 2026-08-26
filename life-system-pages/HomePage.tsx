@@ -17,7 +17,13 @@ import {
   TrendingUp, 
   Award,
   BookOpen,
-  ArrowRight
+  ArrowRight,
+  Activity,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  Sparkles,
+  Check
 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -36,9 +42,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
     water, 
     activeStudents, 
     expiringStudentsList, 
+    inactiveStudentsList,
     totalStudents,
     monthIncome,
-    squadCount
+    squadCount,
+    retentionRate
   } = useMemo(() => {
     // --- Daily Log data ---
     const dailyKey = `templefit_daily_${studentEmail}`;
@@ -71,14 +79,25 @@ export function HomePage({ onNavigate }: HomePageProps) {
       .filter(t => t.type === 'income' && t.date.startsWith(monthPrefix))
       .reduce((s, t) => s + t.amount, 0);
 
+    // Inactive Students (5+ days without attendance)
+    const fiveDaysAgo = new Date(Date.now() - 5*24*60*60*1000).toISOString().split('T')[0];
+    const inactive = allStudents.filter(s => {
+      if (s.status !== 'active') return false;
+      const history = s.attendanceHistory || [];
+      if (history.length === 0) return true;
+      return history[0].date < fiveDaysAgo;
+    });
+
     return { 
       streak, 
       water, 
       activeStudents: active, 
       expiringStudentsList: expiring,
+      inactiveStudentsList: inactive,
       totalStudents: allStudents.length,
       monthIncome: income,
-      squadCount: uniqueSquads.size
+      squadCount: uniqueSquads.size,
+      retentionRate: allStudents.length > 0 ? Math.round((active / allStudents.length) * 100) : 100
     };
   }, [studentEmail]);
 
@@ -95,16 +114,16 @@ export function HomePage({ onNavigate }: HomePageProps) {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
-                Centro de Mando 2026
+                Panel Principal
               </span>
               <span className="text-[11px] text-gray-400 font-bold">Santa Cruz de la Sierra</span>
             </div>
             <h1 className="text-3xl md:text-5xl font-serif font-black uppercase leading-tight text-white tracking-wide">
-              Bienvenido,<br />
+              Hola,<br />
               <span className="text-temple-gold">{user?.name?.split(' ')[0] || 'Paulo'}.</span>
             </h1>
-            <p className="text-sm text-gray-300 mt-2 max-w-xl italic">
-              "El espíritu da el diseño. El cuerpo es el templo. La mente crea y edifica vidas."
+            <p className="text-sm text-gray-300 mt-2 max-w-xl">
+              Cuerpo, mente y disciplina diaria para guiar a cada atleta de la comunidad.
             </p>
           </div>
 
@@ -114,14 +133,52 @@ export function HomePage({ onNavigate }: HomePageProps) {
               className="px-5 py-3 bg-temple-gold text-black font-extrabold uppercase tracking-wider text-xs rounded-xl hover:bg-amber-400 transition-all shadow-lg shadow-temple-gold/20 flex items-center gap-2"
             >
               <Users size={16} />
-              <span>Directorio de Atletas</span>
+              <span>Pase de Lista & Atletas</span>
             </button>
             <button
-              onClick={() => onNavigate?.('sales-pipeline')}
+              onClick={() => onNavigate?.('corte-ejecutivo')}
               className="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-white/10 flex items-center gap-2"
             >
-              <ShieldCheck size={16} className="text-temple-gold" />
-              <span>Pipeline F1-F3</span>
+              <DollarSign size={16} className="text-temple-gold" />
+              <span>Tablero P&L Simétrico</span>
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* WIDGET ANTI-BURNOUT: BRIEFING MATUTINO (06:00 AM) */}
+      <motion.div variants={item} className="bg-gradient-to-r from-[#0E1424] via-[#12192B] to-black border border-temple-gold/30 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black uppercase tracking-wider">
+                <Sparkles size={13} className="text-emerald-400" />
+                Piloto Automático Matutino • 06:00 AM
+              </span>
+              <span className="text-[11px] text-gray-400 font-bold">Sin fricción administrativa</span>
+            </div>
+            <h3 className="text-lg md:text-xl font-black uppercase text-white tracking-wide">
+              {activeStudents} Atletas Activos en {squadCount} Escuadrones Listos Hoy
+            </h3>
+            <p className="text-xs text-gray-300 max-w-2xl leading-relaxed">
+              Tu prioridad hoy: <strong className="text-temple-gold">1. Pase de lista grupal matutino</strong> y <strong className="text-emerald-400">2. Notificar vencimientos próximos en 1 toque</strong>. El sistema se encarga del cálculo contable y control de stock.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <button
+              onClick={() => onNavigate?.('directory')}
+              className="px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold uppercase tracking-wider text-xs rounded-xl transition shadow-lg flex items-center gap-2"
+            >
+              <CheckCircle2 size={16} />
+              <span>Pase de Lista (1 Toque)</span>
+            </button>
+            <button
+              onClick={() => onNavigate?.('daily-log')}
+              className="px-5 py-3 bg-white/5 hover:bg-white/10 text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-white/10 flex items-center gap-2"
+            >
+              <Clock size={16} className="text-temple-gold" />
+              <span>12 Hábitos de Calidad</span>
             </button>
           </div>
         </div>
@@ -139,100 +196,104 @@ export function HomePage({ onNavigate }: HomePageProps) {
             bg: 'from-amber-500/10 to-transparent'
           },
           { 
-            icon: <ShieldCheck size={22} />, 
+            icon: <TrendingUp size={22} />, 
+            label: 'Ingresos del Mes', 
+            value: `Bs. ${monthIncome.toLocaleString()}`, 
+            sub: 'Caja registrada', 
+            color: 'text-emerald-400',
+            bg: 'from-emerald-500/10 to-transparent'
+          },
+          { 
+            icon: <Award size={22} />, 
             label: 'Escuadrones Activos', 
             value: `${squadCount}`, 
-            sub: 'meta anual: 25', 
+            sub: 'Grupos en entrenamiento', 
             color: 'text-blue-400',
             bg: 'from-blue-500/10 to-transparent'
           },
           { 
-            icon: <AlertCircle size={22} />, 
-            label: 'Por Vencer (Renovación)', 
-            value: `${expiringStudentsList.length}`, 
-            sub: 'acción inmediata', 
-            color: 'text-amber-400',
-            bg: 'from-amber-500/10 to-transparent'
-          },
-          { 
-            icon: <DollarSign size={22} />, 
-            label: 'Ingresos del Mes', 
-            value: `Bs. ${monthIncome.toLocaleString('es-BO')}`, 
-            sub: 'recaudación real', 
+            icon: <Activity size={22} />, 
+            label: 'Retención de Atletas', 
+            value: `${retentionRate}%`, 
+            sub: 'Índice de permanencia', 
             color: 'text-emerald-400',
             bg: 'from-emerald-500/10 to-transparent'
           },
-        ].map((kpi, i) => (
-          <motion.div key={i} variants={item}>
-            <Card className="!p-5 border-white/10 bg-[#0E1424]/90 backdrop-blur-xl relative overflow-hidden group hover:border-temple-gold/40 transition-all shadow-xl">
-              <div className={`absolute inset-0 bg-gradient-to-br ${kpi.bg} opacity-50 pointer-events-none`} />
-              <div className="flex items-start justify-between relative z-10">
-                <div>
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-2">{kpi.label}</p>
-                  <h3 className="text-3xl font-black text-white tracking-tight">
-                    {kpi.value}
-                  </h3>
-                  <p className="text-xs font-semibold text-gray-500 mt-1">{kpi.sub}</p>
+        ].map((kpi, index) => (
+          <motion.div key={index} variants={item}>
+            <Card className="bg-[#0E1424]/90 backdrop-blur-xl border-white/10 shadow-lg hover:border-temple-gold/30 transition">
+              <CardContent className="!p-5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">{kpi.label}</span>
+                  <div className={`p-2 rounded-xl bg-white/5 ${kpi.color}`}>{kpi.icon}</div>
                 </div>
-                <div className={`p-3 rounded-2xl bg-white/5 border border-white/10 ${kpi.color} shadow-sm group-hover:scale-110 transition-transform`}>
-                  {kpi.icon}
-                </div>
-              </div>
+                <p className="text-2xl font-black text-white mt-2">{kpi.value}</p>
+                <p className="text-[11px] text-gray-500 mt-1 font-medium">{kpi.sub}</p>
+              </CardContent>
             </Card>
           </motion.div>
         ))}
       </div>
 
-      {/* Actionable Renewal Alerts (WhatsApp Direct Button) */}
+      {/* Alerta de Retención (Membresías por Vencer) */}
       {expiringStudentsList.length > 0 && (
         <motion.div variants={item}>
-          <Card className="border-amber-500/30 bg-gradient-to-r from-amber-950/20 via-[#0B0F19] to-black shadow-2xl">
-            <CardContent className="!p-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
-                    <AlertCircle size={18} />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-black text-white uppercase tracking-wider">
-                      Alertas de Renovación de Membresía ({expiringStudentsList.length})
-                    </h3>
-                    <p className="text-xs text-gray-400">Planes con vencimiento próximo que requieren cobranza y seguimiento.</p>
-                  </div>
+          <Card className="border-amber-500/40 bg-amber-500/10 shadow-xl overflow-hidden">
+            <CardContent className="!p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400">
+                  <Calendar size={20} />
                 </div>
-                <span className="text-xs text-amber-400 font-bold uppercase tracking-wider bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20 w-max">
-                  Vencimiento Próximo
-                </span>
+                <div>
+                  <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+                    {expiringStudentsList.length} membresía(s) por vencer
+                  </h4>
+                  <p className="text-xs text-gray-300">
+                    Revisa los vencimientos próximos para coordinar la continuidad de sus entrenamientos.
+                  </p>
+                </div>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                {expiringStudentsList.map((st) => (
-                  <div key={st.id} className="p-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/10 flex items-center justify-between gap-4 transition-all">
-                    <div>
-                      <p className="text-sm font-bold text-white">{st.name}</p>
-                      <p className="text-xs text-temple-gold font-semibold">{st.plan || 'Reto 21 Días'}</p>
-                      <p className="text-[10px] text-gray-400 mt-0.5">{st.phone} • {st.escuadronId}</p>
-                    </div>
-                    <a
-                      href={`https://wa.me/${st.phone?.replace(/[^0-9]/g, '') || '59170000000'}?text=${encodeURIComponent(
-                        `¡Hola ${st.name}! 👋 Te escribo de TempleFit para recordarte que tu plan vence pronto. ¡Sigamos con paso firme en tu entrenamiento y transformación integral!`
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3.5 py-2 bg-emerald-500 text-black font-extrabold hover:bg-emerald-400 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20 flex-shrink-0"
-                    >
-                      <MessageSquare size={15} />
-                      <span>Cobrar WhatsApp</span>
-                    </a>
-                  </div>
-                ))}
-              </div>
+              <button
+                onClick={() => onNavigate?.('directory')}
+                className="px-4 py-2 bg-amber-500 text-black font-extrabold uppercase tracking-wider text-xs rounded-xl hover:bg-amber-400 transition whitespace-nowrap"
+              >
+                Ver Lista de Vencimientos
+              </button>
             </CardContent>
           </Card>
         </motion.div>
       )}
 
-      {/* Meta Anual del Movimiento TempleFit */}
+      {/* Radar Anti-Abandono (Alerta de Inasistencia >5 días) */}
+      {inactiveStudentsList && inactiveStudentsList.length > 0 && (
+        <motion.div variants={item}>
+          <Card className="border-red-500/30 bg-red-500/10 shadow-xl overflow-hidden">
+            <CardContent className="!p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-red-500/20 text-red-400">
+                  <Activity size={20} />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+                    Radar Anti-Abandono: {inactiveStudentsList.length} atleta(s) con inasistencias
+                  </h4>
+                  <p className="text-xs text-gray-300">
+                    Llevan más de 5 días sin registrar asistencia. Contáctalos para motivarlos y evitar deserciones.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => onNavigate?.('directory')}
+                className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 font-extrabold uppercase tracking-wider text-xs rounded-xl transition whitespace-nowrap"
+              >
+                Abrir Seguimiento
+              </button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+
+      {/* Meta Anual */}
       <motion.div variants={item}>
         <Card className="border-temple-gold/30 bg-gradient-to-r from-[#0E1424] via-[#0B0F19] to-black shadow-2xl relative overflow-hidden">
           <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-temple-gold/10 to-transparent pointer-events-none" />
@@ -242,32 +303,32 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 <div className="flex items-center gap-2">
                   <Award className="text-temple-gold" size={20} />
                   <span className="text-xs font-black uppercase tracking-[0.25em] text-temple-gold">
-                    Meta Anual 2026: Evangelismo Fitness
+                    Meta Anual
                   </span>
                 </div>
                 <h3 className="text-xl md:text-2xl font-black uppercase text-white tracking-wide">
-                  Formar y Certificar a 300 Atletas Íntegros de las Ventas
+                  Formar a 300 atletas en la comunidad
                 </h3>
                 <p className="text-xs text-gray-300 max-w-2xl leading-relaxed">
-                  Estructura replicable en <strong className="text-white">25 Escuadrones de 12 Atletas</strong> bajo las 3 fases: 
-                  Fase 1 (Escuadrón de Paz), Fase 2 (Gedeón / Reto 21 Días) y Fase 3 (Escuadrón de Cristo / E.A.G.E.).
+                  Organizados en <strong className="text-white">25 escuadrones de 12 personas</strong> en tres etapas: 
+                  Fase 1 (Iniciación y Paz), Fase 2 (Reto 21 Días / Gedeón) y Fase 3 (Liderazgo / E.A.G.E.).
                 </p>
               </div>
 
               <div className="flex items-center gap-6 bg-black/40 p-4 rounded-2xl border border-white/10">
                 <div className="text-center">
                   <p className="text-2xl font-black text-temple-gold">{activeStudents}</p>
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Atletas Formados</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Atletas Actuales</p>
                 </div>
                 <div className="h-8 w-px bg-white/10" />
                 <div className="text-center">
                   <p className="text-2xl font-black text-white">300</p>
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Meta Anual</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Meta</p>
                 </div>
                 <div className="h-8 w-px bg-white/10" />
                 <div className="text-center">
                   <p className="text-2xl font-black text-emerald-400">{Math.round((activeStudents / 300) * 100)}%</p>
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Progreso</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Avance</p>
                 </div>
               </div>
             </div>
@@ -275,25 +336,25 @@ export function HomePage({ onNavigate }: HomePageProps) {
         </Card>
       </motion.div>
 
-      {/* Quick Actions Grid */}
+      {/* Acciones Rápidas */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <motion.div variants={item} className="lg:col-span-12">
           <Card className="border-white/10 bg-[#0E1424]/90 backdrop-blur-xl">
             <CardContent className="!p-6">
               <h3 className="text-base font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Zap className="text-temple-gold" size={18} />
-                Acciones Rápidas del Sistema
+                Accesos Directos
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
-                  { title: 'Directorio Atletas', desc: 'Fichas holísticas de 3 pilares', emoji: '👥', tab: 'directory' },
-                  { title: 'Pipeline F1-F3', desc: 'Gestión y avance por fases', emoji: '🛡️', tab: 'sales-pipeline' },
-                  { title: 'CRM Prospectos', desc: 'Captación de nuevos alumnos', emoji: '🎯', tab: 'leads-pipeline' },
-                  { title: 'Libro Diario & Finanzas', desc: 'Ingresos, gastos y regla 50/50', emoji: '💰', tab: 'finance-ledger' },
-                  { title: 'SOPs & Estrategia', desc: 'Manuales y campañas de mkt', emoji: '🧠', tab: 'sops' },
-                  { title: 'Hábitos & Mi Día', desc: 'Scorecard de 3 horas diarias', emoji: '☀️', tab: 'daily' },
-                  { title: 'Gestión de Recetas', desc: 'Snack Bar y Nutrición bíblica', emoji: '🍵', tab: 'recipes' },
-                  { title: 'Corte Ejecutivo', desc: 'Balance semanal y metas', emoji: '📊', tab: 'corte-ejecutivo' },
+                  { title: 'Directorio de Atletas', desc: 'Fichas y datos de alumnos', emoji: '👥', tab: 'directory' },
+                  { title: 'Fases F1 a F3', desc: 'Progreso y etapas de atletas', emoji: '🛡️', tab: 'sales-pipeline' },
+                  { title: 'Prospectos y Leads', desc: 'Contactos y nuevas pruebas', emoji: '🎯', tab: 'leads-pipeline' },
+                  { title: 'Caja y Finanzas', desc: 'Ingresos, gastos y balance', emoji: '💰', tab: 'finance-ledger' },
+                  { title: 'Guías y SOPs', desc: 'Protocolos de atención y camp', emoji: '🧠', tab: 'sops' },
+                  { title: 'Mi Registro Diario', desc: 'Hábitos y calendario del mes', emoji: '☀️', tab: 'daily' },
+                  { title: 'Recetario Nutricional', desc: 'Bebidas y snacks saludables', emoji: '🍵', tab: 'recipes' },
+                  { title: 'Corte Semanal', desc: 'Resumen y balance 50/50', emoji: '📊', tab: 'corte-ejecutivo' },
                 ].map((action, i) => (
                   <div
                     key={i}
@@ -316,11 +377,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
       {/* Motivational Quote */}
       <motion.div variants={item} className="text-center py-6 border-t border-white/5">
-        <p className="font-serif italic text-lg md:text-xl text-gray-300">
-          "Nutre, Reta, Vive — Mente, Cuerpo y Espíritu."
+        <p className="italic text-base md:text-lg text-gray-300">
+          "Disciplina, nutrición y constancia: cuerpo y mente en equilibrio."
         </p>
-        <p className="text-xs text-temple-gold uppercase tracking-[0.3em] font-extrabold mt-2">
-          Paulo Alberto Gil Cuellar • TEMPLEFIT Santa Cruz, Bolivia
+        <p className="text-xs text-temple-gold uppercase tracking-[0.2em] font-extrabold mt-2">
+          Paulo Alberto Gil Cuellar • TempleFit Santa Cruz, Bolivia
         </p>
       </motion.div>
     </motion.div>

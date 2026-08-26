@@ -15,7 +15,7 @@ export default function Footer() {
                         <p className="text-[10px] md:text-xs tracking-[0.5em] uppercase font-bold text-white/40">Atletas Valientes ● Valores Eternos</p>
                     </div>
                     <p className="text-lg text-white/60 font-medium leading-relaxed border-l-4 border-temple-gold pl-6">
-                        Centro de Transformación integral: Forjando atletas íntegros en cuerpo, mente y espíritu desde el corazón de la comunidad en Santa Cruz, Bolivia.
+                        Forjando atletas íntegros en cuerpo, mente y espíritu desde el corazón de la comunidad en Santa Cruz, Bolivia.
                     </p>
                     <div className="flex gap-4">
                         <a href="#" className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-temple-gold hover:text-temple-navy-dark transition-all"><Instagram className="h-5 w-5" /></a>

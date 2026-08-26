@@ -7,6 +7,56 @@ const STORAGE_KEY = 'templefit_holistic_students_v3';
 const DEFAULT_DB: CRMDatabase = {
   students: [
     {
+      id: 'std-vip-antonio',
+      name: 'Antonio Eid',
+      phone: '+59178099887',
+      email: 'antonio.eid@templefit.com',
+      instructorAssigned: 'Paulo Alberto Gil Cuellar (Head Coach)',
+      status: 'active',
+      plan: 'Coaching 1 a 1',
+      startDate: '2026-08-01',
+      renewalDate: '2026-09-01',
+      birthDate: '1992-05-18',
+      
+      // Pilar 1: CUERPO
+      physicalGoal: 'Hipertrofia funcional, potencia en calistenia y composición corporal óptima',
+      weightKg: 79.5,
+      heightM: 1.78,
+      workoutLevel: 'Avanzado',
+      currentRoutineExercises: '1. Dominadas estrictas lastradas (4x8)\n2. Fondos en paralelas olímpicas (4x10)\n3. Sentadilla búlgara con tempo 3-0-1 (4x12)\n4. Flexiones diamante explosivas (4x15)\n5. Protocolo de respiración Buteyko y cardio funcional 06:00 AM',
+      
+      // Pilar 2: MENTE & NUTRICIÓN
+      nutritionPlan: 'Protocolo Salomón + Proteína Limpia y Superávit Controlado',
+      currentDiet: 'Alimentación irregular por trabajo, exceso de café sin desayuno y cenas altas en carbohidratos después de las 21:00.',
+      prescribedDiet: '06:00 AM: Hidratación con ElectroHidra (1L).\n08:00 AM: Bowl de Elías con avena, chía y miel pura.\n13:00 PM: Proteína limpia + vegetales al vapor y grasas buenas.\n19:30 PM: Cena digestiva ligera (Catering Abuela Fit) + infusión relajante.',
+      allergiesOrRestrictions: 'Sensibilidad a lácteos enteros y comida frita irritante',
+      eatingDisordersOrIssues: 'Tendencia a picar por estrés nocturno y digestión lenta por comidas a destiempo.',
+      neuroticAndStressFactors: 'Picos de cortisol laboral, tensión cervical por pantalla e insomnio ocasional.',
+      
+      // Pilar 3: ESPÍRITU
+      spiritualIntention: 'Liderazgo con propósito, serenidad mental y disciplina innegociable en el Reto 21 Días',
+      mentorshipNotes: 'Atleta con altísima capacidad de enfoque. La clave es el orden en sus horas de sueño y la hidratación matutina.',
+      
+      // Seguimiento
+      attendanceHistory: [
+        { date: '2026-08-20', attended: true, notes: 'Sesión CristoFit Camp - Cumplió 100%' },
+        { date: '2026-08-21', attended: true, notes: 'Fuerza tren superior' },
+        { date: '2026-08-22', attended: true, notes: 'Evaluación Reto 21 Días' },
+        { date: '2026-08-24', attended: true, notes: 'Calistenia y movilidad' },
+        { date: '2026-08-25', attended: true, notes: 'Respiración y fondos' }
+      ],
+      assessments: [
+        { date: '2026-08-01', weightKg: 82.0, heightM: 1.78, imc: 25.9, notes: 'Evaluación inicial de ingreso' },
+        { date: '2026-08-22', weightKg: 79.5, heightM: 1.78, imc: 25.1, notes: 'Bajó 2.5kg de grasa y mejoró resistencia' }
+      ],
+      
+      escuadronId: 'Cristo-1',
+      phase: '3 - Perfeccionamiento',
+      isVipProfile: true,
+      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: true },
+      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80'
+    },
+    {
       id: 'std-1',
       name: 'Carlos Gutiérrez',
       phone: '+59170012345',
@@ -479,7 +529,69 @@ const DEFAULT_DB: CRMDatabase = {
     retentionTarget: 95,
     averageTicket: 250,
     newMembersTarget: 25
-  }
+  },
+  contentPosts: [
+    {
+      id: 'post-1',
+      monthIndex: 1,
+      dayOfWeek: 'Lunes',
+      pillar: 'Storytelling & Testimonios',
+      title: 'Historia de Transformación: De la Ansiedad a la Disciplina de Acero',
+      hookAndStory: 'No es solo sudar en un gimnasio; es recuperar la paz mental a las 06:00 AM. Cuando ordenas tu templo, ordenas tu vida entera.',
+      callToAction: 'Comenta "RETO21" y te enviamos el plan de inicio para este sábado.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-storytelling-guion-1',
+      status: 'scheduled',
+      targetAudience: 'Nuevos Prospectos & Comunidad'
+    },
+    {
+      id: 'post-2',
+      monthIndex: 1,
+      dayOfWeek: 'Miércoles',
+      pillar: 'Hábitos 3 Áreas',
+      title: 'El Trípode Inquebrantable: Espíritu, Mente y Cuerpo',
+      hookAndStory: 'Si entrenas el cuerpo pero descuidas tus pensamientos y tu nutrición, vives en conflicto constante. Conoce el método de 3 pilares.',
+      callToAction: 'Guarda esta guía práctica y aplícala mañana a primera hora.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-habitos-tripode',
+      status: 'scheduled',
+      targetAudience: 'Atletas Activos'
+    },
+    {
+      id: 'post-3',
+      monthIndex: 1,
+      dayOfWeek: 'Viernes',
+      pillar: 'Consumo Consciente & Snack',
+      title: 'Por qué eliminamos el azúcar refinado en el Snack Bar',
+      hookAndStory: 'El combustible de un atleta debe desinflamar, no aletargar. Te mostramos cómo preparamos la ElectroHidra con minerales puros.',
+      callToAction: 'Pide tu ElectroHidra este sábado en el CristoFit Camp.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-recetario-snack',
+      status: 'scheduled',
+      targetAudience: 'Comunidad General'
+    },
+    {
+      id: 'post-4',
+      monthIndex: 1,
+      dayOfWeek: 'Sábado',
+      pillar: 'CristoFit Camp',
+      title: 'Cobertura en Vivo: CristoFit Camp al Aire Libre',
+      hookAndStory: 'Entrenamiento funcional, calistenia, hermandad y servicio comunitario "Palabra y Pan". Santa Cruz se levanta con propósito.',
+      callToAction: 'Etiqueta a tu compañero de escuadrón que no faltó hoy.',
+      driveDocLink: 'https://drive.google.com/drive/folders/templefit-camp-fotos',
+      status: 'scheduled',
+      targetAudience: 'Comunidad & Escuadrones'
+    },
+    {
+      id: 'post-5',
+      monthIndex: 1,
+      dayOfWeek: 'Martes',
+      pillar: 'Lives & Retos',
+      title: 'Sesión Táctica VIP: Optimización de Hábitos para Alta Dirección',
+      hookAndStory: 'Cómo los líderes y empresarios integran calistenia, ayuno consciente y respiración para rendir al 100% sin burnout.',
+      callToAction: 'Exclusivo para miembros del programa de coaching 1 a 1.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-vip-antonio-eid',
+      status: 'draft',
+      targetAudience: 'Antonio Eid / Atletas VIP'
+    }
+  ]
 };
 
 export function getCRMDatabase(): CRMDatabase {
