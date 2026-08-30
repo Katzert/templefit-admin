@@ -98,7 +98,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         {/* Logo */}
         <div className="p-6 border-b border-black/5 dark:border-white/5 flex justify-between items-center flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 flex items-center justify-center bg-white dark:bg-black/5 dark:bg-white/5 rounded-xl p-1.5 border border-black/10 dark:border-white/10 shadow-sm">
+            <div className="w-10 h-10 flex items-center justify-center bg-white dark:bg-white/5 rounded-xl p-1.5 border border-black/10 dark:border-white/10 shadow-sm">
               <img src="/assets/img/logo-tf-abreviado.png" alt="TF" className="w-full h-full object-contain dark:filter dark:invert-0 filter" />
             </div>
             <div>
@@ -219,7 +219,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
           </button>
           
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 flex items-center justify-center bg-white dark:bg-black/5 dark:bg-white/5 rounded-lg p-1 border border-black/10 dark:border-white/10">
+            <div className="w-8 h-8 flex items-center justify-center bg-white dark:bg-white/5 rounded-lg p-1 border border-black/10 dark:border-white/10">
               <img src="/assets/img/logo-tf-abreviado.png" alt="TF" className="w-full h-full object-contain dark:filter dark:invert-0 filter" />
             </div>
           </div>

@@ -157,7 +157,7 @@ export function Module19SOPs() {
         </div>
         
         {/* Modern Tabs */}
-        <div className="relative z-10 flex bg-white dark:bg-black/5 dark:bg-white/5 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 w-full md:w-auto">
+        <div className="relative z-10 flex bg-white dark:bg-white/5 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 w-full md:w-auto">
           <button 
             onClick={() => setActiveTab('playbooks')}
             className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'playbooks' ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'}`}
@@ -184,7 +184,7 @@ export function Module19SOPs() {
         {/* PLAYBOOKS TAB (Rule of 3) */}
         {activeTab === 'playbooks' && (
           <motion.div key="playbooks" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="flex justify-between items-center bg-white dark:bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
+            <div className="flex justify-between items-center bg-white dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
               <div>
                 <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Protocolos en 3 Pasos</h3>
                 <p className="text-xs text-slate-600 dark:text-gray-400">Guías directas y sin rodeos para resolver cualquier situación en el gimnasio o campamento.</p>
@@ -214,7 +214,7 @@ export function Module19SOPs() {
                     <div className="flex flex-col divide-y divide-white/5">
                       {/* Step 1 */}
                       <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white dark:bg-black/5 dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">1</div>
+                        <div className="w-8 h-8 rounded-full bg-white dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">1</div>
                         <textarea
                           value={sop.step1 || ''}
                           onChange={e => updateSop(sop.id, 'step1', e.target.value)}
@@ -224,7 +224,7 @@ export function Module19SOPs() {
                       </div>
                       {/* Step 2 */}
                       <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white dark:bg-black/5 dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">2</div>
+                        <div className="w-8 h-8 rounded-full bg-white dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">2</div>
                         <textarea
                           value={sop.step2 || ''}
                           onChange={e => updateSop(sop.id, 'step2', e.target.value)}
@@ -234,7 +234,7 @@ export function Module19SOPs() {
                       </div>
                       {/* Step 3 */}
                       <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white dark:bg-black/5 dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">3</div>
+                        <div className="w-8 h-8 rounded-full bg-white dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">3</div>
                         <textarea
                           value={sop.step3 || ''}
                           onChange={e => updateSop(sop.id, 'step3', e.target.value)}
@@ -259,7 +259,7 @@ export function Module19SOPs() {
         {/* MARKETING TAB (Visual Posters) */}
         {activeTab === 'marketing' && (
           <motion.div key="marketing" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="flex justify-between items-center bg-white dark:bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
+            <div className="flex justify-between items-center bg-white dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
               <div>
                 <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Iniciativas de Crecimiento</h3>
                 <p className="text-xs text-slate-600 dark:text-gray-400">Las grandes apuestas del mes.</p>
@@ -304,7 +304,7 @@ export function Module19SOPs() {
                   </div>
                   
                   {/* Cuerpo */}
-                  <div className="p-6 flex-1 flex flex-col bg-slate-50 dark:bg-white dark:bg-black/40">
+                  <div className="p-6 flex-1 flex flex-col bg-black/[0.03] dark:bg-black/40">
                     <label className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
                       <Megaphone size={12} className="text-blue-500" /> Estrategia de Combate
                     </label>
@@ -412,7 +412,7 @@ export function Module19SOPs() {
                 </h4>
                 <div className="flex flex-col gap-2 opacity-60">
                   {resolvedClaims.map(ticket => (
-                    <div key={ticket.id} className="bg-white dark:bg-black/5 dark:bg-white/5 rounded-xl p-4 flex items-center justify-between border border-black/5 dark:border-white/5">
+                    <div key={ticket.id} className="bg-white dark:bg-white/5 rounded-xl p-4 flex items-center justify-between border border-black/5 dark:border-white/5">
                       <div>
                         <span className="text-emerald-400 font-bold mr-3 line-through">{ticket.clientName}</span>
                         <span className="text-slate-600 dark:text-gray-400 text-sm">{ticket.issue}</span>

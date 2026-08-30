@@ -484,7 +484,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       <motion.div variants={item} className="bg-black/5 dark:bg-black/60 border border-black/10 dark:border-white/10 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Sparkles size={16} className="text-temple-gold shrink-0" />
-          <span className="text-xs font-black uppercase tracking-wider text-white">Plantillas Rápidas (1 Toque):</span>
+          <span className="text-xs font-black uppercase tracking-wider text-temple-navy dark:text-white">Plantillas Rápidas (1 Toque):</span>
           <span className="text-[10px] text-slate-600 dark:text-gray-400 hidden md:inline">Autocompleta rutina y nutrición al instante</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -588,7 +588,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       <span className="text-4xl font-black text-temple-navy dark:text-white">{imc}</span>
                       <span className="text-xs text-slate-600 dark:text-gray-400 font-medium">kg/m² (Cálculo automático)</span>
                     </div>
-                    <div className="w-full bg-white dark:bg-black/10 dark:bg-white/10 h-2 rounded-full overflow-hidden mt-1">
+                    <div className="w-full bg-white dark:bg-white/10 h-2 rounded-full overflow-hidden mt-1">
                       <div 
                         className={`h-full transition-all duration-500 ${imc < 18.5 ? 'bg-blue-400' : imc < 25 ? 'bg-emerald-400' : imc < 30 ? 'bg-amber-400' : 'bg-red-400'}`}
                         style={{ width: `${Math.min(Math.max(((imc - 15) / 25) * 100, 5), 100)}%` }}
@@ -661,12 +661,12 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={currentRoutineExercises}
                       onSave={(val) => handleSaveField('currentRoutineExercises', val)}
                       multiline
-                      className="tabular-nums text-xs leading-relaxed text-gray-200 bg-slate-50 dark:bg-black/40 p-4 rounded-xl border border-black/10 dark:border-white/10"
+                      className="tabular-nums text-xs leading-relaxed text-gray-200 bg-black/[0.03] dark:bg-black/40 p-4 rounded-xl border border-black/10 dark:border-white/10"
                       placeholder="1. Dominadas estrictas (4x8)..."
                     />
                   </div>
 
-                  <div className="p-4 bg-white dark:bg-black/5 dark:bg-white/5 rounded-2xl border border-black/10 dark:border-white/10 text-xs space-y-2">
+                  <div className="p-4 bg-white dark:bg-white/5 rounded-2xl border border-black/10 dark:border-white/10 text-xs space-y-2">
                     <span className="font-bold text-temple-gold uppercase text-[10px] tracking-wider block">
                       💡 Estructura Recomendada de Rutina
                     </span>
@@ -708,7 +708,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={currentDiet}
                       onSave={(val) => handleSaveField('currentDiet', val)}
                       multiline
-                      className="text-xs text-slate-700 dark:text-gray-300 bg-slate-50 dark:bg-black/40 p-3 rounded-xl border border-black/10 dark:border-white/10"
+                      className="text-xs text-slate-700 dark:text-gray-300 bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/10 dark:border-white/10"
                       placeholder="Ej. Café en ayunas, comida rápida al mediodía y cenas copiosas..."
                     />
                   </div>
@@ -772,12 +772,12 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={neuroticAndStressFactors}
                       onSave={(val) => handleSaveField('neuroticAndStressFactors', val)}
                       multiline
-                      className="text-xs text-slate-700 dark:text-gray-300 bg-slate-50 dark:bg-black/40 p-3 rounded-xl border border-black/10 dark:border-white/10"
+                      className="text-xs text-slate-700 dark:text-gray-300 bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/10 dark:border-white/10"
                       placeholder="Ej. Insomnio leve, tensión muscular en cuello por jornada laboral..."
                     />
                   </div>
 
-                  <div className="p-3 bg-white dark:bg-black/5 dark:bg-white/5 rounded-xl border border-black/10 dark:border-white/10 text-[11px] text-slate-600 dark:text-gray-400">
+                  <div className="p-3 bg-white dark:bg-white/5 rounded-xl border border-black/10 dark:border-white/10 text-[11px] text-slate-600 dark:text-gray-400">
                     <span className="font-bold text-temple-navy dark:text-white block mb-1">Enfoque Preventivo de Paulo:</span>
                     Cada factor de estrés se aborda con respiración diafragmática 06:00 AM y orden de descanso nocturno.
                   </div>

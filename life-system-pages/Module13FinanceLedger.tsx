@@ -411,14 +411,14 @@ export function Module13FinanceLedger() {
                 <input 
                   type="text"
                   placeholder="Buscar por concepto o categoría..." 
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
               </div>
 
               <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                <div className="flex items-center gap-2 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2">
+                <div className="flex items-center gap-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2">
                   <Filter size={14} className="text-temple-gold" />
                   <select 
                     value={typeFilter}
@@ -431,7 +431,7 @@ export function Module13FinanceLedger() {
                   </select>
                 </div>
 
-                <div className="flex items-center gap-2 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2">
+                <div className="flex items-center gap-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2">
                   <select 
                     value={categoryFilter}
                     onChange={e => setCategoryFilter(e.target.value)}

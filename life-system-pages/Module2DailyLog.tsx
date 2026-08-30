@@ -565,7 +565,7 @@ export function Module2DailyLog() {
             className="space-y-6"
           >
             {/* Micro-Registro Táctico */}
-            <motion.div variants={item} className="bg-slate-50 dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-[2rem] p-6 shadow-xl">
+            <motion.div variants={item} className="bg-black/[0.03] dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-[2rem] p-6 shadow-xl">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="text-xs font-black text-slate-600 dark:text-gray-400 uppercase tracking-widest px-2">Auditoría de Rutina Diaria (Micro-Registro)</h3>
                 <span className="text-[10px] font-bold text-temple-gold uppercase tracking-wider bg-temple-gold/10 px-3 py-1 rounded-full">
@@ -741,7 +741,7 @@ export function Module2DailyLog() {
             className="space-y-6"
           >
             {/* Dashboard Analítico Mensual & Month Navigator */}
-            <div className="flex items-center justify-between bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-full px-6 py-3 shadow-xl w-fit mx-auto">
+            <div className="flex items-center justify-between bg-black/[0.03] dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-full px-6 py-3 shadow-xl w-fit mx-auto">
               <button onClick={handlePrevMonth} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white p-1 rounded-full transition-colors">
                 <ChevronLeft size={22} />
               </button>
@@ -871,7 +871,7 @@ export function Module2DailyLog() {
                                 rows={2}
                               />
                             ) : (
-                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-slate-50 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
+                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
                                 {selectedHistoricalDay.primaryVictory || 'Sin registro de victoria.'}
                               </p>
                             )}
@@ -889,7 +889,7 @@ export function Module2DailyLog() {
                                 rows={2}
                               />
                             ) : (
-                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-slate-50 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
+                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
                                 {selectedHistoricalDay.primaryAdjustment || 'Sin registro de ajuste.'}
                               </p>
                             )}
@@ -1018,7 +1018,7 @@ export function Module2DailyLog() {
                       <span>Alerta / Riesgo</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-white dark:bg-black/10 dark:bg-white/10 border border-black/20 dark:border-white/20" />
+                      <div className="w-3 h-3 rounded-full bg-white dark:bg-white/10 border border-black/20 dark:border-white/20" />
                       <span>Sin Registro</span>
                     </div>
                   </div>
@@ -1073,7 +1073,7 @@ export function Module2DailyLog() {
                       className={`text-left p-4 rounded-2xl border transition-all flex items-start gap-3.5 group cursor-pointer ${
                         isChecked 
                           ? 'bg-emerald-500/10 border-emerald-500/40 text-white shadow-md' 
-                          : 'bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:bg-white/5 hover:border-black/20 dark:border-white/20'
+                          : 'bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:bg-white/5 hover:border-black/20 dark:border-white/20'
                       }`}
                     >
                       <div className={`w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
@@ -1124,7 +1124,7 @@ export function Module2DailyLog() {
                       className={`p-4 rounded-2xl border transition-all flex items-start gap-3.5 cursor-pointer ${
                         isChecked 
                           ? 'bg-blue-500/10 border-blue-500/40 text-white' 
-                          : 'bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:bg-white/5 hover:border-black/20 dark:border-white/20'
+                          : 'bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:bg-white/5 hover:border-black/20 dark:border-white/20'
                       }`}
                     >
                       <div className={`w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${

@@ -86,7 +86,7 @@ export function Module14Inventory() {
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Header Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white dark:bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
+        <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <div>
             <p className="text-xs text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider mb-1">Valor Total Inventario</p>
             <p className="text-2xl font-black text-slate-800 dark:text-white">Bs. {totalValue.toLocaleString()}</p>
@@ -95,7 +95,7 @@ export function Module14Inventory() {
             <FileSpreadsheet size={24} />
           </div>
         </div>
-        <div className="bg-white dark:bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
+        <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <div>
             <p className="text-xs text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider mb-1">Stock Bajo / Crítico</p>
             <p className={`text-2xl font-black ${lowStockCount > 0 ? 'text-red-400' : 'text-emerald-400'}`}>{lowStockCount} artículos</p>
@@ -104,7 +104,7 @@ export function Module14Inventory() {
             <AlertCircle size={24} />
           </div>
         </div>
-        <div className="bg-white dark:bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between md:col-start-3">
+        <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between md:col-start-3">
           <button 
             onClick={addItem}
             className="w-full h-full flex items-center justify-center gap-2 bg-temple-gold text-black rounded-xl font-bold uppercase tracking-widest hover:bg-amber-400 transition-all shadow-lg"
@@ -115,7 +115,7 @@ export function Module14Inventory() {
       </div>
 
       {/* Table Toolbar */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-black/5 dark:bg-white/5 p-3 rounded-2xl border border-black/10 dark:border-white/10">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-white/5 p-3 rounded-2xl border border-black/10 dark:border-white/10">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-500" size={18} />
           <input 

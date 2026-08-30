@@ -218,7 +218,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <input 
                   type="text"
                   placeholder="Buscar por nombre, escuadrón, email o teléfono..." 
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
@@ -466,8 +466,8 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
               <form onSubmit={handleCreateStudent} className="space-y-4">
                 {/* Photo Upload */}
-                <div className="flex items-center gap-4 p-3 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl">
-                  <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white dark:bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-temple-gold font-bold text-lg flex-shrink-0">
+                <div className="flex items-center gap-4 p-3 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl">
+                  <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-temple-gold font-bold text-lg flex-shrink-0">
                     {newAthlete.avatarUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={newAthlete.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -502,7 +502,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       type="text" 
                       required
                       placeholder="Ej. Juan Pérez"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.name}
                       onChange={e => setNewAthlete({ ...newAthlete, name: e.target.value })}
                     />
@@ -513,7 +513,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       type="text" 
                       required
                       placeholder="+591 70012345"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.phone}
                       onChange={e => setNewAthlete({ ...newAthlete, phone: e.target.value })}
                     />
@@ -526,7 +526,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <input 
                       type="text" 
                       placeholder="Ej. Alfa-1, Gedeón-2..."
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.escuadronId}
                       onChange={e => setNewAthlete({ ...newAthlete, escuadronId: e.target.value })}
                     />
@@ -534,7 +534,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Fase del Programa</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.phase}
                       onChange={e => setNewAthlete({ ...newAthlete, phase: e.target.value as any })}
                     >
@@ -549,7 +549,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Plan de Membresía</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.plan}
                       onChange={e => setNewAthlete({ ...newAthlete, plan: e.target.value as any })}
                     >
@@ -564,7 +564,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <input 
                       type="number" 
                       placeholder="70"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.weightKg}
                       onChange={e => setNewAthlete({ ...newAthlete, weightKg: Number(e.target.value) })}
                     />
@@ -576,7 +576,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <input 
                     type="text" 
                     placeholder="Ej. Bajar 5kg de grasa, ganar fuerza en calistenia..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={newAthlete.physicalGoal}
                     onChange={e => setNewAthlete({ ...newAthlete, physicalGoal: e.target.value })}
                   />
@@ -587,7 +587,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <input 
                     type="text" 
                     placeholder="Ej. Hábito de oración matutina y vencer el estrés..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={newAthlete.spiritualIntention}
                     onChange={e => setNewAthlete({ ...newAthlete, spiritualIntention: e.target.value })}
                   />
@@ -649,7 +649,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   return (
                     <div 
                       key={expiringStudent.id}
-                      className="p-4 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      className="p-4 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
                       <div>
                         <h4 className="text-sm font-bold text-temple-navy dark:text-white flex items-center gap-2">
@@ -681,7 +681,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <button
                   type="button"
                   onClick={() => setIsRetentionModalOpen(false)}
-                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Cerrar
                 </button>
@@ -727,7 +727,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   return (
                     <div 
                       key={squad}
-                      className="p-4 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl flex items-center justify-between gap-4"
+                      className="p-4 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl flex items-center justify-between gap-4"
                     >
                       <div>
                         <h4 className="text-sm font-bold text-temple-navy dark:text-white uppercase tracking-wider">
@@ -754,7 +754,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <button
                   type="button"
                   onClick={() => setIsBatchModalOpen(false)}
-                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Cerrar
                 </button>
@@ -824,7 +824,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     body: `¡Atención Escuadrón ${selectedBroadcastSquad}! 👑\n\nHoy tenemos nuestra Mentoría Grupal de 30 minutos enfocada en Liderazgo, Rendimiento y Nutrición Anti-inflamatoria. Conéctense a las 20:00 con libreta en mano.\n\n¡Nos vemos pronto!`
                   }
                 ].map((tpl, idx) => (
-                  <div key={idx} className="p-4 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl space-y-2.5">
+                  <div key={idx} className="p-4 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl space-y-2.5">
                     <div className="flex items-center justify-between">
                       <h4 className="text-xs font-black uppercase text-temple-gold tracking-wider">{tpl.title}</h4>
                       <button
@@ -833,7 +833,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                           setCopiedBroadcastIdx(idx);
                           setTimeout(() => setCopiedBroadcastIdx(null), 2500);
                         }}
-                        className="px-3 py-1 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition"
+                        className="px-3 py-1 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition"
                       >
                         {copiedBroadcastIdx === idx ? (
                           <>
@@ -859,7 +859,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <button
                   type="button"
                   onClick={() => setIsBroadcastModalOpen(false)}
-                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Listo / Cerrar
                 </button>

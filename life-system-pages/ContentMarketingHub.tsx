@@ -206,7 +206,7 @@ export function ContentMarketingHub() {
             className="p-4 bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 hover:border-temple-gold/40 rounded-2xl transition group flex items-center justify-between shadow-lg"
           >
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-white dark:bg-black/5 dark:bg-white/5 group-hover:scale-110 transition">
+              <div className="p-2.5 rounded-xl bg-white dark:bg-white/5 group-hover:scale-110 transition">
                 {folder.icon}
               </div>
               <div>
@@ -360,7 +360,7 @@ export function ContentMarketingHub() {
 
               <CardContent className="space-y-4 flex-1 flex flex-col justify-between pt-0">
                 <div className="space-y-3">
-                  <div className="p-3.5 bg-slate-50 dark:bg-white dark:bg-black/40 rounded-xl border border-black/5 dark:border-white/5 text-xs text-slate-700 dark:text-gray-300 leading-relaxed">
+                  <div className="p-3.5 bg-black/[0.03] dark:bg-black/40 rounded-xl border border-black/5 dark:border-white/5 text-xs text-slate-700 dark:text-gray-300 leading-relaxed">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-500 block mb-1">
                       📖 Gancho & Storytelling:
                     </span>
@@ -438,7 +438,7 @@ export function ContentMarketingHub() {
                   <select
                     value={newPost.monthIndex}
                     onChange={(e) => setNewPost({ ...newPost, monthIndex: Number(e.target.value) as any })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
+                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
                   >
                     <option value={1} className="bg-white dark:bg-[#121826]">Mes 1</option>
                     <option value={2} className="bg-white dark:bg-[#121826]">Mes 2</option>
@@ -450,7 +450,7 @@ export function ContentMarketingHub() {
                   <select
                     value={newPost.dayOfWeek}
                     onChange={(e) => setNewPost({ ...newPost, dayOfWeek: e.target.value as any })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
+                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
                   >
                     <option value="Lunes" className="bg-white dark:bg-[#121826]">Lunes</option>
                     <option value="Martes" className="bg-white dark:bg-[#121826]">Martes</option>
@@ -468,7 +468,7 @@ export function ContentMarketingHub() {
                 <select
                   value={newPost.pillar}
                   onChange={(e) => setNewPost({ ...newPost, pillar: e.target.value as any })}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
+                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
                 >
                   <option value="Storytelling & Testimonios" className="bg-white dark:bg-[#121826]">Storytelling & Testimonios</option>
                   <option value="Hábitos 3 Áreas" className="bg-white dark:bg-[#121826]">Hábitos 3 Áreas (Cuerpo, Mente, Espíritu)</option>
@@ -486,7 +486,7 @@ export function ContentMarketingHub() {
                   placeholder="Ej. Por qué entrenar a las 06:00 AM te cambia la vida..."
                   value={newPost.title}
                   onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
+                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
                 />
               </div>
 
@@ -498,7 +498,7 @@ export function ContentMarketingHub() {
                   placeholder="Escribe el texto principal, anécdota o reflexión que conectarás..."
                   value={newPost.hookAndStory}
                   onChange={(e) => setNewPost({ ...newPost, hookAndStory: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
+                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
                 />
               </div>
 
@@ -509,7 +509,7 @@ export function ContentMarketingHub() {
                   placeholder="Ej. Comenta RETO21 o envía un DM para unirte..."
                   value={newPost.callToAction}
                   onChange={(e) => setNewPost({ ...newPost, callToAction: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
+                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
                 />
               </div>
 
@@ -520,7 +520,7 @@ export function ContentMarketingHub() {
                   placeholder="https://drive.google.com/..."
                   value={newPost.driveDocLink}
                   onChange={(e) => setNewPost({ ...newPost, driveDocLink: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
+                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
                 />
               </div>
 

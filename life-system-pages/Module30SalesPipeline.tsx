@@ -120,7 +120,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
               {/* Stage Header */}
               <div className={`p-5 ${stage.bgHeader} border-b border-black/10 dark:border-white/10 flex items-center justify-between`}>
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10">
+                  <div className="p-2 rounded-xl bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10">
                     {stage.icon}
                   </div>
                   <div>
@@ -138,7 +138,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
                 {stage.items.map(student => (
                   <div 
                     key={student.id} 
-                    className="bg-slate-100 dark:bg-white dark:bg-black/50 hover:bg-black/8 dark:bg-black/80 border border-black/10 dark:border-white/10 hover:border-temple-gold/40 p-4 rounded-2xl transition-all shadow-md group"
+                    className="bg-slate-100 dark:bg-black/50 hover:bg-black/8 dark:bg-black/80 border border-black/10 dark:border-white/10 hover:border-temple-gold/40 p-4 rounded-2xl transition-all shadow-md group"
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div>

@@ -179,7 +179,7 @@ export function Module40CorteEjecutivo() {
           { title: 'Balance Neto', value: formatBs(net), icon: TrendingUp, color: net >= 0 ? 'text-temple-gold' : 'text-red-400', bg: net >= 0 ? 'bg-temple-gold/10' : 'bg-red-400/10' },
         ].map((stat, i) => (
           <motion.div key={i} variants={item}>
-            <Card className="bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 hover:border-black/20 dark:border-white/20 transition-colors">
+            <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 hover:border-black/20 dark:border-white/20 transition-colors">
               <CardContent className="!p-6 flex items-center gap-4">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.bg}`}>
                   <stat.icon className={stat.color} size={24} />
@@ -288,7 +288,7 @@ export function Module40CorteEjecutivo() {
       </motion.div>
 
       {/* Regla del Semáforo (SOP-03) */}
-      <div className="bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-xl p-6 hover:border-black/20 dark:border-white/20 transition-colors">
+      <div className="bg-black/[0.03] dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-xl p-6 hover:border-black/20 dark:border-white/20 transition-colors">
         <h3 className="text-sm font-black text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
           <Activity className="text-temple-gold" size={16} /> Regla del Semáforo (SOP-03)
         </h3>
@@ -314,7 +314,7 @@ export function Module40CorteEjecutivo() {
       {/* Fundamentos del Mes: versículo editable + metas por área */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <motion.div variants={item}>
-          <Card className="bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
+          <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
             <CardContent className="!p-6">
               <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                 <div className="w-2 h-2 bg-temple-gold rounded-full" />
@@ -343,7 +343,7 @@ export function Module40CorteEjecutivo() {
         </motion.div>
 
         <motion.div variants={item}>
-          <Card className="bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
+          <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
             <CardContent className="!p-6">
               <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                 <div className="w-2 h-2 bg-emerald-500 rounded-full" />
@@ -351,7 +351,7 @@ export function Module40CorteEjecutivo() {
               </h3>
               <div className="space-y-4">
                 {board.goals.map((goal, i) => (
-                  <div key={goal.area} className="bg-white dark:bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
+                  <div key={goal.area} className="bg-white dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
                     <div className="flex justify-between items-center mb-2 gap-3">
                       <span className="text-sm font-bold text-temple-navy dark:text-white uppercase tracking-wider">{goal.area}</span>
                       <input
@@ -363,7 +363,7 @@ export function Module40CorteEjecutivo() {
                         className="w-32 bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-white text-right p-2 rounded-lg focus:border-temple-gold outline-none"
                       />
                     </div>
-                    <div className="w-full bg-slate-100 dark:bg-white dark:bg-black/50 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-100 dark:bg-black/50 rounded-full h-2 overflow-hidden">
                       <div
                         className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full"
                         style={{ width: `${totalGoals > 0 ? Math.min(100, Math.round((goal.targetBs / totalGoals) * 100)) : 0}%` }}
@@ -373,7 +373,7 @@ export function Module40CorteEjecutivo() {
                 ))}
               </div>
               <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="bg-white dark:bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
+                <div className="bg-white dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
                   <p className="text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold mb-1">Ticket Promedio (Bs.)</p>
                   <input
                     type="number"
@@ -383,7 +383,7 @@ export function Module40CorteEjecutivo() {
                     className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-white p-2 rounded-lg focus:border-temple-gold outline-none"
                   />
                 </div>
-                <div className="bg-white dark:bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
+                <div className="bg-white dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
                   <p className="text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold mb-1">Nuevos Miembros (KPI)</p>
                   <input
                     type="number"
@@ -395,7 +395,7 @@ export function Module40CorteEjecutivo() {
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-1 gap-3">
-                <div className="bg-white dark:bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
+                <div className="bg-white dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
                   <p className="text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold mb-1">Tasa de Retención Target (%)</p>
                   <input
                     type="number"
@@ -435,7 +435,7 @@ export function Module40CorteEjecutivo() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <motion.div variants={item}>
-          <Card className="bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
+          <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
             <CardContent className="!p-6">
               <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                 <div className="w-2 h-2 bg-temple-gold rounded-full" />
@@ -448,7 +448,7 @@ export function Module40CorteEjecutivo() {
                     <span className="text-slate-600 dark:text-gray-400">Gastos Operativos (Target 50%)</span>
                     <span className="text-red-400">{pctExpense}%</span>
                   </div>
-                  <div className="w-full bg-white dark:bg-black/5 dark:bg-white/5 rounded-full h-3 overflow-hidden">
+                  <div className="w-full bg-white dark:bg-white/5 rounded-full h-3 overflow-hidden">
                     <div className={`bg-gradient-to-r from-red-500 to-red-400 h-full rounded-full ${pctExpense > 50 ? 'w-full' : ''}`} style={{ width: `${pctExpense}%` }} />
                   </div>
                 </div>
@@ -458,7 +458,7 @@ export function Module40CorteEjecutivo() {
                     <span className="text-slate-600 dark:text-gray-400">Utilidad / Crecimiento (Target 50%)</span>
                     <span className="text-emerald-400">{pctProfit}%</span>
                   </div>
-                  <div className="w-full bg-white dark:bg-black/5 dark:bg-white/5 rounded-full h-3 overflow-hidden">
+                  <div className="w-full bg-white dark:bg-white/5 rounded-full h-3 overflow-hidden">
                     <div className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-full rounded-full" style={{ width: `${pctProfit}%` }} />
                   </div>
                 </div>
@@ -472,7 +472,7 @@ export function Module40CorteEjecutivo() {
         </motion.div>
 
         <motion.div variants={item}>
-          <Card className="bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
+          <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
             <CardContent className="!p-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
@@ -488,12 +488,12 @@ export function Module40CorteEjecutivo() {
                   </p>
                 )}
                 {kpis.squads.map((squad, i) => (
-                  <div key={i} className="bg-white dark:bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
+                  <div key={i} className="bg-white dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm font-bold text-temple-navy dark:text-white">{squad.name}</span>
                       <span className="text-xs font-black text-slate-700 dark:text-gray-300">{squad.progress}%</span>
                     </div>
-                    <div className="w-full bg-slate-100 dark:bg-white dark:bg-black/50 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-100 dark:bg-black/50 rounded-full h-2 overflow-hidden">
                       <div className={`bg-gradient-to-r ${squad.color} h-full rounded-full transition-all duration-1000`} style={{ width: `${squad.progress}%` }} />
                     </div>
                   </div>

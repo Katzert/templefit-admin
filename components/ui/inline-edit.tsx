@@ -54,7 +54,7 @@ export function InlineEdit({ value, onSave, multiline = false, className, placeh
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           className={cn(
-            "w-full bg-slate-50 dark:bg-black/40 border border-amber-500/50 dark:border-temple-gold/50 rounded-lg p-2 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 dark:focus:ring-temple-gold resize-none",
+            "w-full bg-black/[0.03] dark:bg-black/40 border border-amber-500/50 dark:border-temple-gold/50 rounded-lg p-2 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 dark:focus:ring-temple-gold resize-none",
             className
           )}
           rows={3}
@@ -71,7 +71,7 @@ export function InlineEdit({ value, onSave, multiline = false, className, placeh
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         className={cn(
-          "w-full bg-slate-50 dark:bg-black/40 border border-amber-500/50 dark:border-temple-gold/50 rounded-lg p-2 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 dark:focus:ring-temple-gold",
+          "w-full bg-black/[0.03] dark:bg-black/40 border border-amber-500/50 dark:border-temple-gold/50 rounded-lg p-2 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 dark:focus:ring-temple-gold",
           className
         )}
       />

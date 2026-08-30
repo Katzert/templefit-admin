@@ -249,13 +249,13 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                 <input 
                   type="text"
                   placeholder="Buscar prospecto por nombre o teléfono..." 
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
               </div>
               
-              <div className="flex items-center gap-2 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2">
+              <div className="flex items-center gap-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2">
                 <Filter size={14} className="text-temple-gold" />
                 <select 
                   value={statusFilter}
@@ -432,7 +432,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     type="text" 
                     required
                     placeholder="Ej. Andrés Morales"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.name}
                     onChange={e => setLeadForm({ ...leadForm, name: e.target.value })}
                   />
@@ -444,7 +444,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     type="text" 
                     required
                     placeholder="+591 71234567"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.phone}
                     onChange={e => setLeadForm({ ...leadForm, phone: e.target.value })}
                   />
@@ -454,7 +454,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Canal de Origen</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
                       value={leadForm.source}
                       onChange={e => setLeadForm({ ...leadForm, source: e.target.value as any })}
                     >
@@ -468,7 +468,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Estado</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
                       value={leadForm.status}
                       onChange={e => setLeadForm({ ...leadForm, status: e.target.value as any })}
                     >
@@ -487,7 +487,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <textarea 
                     rows={2}
                     placeholder="Interesado en Reto 21 Días, Crossfit o Neuro-Ventas..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.notes}
                     onChange={e => setLeadForm({ ...leadForm, notes: e.target.value })}
                   />

@@ -137,7 +137,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </button>
             <button
               onClick={() => onNavigate?.('corte-ejecutivo')}
-              className="px-5 py-3 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-black/10 dark:border-white/10 flex items-center gap-2"
+              className="px-5 py-3 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-black/10 dark:border-white/10 flex items-center gap-2"
             >
               <DollarSign size={16} className="text-temple-gold" />
               <span>Tablero P&L Simétrico</span>
@@ -175,7 +175,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </button>
             <button
               onClick={() => onNavigate?.('daily-log')}
-              className="px-5 py-3 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-black/10 dark:border-white/10 flex items-center gap-2"
+              className="px-5 py-3 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-temple-navy dark:text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-black/10 dark:border-white/10 flex items-center gap-2"
             >
               <Clock size={16} className="text-temple-gold" />
               <span>12 Hábitos de Calidad</span>
@@ -310,22 +310,22 @@ export function HomePage({ onNavigate }: HomePageProps) {
                   Formar a 300 atletas en la comunidad
                 </h3>
                 <p className="text-xs text-slate-700 dark:text-gray-300 max-w-2xl leading-relaxed">
-                  Organizados en <strong className="text-white">25 escuadrones de 12 personas</strong> en tres etapas: 
+                  Organizados en <strong className="text-temple-navy dark:text-white">25 escuadrones de 12 personas</strong> en tres etapas: 
                   Fase 1 (Iniciación y Paz), Fase 2 (Reto 21 Días / Gedeón) y Fase 3 (Liderazgo / E.A.G.E.).
                 </p>
               </div>
 
-              <div className="flex items-center gap-6 bg-slate-50 dark:bg-white dark:bg-black/40 p-4 rounded-2xl border border-black/10 dark:border-white/10">
+              <div className="flex items-center gap-6 bg-black/[0.03] dark:bg-black/40 p-4 rounded-2xl border border-black/10 dark:border-white/10">
                 <div className="text-center">
                   <p className="text-2xl font-black text-temple-gold">{activeStudents}</p>
                   <p className="text-[10px] text-slate-600 dark:text-gray-400 uppercase tracking-wider font-bold">Atletas Actuales</p>
                 </div>
-                <div className="h-8 w-px bg-white dark:bg-black/10 dark:bg-white/10" />
+                <div className="h-8 w-px bg-black/10 dark:bg-white/10" />
                 <div className="text-center">
                   <p className="text-2xl font-black text-slate-800 dark:text-white">300</p>
                   <p className="text-[10px] text-slate-600 dark:text-gray-400 uppercase tracking-wider font-bold">Meta</p>
                 </div>
-                <div className="h-8 w-px bg-white dark:bg-black/10 dark:bg-white/10" />
+                <div className="h-8 w-px bg-black/10 dark:bg-white/10" />
                 <div className="text-center">
                   <p className="text-2xl font-black text-emerald-400">{Math.round((activeStudents / 300) * 100)}%</p>
                   <p className="text-[10px] text-slate-600 dark:text-gray-400 uppercase tracking-wider font-bold">Avance</p>

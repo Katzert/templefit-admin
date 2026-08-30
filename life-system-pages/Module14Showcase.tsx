@@ -109,7 +109,7 @@ export function Module14Showcase() {
         </div>
         
         {/* Filters */}
-        <div className="relative z-10 flex bg-white dark:bg-black/5 dark:bg-white/5 p-1 rounded-2xl border border-black/10 dark:border-white/10 w-full md:w-auto">
+        <div className="relative z-10 flex bg-white dark:bg-white/5 p-1 rounded-2xl border border-black/10 dark:border-white/10 w-full md:w-auto">
           <button 
             onClick={() => setActiveFilter('all')}
             className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'all' ? 'bg-white/20 text-white' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'}`}
