@@ -89,7 +89,7 @@ export function Module14Inventory() {
         <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <div>
             <p className="text-xs text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider mb-1">Valor Total Inventario</p>
-            <p className="text-2xl font-black text-slate-800 dark:text-white">Bs. {totalValue.toLocaleString()}</p>
+            <p className="text-2xl font-black text-slate-800 dark:text-temple-navy dark:text-white">Bs. {totalValue.toLocaleString()}</p>
           </div>
           <div className="w-12 h-12 rounded-full bg-temple-gold/20 flex items-center justify-center text-temple-gold">
             <FileSpreadsheet size={24} />
@@ -123,7 +123,7 @@ export function Module14Inventory() {
             placeholder="Buscar por nombre..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-temple-gold transition-colors text-white"
+            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-temple-gold transition-colors text-temple-navy dark:text-white"
           />
         </div>
         <div className="flex gap-2 w-full md:w-auto overflow-x-auto custom-scrollbar pb-2 md:pb-0">
@@ -145,18 +145,18 @@ export function Module14Inventory() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400 font-black">
-                <th className="pb-3 pr-4 font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('name')}>
+                <th className="pb-3 pr-4 font-black cursor-pointer hover:text-temple-gold dark:hover:text-temple-navy dark:text-white" onClick={() => handleSort('name')}>
                   <div className="flex items-center gap-1.5">Ítem / Artículo <ArrowUpDown size={12}/></div>
                 </th>
-                <th className="pb-3 pr-4 font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('category')}>
+                <th className="pb-3 pr-4 font-black cursor-pointer hover:text-temple-gold dark:hover:text-temple-navy dark:text-white" onClick={() => handleSort('category')}>
                   <div className="flex items-center gap-1.5">Categoría <ArrowUpDown size={12}/></div>
                 </th>
-                <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('stock')}>
+                <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-temple-gold dark:hover:text-temple-navy dark:text-white" onClick={() => handleSort('stock')}>
                   <div className="flex items-center justify-end gap-1.5">Stock Actual <ArrowUpDown size={12}/></div>
                 </th>
                 <th className="pb-3 pr-4 text-right font-black">Stock Mín.</th>
                 <th className="pb-3 pr-4 text-right font-black">Costo Unit.</th>
-                <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('price')}>
+                <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-temple-gold dark:hover:text-temple-navy dark:text-white" onClick={() => handleSort('price')}>
                   <div className="flex items-center justify-end gap-1.5">Precio Venta <ArrowUpDown size={12}/></div>
                 </th>
                 <th className="pb-3 pr-4 text-right font-black text-emerald-400">Margen Unit.</th>
@@ -260,7 +260,7 @@ export function Module14Inventory() {
                           {item.category}
                         </span>
                       </td>
-                      <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
+                      <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-temple-navy dark:text-white">
                         {item.stock}
                       </td>
                       <td className="py-4 pl-4 text-right tabular-nums text-slate-600 dark:text-gray-400">
@@ -275,7 +275,7 @@ export function Module14Inventory() {
                       <td className="py-4 pl-4 text-right tabular-nums font-bold text-emerald-400">
                         +Bs. {unitMargin}
                       </td>
-                      <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
+                      <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-temple-navy dark:text-white">
                         Bs. {totalStockValue.toLocaleString()}
                       </td>
                       <td className="py-4 pl-4 text-center whitespace-nowrap">
@@ -302,11 +302,11 @@ export function Module14Inventory() {
             </tbody>
             {/* Totales Consolidados (Footer Excel) */}
             <tfoot>
-              <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
+              <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-temple-navy dark:text-white text-xs">
                 <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums" colSpan={2}>
                   Totales ({filteredItems.length} ítems)
                 </td>
-                <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-white">
+                <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-temple-navy dark:text-white">
                   {filteredItems.reduce((sum, i) => sum + i.stock, 0)} uds
                 </td>
                 <td className="py-4 pl-4 text-right tabular-nums text-slate-500 dark:text-gray-500">-</td>

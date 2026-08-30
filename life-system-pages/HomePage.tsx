@@ -118,7 +118,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               </span>
               <span className="text-[11px] text-slate-600 dark:text-gray-400 font-bold">Santa Cruz de la Sierra</span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-serif font-black uppercase leading-tight text-temple-navy dark:text-white tracking-wide">
+            <h1 className="text-3xl md:text-5xl font-serif font-black uppercase leading-tight text-temple-navy dark:text-temple-navy dark:text-white tracking-wide">
               Hola,<br />
               <span className="text-temple-gold">{user?.name?.split(' ')[0] || 'Paulo'}.</span>
             </h1>
@@ -137,7 +137,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </button>
             <button
               onClick={() => onNavigate?.('corte-ejecutivo')}
-              className="px-5 py-3 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-black/10 dark:border-white/10 flex items-center gap-2"
+              className="px-5 py-3 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-temple-navy dark:text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-black/10 dark:border-white/10 flex items-center gap-2"
             >
               <DollarSign size={16} className="text-temple-gold" />
               <span>Tablero P&L Simétrico</span>
@@ -147,7 +147,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       </motion.div>
 
       {/* WIDGET ANTI-BURNOUT: BRIEFING MATUTINO (06:00 AM) */}
-      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#12192B] dark:to-black text-temple-navy dark:text-white border border-temple-gold/30 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#12192B] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white border border-temple-gold/30 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -157,7 +157,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               </span>
               <span className="text-[11px] text-slate-600 dark:text-gray-400 font-bold">Sin fricción administrativa</span>
             </div>
-            <h3 className="text-lg md:text-xl font-black uppercase text-temple-navy dark:text-white tracking-wide">
+            <h3 className="text-lg md:text-xl font-black uppercase text-temple-navy dark:text-temple-navy dark:text-white tracking-wide">
               {activeStudents} Atletas Activos en {squadCount} Escuadrones Listos Hoy
             </h3>
             <p className="text-xs text-slate-700 dark:text-gray-300 max-w-2xl leading-relaxed">
@@ -175,7 +175,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </button>
             <button
               onClick={() => onNavigate?.('daily-log')}
-              className="px-5 py-3 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-temple-navy dark:text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-black/10 dark:border-white/10 flex items-center gap-2"
+              className="px-5 py-3 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-temple-navy dark:text-temple-navy dark:text-white font-extrabold uppercase tracking-wider text-xs rounded-xl transition border border-black/10 dark:border-white/10 flex items-center gap-2"
             >
               <Clock size={16} className="text-temple-gold" />
               <span>12 Hábitos de Calidad</span>
@@ -227,7 +227,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                   <span className="text-[10px] uppercase tracking-widest text-slate-600 dark:text-gray-400 font-bold">{kpi.label}</span>
                   <div className={`p-2 rounded-xl bg-black/5 dark:bg-white/5 ${kpi.color}`}>{kpi.icon}</div>
                 </div>
-                <p className="text-2xl font-black text-slate-800 dark:text-white mt-2">{kpi.value}</p>
+                <p className="text-2xl font-black text-slate-800 dark:text-temple-navy dark:text-white mt-2">{kpi.value}</p>
                 <p className="text-[11px] text-slate-500 dark:text-gray-500 mt-1 font-medium">{kpi.sub}</p>
               </CardContent>
             </Card>
@@ -245,7 +245,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                   <Calendar size={20} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-temple-navy dark:text-white uppercase tracking-wider">
+                  <h4 className="text-sm font-bold text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
                     {expiringStudentsList.length} membresía(s) por vencer
                   </h4>
                   <p className="text-xs text-slate-700 dark:text-gray-300">
@@ -274,7 +274,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                   <Activity size={20} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-temple-navy dark:text-white uppercase tracking-wider">
+                  <h4 className="text-sm font-bold text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
                     Radar Anti-Abandono: {inactiveStudentsList.length} atleta(s) con inasistencias
                   </h4>
                   <p className="text-xs text-slate-700 dark:text-gray-300">
@@ -295,7 +295,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
       {/* Meta Anual */}
       <motion.div variants={item}>
-        <Card className="border-temple-gold/30 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white shadow-2xl relative overflow-hidden">
+        <Card className="border-temple-gold/30 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white shadow-2xl relative overflow-hidden">
           <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-temple-gold/10 to-transparent pointer-events-none" />
           <CardContent className="!p-6 md:!p-8 relative z-10">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -306,11 +306,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                     Meta Anual
                   </span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-black uppercase text-temple-navy dark:text-white tracking-wide">
+                <h3 className="text-xl md:text-2xl font-black uppercase text-temple-navy dark:text-temple-navy dark:text-white tracking-wide">
                   Formar a 300 atletas en la comunidad
                 </h3>
                 <p className="text-xs text-slate-700 dark:text-gray-300 max-w-2xl leading-relaxed">
-                  Organizados en <strong className="text-temple-navy dark:text-white">25 escuadrones de 12 personas</strong> en tres etapas: 
+                  Organizados en <strong className="text-temple-navy dark:text-temple-navy dark:text-white">25 escuadrones de 12 personas</strong> en tres etapas: 
                   Fase 1 (Iniciación y Paz), Fase 2 (Reto 21 Días / Gedeón) y Fase 3 (Liderazgo / E.A.G.E.).
                 </p>
               </div>
@@ -322,7 +322,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 </div>
                 <div className="h-8 w-px bg-black/10 dark:bg-white/10" />
                 <div className="text-center">
-                  <p className="text-2xl font-black text-slate-800 dark:text-white">300</p>
+                  <p className="text-2xl font-black text-slate-800 dark:text-temple-navy dark:text-white">300</p>
                   <p className="text-[10px] text-slate-600 dark:text-gray-400 uppercase tracking-wider font-bold">Meta</p>
                 </div>
                 <div className="h-8 w-px bg-black/10 dark:bg-white/10" />
@@ -341,7 +341,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
         <motion.div variants={item} className="lg:col-span-12">
           <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl">
             <CardContent className="!p-6">
-              <h3 className="text-base font-black text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <h3 className="text-base font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Zap className="text-temple-gold" size={18} />
                 Accesos Directos
               </h3>

@@ -180,7 +180,7 @@ export function Module13FinanceLedger() {
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <DollarSign size={140} className="text-white" />
         </div>
@@ -192,7 +192,7 @@ export function Module13FinanceLedger() {
               </span>
               <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">Total: {transactions.length} registros</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <DollarSign className="text-temple-gold" size={26} />
               Libro de Caja Diario (Bs.)
             </h2>
@@ -227,7 +227,7 @@ export function Module13FinanceLedger() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[10px] text-slate-600 dark:text-gray-400 uppercase tracking-widest font-bold">{kpi.label}</p>
-                  <p className="text-xl font-black text-slate-800 dark:text-white truncate">{kpi.value}</p>
+                  <p className="text-xl font-black text-slate-800 dark:text-temple-navy dark:text-white truncate">{kpi.value}</p>
                 </div>
               </CardContent>
             </Card>
@@ -248,7 +248,7 @@ export function Module13FinanceLedger() {
               <CardContent className="!p-6">
                 <div className="flex flex-col gap-4 mb-5">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+                    <h3 className="text-base font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
                       <Plus className="text-temple-gold" size={18} />
                       Registrar Asiento Contable
                     </h3>
@@ -302,7 +302,7 @@ export function Module13FinanceLedger() {
                     <select
                       value={newTx.type}
                       onChange={e => setNewTx({ ...newTx, type: e.target.value as any })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     >
                       <option className="bg-white dark:bg-[#121826]" value="income">Ingreso (+)</option>
                       <option className="bg-white dark:bg-[#121826]" value="expense">Egreso (-)</option>
@@ -314,7 +314,7 @@ export function Module13FinanceLedger() {
                     <select
                       value={newTx.category}
                       onChange={e => setNewTx({ ...newTx, category: e.target.value as any })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     >
                       <option className="bg-white dark:bg-[#121826]" value="membership">Membresía / Reto 21 Días</option>
                       <option className="bg-white dark:bg-[#121826]" value="courses">Cursos / E.A.G.E. / Neuro-Ventas</option>
@@ -334,7 +334,7 @@ export function Module13FinanceLedger() {
                       placeholder="Ej. 200"
                       value={newTx.amount}
                       onChange={e => setNewTx({ ...newTx, amount: e.target.value })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     />
                   </div>
 
@@ -344,7 +344,7 @@ export function Module13FinanceLedger() {
                       type="date"
                       value={newTx.date}
                       onChange={e => setNewTx({ ...newTx, date: e.target.value })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     />
                   </div>
 
@@ -381,7 +381,7 @@ export function Module13FinanceLedger() {
                       placeholder="Ej. Membresía Reto 21 Días - Juan Pérez"
                       value={newTx.description}
                       onChange={e => setNewTx({ ...newTx, description: e.target.value })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     />
                   </div>
 
@@ -411,7 +411,7 @@ export function Module13FinanceLedger() {
                 <input 
                   type="text"
                   placeholder="Buscar por concepto o categoría..." 
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
@@ -423,7 +423,7 @@ export function Module13FinanceLedger() {
                   <select 
                     value={typeFilter}
                     onChange={e => setTypeFilter(e.target.value as any)}
-                    className="bg-transparent text-xs font-bold text-temple-navy dark:text-white focus:outline-none cursor-pointer"
+                    className="bg-transparent text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none cursor-pointer"
                   >
                     <option className="bg-white dark:bg-[#0E1424]" value="todos">Tipo: Todos</option>
                     <option className="bg-white dark:bg-[#0E1424]" value="income">Ingresos (+)</option>
@@ -435,7 +435,7 @@ export function Module13FinanceLedger() {
                   <select 
                     value={categoryFilter}
                     onChange={e => setCategoryFilter(e.target.value)}
-                    className="bg-transparent text-xs font-bold text-temple-navy dark:text-white focus:outline-none cursor-pointer"
+                    className="bg-transparent text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none cursor-pointer"
                   >
                     <option className="bg-white dark:bg-[#0E1424]" value="todos">Categoría: Todas</option>
                     <option className="bg-white dark:bg-[#0E1424]" value="membership">Membresías</option>
@@ -570,7 +570,7 @@ export function Module13FinanceLedger() {
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
+                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-temple-navy dark:text-white text-xs">
                     <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredTransactions.length} Asientos
                     </td>

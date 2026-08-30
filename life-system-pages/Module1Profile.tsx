@@ -258,7 +258,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     return (
       <div className="text-center py-16 font-sans">
         <User size={48} className="text-gray-600 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-temple-navy dark:text-white mb-2">No hay ningún atleta seleccionado</h3>
+        <h3 className="text-xl font-bold text-temple-navy dark:text-temple-navy dark:text-white mb-2">No hay ningún atleta seleccionado</h3>
         <p className="text-sm text-slate-600 dark:text-gray-400 mb-6">Selecciona un atleta desde el Directorio para abrir su expediente.</p>
         <button
           onClick={() => onNavigate?.('directory')}
@@ -285,7 +285,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       )}
 
       {/* Header Banner & Athlete Info */}
-      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
+      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           
           <div className="flex items-center gap-5">
@@ -345,7 +345,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               <InlineEdit
                 value={name}
                 onSave={(val) => handleSaveField('name', val)}
-                className="text-2xl md:text-3xl font-serif font-black uppercase text-slate-900 dark:text-white tracking-tight"
+                className="text-2xl md:text-3xl font-serif font-black uppercase text-slate-900 dark:text-temple-navy dark:text-white tracking-tight"
                 placeholder="Nombre del Atleta"
               />
               <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-slate-600 dark:text-gray-400">
@@ -384,7 +384,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   const std = allStudents.find(s => s.id === e.target.value);
                   if (std) setSelectedStudent(std);
                 }}
-                className="bg-white dark:bg-[#121826] text-temple-navy dark:text-white text-xs font-bold px-2.5 py-1.5 rounded-xl border border-black/10 dark:border-white/10 focus:outline-none focus:border-temple-gold/50 cursor-pointer max-w-[180px] truncate"
+                className="bg-white dark:bg-[#121826] text-temple-navy dark:text-temple-navy dark:text-white text-xs font-bold px-2.5 py-1.5 rounded-xl border border-black/10 dark:border-white/10 focus:outline-none focus:border-temple-gold/50 cursor-pointer max-w-[180px] truncate"
               >
                 {allStudents.map(s => (
                   <option key={s.id} value={s.id} className="bg-white dark:bg-[#121826] text-white">
@@ -444,7 +444,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           <select
             value={phase}
             onChange={(e) => handleSaveField('phase', e.target.value as any)}
-            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
+            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
           >
             <option className="bg-white dark:bg-[#121826]" value="1 - Iniciación">Fase 1 - Escuadrón de Paz</option>
             <option className="bg-white dark:bg-[#121826]" value="2 - Desarrollo">Fase 2 - Gedeón (21 Días)</option>
@@ -457,7 +457,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           <select
             value={plan}
             onChange={(e) => handleSaveField('plan', e.target.value as any)}
-            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
+            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
           >
             <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
             <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
@@ -484,7 +484,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       <motion.div variants={item} className="bg-black/5 dark:bg-black/60 border border-black/10 dark:border-white/10 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Sparkles size={16} className="text-temple-gold shrink-0" />
-          <span className="text-xs font-black uppercase tracking-wider text-temple-navy dark:text-white">Plantillas Rápidas (1 Toque):</span>
+          <span className="text-xs font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">Plantillas Rápidas (1 Toque):</span>
           <span className="text-[10px] text-slate-600 dark:text-gray-400 hidden md:inline">Autocompleta rutina y nutrición al instante</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -568,7 +568,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-5 space-y-6">
               <Card className="border-temple-gold/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
                     <Scale className="text-temple-gold" size={18} />
                     Cálculo Antropométrico & IMC
                   </CardTitle>
@@ -585,7 +585,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       </span>
                     </div>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-4xl font-black text-temple-navy dark:text-white">{imc}</span>
+                      <span className="text-4xl font-black text-temple-navy dark:text-temple-navy dark:text-white">{imc}</span>
                       <span className="text-xs text-slate-600 dark:text-gray-400 font-medium">kg/m² (Cálculo automático)</span>
                     </div>
                     <div className="w-full bg-white dark:bg-white/10 h-2 rounded-full overflow-hidden mt-1">
@@ -630,7 +630,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       <select
                         value={workoutLevel}
                         onChange={(e) => handleSaveField('workoutLevel', e.target.value as any)}
-                        className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2 text-xs font-black text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer"
+                        className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2 text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer"
                       >
                         <option className="bg-white dark:bg-[#121826]" value="Principiante">Principiante</option>
                         <option className="bg-white dark:bg-[#121826]" value="Intermedio">Intermedio</option>
@@ -646,7 +646,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-7 space-y-6">
               <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl h-full">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
                     <Activity className="text-red-400" size={18} />
                     Ficha Técnica de Ejercicios y Rutina Actual
                   </CardTitle>
@@ -693,7 +693,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-6 space-y-6">
               <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
                     <Utensils className="text-emerald-400" size={18} />
                     Plan Nutricional Dual (Actual vs Programado)
                   </CardTitle>
@@ -743,7 +743,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-6 space-y-6">
               <Card className="border-amber-500/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
                     <AlertTriangle className="text-amber-400" size={18} />
                     Factores Clínicos & Salud Mental
                   </CardTitle>
@@ -778,7 +778,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   </div>
 
                   <div className="p-3 bg-white dark:bg-white/5 rounded-xl border border-black/10 dark:border-white/10 text-[11px] text-slate-600 dark:text-gray-400">
-                    <span className="font-bold text-temple-navy dark:text-white block mb-1">Enfoque Preventivo de Paulo:</span>
+                    <span className="font-bold text-temple-navy dark:text-temple-navy dark:text-white block mb-1">Enfoque Preventivo de Paulo:</span>
                     Cada factor de estrés se aborda con respiración diafragmática 06:00 AM y orden de descanso nocturno.
                   </div>
                 </CardContent>
@@ -799,7 +799,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-12 space-y-6">
               <Card className="border-temple-gold/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
                     <BrainCircuit className="text-temple-gold" size={18} />
                     Pilar Espíritu & Liderazgo (Coaching & Fe)
                   </CardTitle>
@@ -867,7 +867,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     <Calendar size={18} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-white tracking-wider">
+                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-temple-navy dark:text-white tracking-wider">
                       Libro de Asistencias ({attendanceHistory.length} registros)
                     </h4>
                     <p className="text-[11px] text-slate-600 dark:text-gray-400">Control de asistencia cronológico por sesión</p>
@@ -928,7 +928,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     <Award size={18} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-white tracking-wider">
+                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-temple-navy dark:text-white tracking-wider">
                       Matriz Antropométrica & Evolución IMC
                     </h4>
                     <p className="text-[11px] text-slate-600 dark:text-gray-400">Historial simétrico de mediciones corporales</p>
@@ -962,7 +962,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                         <td className="py-4 pl-4 tabular-nums font-bold text-temple-gold whitespace-nowrap">
                           {ass.date}
                         </td>
-                        <td className="py-4 pl-4 tabular-nums font-black text-temple-navy dark:text-white text-right whitespace-nowrap">
+                        <td className="py-4 pl-4 tabular-nums font-black text-temple-navy dark:text-temple-navy dark:text-white text-right whitespace-nowrap">
                           {ass.weightKg} kg
                         </td>
                         <td className="py-4 pl-4 tabular-nums text-slate-700 dark:text-gray-300 text-right whitespace-nowrap">

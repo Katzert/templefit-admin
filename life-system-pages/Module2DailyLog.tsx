@@ -512,7 +512,7 @@ export function Module2DailyLog() {
               </div>
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-black text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
+            <h2 className="text-4xl md:text-5xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
               {selectedStudent?.name || 'Atleta No Seleccionado'}
             </h2>
             <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 mt-2 font-medium">
@@ -621,7 +621,7 @@ export function Module2DailyLog() {
                       <Activity size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Cuerpo</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-temple-navy dark:text-white uppercase tracking-wider">Cuerpo</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.body ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.body ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -642,7 +642,7 @@ export function Module2DailyLog() {
                       <BrainCircuit size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Mente</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-temple-navy dark:text-white uppercase tracking-wider">Mente</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.mind ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.mind ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -663,7 +663,7 @@ export function Module2DailyLog() {
                       <Heart size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Espíritu</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-temple-navy dark:text-white uppercase tracking-wider">Espíritu</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.spirit ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.spirit ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -867,7 +867,7 @@ export function Module2DailyLog() {
                                 value={editedHistoricalRecord.primaryVictory}
                                 onChange={(e) => setEditedHistoricalRecord({ ...editedHistoricalRecord, primaryVictory: e.target.value })}
                                 placeholder="Victoria o acierto de este día..."
-                                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-temple-gold/50 transition-colors resize-none"
+                                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-3 text-xs text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold/50 transition-colors resize-none"
                                 rows={2}
                               />
                             ) : (
@@ -885,7 +885,7 @@ export function Module2DailyLog() {
                                 value={editedHistoricalRecord.primaryAdjustment}
                                 onChange={(e) => setEditedHistoricalRecord({ ...editedHistoricalRecord, primaryAdjustment: e.target.value })}
                                 placeholder="Ajuste para este día..."
-                                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-temple-gold/50 transition-colors resize-none"
+                                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-3 text-xs text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold/50 transition-colors resize-none"
                                 rows={2}
                               />
                             ) : (
@@ -1044,7 +1044,7 @@ export function Module2DailyLog() {
                     <ShieldCheck size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
+                    <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
                       12 Hábitos de Calidad del Administrador
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-gray-400">
@@ -1105,7 +1105,7 @@ export function Module2DailyLog() {
                   <ListChecks size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
+                  <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
                     Planes de Acción Estándar
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-gray-400">

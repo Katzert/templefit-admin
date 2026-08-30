@@ -199,7 +199,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <Users size={140} className="text-white" />
         </div>
@@ -211,7 +211,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
               </span>
               <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">Total: {leads.length} personas</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Users className="text-temple-gold" size={26} />
               Seguimiento de Prospectos
             </h2>
@@ -249,7 +249,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                 <input 
                   type="text"
                   placeholder="Buscar prospecto por nombre o teléfono..." 
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
@@ -260,7 +260,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                 <select 
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as any)}
-                  className="bg-transparent text-xs font-bold text-temple-navy dark:text-white focus:outline-none cursor-pointer"
+                  className="bg-transparent text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none cursor-pointer"
                 >
                   <option className="bg-white dark:bg-[#0E1424] text-white" value="todos">Estado: Todos</option>
                   <option className="bg-white dark:bg-[#0E1424] text-white" value="new">Nuevos</option>
@@ -302,7 +302,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                         <select
                           value={lead.status}
                           onChange={(e) => updateLeadStatus(lead.id, e.target.value as LocalLeadStatus)}
-                          className="bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-xs font-bold text-temple-navy dark:text-white rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-temple-gold/50 cursor-pointer"
+                          className="bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-temple-gold/50 cursor-pointer"
                         >
                           <option className="bg-white dark:bg-[#121826]" value="new">Nuevo</option>
                           <option className="bg-white dark:bg-[#121826]" value="contacted">Contactado</option>
@@ -377,7 +377,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
+                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-temple-navy dark:text-white text-xs">
                     <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredLeads.length} Prospectos
                     </td>
@@ -416,7 +416,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <div className="p-2 rounded-xl bg-temple-gold/10 text-temple-gold border border-temple-gold/30">
                     {editingLeadId ? <Edit3 size={18} /> : <Plus size={18} />}
                   </div>
-                  <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
+                  <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
                     {editingLeadId ? 'Editar Prospecto' : 'Nuevo Prospecto'}
                   </h3>
                 </div>

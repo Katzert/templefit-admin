@@ -124,7 +124,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full left-0 md:right-0 mt-3 w-80 sm:w-96 md:w-[480px] bg-white dark:bg-[#0E1424] border border-black/10 dark:border-temple-gold/30 rounded-3xl shadow-2xl overflow-hidden max-h-[420px] overflow-y-auto custom-scrollbar z-50 backdrop-blur-2xl text-slate-900 dark:text-white"
+            className="absolute top-full left-0 md:right-0 mt-3 w-80 sm:w-96 md:w-[480px] bg-white dark:bg-[#0E1424] border border-black/10 dark:border-temple-gold/30 rounded-3xl shadow-2xl overflow-hidden max-h-[420px] overflow-y-auto custom-scrollbar z-50 backdrop-blur-2xl text-slate-900 dark:text-temple-navy dark:text-white"
           >
             {/* Header info */}
             <div className="px-4 py-3 bg-white dark:bg-black/[0.03] dark:bg-black/40 border-b border-black/5 dark:border-white/10 flex items-center justify-between">
@@ -166,7 +166,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <User size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-temple-gold transition-colors leading-tight">{st.name}</p>
+                              <p className="text-xs font-black text-slate-900 dark:text-temple-navy dark:text-white group-hover:text-amber-700 dark:group-hover:text-temple-gold transition-colors leading-tight">{st.name}</p>
                               <p className="text-[10px] text-slate-500 dark:text-gray-400 mt-0.5">{st.escuadronId} • {st.plan}</p>
                             </div>
                           </div>
@@ -199,7 +199,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <Briefcase size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">{ld.name}</p>
+                              <p className="text-xs font-black text-slate-900 dark:text-temple-navy dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">{ld.name}</p>
                               <p className="text-[10px] text-slate-500 dark:text-gray-400 mt-0.5">{ld.phone} • Estado: {ld.status}</p>
                             </div>
                           </div>
@@ -232,7 +232,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <ChefHat size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-tight">{rc.name}</p>
+                              <p className="text-xs font-black text-slate-900 dark:text-temple-navy dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-tight">{rc.name}</p>
                               <p className="text-[10px] text-slate-500 dark:text-gray-400 mt-0.5">Bs. {rc.suggestedPrice || 0} • {rc.category || 'Nutrición'}</p>
                             </div>
                           </div>
@@ -265,7 +265,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <ShoppingBag size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-temple-navy dark:text-white group-hover:text-amber-400 transition-colors leading-tight">{inv.name}</p>
+                              <p className="text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white group-hover:text-amber-400 transition-colors leading-tight">{inv.name}</p>
                               <p className="text-[10px] text-gray-400 mt-0.5">Stock: {inv.stock} • Bs. {inv.price}</p>
                             </div>
                           </div>
@@ -298,7 +298,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <BookOpen size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-temple-navy dark:text-white group-hover:text-purple-400 transition-colors leading-tight">{sop.title}</p>
+                              <p className="text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white group-hover:text-purple-400 transition-colors leading-tight">{sop.title}</p>
                               <p className="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{sop.content ? `${sop.content.slice(0, 45)}...` : ''}</p>
                             </div>
                           </div>

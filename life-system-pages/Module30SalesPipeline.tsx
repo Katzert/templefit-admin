@@ -91,7 +91,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans flex flex-col min-h-[calc(100vh-140px)]">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shrink-0 shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shrink-0 shadow-2xl">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
@@ -99,7 +99,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
             </span>
             <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">25 Escuadrones de 12 Atletas</span>
           </div>
-          <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+          <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
             <Kanban className="text-temple-gold" size={26} />
             Progresión de Atletas (Fases 1 a 3)
           </h2>
@@ -124,7 +124,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
                     {stage.icon}
                   </div>
                   <div>
-                    <h3 className="text-sm font-black text-temple-navy dark:text-white uppercase tracking-wider">{stage.title}</h3>
+                    <h3 className="text-sm font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">{stage.title}</h3>
                     <p className="text-[10px] text-slate-600 dark:text-gray-400">{stage.subtitle}</p>
                   </div>
                 </div>

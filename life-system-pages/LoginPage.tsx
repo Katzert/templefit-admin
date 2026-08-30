@@ -86,7 +86,7 @@ export function LoginPage() {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full bg-black/5 dark:bg-[#07090E]/50 border border-black/10 dark:border-white/10 rounded-xl py-3.5 px-4 pr-12 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-temple-gold focus:ring-2 focus:ring-temple-gold/50 transition-all"
+                  className="w-full bg-black/5 dark:bg-[#07090E]/50 border border-black/10 dark:border-white/10 rounded-xl py-3.5 px-4 pr-12 text-slate-900 dark:text-temple-navy dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-temple-gold focus:ring-2 focus:ring-temple-gold/50 transition-all"
                 />
                 <button
                   type="button"

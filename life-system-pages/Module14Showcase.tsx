@@ -89,7 +89,7 @@ export function Module14Showcase() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 max-w-7xl mx-auto font-sans">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-white p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ImageIcon size={180} />
         </div>
@@ -99,7 +99,7 @@ export function Module14Showcase() {
               Multimedia & Catálogo
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
+          <h2 className="text-3xl md:text-4xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
             <ImageIcon className="text-pink-500" size={32} />
             Vitrina Pública
           </h2>
@@ -181,7 +181,7 @@ export function Module14Showcase() {
                     <input 
                       value={itemData.imageUrl}
                       onChange={e => updateItem(itemData.id, 'imageUrl', e.target.value)}
-                      className="w-full bg-black/8 dark:bg-black/80 text-slate-900 dark:text-white text-[11px] tabular-nums px-3 py-1.5 rounded-xl border border-black/20 dark:border-white/20 focus:outline-none focus:border-temple-gold text-center"
+                      className="w-full bg-black/8 dark:bg-black/80 text-slate-900 dark:text-temple-navy dark:text-white text-[11px] tabular-nums px-3 py-1.5 rounded-xl border border-black/20 dark:border-white/20 focus:outline-none focus:border-temple-gold text-center"
                       placeholder="o pega URL de la imagen..."
                     />
                   </div>
@@ -196,7 +196,7 @@ export function Module14Showcase() {
                   </button>
 
                   {/* Type Badge */}
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white dark:bg-black/8 dark:bg-black/80 text-[9px] font-bold uppercase tracking-widest text-white border border-black/10 dark:border-white/10 flex items-center gap-1 backdrop-blur-md">
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white dark:bg-black/8 dark:bg-black/80 text-[9px] font-bold uppercase tracking-widest text-temple-navy dark:text-white border border-black/10 dark:border-white/10 flex items-center gap-1 backdrop-blur-md">
                     {itemData.type === 'merch' ? <ShoppingBag size={12} className="text-temple-gold"/> : <Utensils size={12} className="text-emerald-500"/>}
                     {itemData.type === 'merch' ? 'Tienda' : 'Receta'}
                   </div>
@@ -206,7 +206,7 @@ export function Module14Showcase() {
                   <input 
                     value={itemData.title} 
                     onChange={e => updateItem(itemData.id, 'title', e.target.value)}
-                    className="bg-transparent text-slate-900 dark:text-white font-black text-lg focus:outline-none w-full border-b border-transparent focus:border-temple-gold/40 pb-1"
+                    className="bg-transparent text-slate-900 dark:text-temple-navy dark:text-white font-black text-lg focus:outline-none w-full border-b border-transparent focus:border-temple-gold/40 pb-1"
                     placeholder="Título del elemento"
                   />
                   

@@ -141,7 +141,7 @@ export function ContentMarketingHub() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-16 font-sans max-w-7xl mx-auto">
       
       {/* Header Banner */}
-      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
+      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -150,7 +150,7 @@ export function ContentMarketingHub() {
               </span>
               <span className="text-[11px] text-slate-600 dark:text-gray-400 font-bold">Matriz de 90 Días Replicable</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Share2 className="text-temple-gold" size={26} />
               Marketing & Plan Estratégico
             </h2>
@@ -228,7 +228,7 @@ export function ContentMarketingHub() {
                 <Map size={20} />
               </div>
               <div>
-                <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
+                <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
                   Matriz Maestra de Expansión Anual (F1 a F7)
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-gray-400">
@@ -308,7 +308,7 @@ export function ContentMarketingHub() {
                 placeholder="Buscar por tema o guion..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold"
+                className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl text-xs text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold"
               />
             </div>
           </div>
@@ -422,7 +422,7 @@ export function ContentMarketingHub() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
           <div className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
-              <h3 className="text-lg font-black uppercase tracking-wider text-temple-navy dark:text-white flex items-center gap-2">
+              <h3 className="text-lg font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white flex items-center gap-2">
                 <Plus className="text-temple-gold" size={20} />
                 Nuevo Guion / Contenido
               </h3>

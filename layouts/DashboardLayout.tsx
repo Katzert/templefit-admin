@@ -75,7 +75,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
   }, []);
 
   return (
-    <div className="min-h-screen bg-temple-cream dark:bg-[#07090E] text-slate-900 dark:text-white overflow-hidden flex font-sans selection:bg-temple-gold selection:text-black transition-colors duration-300">
+    <div className="min-h-screen bg-temple-cream dark:bg-[#07090E] text-slate-900 dark:text-temple-navy dark:text-white overflow-hidden flex font-sans selection:bg-temple-gold selection:text-black transition-colors duration-300">
       {/* Sidebar Mobile Overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -112,7 +112,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               />
             </div>
             <div>
-              <h1 className="text-lg font-serif font-black tracking-wider uppercase text-slate-900 dark:text-white flex items-center gap-1">
+              <h1 className="text-lg font-serif font-black tracking-wider uppercase text-slate-900 dark:text-temple-navy dark:text-white flex items-center gap-1">
                 TEMPLE<span className="text-amber-600 dark:text-temple-gold">FIT</span>
               </h1>
               <p className="text-[9px] text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em] font-extrabold">Panel de Control</p>
@@ -203,7 +203,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                 {user?.avatar || 'U'}
               </div>
               <div className="text-left max-w-[120px]">
-                <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{user?.name}</p>
+                <p className="text-sm font-bold text-slate-900 dark:text-temple-navy dark:text-white truncate">{user?.name}</p>
                 <p className="text-[10px] text-slate-500 dark:text-gray-400 uppercase tracking-wider">{user?.role}</p>
               </div>
             </div>
@@ -220,7 +220,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 bg-[#FBF9F5] dark:bg-[#05070B] text-temple-navy dark:text-white relative transition-colors duration-300">
+      <main className="flex-1 flex flex-col min-w-0 bg-[#FBF9F5] dark:bg-[#05070B] text-temple-navy dark:text-temple-navy dark:text-white relative transition-colors duration-300">
         
         {/* Top Header Mobile */}
         <header className="md:hidden flex items-center justify-between p-4 border-b border-black/5 dark:border-white/5 bg-white/90 dark:bg-[#0B0F19]/80 backdrop-blur-lg sticky top-0 z-30 shadow-sm">
@@ -262,7 +262,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         {/* Desktop Header */}
         <header className="hidden md:flex items-center justify-between px-8 py-5 border-b border-black/5 dark:border-white/5 bg-white/90 dark:bg-[#0B0F19]/80 backdrop-blur-lg sticky top-0 z-30 shadow-sm">
           <div className="flex items-center gap-4">
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-wide">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-temple-navy dark:text-white tracking-wide">
               {FLAT_NAV_GROUPS.flatMap(g => g.items).find(i => i.id === activeTab)?.label || 'Sistema CRM'}
             </h2>
           </div>
@@ -311,10 +311,10 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 mt-3 w-80 bg-white dark:bg-[#121826] border border-black/10 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-900 dark:text-white"
+                    className="absolute right-0 mt-3 w-80 bg-white dark:bg-[#121826] border border-black/10 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-900 dark:text-temple-navy dark:text-white"
                   >
                     <div className="p-4 border-b border-black/5 dark:border-white/5 flex items-center justify-between">
-                      <h3 className="text-sm font-bold text-slate-900 dark:text-white">Notificaciones</h3>
+                      <h3 className="text-sm font-bold text-slate-900 dark:text-temple-navy dark:text-white">Notificaciones</h3>
                       <button className="text-[10px] uppercase tracking-wider text-amber-700 dark:text-temple-gold font-bold">Marcar leídas</button>
                     </div>
                     <div className="max-h-[300px] overflow-y-auto">
@@ -323,7 +323,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                           <Sparkles size={14} />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-slate-900 dark:text-white">Directorio de Atletas activado</p>
+                          <p className="text-sm font-semibold text-slate-900 dark:text-temple-navy dark:text-white">Directorio de Atletas activado</p>
                           <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">El nuevo sistema de Workspaces está listo.</p>
                           <p className="text-[10px] text-slate-400 dark:text-gray-500 mt-2">Ahora</p>
                         </div>

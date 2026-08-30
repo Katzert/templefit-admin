@@ -134,13 +134,13 @@ export function Module40CorteEjecutivo() {
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-white to-slate-50 dark:from-temple-navy-dark dark:to-black text-temple-navy dark:text-white p-6 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-white to-slate-50 dark:from-temple-navy-dark dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <PieChart size={120} />
         </div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between w-full gap-4">
           <div>
-            <h2 className="text-2xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-2xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <PieChart className="text-temple-gold" size={24} />
               Tablero de Control y Corte 50/50
             </h2>
@@ -187,7 +187,7 @@ export function Module40CorteEjecutivo() {
                 <div>
                   <p className="text-xs text-slate-600 dark:text-gray-400 uppercase tracking-widest font-bold">{stat.title}</p>
                   <div className="flex items-end gap-2 mt-1">
-                    <span className="text-2xl font-black text-temple-navy dark:text-white">{stat.value}</span>
+                    <span className="text-2xl font-black text-temple-navy dark:text-temple-navy dark:text-white">{stat.value}</span>
                   </div>
                 </div>
               </CardContent>
@@ -203,7 +203,7 @@ export function Module40CorteEjecutivo() {
               <Table size={20} />
             </div>
             <div>
-              <h3 className="text-sm font-black uppercase text-temple-navy dark:text-white tracking-widest">Matriz de Rendimiento</h3>
+              <h3 className="text-sm font-black uppercase text-temple-navy dark:text-temple-navy dark:text-white tracking-widest">Matriz de Rendimiento</h3>
               <p className="text-[10px] text-slate-600 dark:text-gray-400">Desglose analítico de unidades de negocio</p>
             </div>
           </div>
@@ -229,7 +229,7 @@ export function Module40CorteEjecutivo() {
             <tbody className="divide-y divide-white/5">
               {categoryBreakdown.map((row) => (
                 <tr key={row.area} className="hover:bg-black/5 dark:bg-white/5 transition-colors">
-                  <td className="py-4 pl-4 font-bold text-temple-navy dark:text-white flex items-center gap-2">
+                  <td className="py-4 pl-4 font-bold text-temple-navy dark:text-temple-navy dark:text-white flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-temple-gold shrink-0" />
                     <span>{row.area}</span>
                   </td>
@@ -242,7 +242,7 @@ export function Module40CorteEjecutivo() {
                   <td className="py-4 pl-4 text-right tabular-nums text-red-400">
                     Bs. {row.actualExpense.toLocaleString('es-BO')}
                   </td>
-                  <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
+                  <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-temple-navy dark:text-white">
                     Bs. {row.netMargin.toLocaleString('es-BO')}
                   </td>
                   <td className="py-4 pl-4 text-center">
@@ -257,7 +257,7 @@ export function Module40CorteEjecutivo() {
               ))}
             </tbody>
             <tfoot>
-              <tr className="border-t border-black/10 dark:border-white/10 text-xs font-black text-temple-navy dark:text-white">
+              <tr className="border-t border-black/10 dark:border-white/10 text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white">
                 <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold font-serif">
                   TOTALES CONSOLIDADOS
                 </td>
@@ -270,7 +270,7 @@ export function Module40CorteEjecutivo() {
                 <td className="py-4 pl-4 text-right tabular-nums text-red-400">
                   Bs. {kpis.expense.toLocaleString('es-BO')}
                 </td>
-                <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-white text-sm font-black">
+                <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-temple-navy dark:text-white text-sm font-black">
                   Bs. {net.toLocaleString('es-BO')}
                 </td>
                 <td className="py-4 pl-4 text-center">
@@ -289,7 +289,7 @@ export function Module40CorteEjecutivo() {
 
       {/* Regla del Semáforo (SOP-03) */}
       <div className="bg-black/[0.03] dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-xl p-6 hover:border-black/20 dark:border-white/20 transition-colors">
-        <h3 className="text-sm font-black text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+        <h3 className="text-sm font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
           <Activity className="text-temple-gold" size={16} /> Regla del Semáforo (SOP-03)
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -316,7 +316,7 @@ export function Module40CorteEjecutivo() {
         <motion.div variants={item}>
           <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
             <CardContent className="!p-6">
-              <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                 <div className="w-2 h-2 bg-temple-gold rounded-full" />
                 Fundamentos del Mes
               </h3>
@@ -345,7 +345,7 @@ export function Module40CorteEjecutivo() {
         <motion.div variants={item}>
           <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
             <CardContent className="!p-6">
-              <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+              <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                 <div className="w-2 h-2 bg-emerald-500 rounded-full" />
                 Metas del Mes por Área (Bs.)
               </h3>
@@ -353,7 +353,7 @@ export function Module40CorteEjecutivo() {
                 {board.goals.map((goal, i) => (
                   <div key={goal.area} className="bg-white dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
                     <div className="flex justify-between items-center mb-2 gap-3">
-                      <span className="text-sm font-bold text-temple-navy dark:text-white uppercase tracking-wider">{goal.area}</span>
+                      <span className="text-sm font-bold text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">{goal.area}</span>
                       <input
                         type="number"
                         min={0}
@@ -414,16 +414,16 @@ export function Module40CorteEjecutivo() {
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs text-slate-800 dark:text-white/60 mb-1">Costo SUS (Diálisis/Año)</p>
+                    <p className="text-xs text-slate-800 dark:text-temple-navy dark:text-white/60 mb-1">Costo SUS (Diálisis/Año)</p>
                     <p className="text-sm font-bold text-red-400">111,228 Bs / paciente</p>
                   </div>
                   <div>
-                    <p className="text-xs text-slate-800 dark:text-white/60 mb-1">Prevención TempleFit (Año)</p>
+                    <p className="text-xs text-slate-800 dark:text-temple-navy dark:text-white/60 mb-1">Prevención TempleFit (Año)</p>
                     <p className="text-sm font-bold text-emerald-400">1,200 - 2,400 Bs (1-2% del costo)</p>
                   </div>
                   <div className="md:col-span-2">
-                    <p className="text-xs text-slate-800 dark:text-white/60 mb-1">Impacto Social y ROI</p>
-                    <p className="text-sm font-bold text-slate-800 dark:text-white">Por cada 1 Bs invertido en prevención, la sociedad ahorra de 3 a 5 Bs. El motor alimentario representa 57% del sustento del modelo.</p>
+                    <p className="text-xs text-slate-800 dark:text-temple-navy dark:text-white/60 mb-1">Impacto Social y ROI</p>
+                    <p className="text-sm font-bold text-slate-800 dark:text-temple-navy dark:text-white">Por cada 1 Bs invertido en prevención, la sociedad ahorra de 3 a 5 Bs. El motor alimentario representa 57% del sustento del modelo.</p>
                   </div>
                 </div>
               </div>
@@ -437,7 +437,7 @@ export function Module40CorteEjecutivo() {
         <motion.div variants={item}>
           <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
             <CardContent className="!p-6">
-              <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+              <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                 <div className="w-2 h-2 bg-temple-gold rounded-full" />
                 La Regla 50/50
               </h3>
@@ -475,7 +475,7 @@ export function Module40CorteEjecutivo() {
           <Card className="bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 h-full">
             <CardContent className="!p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
                   <div className="w-2 h-2 bg-blue-500 rounded-full" />
                   Progreso de Escuadrones
                 </h3>
@@ -490,7 +490,7 @@ export function Module40CorteEjecutivo() {
                 {kpis.squads.map((squad, i) => (
                   <div key={i} className="bg-white dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-bold text-temple-navy dark:text-white">{squad.name}</span>
+                      <span className="text-sm font-bold text-temple-navy dark:text-temple-navy dark:text-white">{squad.name}</span>
                       <span className="text-xs font-black text-slate-700 dark:text-gray-300">{squad.progress}%</span>
                     </div>
                     <div className="w-full bg-slate-100 dark:bg-black/50 rounded-full h-2 overflow-hidden">

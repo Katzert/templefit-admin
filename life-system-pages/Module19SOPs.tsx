@@ -137,7 +137,7 @@ export function Module19SOPs() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 max-w-7xl mx-auto font-sans">
       
       {/* Header Visual */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-white p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <Zap size={180} />
         </div>
@@ -147,7 +147,7 @@ export function Module19SOPs() {
               Operaciones & Soporte
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
+          <h2 className="text-3xl md:text-4xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
             <Zap className="text-temple-gold" size={32} />
             Guías Operativas & SOPs
           </h2>
@@ -186,7 +186,7 @@ export function Module19SOPs() {
           <motion.div key="playbooks" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
             <div className="flex justify-between items-center bg-white dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
               <div>
-                <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Protocolos en 3 Pasos</h3>
+                <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">Protocolos en 3 Pasos</h3>
                 <p className="text-xs text-slate-600 dark:text-gray-400">Guías directas y sin rodeos para resolver cualquier situación en el gimnasio o campamento.</p>
               </div>
               <button onClick={addSop} className="flex items-center gap-2 px-5 py-2.5 bg-temple-gold text-black rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-amber-400 transition shadow-lg shadow-temple-gold/20">
@@ -218,7 +218,7 @@ export function Module19SOPs() {
                         <textarea
                           value={sop.step1 || ''}
                           onChange={e => updateSop(sop.id, 'step1', e.target.value)}
-                          className="w-full bg-transparent text-slate-900 dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
+                          className="w-full bg-transparent text-slate-900 dark:text-temple-navy dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
                           placeholder="Paso 1: Acción Inmediata"
                         />
                       </div>
@@ -228,7 +228,7 @@ export function Module19SOPs() {
                         <textarea
                           value={sop.step2 || ''}
                           onChange={e => updateSop(sop.id, 'step2', e.target.value)}
-                          className="w-full bg-transparent text-slate-900 dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
+                          className="w-full bg-transparent text-slate-900 dark:text-temple-navy dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
                           placeholder="Paso 2: Resolución"
                         />
                       </div>
@@ -238,7 +238,7 @@ export function Module19SOPs() {
                         <textarea
                           value={sop.step3 || ''}
                           onChange={e => updateSop(sop.id, 'step3', e.target.value)}
-                          className="w-full bg-transparent text-slate-900 dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
+                          className="w-full bg-transparent text-slate-900 dark:text-temple-navy dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
                           placeholder="Paso 3: Cierre o Seguimiento"
                         />
                       </div>
@@ -261,7 +261,7 @@ export function Module19SOPs() {
           <motion.div key="marketing" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
             <div className="flex justify-between items-center bg-white dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
               <div>
-                <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Iniciativas de Crecimiento</h3>
+                <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">Iniciativas de Crecimiento</h3>
                 <p className="text-xs text-slate-600 dark:text-gray-400">Las grandes apuestas del mes.</p>
               </div>
               <button onClick={addMarketingTask} className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-blue-600 transition shadow-lg shadow-blue-500/20">
@@ -271,7 +271,7 @@ export function Module19SOPs() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {marketingTasks.map((task) => (
-                <div key={task.id} className="relative group rounded-3xl overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-[#0a1128] dark:to-black text-temple-navy dark:text-white border border-black/10 dark:border-white/10 shadow-2xl hover:border-blue-500/40 hover:shadow-blue-900/20 transition-all duration-300 flex flex-col">
+                <div key={task.id} className="relative group rounded-3xl overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-[#0a1128] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white border border-black/10 dark:border-white/10 shadow-2xl hover:border-blue-500/40 hover:shadow-blue-900/20 transition-all duration-300 flex flex-col">
                   {/* Banner superior */}
                   <div className="min-h-[160px] h-auto bg-gradient-to-t from-black/80 to-blue-900/20 relative p-6 flex flex-col justify-between">
                     <div className="flex justify-between items-start relative z-20">
@@ -297,7 +297,7 @@ export function Module19SOPs() {
                     <textarea 
                       value={task.campaignName} 
                       onChange={e => updateMarketingTask(task.id, 'campaignName', e.target.value)}
-                      className="bg-transparent text-slate-900 dark:text-white font-black text-3xl md:text-4xl focus:outline-none w-full relative z-10 leading-[1.1] placeholder-white/20 resize-none overflow-hidden mt-4"
+                      className="bg-transparent text-slate-900 dark:text-temple-navy dark:text-white font-black text-3xl md:text-4xl focus:outline-none w-full relative z-10 leading-[1.1] placeholder-white/20 resize-none overflow-hidden mt-4"
                       rows={2}
                       placeholder="ESCRIBE TU TITULAR..."
                     />
@@ -367,7 +367,7 @@ export function Module19SOPs() {
                               const updated = claimsTickets.map(t => t.id === ticket.id ? { ...t, clientName: e.target.value } : t);
                               saveToDb(undefined, undefined, updated);
                             }}
-                            className="bg-transparent text-slate-900 dark:text-white font-black text-xl focus:outline-none w-full border-b border-transparent focus:border-red-500/50 pb-1 placeholder-white/20"
+                            className="bg-transparent text-slate-900 dark:text-temple-navy dark:text-white font-black text-xl focus:outline-none w-full border-b border-transparent focus:border-red-500/50 pb-1 placeholder-white/20"
                             placeholder="Nombre..."
                           />
                         </div>
