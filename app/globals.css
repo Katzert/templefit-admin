@@ -3,29 +3,59 @@
 @tailwind utilities;
 
 :root {
-  --temple-gold: #D4AF37;
-  --temple-gold-bright: #F3E5AB;
-  --temple-gold-dark: #997D25;
   --temple-navy: #002147;
-  --temple-navy-dark: #07090E;
-  --temple-surface: #0B0F19;
-  --temple-card: #0E1424;
+  --temple-navy-dark: #001630;
+  --temple-navy-light: #003366;
+  --temple-gold: #B38628;
+  --temple-gold-bright: #D4AF37;
+  --temple-gold-deep: #8C6819;
   --temple-red: #8B1E28;
   --temple-terracota: #C86D51;
-  --temple-olive: #5B7043;
-  --temple-cream: #F9F6F0;
-  --glass-bg: rgba(11, 15, 25, 0.85);
-  --glass-border: rgba(212, 175, 55, 0.25);
+  --temple-olive: #3D5A2B;
+  --temple-cream: #FBF9F5;
+  --bg-primary: #FBF9F5;
+  --bg-card: #FFFFFF;
+  --text-primary: #002147;
+  --text-secondary: #475569;
+  --border-subtle: #E8E2D5;
+}
+
+.dark {
+  --temple-gold: #D4AF37;
+  --temple-gold-bright: #F3E5AB;
+  --temple-gold-deep: #B38628;
+  --bg-primary: #05070B;
+  --bg-card: #0E1424;
+  --text-primary: #FFFFFF;
+  --text-secondary: #94A3B8;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+/* Coordinated Theme Transition */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 220ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 220ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 220ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 220ms cubic-bezier(0.4, 0, 0.2, 1),
+              fill 220ms cubic-bezier(0.4, 0, 0.2, 1),
+              stroke 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-delay: 0ms !important;
 }
 
 body {
-  color: #FFFFFF;
-  background-color: #07090E;
-  background-image: radial-gradient(circle at 50% -20%, #002147 0%, #07090E 75%);
   font-family: var(--font-outfit), sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+.dark body {
+  background-image: radial-gradient(circle at 50% -20%, #002147 0%, #05070B 60%);
 }
 
 /* Custom Scrollbar */
@@ -34,51 +64,67 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D4AF37;
-  border-radius: 10px;
+  background: rgba(179, 134, 40, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--temple-gold);
 }
 
 @layer components {
   /* Header Glass Bar */
   .header-glass {
-    background: rgba(7, 9, 14, 0.92) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+    @apply bg-[#FBF9F5]/90 dark:bg-[#07090E]/90 border-b border-[#E8E2D5] dark:border-white/5;
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 20px -4px rgba(0, 33, 71, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .dark .header-glass {
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8);
   }
 
   /* Master Tactical Card */
   .tactical-card {
-    background: rgba(14, 20, 36, 0.9) !important;
-    backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1.125rem; /* 18px */
+    @apply bg-white/90 dark:bg-[#0E1424]/90 border border-[#E8E2D5] dark:border-white/10 text-temple-navy dark:text-white;
+    backdrop-filter: blur(16px) saturate(160%) !important;
+    border-radius: 20px;
     position: relative;
-    transition: all 0.2s ease-out;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 20px -2px rgba(0, 33, 71, 0.06);
+    padding: 1.25rem;
+  }
+
+  .dark .tactical-card {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+  }
+
+  @media (min-width: 768px) {
+    .tactical-card {
+      padding: 1.75rem;
+    }
   }
 
   .tactical-card:hover {
-    border-color: rgba(212, 175, 55, 0.4);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.15);
     transform: translateY(-2px);
+    @apply border-temple-gold/40 bg-white dark:bg-[#12192E]/95;
+    box-shadow: 0 12px 30px -4px rgba(179, 134, 40, 0.12);
+  }
+
+  .dark .tactical-card:hover {
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.1);
   }
 
   /* Primary Gold Button */
   .btn-gold {
-    @apply px-5 py-2.5 rounded-xl bg-temple-gold hover:bg-temple-gold-bright text-black font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg shadow-temple-gold/20 hover:shadow-temple-gold/30 hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2;
+    @apply px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B38628] hover:from-[#E5C175] hover:to-[#C5A059] text-[#001630] font-black text-xs uppercase tracking-wider transition-all duration-200 shadow-md shadow-[#B38628]/25 hover:shadow-[#B38628]/40 hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2;
   }
 
   /* Secondary Outline Button */
   .btn-outline {
-    @apply px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 border border-white/10 hover:border-white/20 flex items-center justify-center gap-2;
+    @apply px-5 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/5 hover:bg-black/[0.06] dark:hover:bg-white/10 text-temple-navy dark:text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 border border-[#E8E2D5] dark:border-white/10 flex items-center justify-center gap-2;
   }
 }

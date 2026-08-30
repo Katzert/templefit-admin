@@ -258,8 +258,8 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     return (
       <div className="text-center py-16 font-sans">
         <User size={48} className="text-gray-600 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-white mb-2">No hay ningún atleta seleccionado</h3>
-        <p className="text-sm text-gray-400 mb-6">Selecciona un atleta desde el Directorio para abrir su expediente.</p>
+        <h3 className="text-xl font-bold text-temple-navy dark:text-white mb-2">No hay ningún atleta seleccionado</h3>
+        <p className="text-sm text-slate-600 dark:text-gray-400 mb-6">Selecciona un atleta desde el Directorio para abrir su expediente.</p>
         <button
           onClick={() => onNavigate?.('directory')}
           className="px-6 py-2.5 bg-temple-gold text-black rounded-xl font-bold uppercase text-xs hover:bg-amber-400 transition shadow-lg shadow-temple-gold/20"
@@ -277,7 +277,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed bottom-6 right-6 z-50 bg-emerald-500 text-black px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-2xl border border-white/20"
+          className="fixed bottom-6 right-6 z-50 bg-emerald-500 text-black px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-2xl border border-black/20 dark:border-white/20"
         >
           <CheckCircle2 size={16} />
           <span>Ficha Técnica Guardada</span>
@@ -285,13 +285,13 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       )}
 
       {/* Header Banner & Athlete Info */}
-      <motion.div variants={item} className="bg-gradient-to-r from-[#0E1424] via-[#0B0F19] to-black p-6 md:p-8 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           
           <div className="flex items-center gap-5">
             <button
               onClick={() => onNavigate?.('directory')}
-              className="p-3 bg-white/5 hover:bg-white/10 rounded-2xl text-temple-gold border border-white/10 transition flex items-center gap-2 text-xs font-bold uppercase tracking-wider"
+              className="p-3 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-2xl text-temple-gold border border-black/10 dark:border-white/10 transition flex items-center gap-2 text-xs font-bold uppercase tracking-wider"
               title="Volver al Directorio"
             >
               <ArrowLeft size={16} />
@@ -324,7 +324,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   ) : (
                     <span>{(name || 'TF').substring(0, 2).toUpperCase()}</span>
                   )}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                  <div className="absolute inset-0 bg-white dark:bg-black/5 dark:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                     <Camera size={20} className="text-temple-gold" />
                   </div>
                 </div>
@@ -345,10 +345,10 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               <InlineEdit
                 value={name}
                 onSave={(val) => handleSaveField('name', val)}
-                className="text-2xl md:text-3xl font-serif font-black uppercase text-white tracking-tight"
+                className="text-2xl md:text-3xl font-serif font-black uppercase text-slate-900 dark:text-white tracking-tight"
                 placeholder="Nombre del Atleta"
               />
-              <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-gray-400">
+              <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-slate-600 dark:text-gray-400">
                 <div className="flex items-center gap-1.5">
                   <Phone size={13} className="text-temple-gold" />
                   <InlineEdit value={phone} onSave={(val) => handleSaveField('phone', val)} placeholder="+591 70000000" />
@@ -362,7 +362,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           </div>
 
           {/* Quick Athlete Switcher & Attendance 1-Tap */}
-          <div className="flex flex-wrap items-center gap-2 bg-black/60 border border-white/10 p-2 rounded-2xl backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-2 bg-white dark:bg-black/5 dark:bg-black/60 border border-black/10 dark:border-white/10 p-2 rounded-2xl backdrop-blur-md">
             {/* Prev / Next buttons */}
             <div className="flex items-center gap-1">
               <button
@@ -372,7 +372,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   if (idx > 0) setSelectedStudent(allStudents[idx - 1]);
                   else if (allStudents.length > 0) setSelectedStudent(allStudents[allStudents.length - 1]);
                 }}
-                className="p-2 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl transition"
+                className="p-2 hover:bg-black/10 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-white rounded-xl transition"
                 title="Atleta Anterior"
               >
                 <ChevronLeft size={16} />
@@ -384,10 +384,10 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   const std = allStudents.find(s => s.id === e.target.value);
                   if (std) setSelectedStudent(std);
                 }}
-                className="bg-[#121826] text-white text-xs font-bold px-2.5 py-1.5 rounded-xl border border-white/10 focus:outline-none focus:border-temple-gold/50 cursor-pointer max-w-[180px] truncate"
+                className="bg-white dark:bg-[#121826] text-white text-xs font-bold px-2.5 py-1.5 rounded-xl border border-black/10 dark:border-white/10 focus:outline-none focus:border-temple-gold/50 cursor-pointer max-w-[180px] truncate"
               >
                 {allStudents.map(s => (
-                  <option key={s.id} value={s.id} className="bg-[#121826] text-white">
+                  <option key={s.id} value={s.id} className="bg-white dark:bg-[#121826] text-white">
                     {s.name} {s.isVipProfile ? '⭐' : ''} ({s.escuadronId || 'Paz-Alfa'})
                   </option>
                 ))}
@@ -400,7 +400,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   if (idx < allStudents.length - 1) setSelectedStudent(allStudents[idx + 1]);
                   else if (allStudents.length > 0) setSelectedStudent(allStudents[0]);
                 }}
-                className="p-2 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl transition"
+                className="p-2 hover:bg-black/10 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-white rounded-xl transition"
                 title="Siguiente Atleta"
               >
                 <ChevronRight size={16} />
@@ -429,8 +429,8 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
       {/* Snapshot Bar */}
       <motion.div variants={item} className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Escuadrón Asignado</p>
+        <div className="p-4 bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-500">Escuadrón Asignado</p>
           <InlineEdit 
             value={escuadronId} 
             onSave={(val) => handleSaveField('escuadronId', val)} 
@@ -439,53 +439,53 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           />
         </div>
 
-        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Fase del Programa</p>
+        <div className="p-4 bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-500">Fase del Programa</p>
           <select
             value={phase}
             onChange={(e) => handleSaveField('phase', e.target.value as any)}
-            className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
+            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
           >
-            <option className="bg-[#121826]" value="1 - Iniciación">Fase 1 - Escuadrón de Paz</option>
-            <option className="bg-[#121826]" value="2 - Desarrollo">Fase 2 - Gedeón (21 Días)</option>
-            <option className="bg-[#121826]" value="3 - Perfeccionamiento">Fase 3 - Escuadrón de Cristo</option>
+            <option className="bg-white dark:bg-[#121826]" value="1 - Iniciación">Fase 1 - Escuadrón de Paz</option>
+            <option className="bg-white dark:bg-[#121826]" value="2 - Desarrollo">Fase 2 - Gedeón (21 Días)</option>
+            <option className="bg-white dark:bg-[#121826]" value="3 - Perfeccionamiento">Fase 3 - Escuadrón de Cristo</option>
           </select>
         </div>
 
-        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Plan de Membresía</p>
+        <div className="p-4 bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-500">Plan de Membresía</p>
           <select
             value={plan}
             onChange={(e) => handleSaveField('plan', e.target.value as any)}
-            className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
+            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
           >
-            <option className="bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
-            <option className="bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
-            <option className="bg-[#121826]" value="CristoFit Camp">CristoFit Camp</option>
-            <option className="bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1</option>
+            <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
+            <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
+            <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp</option>
+            <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1</option>
           </select>
         </div>
 
-        <div className="p-4 bg-[#0E1424]/90 border border-white/10 rounded-2xl">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Estado de Membresía</p>
+        <div className="p-4 bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-500">Estado de Membresía</p>
           <select
             value={status}
             onChange={(e) => handleSaveField('status', e.target.value as any)}
-            className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-emerald-400 focus:outline-none focus:border-temple-gold cursor-pointer uppercase mt-1"
+            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-emerald-400 focus:outline-none focus:border-temple-gold cursor-pointer uppercase mt-1"
           >
-            <option className="bg-[#121826] text-emerald-400" value="active">Activo</option>
-            <option className="bg-[#121826] text-amber-400" value="expiring">Por Vencer</option>
-            <option className="bg-[#121826] text-red-400" value="inactive">Inactivo</option>
+            <option className="bg-white dark:bg-[#121826] text-emerald-400" value="active">Activo</option>
+            <option className="bg-white dark:bg-[#121826] text-amber-400" value="expiring">Por Vencer</option>
+            <option className="bg-white dark:bg-[#121826] text-red-400" value="inactive">Inactivo</option>
           </select>
         </div>
       </motion.div>
 
       {/* 1-TAP PRESET TEMPLATES BAR (ANTI-BURNOUT) */}
-      <motion.div variants={item} className="bg-black/60 border border-white/10 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <motion.div variants={item} className="bg-black/5 dark:bg-black/60 border border-black/10 dark:border-white/10 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Sparkles size={16} className="text-temple-gold shrink-0" />
           <span className="text-xs font-black uppercase tracking-wider text-white">Plantillas Rápidas (1 Toque):</span>
-          <span className="text-[10px] text-gray-400 hidden md:inline">Autocompleta rutina y nutrición al instante</span>
+          <span className="text-[10px] text-slate-600 dark:text-gray-400 hidden md:inline">Autocompleta rutina y nutrición al instante</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <button
@@ -531,7 +531,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       </motion.div>
 
       {/* Sub-Tabs Selector */}
-      <div className="flex flex-wrap gap-2 bg-black/60 p-2 rounded-2xl border border-white/10">
+      <div className="flex flex-wrap gap-2 bg-white dark:bg-black/5 dark:bg-black/60 p-2 rounded-2xl border border-black/10 dark:border-white/10">
         {[
           { id: 'biometrics', label: '1. Biometría, IMC & Rutina', icon: <Scale size={15} /> },
           { id: 'nutrition', label: '2. Nutrición & Salud Mental', icon: <Utensils size={15} /> },
@@ -544,7 +544,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               activeTab === t.id
                 ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20 font-extrabold'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             {t.icon}
@@ -566,7 +566,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           >
             {/* IMC Score Card & Antropometría */}
             <div className="lg:col-span-5 space-y-6">
-              <Card className="border-temple-gold/30 bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
+              <Card className="border-temple-gold/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-white">
                     <Scale className="text-temple-gold" size={18} />
@@ -577,7 +577,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   {/* Dynamic IMC Score Box */}
                   <div className={`p-5 rounded-2xl border ${bmiCategory.bg} flex flex-col gap-2`}>
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-gray-400">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-gray-400">
                         Índice de Masa Corporal (IMC)
                       </span>
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${bmiCategory.color}`}>
@@ -586,9 +586,9 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     </div>
                     <div className="flex items-baseline gap-3">
                       <span className="text-4xl font-black text-white">{imc}</span>
-                      <span className="text-xs text-gray-400 font-medium">kg/m² (Cálculo automático)</span>
+                      <span className="text-xs text-slate-600 dark:text-gray-400 font-medium">kg/m² (Cálculo automático)</span>
                     </div>
-                    <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden mt-1">
+                    <div className="w-full bg-white dark:bg-black/10 dark:bg-white/10 h-2 rounded-full overflow-hidden mt-1">
                       <div 
                         className={`h-full transition-all duration-500 ${imc < 18.5 ? 'bg-blue-400' : imc < 25 ? 'bg-emerald-400' : imc < 30 ? 'bg-amber-400' : 'bg-red-400'}`}
                         style={{ width: `${Math.min(Math.max(((imc - 15) / 25) * 100, 5), 100)}%` }}
@@ -623,18 +623,18 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                         onSave={(val) => handleSaveField('birthDate', val)} 
                         placeholder="AAAA-MM-DD" 
                       />
-                      <span className="text-[10px] text-gray-500 font-bold mt-1 block">Edad estimada: {age} años</span>
+                      <span className="text-[10px] text-slate-500 dark:text-gray-500 font-bold mt-1 block">Edad estimada: {age} años</span>
                     </div>
                     <div>
                       <FieldLabel label="Nivel de Entrenamiento" />
                       <select
                         value={workoutLevel}
                         onChange={(e) => handleSaveField('workoutLevel', e.target.value as any)}
-                        className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-xs font-black text-white focus:outline-none focus:border-temple-gold cursor-pointer"
+                        className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2 text-xs font-black text-white focus:outline-none focus:border-temple-gold cursor-pointer"
                       >
-                        <option className="bg-[#121826]" value="Principiante">Principiante</option>
-                        <option className="bg-[#121826]" value="Intermedio">Intermedio</option>
-                        <option className="bg-[#121826]" value="Avanzado">Avanzado</option>
+                        <option className="bg-white dark:bg-[#121826]" value="Principiante">Principiante</option>
+                        <option className="bg-white dark:bg-[#121826]" value="Intermedio">Intermedio</option>
+                        <option className="bg-white dark:bg-[#121826]" value="Avanzado">Avanzado</option>
                       </select>
                     </div>
                   </div>
@@ -644,7 +644,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
             {/* Ejercicios y Rutina Actual con Ejemplos */}
             <div className="lg:col-span-7 space-y-6">
-              <Card className="border-white/10 bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl h-full">
+              <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl h-full">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-white">
                     <Activity className="text-red-400" size={18} />
@@ -661,17 +661,17 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={currentRoutineExercises}
                       onSave={(val) => handleSaveField('currentRoutineExercises', val)}
                       multiline
-                      className="font-mono text-xs leading-relaxed text-gray-200 bg-black/40 p-4 rounded-xl border border-white/10"
+                      className="tabular-nums text-xs leading-relaxed text-gray-200 bg-slate-50 dark:bg-black/40 p-4 rounded-xl border border-black/10 dark:border-white/10"
                       placeholder="1. Dominadas estrictas (4x8)..."
                     />
                   </div>
 
-                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10 text-xs space-y-2">
+                  <div className="p-4 bg-white dark:bg-black/5 dark:bg-white/5 rounded-2xl border border-black/10 dark:border-white/10 text-xs space-y-2">
                     <span className="font-bold text-temple-gold uppercase text-[10px] tracking-wider block">
                       💡 Estructura Recomendada de Rutina
                     </span>
-                    <p className="text-gray-400">
-                      Incluye: Calentamiento articular $\to$ Ejercicio compuesto principal $\to$ Calistenia o fuerza $\to$ Cardio funcional $\to$ Respiración final.
+                    <p className="text-slate-600 dark:text-gray-400 leading-relaxed">
+                      Incluye: Calentamiento articular → Ejercicio compuesto principal → Calistenia o fuerza → Cardio funcional → Respiración final.
                     </p>
                   </div>
                 </CardContent>
@@ -691,7 +691,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           >
             {/* Comparativa Nutricional: Actual vs Programada */}
             <div className="lg:col-span-6 space-y-6">
-              <Card className="border-white/10 bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
+              <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-white">
                     <Utensils className="text-emerald-400" size={18} />
@@ -708,7 +708,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={currentDiet}
                       onSave={(val) => handleSaveField('currentDiet', val)}
                       multiline
-                      className="text-xs text-gray-300 bg-black/40 p-3 rounded-xl border border-white/10"
+                      className="text-xs text-slate-700 dark:text-gray-300 bg-slate-50 dark:bg-black/40 p-3 rounded-xl border border-black/10 dark:border-white/10"
                       placeholder="Ej. Café en ayunas, comida rápida al mediodía y cenas copiosas..."
                     />
                   </div>
@@ -741,7 +741,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
             {/* Trastornos Alimenticios y Factores Neuróticos / Estrés */}
             <div className="lg:col-span-6 space-y-6">
-              <Card className="border-amber-500/30 bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
+              <Card className="border-amber-500/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-white">
                     <AlertTriangle className="text-amber-400" size={18} />
@@ -772,12 +772,12 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={neuroticAndStressFactors}
                       onSave={(val) => handleSaveField('neuroticAndStressFactors', val)}
                       multiline
-                      className="text-xs text-gray-300 bg-black/40 p-3 rounded-xl border border-white/10"
+                      className="text-xs text-slate-700 dark:text-gray-300 bg-slate-50 dark:bg-black/40 p-3 rounded-xl border border-black/10 dark:border-white/10"
                       placeholder="Ej. Insomnio leve, tensión muscular en cuello por jornada laboral..."
                     />
                   </div>
 
-                  <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-[11px] text-gray-400">
+                  <div className="p-3 bg-white dark:bg-black/5 dark:bg-white/5 rounded-xl border border-black/10 dark:border-white/10 text-[11px] text-slate-600 dark:text-gray-400">
                     <span className="font-bold text-white block mb-1">Enfoque Preventivo de Paulo:</span>
                     Cada factor de estrés se aborda con respiración diafragmática 06:00 AM y orden de descanso nocturno.
                   </div>
@@ -797,7 +797,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             className="grid grid-cols-1 lg:grid-cols-12 gap-6"
           >
             <div className="lg:col-span-12 space-y-6">
-              <Card className="border-temple-gold/30 bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
+              <Card className="border-temple-gold/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-white">
                     <BrainCircuit className="text-temple-gold" size={18} />
@@ -860,17 +860,17 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             className="space-y-6"
           >
             {/* Tabla 1: Registro de Asistencias (Excel Style) */}
-            <div className="bg-[#0E1424]/90 border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+            <div className="bg-white dark:bg-[#0B0F19]/80 backdrop-blur-lg border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-2xl relative overflow-hidden space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-black/10 dark:border-white/10">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-temple-gold">
                     <Calendar size={18} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black uppercase text-white tracking-wider">
+                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-white tracking-wider">
                       Libro de Asistencias ({attendanceHistory.length} registros)
                     </h4>
-                    <p className="text-[11px] text-gray-400">Control de asistencia cronológico por sesión</p>
+                    <p className="text-[11px] text-slate-600 dark:text-gray-400">Control de asistencia cronológico por sesión</p>
                   </div>
                 </div>
 
@@ -884,24 +884,24 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse font-sans text-xs">
+                <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-black/60 border-y border-white/10 text-[10px] uppercase tracking-wider text-gray-400">
-                      <th className="py-3 px-4 font-black w-32">Fecha</th>
-                      <th className="py-3 px-4 font-black">Detalle de Sesión & Notas</th>
-                      <th className="py-3 px-4 font-black w-36 text-center">Estado</th>
+                    <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400 font-black">
+                      <th className="pb-3 pr-4 font-black w-32">Fecha</th>
+                      <th className="pb-3 pr-4 font-black">Detalle de Sesión & Notas</th>
+                      <th className="pb-3 pr-4 font-black w-36 text-center">Estado</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {attendanceHistory.map((att, idx) => (
-                      <tr key={idx} className="hover:bg-white/5 transition-colors">
-                        <td className="py-3 px-4 font-mono font-bold text-temple-gold whitespace-nowrap">
+                      <tr key={idx} className="hover:bg-black/5 dark:bg-white/5 transition-colors">
+                        <td className="py-4 pl-4 tabular-nums font-bold text-temple-gold whitespace-nowrap">
                           {att.date}
                         </td>
-                        <td className="py-3 px-4 text-gray-300 font-medium">
+                        <td className="py-4 pl-4 text-slate-700 dark:text-gray-300 font-medium">
                           {att.notes || 'Sesión CristoFit Camp'}
                         </td>
-                        <td className="py-3 px-4 text-center whitespace-nowrap">
+                        <td className="py-4 pl-4 text-center whitespace-nowrap">
                           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-black uppercase tracking-wider">
                             <CheckCircle2 size={12} /> Presente
                           </span>
@@ -910,7 +910,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     ))}
                     {attendanceHistory.length === 0 && (
                       <tr>
-                        <td colSpan={3} className="py-8 text-center text-gray-500 font-medium">
+                        <td colSpan={3} className="py-8 text-center text-slate-500 dark:text-gray-500 font-medium">
                           Sin sesiones registradas aún. Haz clic en "+ Marcar Asistencia Hoy".
                         </td>
                       </tr>
@@ -921,17 +921,17 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             </div>
 
             {/* Tabla 2: Valoraciones Antropométricas & IMC (Excel Style) */}
-            <div className="bg-[#0E1424]/90 border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+            <div className="bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-black/10 dark:border-white/10">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                     <Award size={18} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black uppercase text-white tracking-wider">
+                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-white tracking-wider">
                       Matriz Antropométrica & Evolución IMC
                     </h4>
-                    <p className="text-[11px] text-gray-400">Historial simétrico de mediciones corporales</p>
+                    <p className="text-[11px] text-slate-600 dark:text-gray-400">Historial simétrico de mediciones corporales</p>
                   </div>
                 </div>
 
@@ -947,31 +947,31 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse font-sans text-xs">
                   <thead>
-                    <tr className="bg-black/60 border-y border-white/10 text-[10px] uppercase tracking-wider text-gray-400">
-                      <th className="py-3 px-4 font-black w-28">Fecha</th>
-                      <th className="py-3 px-4 font-black w-28 text-right">Peso</th>
-                      <th className="py-3 px-4 font-black w-24 text-right">Talla</th>
-                      <th className="py-3 px-4 font-black w-24 text-right">IMC</th>
-                      <th className="py-3 px-4 font-black w-36 text-center">Diagnóstico</th>
-                      <th className="py-3 px-4 font-black">Observaciones & Progreso</th>
+                    <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-wider text-slate-600 dark:text-gray-400 font-black">
+                      <th className="pb-3 pr-4 font-black w-28">Fecha</th>
+                      <th className="pb-3 pr-4 font-black w-28 text-right">Peso</th>
+                      <th className="pb-3 pr-4 font-black w-24 text-right">Talla</th>
+                      <th className="pb-3 pr-4 font-black w-24 text-right">IMC</th>
+                      <th className="pb-3 pr-4 font-black w-36 text-center">Diagnóstico</th>
+                      <th className="pb-3 pr-4 font-black">Observaciones & Progreso</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {assessments.map((ass, idx) => (
-                      <tr key={idx} className="hover:bg-white/5 transition-colors">
-                        <td className="py-3 px-4 font-mono font-bold text-temple-gold whitespace-nowrap">
+                      <tr key={idx} className="hover:bg-black/5 dark:bg-white/5 transition-colors">
+                        <td className="py-4 pl-4 tabular-nums font-bold text-temple-gold whitespace-nowrap">
                           {ass.date}
                         </td>
-                        <td className="py-3 px-4 font-mono font-black text-white text-right whitespace-nowrap">
+                        <td className="py-4 pl-4 tabular-nums font-black text-white text-right whitespace-nowrap">
                           {ass.weightKg} kg
                         </td>
-                        <td className="py-3 px-4 font-mono text-gray-300 text-right whitespace-nowrap">
+                        <td className="py-4 pl-4 tabular-nums text-slate-700 dark:text-gray-300 text-right whitespace-nowrap">
                           {ass.heightM} m
                         </td>
-                        <td className="py-3 px-4 font-mono font-black text-emerald-400 text-right whitespace-nowrap">
+                        <td className="py-4 pl-4 tabular-nums font-black text-emerald-400 text-right whitespace-nowrap">
                           {ass.imc}
                         </td>
-                        <td className="py-3 px-4 text-center whitespace-nowrap">
+                        <td className="py-4 pl-4 text-center whitespace-nowrap">
                           <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
                             ass.imc < 18.5 ? 'bg-blue-500/20 text-blue-400' :
                             ass.imc < 25 ? 'bg-emerald-500/20 text-emerald-400' :
@@ -981,14 +981,14 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                             {ass.imc < 18.5 ? 'Bajo Peso' : ass.imc < 25 ? 'Normopeso' : ass.imc < 30 ? 'Sobrepeso' : 'Obesidad'}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-gray-300 font-medium">
+                        <td className="py-4 pl-4 text-slate-700 dark:text-gray-300 font-medium">
                           {ass.notes || 'Evaluación periódica'}
                         </td>
                       </tr>
                     ))}
                     {assessments.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="py-8 text-center text-gray-500 font-medium">
+                        <td colSpan={6} className="py-8 text-center text-slate-500 dark:text-gray-500 font-medium">
                           Sin valoraciones registradas.
                         </td>
                       </tr>

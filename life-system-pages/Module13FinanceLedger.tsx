@@ -180,7 +180,7 @@ export function Module13FinanceLedger() {
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-[#0E1424] via-[#0B0F19] to-black p-6 md:p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <DollarSign size={140} className="text-white" />
         </div>
@@ -190,13 +190,13 @@ export function Module13FinanceLedger() {
               <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
                 Caja & Finanzas
               </span>
-              <span className="text-xs text-gray-400 font-bold">Total: {transactions.length} registros</span>
+              <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">Total: {transactions.length} registros</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <DollarSign className="text-temple-gold" size={26} />
               Libro de Caja Diario (Bs.)
             </h2>
-            <p className="text-xs md:text-sm text-gray-400 mt-1">
+            <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 mt-1">
               Control de pagos de membresías, ventas del snack bar y compras operativas.
             </p>
           </div>
@@ -220,14 +220,14 @@ export function Module13FinanceLedger() {
           { label: 'Membresías del Mes', value: formatBs(kpis.mrr), icon: DollarSign, color: 'text-temple-gold', bg: 'bg-temple-gold/10' },
         ].map((kpi, i) => (
           <motion.div key={i} variants={item}>
-            <Card className="bg-[#0E1424]/90 backdrop-blur-xl border-white/10 shadow-lg">
+            <Card className="bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl border-black/10 dark:border-white/10 shadow-lg">
               <CardContent className="!p-5 flex items-center gap-4">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${kpi.bg} border border-white/5`}>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${kpi.bg} border border-black/5 dark:border-white/5`}>
                   <kpi.icon className={kpi.color} size={22} />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">{kpi.label}</p>
-                  <p className="text-xl font-black text-white truncate">{kpi.value}</p>
+                  <p className="text-[10px] text-slate-600 dark:text-gray-400 uppercase tracking-widest font-bold">{kpi.label}</p>
+                  <p className="text-xl font-black text-slate-800 dark:text-white truncate">{kpi.value}</p>
                 </div>
               </CardContent>
             </Card>
@@ -244,15 +244,15 @@ export function Module13FinanceLedger() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <Card className="bg-[#121826] border-temple-gold/40 shadow-2xl">
+            <Card className="bg-white dark:bg-[#121826] border-temple-gold/40 shadow-2xl">
               <CardContent className="!p-6">
                 <div className="flex flex-col gap-4 mb-5">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
+                    <h3 className="text-base font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
                       <Plus className="text-temple-gold" size={18} />
                       Registrar Asiento Contable
                     </h3>
-                    <span className="text-[10px] uppercase font-bold text-gray-500">Presets de 1-Clic</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-gray-500">Presets de 1-Clic</span>
                   </div>
 
                   {/* 1-Tap Quick Presets */}
@@ -298,53 +298,53 @@ export function Module13FinanceLedger() {
 
                 <form onSubmit={submitTransaction} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase text-gray-400 mb-1">Tipo de Flujo</label>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Tipo de Flujo</label>
                     <select
                       value={newTx.type}
                       onChange={e => setNewTx({ ...newTx, type: e.target.value as any })}
-                      className="w-full bg-black/50 border border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
                     >
-                      <option className="bg-[#121826]" value="income">Ingreso (+)</option>
-                      <option className="bg-[#121826]" value="expense">Egreso (-)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="income">Ingreso (+)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="expense">Egreso (-)</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold uppercase text-gray-400 mb-1">Categoría</label>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Categoría</label>
                     <select
                       value={newTx.category}
                       onChange={e => setNewTx({ ...newTx, category: e.target.value as any })}
-                      className="w-full bg-black/50 border border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
                     >
-                      <option className="bg-[#121826]" value="membership">Membresía / Reto 21 Días</option>
-                      <option className="bg-[#121826]" value="courses">Cursos / E.A.G.E. / Neuro-Ventas</option>
-                      <option className="bg-[#121826]" value="snack">Snack Bar / Bebidas</option>
-                      <option className="bg-[#121826]" value="merchandise">Indumentaria / Armería</option>
-                      <option className="bg-[#121826]" value="medicine">Salud / Masajes</option>
-                      <option className="bg-[#121826]" value="operations">Insumos & Operaciones</option>
-                      <option className="bg-[#121826]" value="rent">Alquiler / Espacio</option>
+                      <option className="bg-white dark:bg-[#121826]" value="membership">Membresía / Reto 21 Días</option>
+                      <option className="bg-white dark:bg-[#121826]" value="courses">Cursos / E.A.G.E. / Neuro-Ventas</option>
+                      <option className="bg-white dark:bg-[#121826]" value="snack">Snack Bar / Bebidas</option>
+                      <option className="bg-white dark:bg-[#121826]" value="merchandise">Indumentaria / Armería</option>
+                      <option className="bg-white dark:bg-[#121826]" value="medicine">Salud / Masajes</option>
+                      <option className="bg-white dark:bg-[#121826]" value="operations">Insumos & Operaciones</option>
+                      <option className="bg-white dark:bg-[#121826]" value="rent">Alquiler / Espacio</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold uppercase text-gray-400 mb-1">Monto en Bolivianos (Bs.)</label>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Monto en Bolivianos (Bs.)</label>
                     <input
                       type="number"
                       required
                       placeholder="Ej. 200"
                       value={newTx.amount}
                       onChange={e => setNewTx({ ...newTx, amount: e.target.value })}
-                      className="w-full bg-black/50 border border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold uppercase text-gray-400 mb-1">Fecha</label>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Fecha</label>
                     <input
                       type="date"
                       value={newTx.date}
                       onChange={e => setNewTx({ ...newTx, date: e.target.value })}
-                      className="w-full bg-black/50 border border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
                     />
                   </div>
 
@@ -363,9 +363,9 @@ export function Module13FinanceLedger() {
                         }}
                         className="w-full bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-400"
                       >
-                        <option className="bg-[#121826]" value="">Seleccionar atleta...</option>
+                        <option className="bg-white dark:bg-[#121826]" value="">Seleccionar atleta...</option>
                         {studentsList.map(s => (
-                          <option key={s.id} className="bg-[#121826]" value={s.id}>
+                          <option key={s.id} className="bg-white dark:bg-[#121826]" value={s.id}>
                             {s.name} ({s.status === 'expiring' ? '⚡ Por Vencer' : s.status})
                           </option>
                         ))}
@@ -374,14 +374,14 @@ export function Module13FinanceLedger() {
                   ) : null}
 
                   <div className={newTx.category === 'membership' && newTx.type === 'income' ? "sm:col-span-2 lg:col-span-4" : "sm:col-span-2 lg:col-span-4"}>
-                    <label className="block text-[10px] font-bold uppercase text-gray-400 mb-1">Concepto / Glosa</label>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Concepto / Glosa</label>
                     <input
                       type="text"
                       required
                       placeholder="Ej. Membresía Reto 21 Días - Juan Pérez"
                       value={newTx.description}
                       onChange={e => setNewTx({ ...newTx, description: e.target.value })}
-                      className="w-full bg-black/50 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-temple-gold"
                     />
                   </div>
 
@@ -402,48 +402,48 @@ export function Module13FinanceLedger() {
 
       {/* Main Table Card */}
       <motion.div variants={item}>
-        <Card className="bg-[#0E1424]/90 backdrop-blur-xl border-white/10 shadow-2xl">
+        <Card className="bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl border-black/10 dark:border-white/10 shadow-2xl">
           <CardContent className="!p-6">
             {/* Filters Toolbar */}
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6 border-b border-white/10 pb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6 border-b border-black/10 dark:border-white/10 pb-6">
               <div className="relative w-full sm:w-80">
-                <Search className="absolute left-3.5 top-3 text-gray-500" size={16} />
+                <Search className="absolute left-3.5 top-3 text-slate-500 dark:text-gray-500" size={16} />
                 <input 
                   type="text"
                   placeholder="Buscar por concepto o categoría..." 
-                  className="w-full pl-10 pr-4 py-2.5 bg-black/40 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
               </div>
 
               <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                <div className="flex items-center gap-2 bg-black/40 border border-white/10 rounded-xl px-3 py-2">
+                <div className="flex items-center gap-2 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2">
                   <Filter size={14} className="text-temple-gold" />
                   <select 
                     value={typeFilter}
                     onChange={e => setTypeFilter(e.target.value as any)}
                     className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer"
                   >
-                    <option className="bg-[#0E1424]" value="todos">Tipo: Todos</option>
-                    <option className="bg-[#0E1424]" value="income">Ingresos (+)</option>
-                    <option className="bg-[#0E1424]" value="expense">Egresos (-)</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="todos">Tipo: Todos</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="income">Ingresos (+)</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="expense">Egresos (-)</option>
                   </select>
                 </div>
 
-                <div className="flex items-center gap-2 bg-black/40 border border-white/10 rounded-xl px-3 py-2">
+                <div className="flex items-center gap-2 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2">
                   <select 
                     value={categoryFilter}
                     onChange={e => setCategoryFilter(e.target.value)}
                     className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer"
                   >
-                    <option className="bg-[#0E1424]" value="todos">Categoría: Todas</option>
-                    <option className="bg-[#0E1424]" value="membership">Membresías</option>
-                    <option className="bg-[#0E1424]" value="courses">Cursos & Formación</option>
-                    <option className="bg-[#0E1424]" value="snack">Snack Bar</option>
-                    <option className="bg-[#0E1424]" value="merchandise">Indumentaria</option>
-                    <option className="bg-[#0E1424]" value="operations">Operaciones</option>
-                    <option className="bg-[#0E1424]" value="rent">Alquiler</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="todos">Categoría: Todas</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="membership">Membresías</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="courses">Cursos & Formación</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="snack">Snack Bar</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="merchandise">Indumentaria</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="operations">Operaciones</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="rent">Alquiler</option>
                   </select>
                 </div>
               </div>
@@ -453,7 +453,7 @@ export function Module13FinanceLedger() {
             <div className="overflow-x-auto custom-scrollbar">
               <table className="w-full text-left border-collapse min-w-[700px]">
                 <thead>
-                  <tr className="border-b border-white/10 text-[10px] uppercase tracking-[0.2em] text-gray-400 font-black">
+                  <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400 font-black">
                     <th className="pb-3 pl-4">Fecha</th>
                     <th className="pb-3">Concepto / Glosa</th>
                     <th className="pb-3">Categoría</th>
@@ -467,13 +467,13 @@ export function Module13FinanceLedger() {
 
                     if (isEditing) {
                       return (
-                        <tr key={tx.id} className="bg-white/5 border-t border-temple-gold/30">
+                        <tr key={tx.id} className="bg-black/5 dark:bg-white/5 border-t border-temple-gold/30">
                           <td className="py-3 pl-4">
                             <input
                               type="date"
                               value={editForm.date}
                               onChange={e => setEditForm({ ...editForm, date: e.target.value })}
-                              className="bg-black/50 text-white px-2.5 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
+                              className="bg-slate-100 dark:bg-black/50 text-white px-2.5 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
                             />
                           </td>
                           <td className="py-3">
@@ -481,14 +481,14 @@ export function Module13FinanceLedger() {
                               type="text"
                               value={editForm.description}
                               onChange={e => setEditForm({ ...editForm, description: e.target.value })}
-                              className="w-full bg-black/50 text-white px-2.5 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
+                              className="w-full bg-slate-100 dark:bg-black/50 text-white px-2.5 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
                             />
                           </td>
                           <td className="py-3">
                             <select
                               value={editForm.category}
                               onChange={e => setEditForm({ ...editForm, category: e.target.value as any })}
-                              className="bg-black/50 text-white px-2 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
+                              className="bg-slate-100 dark:bg-black/50 text-white px-2 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
                             >
                               <option value="membership">Membresía</option>
                               <option value="courses">Cursos</option>
@@ -503,7 +503,7 @@ export function Module13FinanceLedger() {
                               type="number"
                               value={editForm.amount}
                               onChange={e => setEditForm({ ...editForm, amount: Number(e.target.value) })}
-                              className="w-24 bg-black/50 text-temple-gold font-bold px-2 py-1.5 rounded-lg border border-temple-gold/40 text-xs text-right focus:outline-none"
+                              className="w-24 bg-slate-100 dark:bg-black/50 text-temple-gold font-bold px-2 py-1.5 rounded-lg border border-temple-gold/40 text-xs text-right focus:outline-none"
                             />
                           </td>
                           <td className="py-3 pr-4 text-center">
@@ -521,15 +521,15 @@ export function Module13FinanceLedger() {
                     }
 
                     return (
-                      <tr key={tx.id} className="hover:bg-white/5 transition group">
+                      <tr key={tx.id} className="hover:bg-black/5 dark:bg-white/5 transition group">
                         <td className="py-4 pl-4">
-                          <span className="text-xs font-mono font-bold text-gray-300">{tx.date}</span>
+                          <span className="text-xs tabular-nums font-bold text-slate-700 dark:text-gray-300">{tx.date}</span>
                         </td>
                         <td className="py-4">
-                          <p className="text-sm font-bold text-white group-hover:text-temple-gold transition">{tx.description}</p>
+                          <p className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-temple-gold transition">{tx.description}</p>
                         </td>
                         <td className="py-4">
-                          <span className="text-[10px] uppercase font-bold tracking-wider text-temple-gold px-2.5 py-1 bg-white/5 rounded-full border border-white/10">
+                          <span className="text-[10px] uppercase font-bold tracking-wider text-temple-gold px-2.5 py-1 bg-black/5 dark:bg-white/5 rounded-full border border-black/10 dark:border-white/10">
                             {tx.category}
                           </span>
                         </td>
@@ -543,14 +543,14 @@ export function Module13FinanceLedger() {
                           <div className="flex items-center justify-center gap-1.5">
                             <button 
                               onClick={() => startEditing(tx)} 
-                              className="p-2 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition"
+                              className="p-2 text-slate-600 dark:text-gray-400 hover:text-white bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg transition"
                               title="Editar Asiento"
                             >
                               <Edit3 size={15} />
                             </button>
                             <button 
                               onClick={() => handleDelete(tx.id)} 
-                              className="p-2 text-gray-400 hover:text-red-400 bg-white/5 hover:bg-red-400/10 rounded-lg transition"
+                              className="p-2 text-slate-600 dark:text-gray-400 hover:text-red-400 bg-black/5 dark:bg-white/5 hover:bg-red-400/10 rounded-lg transition"
                               title="Eliminar Asiento"
                             >
                               <Trash2 size={15} />
@@ -563,27 +563,27 @@ export function Module13FinanceLedger() {
 
                   {filteredTransactions.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="text-center py-12 text-gray-500 text-sm">
+                      <td colSpan={5} className="text-center py-12 text-slate-500 dark:text-gray-500 text-sm">
                         No se encontraron transacciones registradas con los filtros seleccionados.
                       </td>
                     </tr>
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="bg-black/90 border-t-2 border-temple-gold/40 font-black text-white text-xs">
-                    <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold font-mono">
+                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-white text-xs">
+                    <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredTransactions.length} Asientos
                     </td>
-                    <td className="py-4 text-gray-300 font-bold">
-                      Ingresos: <span className="text-emerald-400 font-mono">+{formatBs(filteredTransactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0))}</span>
+                    <td className="py-4 text-slate-700 dark:text-gray-300 font-bold">
+                      Ingresos: <span className="text-emerald-400 tabular-nums">+{formatBs(filteredTransactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0))}</span>
                     </td>
-                    <td className="py-4 text-gray-300 font-bold">
-                      Egresos: <span className="text-red-400 font-mono">-{formatBs(filteredTransactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0))}</span>
+                    <td className="py-4 text-slate-700 dark:text-gray-300 font-bold">
+                      Egresos: <span className="text-red-400 tabular-nums">-{formatBs(filteredTransactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0))}</span>
                     </td>
-                    <td className="py-4 text-right font-mono font-black text-sm text-temple-gold">
+                    <td className="py-4 text-right tabular-nums font-black text-sm text-temple-gold">
                       Neto: {formatBs(filteredTransactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0) - filteredTransactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0))}
                     </td>
-                    <td className="py-4 text-center text-gray-500">-</td>
+                    <td className="py-4 text-center text-slate-500 dark:text-gray-500">-</td>
                   </tr>
                 </tfoot>
               </table>

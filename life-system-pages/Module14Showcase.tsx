@@ -89,7 +89,7 @@ export function Module14Showcase() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 max-w-7xl mx-auto font-sans">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-[#0a1128] via-black to-black p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-white p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ImageIcon size={180} />
         </div>
@@ -99,32 +99,32 @@ export function Module14Showcase() {
               Multimedia & Catálogo
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
+          <h2 className="text-3xl md:text-4xl font-black text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
             <ImageIcon className="text-pink-500" size={32} />
             Vitrina Pública
           </h2>
-          <p className="text-xs md:text-sm text-gray-400 mt-1 uppercase tracking-widest">
+          <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 mt-1 uppercase tracking-widest">
             Gestor de Imágenes, Recetas y Merchandising para la Web
           </p>
         </div>
         
         {/* Filters */}
-        <div className="relative z-10 flex bg-white/5 p-1 rounded-2xl border border-white/10 w-full md:w-auto">
+        <div className="relative z-10 flex bg-white dark:bg-black/5 dark:bg-white/5 p-1 rounded-2xl border border-black/10 dark:border-white/10 w-full md:w-auto">
           <button 
             onClick={() => setActiveFilter('all')}
-            className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'all' ? 'bg-white/20 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'all' ? 'bg-white/20 text-white' : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'}`}
           >
             Todo
           </button>
           <button 
             onClick={() => setActiveFilter('merch')}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'merch' ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'merch' ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20' : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'}`}
           >
             <ShoppingBag size={14} /> Merch
           </button>
           <button 
             onClick={() => setActiveFilter('recipe')}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'recipe' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeFilter === 'recipe' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'}`}
           >
             <Utensils size={14} /> Recetas
           </button>
@@ -136,7 +136,7 @@ export function Module14Showcase() {
           <span className="text-2xl">⚠️</span>
           <div>
             <h4 className="text-red-400 font-bold uppercase tracking-widest text-xs">Regla de Oro de Producción</h4>
-            <p className="text-gray-300 text-sm">Producción sujeta a pedido mínimo de 5 unidades con 50% de seña antes del viernes.</p>
+            <p className="text-slate-700 dark:text-gray-300 text-sm">Producción sujeta a pedido mínimo de 5 unidades con 50% de seña antes del viernes.</p>
           </div>
         </div>
         <div className="flex gap-3">
@@ -153,15 +153,15 @@ export function Module14Showcase() {
         <AnimatePresence>
           {filteredItems.map(itemData => (
             <motion.div key={itemData.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
-              <Card className={`group relative overflow-hidden rounded-3xl border-2 transition-all hover:border-white/20 shadow-2xl ${itemData.status === 'draft' ? 'border-white/5 opacity-60 hover:opacity-100' : (itemData.type === 'merch' ? 'border-temple-gold/20' : 'border-emerald-500/20')}`}>
+              <Card className={`group relative overflow-hidden rounded-3xl border-2 transition-all hover:border-black/20 dark:border-white/20 shadow-2xl ${itemData.status === 'draft' ? 'border-black/5 dark:border-white/5 opacity-60 hover:opacity-100' : (itemData.type === 'merch' ? 'border-temple-gold/20' : 'border-emerald-500/20')}`}>
                 
                 {/* Image Preview & Upload Area */}
-                <div className="h-52 relative overflow-hidden bg-black flex flex-col items-center justify-center">
+                <div className="h-52 relative overflow-hidden bg-white dark:bg-black flex flex-col items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={itemData.imageUrl} alt={itemData.title} className="w-full h-full object-cover opacity-75 group-hover:opacity-40 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500&auto=format&fit=crop'; }} />
                   
                   {/* Overlay Controls */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 gap-2.5">
+                  <div className="absolute inset-0 bg-white dark:bg-black/5 dark:bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 gap-2.5">
                     <button
                       type="button"
                       onClick={() => fileInputRefs.current[itemData.id]?.click()}
@@ -181,7 +181,7 @@ export function Module14Showcase() {
                     <input 
                       value={itemData.imageUrl}
                       onChange={e => updateItem(itemData.id, 'imageUrl', e.target.value)}
-                      className="w-full bg-black/80 text-white text-[11px] font-mono px-3 py-1.5 rounded-xl border border-white/20 focus:outline-none focus:border-temple-gold text-center"
+                      className="w-full bg-black/8 dark:bg-black/80 text-slate-900 dark:text-white text-[11px] tabular-nums px-3 py-1.5 rounded-xl border border-black/20 dark:border-white/20 focus:outline-none focus:border-temple-gold text-center"
                       placeholder="o pega URL de la imagen..."
                     />
                   </div>
@@ -189,47 +189,47 @@ export function Module14Showcase() {
                   {/* Status Badge */}
                   <button 
                     onClick={() => updateItem(itemData.id, 'status', itemData.status === 'active' ? 'draft' : 'active')}
-                    className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center gap-1 backdrop-blur-md ${itemData.status === 'active' ? 'bg-emerald-500/80 text-white' : 'bg-black/80 text-gray-400 border border-white/20'}`}
+                    className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center gap-1 backdrop-blur-md ${itemData.status === 'active' ? 'bg-emerald-500/80 text-white' : 'bg-black/8 dark:bg-black/80 text-slate-600 dark:text-gray-400 border border-black/20 dark:border-white/20'}`}
                   >
                     {itemData.status === 'active' ? <Eye size={12}/> : <EyeOff size={12}/>}
                     {itemData.status === 'active' ? 'Público' : 'Oculto'}
                   </button>
 
                   {/* Type Badge */}
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/80 text-[9px] font-bold uppercase tracking-widest text-white border border-white/10 flex items-center gap-1 backdrop-blur-md">
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white dark:bg-black/8 dark:bg-black/80 text-[9px] font-bold uppercase tracking-widest text-white border border-black/10 dark:border-white/10 flex items-center gap-1 backdrop-blur-md">
                     {itemData.type === 'merch' ? <ShoppingBag size={12} className="text-temple-gold"/> : <Utensils size={12} className="text-emerald-500"/>}
                     {itemData.type === 'merch' ? 'Tienda' : 'Receta'}
                   </div>
                 </div>
 
-                <CardContent className="!p-5 flex flex-col gap-3 bg-gradient-to-b from-[#0E1424] to-[#07090E]">
+                <CardContent className="!p-5 flex flex-col gap-3 bg-gradient-to-b from-[#FBF9F5] dark:from-[#0E1424] to-[#FBF9F5] dark:to-[#07090E]">
                   <input 
                     value={itemData.title} 
                     onChange={e => updateItem(itemData.id, 'title', e.target.value)}
-                    className="bg-transparent text-white font-black text-lg focus:outline-none w-full border-b border-transparent focus:border-temple-gold/40 pb-1"
+                    className="bg-transparent text-slate-900 dark:text-white font-black text-lg focus:outline-none w-full border-b border-transparent focus:border-temple-gold/40 pb-1"
                     placeholder="Título del elemento"
                   />
                   
                   <textarea
                     value={itemData.description}
                     onChange={e => updateItem(itemData.id, 'description', e.target.value)}
-                    className="w-full bg-transparent text-gray-400 text-xs min-h-[50px] focus:outline-none resize-none leading-relaxed"
+                    className="w-full bg-transparent text-slate-600 dark:text-gray-400 text-xs min-h-[50px] focus:outline-none resize-none leading-relaxed"
                     placeholder="Descripción para la página web..."
                   />
 
-                  <div className="flex items-center justify-between mt-2 pt-3 border-t border-white/10">
+                  <div className="flex items-center justify-between mt-2 pt-3 border-t border-black/10 dark:border-white/10">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-500 uppercase tracking-widest font-bold">Bs.</span>
+                      <span className="text-xs text-slate-500 dark:text-gray-500 uppercase tracking-widest font-bold">Bs.</span>
                       <input 
                         type="number"
                         value={itemData.price} 
                         onChange={e => updateItem(itemData.id, 'price', Number(e.target.value))}
-                        className="bg-white/5 text-temple-gold font-black text-base focus:outline-none w-24 px-2.5 py-1 rounded-xl border border-white/10 focus:border-temple-gold/40"
+                        className="bg-black/5 dark:bg-white/5 text-temple-gold font-black text-base focus:outline-none w-24 px-2.5 py-1 rounded-xl border border-black/10 dark:border-white/10 focus:border-temple-gold/40"
                       />
                     </div>
                     <button 
                       onClick={() => deleteItem(itemData.id)} 
-                      className="text-gray-500 hover:text-red-400 transition-colors p-2 rounded-xl hover:bg-white/5"
+                      className="text-slate-500 dark:text-gray-500 hover:text-red-400 transition-colors p-2 rounded-xl hover:bg-black/5 dark:bg-white/5"
                       title="Eliminar de Vitrina"
                     >
                       <Trash2 size={16} />
@@ -242,7 +242,7 @@ export function Module14Showcase() {
         </AnimatePresence>
         
         {filteredItems.length === 0 && (
-          <div className="col-span-full py-16 text-center text-gray-500 border border-dashed border-white/10 rounded-3xl">
+          <div className="col-span-full py-16 text-center text-slate-500 dark:text-gray-500 border border-dashed border-black/10 dark:border-white/10 rounded-3xl">
             <ImageIcon size={48} className="mx-auto mb-4 opacity-20" />
             <p className="font-bold">No hay elementos en esta categoría.</p>
           </div>

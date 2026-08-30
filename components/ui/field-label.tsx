@@ -36,10 +36,10 @@ export function FieldLabel({ label, tooltip, required }: FieldLabelProps) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 5, scale: 0.95 }}
                 transition={{ duration: 0.15 }}
-                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-64 p-3 bg-temple-navy border border-temple-gold/30 rounded-xl text-xs text-gray-300 leading-relaxed shadow-2xl"
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-64 p-3 bg-white dark:bg-temple-navy border border-temple-gold/30 rounded-xl text-xs text-gray-300 leading-relaxed shadow-2xl"
               >
                 {tooltip}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 bg-temple-navy border-r border-b border-temple-gold/30 rotate-45 -mt-1"></div>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 bg-white dark:bg-temple-navy border-r border-b border-temple-gold/30 rotate-45 -mt-1"></div>
               </motion.div>
             )}
           </AnimatePresence>

@@ -385,10 +385,10 @@ export function Module2DailyLog() {
   };
 
   const getStatusColor = (status: MacroStatus | null) => {
-    if (status === 'green') return 'from-emerald-900/40 via-[#0a1128] to-black border-emerald-500/30';
-    if (status === 'yellow') return 'from-amber-900/40 via-[#0a1128] to-black border-amber-500/30';
-    if (status === 'red') return 'from-red-900/40 via-[#0a1128] to-black border-red-500/30';
-    return 'from-[#0a1128] via-black to-black border-white/10';
+    if (status === 'green') return 'from-emerald-500/15 via-white to-emerald-500/5 dark:from-emerald-900/40 dark:via-[#0a1128] dark:to-black text-temple-navy dark:text-white border-emerald-500/30';
+    if (status === 'yellow') return 'from-amber-500/15 via-white to-amber-500/5 dark:from-amber-900/40 dark:via-[#0a1128] dark:to-black text-temple-navy dark:text-white border-amber-500/30';
+    if (status === 'red') return 'from-red-500/10 via-white to-red-500/5 dark:from-red-900/40 dark:via-[#0a1128] dark:to-black text-temple-navy dark:text-white border-red-500/30';
+    return 'from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-white border-black/10 dark:border-white/10';
   };
 
   const getStatusText = (status: MacroStatus | null) => {
@@ -469,7 +469,7 @@ export function Module2DailyLog() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-black font-black uppercase tracking-widest text-xs py-4 px-6 rounded-2xl flex items-center gap-3 shadow-2xl border-2 border-white/20"
+            className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-black font-black uppercase tracking-widest text-xs py-4 px-6 rounded-2xl flex items-center gap-3 shadow-2xl border-2 border-black/20 dark:border-white/20"
           >
             <CheckCircle2 size={20} />
             <span>{toastMessage}</span>
@@ -486,36 +486,36 @@ export function Module2DailyLog() {
         <div className="relative z-10 flex flex-col md:flex-row justify-between gap-6">
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-4">
-              <span className="px-3 py-1 rounded-full bg-white/10 text-white border border-white/20 text-[10px] font-black uppercase tracking-[0.2em] backdrop-blur-md">
+              <span className="px-3 py-1 rounded-full bg-black/10 dark:bg-white/10 text-white border border-black/20 dark:border-white/20 text-[10px] font-black uppercase tracking-[0.2em] backdrop-blur-md">
                 Radar de Cierre
               </span>
               
-              <div className="flex flex-wrap bg-black/60 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md gap-1">
+              <div className="flex flex-wrap bg-white dark:bg-black/5 dark:bg-black/60 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 backdrop-blur-md gap-1">
                 <button 
                   onClick={() => setEvaluationType('daily')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'daily' ? 'bg-white/20 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'daily' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-white'}`}
                 >
                   <Clock size={12} /> 1. Diario Atleta
                 </button>
                 <button 
                   onClick={() => setEvaluationType('monthly')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'monthly' ? 'bg-temple-gold text-black font-extrabold shadow-sm' : 'text-gray-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'monthly' ? 'bg-temple-gold text-black font-extrabold shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-white'}`}
                 >
                   <Calendar size={12} /> 2. Calendario Mes
                 </button>
                 <button 
                   onClick={() => setEvaluationType('admin-habits')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'admin-habits' ? 'bg-emerald-500 text-black font-extrabold shadow-sm' : 'text-gray-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'admin-habits' ? 'bg-emerald-500 text-black font-extrabold shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-white'}`}
                 >
                   <ShieldCheck size={12} /> 3. Hábitos de Calidad (Admin)
                 </button>
               </div>
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
+            <h2 className="text-4xl md:text-5xl font-black text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
               {selectedStudent?.name || 'Atleta No Seleccionado'}
             </h2>
-            <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium">
+            <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 mt-2 font-medium">
               {evaluationType === 'daily' 
                 ? `Registro diario • ${new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())}`
                 : `Calendario de cumplimiento • ${formatMonthYear(viewingMonth)}`
@@ -525,23 +525,23 @@ export function Module2DailyLog() {
 
           {evaluationType === 'daily' && (
             <div className="flex flex-col items-end gap-2 shrink-0">
-              <span className="text-[10px] uppercase font-black tracking-widest text-gray-500">Estado Global (Hoy)</span>
-              <div className="bg-black/60 backdrop-blur-md p-2 rounded-2xl border border-white/10 flex gap-2">
+              <span className="text-[10px] uppercase font-black tracking-widest text-slate-500 dark:text-gray-500">Estado Global (Hoy)</span>
+              <div className="bg-white dark:bg-black/5 dark:bg-black/60 backdrop-blur-md p-2 rounded-2xl border border-black/10 dark:border-white/10 flex gap-2">
                 <button 
                   onClick={() => setGlobalStatus('green')}
-                  className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all ${globalStatus === 'green' ? 'bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.5)] scale-110' : 'bg-white/5 text-emerald-500/50 hover:bg-emerald-500/20'}`}
+                  className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all ${globalStatus === 'green' ? 'bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.5)] scale-110' : 'bg-black/5 dark:bg-white/5 text-emerald-500/50 hover:bg-emerald-500/20'}`}
                 >
                   <CheckCircle2 size={24} />
                 </button>
                 <button 
                   onClick={() => setGlobalStatus('yellow')}
-                  className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all ${globalStatus === 'yellow' ? 'bg-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.5)] scale-110' : 'bg-white/5 text-amber-500/50 hover:bg-amber-500/20'}`}
+                  className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all ${globalStatus === 'yellow' ? 'bg-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.5)] scale-110' : 'bg-black/5 dark:bg-white/5 text-amber-500/50 hover:bg-amber-500/20'}`}
                 >
                   <AlertOctagon size={24} />
                 </button>
                 <button 
                   onClick={() => setGlobalStatus('red')}
-                  className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all ${globalStatus === 'red' ? 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-110' : 'bg-white/5 text-red-500/50 hover:bg-red-500/20'}`}
+                  className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all ${globalStatus === 'red' ? 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-110' : 'bg-black/5 dark:bg-white/5 text-red-500/50 hover:bg-red-500/20'}`}
                 >
                   <Zap size={24} />
                 </button>
@@ -565,9 +565,9 @@ export function Module2DailyLog() {
             className="space-y-6"
           >
             {/* Micro-Registro Táctico */}
-            <motion.div variants={item} className="bg-black/40 border border-white/5 rounded-[2rem] p-6 shadow-xl">
+            <motion.div variants={item} className="bg-slate-50 dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-[2rem] p-6 shadow-xl">
               <div className="flex items-center justify-between mb-5">
-                <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest px-2">Auditoría de Rutina Diaria (Micro-Registro)</h3>
+                <h3 className="text-xs font-black text-slate-600 dark:text-gray-400 uppercase tracking-widest px-2">Auditoría de Rutina Diaria (Micro-Registro)</h3>
                 <span className="text-[10px] font-bold text-temple-gold uppercase tracking-wider bg-temple-gold/10 px-3 py-1 rounded-full">
                   {Object.values(microRoutines).filter(Boolean).length} / 6 Cumplidos
                 </span>
@@ -584,10 +584,10 @@ export function Module2DailyLog() {
                       className={`flex flex-col items-center justify-center gap-3 p-4 rounded-2xl border transition-all duration-300 ${
                         isChecked 
                           ? 'bg-temple-gold/20 border-temple-gold/50 text-temple-gold shadow-[0_0_15px_rgba(255,215,0,0.1)]' 
-                          : 'bg-[#0B0F19]/50 border-white/5 text-gray-500 hover:bg-white/5 hover:border-white/20'
+                          : 'bg-white dark:bg-[#0B0F19]/50 border-black/5 dark:border-white/5 text-slate-500 dark:text-gray-500 hover:bg-black/5 dark:bg-white/5 hover:border-black/20 dark:border-white/20'
                       }`}
                     >
-                      <div className={`p-2 rounded-xl ${isChecked ? 'bg-temple-gold/20' : 'bg-black/50'}`}>
+                      <div className={`p-2 rounded-xl ${isChecked ? 'bg-temple-gold/20' : 'bg-slate-100 dark:bg-black/50'}`}>
                         <Icon size={20} className={isChecked ? 'text-temple-gold' : 'text-gray-600'} />
                       </div>
                       <span className="text-[10px] font-black uppercase tracking-wider text-center leading-tight">
@@ -609,19 +609,19 @@ export function Module2DailyLog() {
               
               {/* Columna Izquierda: Los 3 Pilares (4 columnas en LG) */}
               <motion.div variants={item} className="lg:col-span-4 flex flex-col gap-4">
-                <h3 className="text-xs font-black text-gray-500 uppercase tracking-widest px-2">Pilares Estructurales (S/N)</h3>
+                <h3 className="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest px-2">Pilares Estructurales (S/N)</h3>
                 
                 {/* Pilar: Cuerpo */}
                 <button 
                   onClick={() => togglePillar('body')}
-                  className={`w-full p-5 rounded-[1.5rem] border flex items-center justify-between transition-all duration-300 ${pillars.body ? 'bg-gradient-to-r from-[#0a1128] to-black border-emerald-500/30' : 'bg-red-950/20 border-red-500/30'}`}
+                  className={`w-full p-5 rounded-[1.5rem] border flex items-center justify-between transition-all duration-300 ${pillars.body ? 'bg-gradient-to-r from-white to-slate-50 dark:from-[#0a1128] dark:to-black text-temple-navy dark:text-white border-emerald-500/30' : 'bg-red-950/20 border-red-500/30'}`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-xl ${pillars.body ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
                       <Activity size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-white uppercase tracking-wider">Cuerpo</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Cuerpo</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.body ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.body ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -635,14 +635,14 @@ export function Module2DailyLog() {
                 {/* Pilar: Mente */}
                 <button 
                   onClick={() => togglePillar('mind')}
-                  className={`w-full p-5 rounded-[1.5rem] border flex items-center justify-between transition-all duration-300 ${pillars.mind ? 'bg-gradient-to-r from-[#0a1128] to-black border-emerald-500/30' : 'bg-red-950/20 border-red-500/30'}`}
+                  className={`w-full p-5 rounded-[1.5rem] border flex items-center justify-between transition-all duration-300 ${pillars.mind ? 'bg-gradient-to-r from-white to-slate-50 dark:from-[#0a1128] dark:to-black text-temple-navy dark:text-white border-emerald-500/30' : 'bg-red-950/20 border-red-500/30'}`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-xl ${pillars.mind ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
                       <BrainCircuit size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-white uppercase tracking-wider">Mente</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Mente</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.mind ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.mind ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -656,14 +656,14 @@ export function Module2DailyLog() {
                 {/* Pilar: Espíritu */}
                 <button 
                   onClick={() => togglePillar('spirit')}
-                  className={`w-full p-5 rounded-[1.5rem] border flex items-center justify-between transition-all duration-300 ${pillars.spirit ? 'bg-gradient-to-r from-[#0a1128] to-black border-emerald-500/30' : 'bg-red-950/20 border-red-500/30'}`}
+                  className={`w-full p-5 rounded-[1.5rem] border flex items-center justify-between transition-all duration-300 ${pillars.spirit ? 'bg-gradient-to-r from-white to-slate-50 dark:from-[#0a1128] dark:to-black text-temple-navy dark:text-white border-emerald-500/30' : 'bg-red-950/20 border-red-500/30'}`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-xl ${pillars.spirit ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
                       <Heart size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-white uppercase tracking-wider">Espíritu</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Espíritu</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.spirit ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.spirit ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -677,9 +677,9 @@ export function Module2DailyLog() {
 
               {/* Columna Derecha: Inteligencia (8 columnas en LG) */}
               <motion.div variants={item} className="lg:col-span-8 flex flex-col gap-4">
-                <h3 className="text-xs font-black text-gray-500 uppercase tracking-widest px-2">Síntesis Operativa (Hoy)</h3>
+                <h3 className="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest px-2">Síntesis Operativa (Hoy)</h3>
                 
-                <div className="bg-[#0B0F19]/90 border border-white/10 rounded-[2rem] p-8 flex flex-col gap-8 h-full shadow-2xl">
+                <div className="bg-white dark:bg-[#0B0F19]/90 border border-black/10 dark:border-white/10 rounded-[2rem] p-8 flex flex-col gap-8 h-full shadow-2xl">
                   
                   {/* Victoria */}
                   <div className="flex gap-6 relative group">
@@ -711,7 +711,7 @@ export function Module2DailyLog() {
                         value={primaryAdjustment}
                         onChange={(e) => setPrimaryAdjustment(e.target.value)}
                         placeholder="El ajuste o punto que necesita mejorar..."
-                        className="w-full bg-transparent text-gray-300 text-lg font-medium focus:outline-none resize-none placeholder-white/20 min-h-[60px]"
+                        className="w-full bg-transparent text-slate-700 dark:text-gray-300 text-lg font-medium focus:outline-none resize-none placeholder-white/20 min-h-[60px]"
                         rows={2}
                       />
                     </div>
@@ -726,7 +726,7 @@ export function Module2DailyLog() {
               <Button 
                 onClick={handleSaveToday} 
                 disabled={!globalStatus}
-                className={`h-16 px-10 rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl transition-all ${!globalStatus ? 'bg-white/5 text-gray-500' : 'bg-temple-gold text-black hover:bg-amber-400 hover:scale-105 shadow-[0_10px_40px_rgba(255,215,0,0.2)]'}`}
+                className={`h-16 px-10 rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl transition-all ${!globalStatus ? 'bg-black/5 dark:bg-white/5 text-slate-500 dark:text-gray-500' : 'bg-temple-gold text-black hover:bg-amber-400 hover:scale-105 shadow-[0_10px_40px_rgba(255,215,0,0.2)]'}`}
               >
                 Guardar Radar de Cierre
               </Button>
@@ -741,14 +741,14 @@ export function Module2DailyLog() {
             className="space-y-6"
           >
             {/* Dashboard Analítico Mensual & Month Navigator */}
-            <div className="flex items-center justify-between bg-black/40 border border-white/5 rounded-full px-6 py-3 shadow-xl w-fit mx-auto">
-              <button onClick={handlePrevMonth} className="text-gray-400 hover:text-white p-1 rounded-full transition-colors">
+            <div className="flex items-center justify-between bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-full px-6 py-3 shadow-xl w-fit mx-auto">
+              <button onClick={handlePrevMonth} className="text-slate-600 dark:text-gray-400 hover:text-white p-1 rounded-full transition-colors">
                 <ChevronLeft size={22} />
               </button>
               <span className="text-sm font-black uppercase tracking-[0.2em] text-temple-gold min-w-[220px] text-center">
                 {formatMonthYear(viewingMonth)}
               </span>
-              <button onClick={handleNextMonth} className="text-gray-400 hover:text-white p-1 rounded-full transition-colors">
+              <button onClick={handleNextMonth} className="text-slate-600 dark:text-gray-400 hover:text-white p-1 rounded-full transition-colors">
                 <ChevronRight size={22} />
               </button>
             </div>
@@ -757,7 +757,7 @@ export function Module2DailyLog() {
               
               {/* KPIs Consolidados */}
               <div className="lg:col-span-4 flex flex-col gap-4">
-                <h3 className="text-xs font-black text-gray-500 uppercase tracking-widest px-2">Métricas de Consistencia</h3>
+                <h3 className="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest px-2">Métricas de Consistencia</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-emerald-950/30 border border-emerald-500/20 p-5 rounded-3xl flex flex-col items-center justify-center text-center shadow-lg">
                     <span className="text-3xl font-black text-emerald-400">{greenDays}</span>
@@ -782,10 +782,10 @@ export function Module2DailyLog() {
                       exit={{ opacity: 0, scale: 0.95, y: 10 }}
                       className="mt-2"
                     >
-                      <div className="bg-[#0E1424] border border-temple-gold/40 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+                      <div className="bg-white dark:bg-[#0E1424] border border-temple-gold/40 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
                         
                         {/* Modal Header */}
-                        <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                        <div className="flex items-center justify-between pb-4 border-b border-black/10 dark:border-white/10">
                           <div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-temple-gold block">
                               Día {selectedHistoricalDay.day} de {new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(new Date(selectedHistoricalDay.year, selectedHistoricalDay.month, 1))}
@@ -809,7 +809,7 @@ export function Module2DailyLog() {
                             ) : (
                               <button 
                                 onClick={() => setIsEditingHistorical(false)} 
-                                className="text-[10px] uppercase font-bold text-gray-400 hover:text-white px-2 py-1"
+                                className="text-[10px] uppercase font-bold text-slate-600 dark:text-gray-400 hover:text-white px-2 py-1"
                               >
                                 Cancelar
                               </button>
@@ -819,7 +819,7 @@ export function Module2DailyLog() {
                                 setSelectedHistoricalDay(null);
                                 setIsEditingHistorical(false);
                               }} 
-                              className="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-white/5"
+                              className="text-slate-600 dark:text-gray-400 hover:text-white p-1 rounded-lg hover:bg-black/5 dark:bg-white/5"
                             >
                               <X size={18} />
                             </button>
@@ -832,26 +832,26 @@ export function Module2DailyLog() {
                           {/* Status Selector in Edit Mode */}
                           {isEditingHistorical && editedHistoricalRecord && (
                             <div>
-                              <label className="text-[9px] uppercase tracking-widest text-gray-400 font-bold block mb-2">Estado del Día</label>
+                              <label className="text-[9px] uppercase tracking-widest text-slate-600 dark:text-gray-400 font-bold block mb-2">Estado del Día</label>
                               <div className="grid grid-cols-3 gap-2">
                                 <button
                                   type="button"
                                   onClick={() => setEditedHistoricalRecord({ ...editedHistoricalRecord, status: 'green' })}
-                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'green' ? 'bg-emerald-500 text-black shadow-md' : 'bg-white/5 text-emerald-400 hover:bg-emerald-500/20'}`}
+                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'green' ? 'bg-emerald-500 text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-emerald-400 hover:bg-emerald-500/20'}`}
                                 >
                                   <CheckCircle2 size={12} /> Óptimo
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setEditedHistoricalRecord({ ...editedHistoricalRecord, status: 'yellow' })}
-                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'yellow' ? 'bg-amber-500 text-black shadow-md' : 'bg-white/5 text-amber-400 hover:bg-amber-500/20'}`}
+                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'yellow' ? 'bg-amber-500 text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-amber-400 hover:bg-amber-500/20'}`}
                                 >
                                   <AlertOctagon size={12} /> Precaución
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setEditedHistoricalRecord({ ...editedHistoricalRecord, status: 'red' })}
-                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'red' ? 'bg-red-500 text-white shadow-md' : 'bg-white/5 text-red-400 hover:bg-red-500/20'}`}
+                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'red' ? 'bg-red-500 text-white shadow-md' : 'bg-black/5 dark:bg-white/5 text-red-400 hover:bg-red-500/20'}`}
                                 >
                                   <Zap size={12} /> Alerta
                                 </button>
@@ -867,11 +867,11 @@ export function Module2DailyLog() {
                                 value={editedHistoricalRecord.primaryVictory}
                                 onChange={(e) => setEditedHistoricalRecord({ ...editedHistoricalRecord, primaryVictory: e.target.value })}
                                 placeholder="Victoria o acierto de este día..."
-                                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-temple-gold/50 transition-colors resize-none"
+                                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-temple-gold/50 transition-colors resize-none"
                                 rows={2}
                               />
                             ) : (
-                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-black/40 p-3 rounded-xl border border-white/5">
+                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-slate-50 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
                                 {selectedHistoricalDay.primaryVictory || 'Sin registro de victoria.'}
                               </p>
                             )}
@@ -885,19 +885,19 @@ export function Module2DailyLog() {
                                 value={editedHistoricalRecord.primaryAdjustment}
                                 onChange={(e) => setEditedHistoricalRecord({ ...editedHistoricalRecord, primaryAdjustment: e.target.value })}
                                 placeholder="Ajuste para este día..."
-                                className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-temple-gold/50 transition-colors resize-none"
+                                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-temple-gold/50 transition-colors resize-none"
                                 rows={2}
                               />
                             ) : (
-                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-black/40 p-3 rounded-xl border border-white/5">
+                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-slate-50 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
                                 {selectedHistoricalDay.primaryAdjustment || 'Sin registro de ajuste.'}
                               </p>
                             )}
                           </div>
                           
                           {/* Micro-Routines Status */}
-                          <div className="pt-2 border-t border-white/10">
-                            <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold block mb-2">Micro-Rutinas Realizadas</span>
+                          <div className="pt-2 border-t border-black/10 dark:border-white/10">
+                            <span className="text-[9px] uppercase tracking-widest text-slate-600 dark:text-gray-400 font-bold block mb-2">Micro-Rutinas Realizadas</span>
                             <div className="grid grid-cols-3 gap-2">
                               {microItems.map((m) => {
                                 const currentMicro = isEditingHistorical && editedHistoricalRecord
@@ -923,7 +923,7 @@ export function Module2DailyLog() {
                                       }
                                     }}
                                     disabled={!isEditingHistorical}
-                                    className={`flex items-center justify-center gap-1.5 p-2 rounded-xl border transition-all text-left ${isOk ? 'bg-temple-gold/20 border-temple-gold/50 text-temple-gold' : 'bg-black/50 border-white/5 text-gray-600'} ${isEditingHistorical ? 'cursor-pointer hover:border-white/20' : 'cursor-default'}`}
+                                    className={`flex items-center justify-center gap-1.5 p-2 rounded-xl border transition-all text-left ${isOk ? 'bg-temple-gold/20 border-temple-gold/50 text-temple-gold' : 'bg-slate-100 dark:bg-black/50 border-black/5 dark:border-white/5 text-gray-600'} ${isEditingHistorical ? 'cursor-pointer hover:border-black/20 dark:border-white/20' : 'cursor-default'}`}
                                   >
                                     <Icon size={12} className={isOk ? 'text-temple-gold' : 'text-gray-600'} />
                                     <span className="text-[8px] font-black uppercase tracking-wider truncate">
@@ -956,13 +956,13 @@ export function Module2DailyLog() {
 
               {/* Calendario Mensual */}
               <div className="lg:col-span-8 flex flex-col gap-4">
-                <h3 className="text-xs font-black text-gray-500 uppercase tracking-widest px-2">Calendario Mensual de Hábitos</h3>
-                <div className="bg-[#0B0F19]/90 border border-white/10 rounded-[2rem] p-6 md:p-8 shadow-2xl">
+                <h3 className="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest px-2">Calendario Mensual de Hábitos</h3>
+                <div className="bg-white dark:bg-[#0B0F19]/90 border border-black/10 dark:border-white/10 rounded-[2rem] p-6 md:p-8 shadow-2xl">
                   
                   {/* Días de la Semana */}
                   <div className="grid grid-cols-7 gap-2 md:gap-3 mb-4">
                     {['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'].map((dayHeader, i) => (
-                      <div key={i} className="text-center text-[10px] font-black uppercase tracking-widest text-gray-500">{dayHeader}</div>
+                      <div key={i} className="text-center text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-gray-500">{dayHeader}</div>
                     ))}
                   </div>
 
@@ -983,7 +983,7 @@ export function Module2DailyLog() {
                       const isSelected = selectedHistoricalDay?.day === dayNum && selectedHistoricalDay?.month === month && selectedHistoricalDay?.year === year;
                       const isToday = dayNum === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear();
 
-                      let statusClass = 'bg-white/5 border border-white/10 text-gray-600 hover:bg-white/10 hover:border-white/20'; // no record
+                      let statusClass = 'bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-gray-600 hover:bg-black/10 dark:bg-white/10 hover:border-black/20 dark:border-white/20'; // no record
                       if (rec?.status === 'green') statusClass = 'bg-emerald-500 text-black shadow-[0_0_15px_rgba(16,185,129,0.3)] border-transparent hover:scale-105';
                       if (rec?.status === 'yellow') statusClass = 'bg-amber-500 text-black border-transparent hover:scale-105';
                       if (rec?.status === 'red') statusClass = 'bg-red-500 text-white border-transparent hover:scale-105';
@@ -1004,7 +1004,7 @@ export function Module2DailyLog() {
                   </div>
 
                   {/* Leyenda del Calendario */}
-                  <div className="flex flex-wrap items-center justify-center gap-6 mt-8 pt-6 border-t border-white/5 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  <div className="flex flex-wrap items-center justify-center gap-6 mt-8 pt-6 border-t border-black/5 dark:border-white/5 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-gray-400">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                       <span>Óptimo / 100%</span>
@@ -1018,7 +1018,7 @@ export function Module2DailyLog() {
                       <span>Alerta / Riesgo</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-white/10 border border-white/20" />
+                      <div className="w-3 h-3 rounded-full bg-white dark:bg-black/10 dark:bg-white/10 border border-black/20 dark:border-white/20" />
                       <span>Sin Registro</span>
                     </div>
                   </div>
@@ -1037,27 +1037,27 @@ export function Module2DailyLog() {
             className="space-y-6"
           >
             {/* 12 Hábitos de Calidad del Administrador */}
-            <div className="bg-[#0E1424]/90 border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+            <div className="bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-black/10 dark:border-white/10">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-temple-gold shadow-md">
                     <ShieldCheck size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-white uppercase tracking-wider">
+                    <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
                       12 Hábitos de Calidad del Administrador
                     </h3>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-slate-600 dark:text-gray-400">
                       Rutina estandarizada de excelencia operativa, liderazgo y control de gestión
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 bg-black/60 px-4 py-2 rounded-2xl border border-white/10">
+                <div className="flex items-center gap-2 bg-white dark:bg-black/5 dark:bg-black/60 px-4 py-2 rounded-2xl border border-black/10 dark:border-white/10">
                   <span className="text-xs font-black text-temple-gold">
                     {defaultAdminHabits.filter(h => adminHabits[h]).length} / 12
                   </span>
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Cumplidos</span>
+                  <span className="text-[10px] text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider">Cumplidos</span>
                 </div>
               </div>
 
@@ -1073,13 +1073,13 @@ export function Module2DailyLog() {
                       className={`text-left p-4 rounded-2xl border transition-all flex items-start gap-3.5 group cursor-pointer ${
                         isChecked 
                           ? 'bg-emerald-500/10 border-emerald-500/40 text-white shadow-md' 
-                          : 'bg-black/40 border-white/5 text-gray-300 hover:bg-white/5 hover:border-white/20'
+                          : 'bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:bg-white/5 hover:border-black/20 dark:border-white/20'
                       }`}
                     >
                       <div className={`w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                         isChecked 
                           ? 'bg-emerald-500 border-emerald-400 text-black shadow-sm' 
-                          : 'border-white/20 group-hover:border-white/40 bg-white/5'
+                          : 'border-black/20 dark:border-white/20 group-hover:border-white/40 bg-black/5 dark:bg-white/5'
                       }`}>
                         {isChecked && <Check size={14} className="stroke-[3]" />}
                       </div>
@@ -1088,7 +1088,7 @@ export function Module2DailyLog() {
                         <span className="text-[10px] font-black uppercase tracking-wider text-temple-gold block mb-0.5">
                           Hábito {String(idx + 1).padStart(2, '0')}
                         </span>
-                        <p className={`text-xs font-bold leading-relaxed ${isChecked ? 'line-through text-gray-400' : 'text-white'}`}>
+                        <p className={`text-xs font-bold leading-relaxed ${isChecked ? 'line-through text-slate-600 dark:text-gray-400' : 'text-white'}`}>
                           {habit}
                         </p>
                       </div>
@@ -1099,16 +1099,16 @@ export function Module2DailyLog() {
             </div>
 
             {/* Planes de Acción Estándar (Mes 1 a Mes 12) */}
-            <div className="bg-[#0E1424]/90 border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
-              <div className="flex items-center gap-3 pb-4 border-b border-white/10">
+            <div className="bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+              <div className="flex items-center gap-3 pb-4 border-b border-black/10 dark:border-white/10">
                 <div className="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-md">
                   <ListChecks size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-white uppercase tracking-wider">
+                  <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
                     Planes de Acción Estándar
                   </h3>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-slate-600 dark:text-gray-400">
                     Checklist táctico de implementación por fase y preparación de responsables
                   </p>
                 </div>
@@ -1124,13 +1124,13 @@ export function Module2DailyLog() {
                       className={`p-4 rounded-2xl border transition-all flex items-start gap-3.5 cursor-pointer ${
                         isChecked 
                           ? 'bg-blue-500/10 border-blue-500/40 text-white' 
-                          : 'bg-black/40 border-white/5 text-gray-300 hover:bg-white/5 hover:border-white/20'
+                          : 'bg-slate-50 dark:bg-black/40 border-black/5 dark:border-white/5 text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:bg-white/5 hover:border-black/20 dark:border-white/20'
                       }`}
                     >
                       <div className={`w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                         isChecked 
                           ? 'bg-blue-500 border-blue-400 text-white' 
-                          : 'border-white/20 bg-white/5'
+                          : 'border-black/20 dark:border-white/20 bg-black/5 dark:bg-white/5'
                       }`}>
                         {isChecked && <Check size={14} className="stroke-[3]" />}
                       </div>
@@ -1138,7 +1138,7 @@ export function Module2DailyLog() {
                         <h4 className="text-xs font-black uppercase text-temple-gold tracking-wider">
                           {planItem.phase}
                         </h4>
-                        <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                        <p className="text-xs text-slate-700 dark:text-gray-300 mt-1 leading-relaxed">
                           {planItem.plan}
                         </p>
                       </div>

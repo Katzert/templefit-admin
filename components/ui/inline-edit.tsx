@@ -54,7 +54,7 @@ export function InlineEdit({ value, onSave, multiline = false, className, placeh
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           className={cn(
-            "w-full bg-black/40 border border-temple-gold/50 rounded-lg p-2 text-white focus:outline-none focus:ring-1 focus:ring-temple-gold resize-none",
+            "w-full bg-slate-50 dark:bg-black/40 border border-amber-500/50 dark:border-temple-gold/50 rounded-lg p-2 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 dark:focus:ring-temple-gold resize-none",
             className
           )}
           rows={3}
@@ -71,7 +71,7 @@ export function InlineEdit({ value, onSave, multiline = false, className, placeh
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         className={cn(
-          "w-full bg-black/40 border border-temple-gold/50 rounded-lg p-2 text-white focus:outline-none focus:ring-1 focus:ring-temple-gold",
+          "w-full bg-slate-50 dark:bg-black/40 border border-amber-500/50 dark:border-temple-gold/50 rounded-lg p-2 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 dark:focus:ring-temple-gold",
           className
         )}
       />
@@ -82,9 +82,9 @@ export function InlineEdit({ value, onSave, multiline = false, className, placeh
     <div
       onClick={() => { if (!disabled) setIsEditing(true); }}
       className={cn(
-        "group/edit relative rounded-lg p-2 transition-colors border border-transparent min-h-[40px] whitespace-pre-wrap flex justify-between items-start gap-2",
-        !disabled ? "cursor-text hover:bg-white/5 hover:border-white/10" : "cursor-default",
-        !value && "text-gray-500 italic",
+        "group/edit relative rounded-lg p-2 transition-colors border border-transparent min-h-[40px] whitespace-pre-wrap flex justify-between items-start gap-2 text-slate-900 dark:text-white",
+        !disabled ? "cursor-text hover:bg-black/5 dark:hover:bg-white/5 hover:border-black/10 dark:hover:border-white/10" : "cursor-default",
+        !value && "text-slate-400 dark:text-gray-500 italic",
         className
       )}
     >
@@ -92,7 +92,7 @@ export function InlineEdit({ value, onSave, multiline = false, className, placeh
       {!disabled && (
         <Pencil 
           size={14} 
-          className="text-gray-500 opacity-60 md:opacity-0 group-hover/edit:opacity-100 transition-opacity shrink-0 mt-1" 
+          className="text-slate-400 dark:text-gray-500 opacity-60 md:opacity-0 group-hover/edit:opacity-100 transition-opacity shrink-0 mt-1" 
         />
       )}
     </div>

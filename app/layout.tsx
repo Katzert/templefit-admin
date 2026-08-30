@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@/context/AuthContext';
-
+import { ThemeProvider } from "../components/ThemeProvider";
 const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
@@ -29,11 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${outfit.variable} ${playfair.variable}`}>
-      <body className="font-sans min-h-screen flex flex-col custom-scrollbar bg-temple-navy-dark text-white antialiased">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+    <html lang="es" className={`${outfit.variable} ${playfair.variable}`} suppressHydrationWarning>
+      <body className="font-sans min-h-screen flex flex-col custom-scrollbar bg-temple-cream dark:bg-[#0B0F19] text-temple-navy-dark dark:text-white transition-colors duration-300 antialiased">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

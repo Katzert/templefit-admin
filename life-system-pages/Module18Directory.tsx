@@ -177,7 +177,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-[#0E1424] via-[#0B0F19] to-black p-6 md:p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <Users size={140} className="text-white" />
         </div>
@@ -187,13 +187,13 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
               <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
                 Atletas & Comunidad
               </span>
-              <span className="text-xs text-gray-400 font-bold">Total: {localStudents.length} alumnos</span>
+              <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">Total: {localStudents.length} alumnos</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <User className="text-temple-gold" size={26} />
               Directorio de Atletas
             </h2>
-            <p className="text-xs md:text-sm text-gray-400 mt-1">
+            <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 mt-1">
               Fichas técnicas, escuadrones asignados y seguimiento de cada alumno.
             </p>
           </div>
@@ -209,16 +209,16 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
       {/* Main Table Card */}
       <motion.div variants={item}>
-        <Card className="bg-[#0E1424]/90 backdrop-blur-xl border-white/10 shadow-2xl">
+        <Card className="bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl border-black/10 dark:border-white/10 shadow-2xl">
           <CardContent className="!p-6">
             {/* Filters Bar */}
-            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b border-white/10 pb-6">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b border-black/10 dark:border-white/10 pb-6">
               <div className="relative w-full md:w-96">
-                <Search className="absolute left-3.5 top-3 text-gray-400" size={16} />
+                <Search className="absolute left-3.5 top-3 text-slate-600 dark:text-gray-400" size={16} />
                 <input 
                   type="text"
                   placeholder="Buscar por nombre, escuadrón, email o teléfono..." 
-                  className="w-full pl-10 pr-4 py-2.5 bg-black/40 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
@@ -229,7 +229,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <button
                   type="button"
                   onClick={() => { setStatusFilter('all'); setPhaseFilter('all'); }}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${statusFilter === 'all' && phaseFilter === 'all' ? 'bg-temple-gold text-black shadow-md' : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'}`}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${statusFilter === 'all' && phaseFilter === 'all' ? 'bg-temple-gold text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/10 dark:bg-white/10'}`}
                 >
                   Todos ({localStudents.length})
                 </button>
@@ -307,7 +307,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-white/10 text-[10px] uppercase tracking-[0.2em] text-gray-400">
+                  <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400">
                     <th className="pb-3 pl-4 font-black">Atleta & Escuadrón</th>
                     <th className="pb-3 font-black">Plan & Fase</th>
                     <th className="pb-3 font-black">Contacto</th>
@@ -317,7 +317,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {filteredStudents.map(student => (
-                    <tr key={student.id} className="hover:bg-white/5 transition group">
+                    <tr key={student.id} className="hover:bg-black/5 dark:bg-white/5 transition group">
                       <td className="py-4 pl-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-temple-gold/20 to-amber-500/10 border border-temple-gold/30 flex items-center justify-center text-temple-gold font-bold text-xs flex-shrink-0 shadow-md">
@@ -329,8 +329,8 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                             )}
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-white group-hover:text-temple-gold transition">{student.name}</p>
-                            <p className="text-[11px] text-gray-400">
+                            <p className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-temple-gold transition">{student.name}</p>
+                            <p className="text-[11px] text-slate-600 dark:text-gray-400">
                               Escuadrón: <span className="text-temple-gold font-bold">{student.escuadronId || 'Paz-Alfa'}</span>
                             </p>
                           </div>
@@ -345,11 +345,11 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                             </span>
                           )}
                         </div>
-                        <p className="text-[10px] text-gray-400 font-semibold mt-1">{student.phase}</p>
+                        <p className="text-[10px] text-slate-600 dark:text-gray-400 font-semibold mt-1">{student.phase}</p>
                       </td>
                       <td className="py-4">
-                        <p className="text-xs text-gray-300">{student.email}</p>
-                        <p className="text-xs text-gray-500">{student.phone}</p>
+                        <p className="text-xs text-slate-700 dark:text-gray-300">{student.email}</p>
+                        <p className="text-xs text-slate-500 dark:text-gray-500">{student.phone}</p>
                       </td>
                       <td className="py-4">
                         {student.status === 'active' && (
@@ -391,7 +391,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                           </button>
                           <button
                             onClick={() => handleDelete(student.id, student.name)}
-                            className="p-2 text-gray-500 hover:text-red-400 transition"
+                            className="p-2 text-slate-500 dark:text-gray-500 hover:text-red-400 transition"
                             title="Eliminar Atleta"
                           >
                             <Trash2 size={15} />
@@ -405,30 +405,30 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <tr>
                       <td colSpan={5} className="py-12 text-center">
                         <Search size={32} className="text-gray-600 mx-auto mb-3" />
-                        <p className="text-gray-400 font-bold">No se encontraron atletas.</p>
-                        <p className="text-xs text-gray-500 mt-1">Prueba ajustando los filtros o el texto de búsqueda.</p>
+                        <p className="text-slate-600 dark:text-gray-400 font-bold">No se encontraron atletas.</p>
+                        <p className="text-xs text-slate-500 dark:text-gray-500 mt-1">Prueba ajustando los filtros o el texto de búsqueda.</p>
                       </td>
                     </tr>
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="bg-black/80 border-t-2 border-temple-gold/40 font-black text-white text-xs">
-                    <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold font-mono">
+                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-white text-xs">
+                    <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredStudents.length} Atletas
                     </td>
-                    <td className="py-4 text-gray-300 font-mono">
+                    <td className="py-4 text-slate-700 dark:text-gray-300 tabular-nums">
                       {filteredStudents.filter(s => s.phase?.startsWith('1')).length} F1 • {filteredStudents.filter(s => s.phase?.startsWith('2')).length} F2 • {filteredStudents.filter(s => s.phase?.startsWith('3')).length} F3
                     </td>
-                    <td className="py-4 text-emerald-400 font-mono">
+                    <td className="py-4 text-emerald-400 tabular-nums">
                       {filteredStudents.filter(s => s.phone).length} WhatsApps
                     </td>
-                    <td className="py-4 font-mono">
+                    <td className="py-4 tabular-nums">
                       <span className="text-emerald-400">{filteredStudents.filter(s => s.status === 'active').length} Activos</span>
                       {filteredStudents.filter(s => s.status === 'expiring').length > 0 && (
                         <span className="text-amber-400 ml-1.5">({filteredStudents.filter(s => s.status === 'expiring').length} vence)</span>
                       )}
                     </td>
-                    <td className="py-4 pr-4 text-right font-mono text-temple-gold font-black">
+                    <td className="py-4 pr-4 text-right tabular-nums text-temple-gold font-black">
                       Cuotas: Bs. {(filteredStudents.filter(s => s.status === 'active').length * 200).toLocaleString()}
                     </td>
                   </tr>
@@ -442,32 +442,32 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       {/* Modal Añadir Atleta */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-[#121826] border border-temple-gold/40 rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto custom-scrollbar p-6 md:p-8 shadow-2xl"
+              className="bg-white dark:bg-[#121826] border border-temple-gold/40 rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto custom-scrollbar p-6 md:p-8 shadow-2xl"
             >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+              <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4 mb-6">
                 <div className="flex items-center gap-2">
                   <div className="p-2 rounded-xl bg-temple-gold/10 text-temple-gold border border-temple-gold/30">
                     <Plus size={18} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-white uppercase tracking-wider">Nuevo Atleta TempleFit</h3>
-                    <p className="text-xs text-gray-400">Crea el expediente holístico de 3 pilares.</p>
+                    <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Nuevo Atleta TempleFit</h3>
+                    <p className="text-xs text-slate-600 dark:text-gray-400">Crea el expediente holístico de 3 pilares.</p>
                   </div>
                 </div>
-                <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-white transition">
+                <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white transition">
                   <X size={20} />
                 </button>
               </div>
 
               <form onSubmit={handleCreateStudent} className="space-y-4">
                 {/* Photo Upload */}
-                <div className="flex items-center gap-4 p-3 bg-black/40 border border-white/10 rounded-2xl">
-                  <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center text-temple-gold font-bold text-lg flex-shrink-0">
+                <div className="flex items-center gap-4 p-3 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl">
+                  <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white dark:bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-temple-gold font-bold text-lg flex-shrink-0">
                     {newAthlete.avatarUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={newAthlete.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -476,11 +476,11 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     )}
                   </div>
                   <div className="flex-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Foto del Atleta (Opcional)</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Foto del Atleta (Opcional)</label>
                     <input 
                       type="file" 
                       accept="image/*"
-                      className="text-xs text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-temple-gold file:text-black hover:file:bg-amber-400 cursor-pointer"
+                      className="text-xs text-slate-600 dark:text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-temple-gold file:text-black hover:file:bg-amber-400 cursor-pointer"
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
@@ -497,23 +497,23 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Nombre Completo *</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Nombre Completo *</label>
                     <input 
                       type="text" 
                       required
                       placeholder="Ej. Juan Pérez"
-                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.name}
                       onChange={e => setNewAthlete({ ...newAthlete, name: e.target.value })}
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Celular / WhatsApp *</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Celular / WhatsApp *</label>
                     <input 
                       type="text" 
                       required
                       placeholder="+591 70012345"
-                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.phone}
                       onChange={e => setNewAthlete({ ...newAthlete, phone: e.target.value })}
                     />
@@ -522,49 +522,49 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Escuadrón Asignado</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Escuadrón Asignado</label>
                     <input 
                       type="text" 
                       placeholder="Ej. Alfa-1, Gedeón-2..."
-                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.escuadronId}
                       onChange={e => setNewAthlete({ ...newAthlete, escuadronId: e.target.value })}
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Fase del Programa</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Fase del Programa</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.phase}
                       onChange={e => setNewAthlete({ ...newAthlete, phase: e.target.value as any })}
                     >
-                      <option className="bg-[#121826]" value="1 - Iniciación">Fase 1 - Escuadrón de Paz</option>
-                      <option className="bg-[#121826]" value="2 - Desarrollo">Fase 2 - Gedeón (21 Días)</option>
-                      <option className="bg-[#121826]" value="3 - Perfeccionamiento">Fase 3 - Escuadrón de Cristo</option>
+                      <option className="bg-white dark:bg-[#121826]" value="1 - Iniciación">Fase 1 - Escuadrón de Paz</option>
+                      <option className="bg-white dark:bg-[#121826]" value="2 - Desarrollo">Fase 2 - Gedeón (21 Días)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="3 - Perfeccionamiento">Fase 3 - Escuadrón de Cristo</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Plan de Membresía</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Plan de Membresía</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.plan}
                       onChange={e => setNewAthlete({ ...newAthlete, plan: e.target.value as any })}
                     >
-                      <option className="bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
-                      <option className="bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
-                      <option className="bg-[#121826]" value="CristoFit Camp">CristoFit Camp</option>
-                      <option className="bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
+                      <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Peso Inicial (Kg)</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Peso Inicial (Kg)</label>
                     <input 
                       type="number" 
                       placeholder="70"
-                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.weightKg}
                       onChange={e => setNewAthlete({ ...newAthlete, weightKg: Number(e.target.value) })}
                     />
@@ -572,32 +572,32 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Objetivo Físico (Cuerpo)</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Objetivo Físico (Cuerpo)</label>
                   <input 
                     type="text" 
                     placeholder="Ej. Bajar 5kg de grasa, ganar fuerza en calistenia..."
-                    className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={newAthlete.physicalGoal}
                     onChange={e => setNewAthlete({ ...newAthlete, physicalGoal: e.target.value })}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Intención Espiritual (Espíritu)</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Intención Espiritual (Espíritu)</label>
                   <input 
                     type="text" 
                     placeholder="Ej. Hábito de oración matutina y vencer el estrés..."
-                    className="w-full px-3.5 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={newAthlete.spiritualIntention}
                     onChange={e => setNewAthlete({ ...newAthlete, spiritualIntention: e.target.value })}
                   />
                 </div>
 
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/10 dark:border-white/10">
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2.5 text-xs font-bold text-gray-400 hover:text-white uppercase tracking-wider transition"
+                    className="px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-gray-400 hover:text-white uppercase tracking-wider transition"
                   >
                     Cancelar
                   </button>
@@ -615,28 +615,28 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
         {/* Modal de Retención Rápida por WhatsApp */}
         {isRetentionModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#0E1424] border border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl"
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl"
             >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
                     <MessageSquare size={16} />
                   </div>
                   <div>
-                    <h3 className="text-base font-black uppercase tracking-wider text-white">
+                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                       Notificar Próximos Vencimientos
                     </h3>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-slate-600 dark:text-gray-400">
                       Mensajes cálidos preconfigurados para renovar en 1 toque.
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setIsRetentionModalOpen(false)} className="text-gray-400 hover:text-white p-1">
+                <button onClick={() => setIsRetentionModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white p-1">
                   <X size={20} />
                 </button>
               </div>
@@ -649,16 +649,16 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   return (
                     <div 
                       key={expiringStudent.id}
-                      className="p-4 bg-black/40 border border-white/10 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      className="p-4 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
                       <div>
-                        <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                        <h4 className="text-sm font-bold text-temple-navy dark:text-white flex items-center gap-2">
                           {expiringStudent.name}
                           <span className="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
                             Vence: {expiringStudent.renewalDate}
                           </span>
                         </h4>
-                        <p className="text-xs text-gray-400 mt-0.5">
+                        <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">
                           {expiringStudent.plan} • Escuadrón: {expiringStudent.escuadronId || 'Paz-Alfa'}
                         </p>
                       </div>
@@ -677,11 +677,11 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 })}
               </div>
 
-              <div className="flex justify-end pt-3 border-t border-white/10">
+              <div className="flex justify-end pt-3 border-t border-black/10 dark:border-white/10">
                 <button
                   type="button"
                   onClick={() => setIsRetentionModalOpen(false)}
-                  className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Cerrar
                 </button>
@@ -692,28 +692,28 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
         {/* Modal de Pase de Lista Grupal */}
         {isBatchModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#0E1424] border border-white/10 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl"
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl"
             >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-xl bg-temple-gold/20 border border-temple-gold/30 flex items-center justify-center text-temple-gold">
                     <Check size={16} />
                   </div>
                   <div>
-                    <h3 className="text-base font-black uppercase tracking-wider text-white">
+                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                       Pase de Lista Grupal (Hoy)
                     </h3>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-slate-600 dark:text-gray-400">
                       Marca el 100% de asistencia de un escuadrón en 1 solo clic.
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setIsBatchModalOpen(false)} className="text-gray-400 hover:text-white p-1">
+                <button onClick={() => setIsBatchModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white p-1">
                   <X size={20} />
                 </button>
               </div>
@@ -727,13 +727,13 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   return (
                     <div 
                       key={squad}
-                      className="p-4 bg-black/40 border border-white/10 rounded-2xl flex items-center justify-between gap-4"
+                      className="p-4 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl flex items-center justify-between gap-4"
                     >
                       <div>
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+                        <h4 className="text-sm font-bold text-temple-navy dark:text-white uppercase tracking-wider">
                           Escuadrón {squad}
                         </h4>
-                        <p className="text-xs text-gray-400 mt-0.5">
+                        <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">
                           {squadAthletes.length} atleta(s) activos • {alreadyMarked} presente(s) hoy
                         </p>
                       </div>
@@ -750,11 +750,11 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 })}
               </div>
 
-              <div className="flex justify-end pt-3 border-t border-white/10">
+              <div className="flex justify-end pt-3 border-t border-black/10 dark:border-white/10">
                 <button
                   type="button"
                   onClick={() => setIsBatchModalOpen(false)}
-                  className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Cerrar
                 </button>
@@ -765,28 +765,28 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
         {/* MODAL DE COMUNICADO WHATSAPP POR ESCUADRÓN (ANTI-BURNOUT) */}
         {isBroadcastModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#0E1424] border border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-5 shadow-2xl"
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-5 shadow-2xl"
             >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                     <Share2 size={16} />
                   </div>
                   <div>
-                    <h3 className="text-base font-black uppercase tracking-wider text-white">
+                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                       Comunicados Rápidos de WhatsApp
                     </h3>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-slate-600 dark:text-gray-400">
                       Copia mensajes pre-diseñados en 1 toque para enviar al grupo del escuadrón.
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setIsBroadcastModalOpen(false)} className="text-gray-400 hover:text-white p-1">
+                <button onClick={() => setIsBroadcastModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white p-1">
                   <X size={20} />
                 </button>
               </div>
@@ -800,7 +800,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all ${
                       selectedBroadcastSquad === squad
                         ? 'bg-temple-gold text-black font-extrabold shadow-md'
-                        : 'bg-white/5 text-gray-400 hover:text-white'
+                        : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-white'
                     }`}
                   >
                     Escuadrón {squad}
@@ -824,7 +824,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     body: `¡Atención Escuadrón ${selectedBroadcastSquad}! 👑\n\nHoy tenemos nuestra Mentoría Grupal de 30 minutos enfocada en Liderazgo, Rendimiento y Nutrición Anti-inflamatoria. Conéctense a las 20:00 con libreta en mano.\n\n¡Nos vemos pronto!`
                   }
                 ].map((tpl, idx) => (
-                  <div key={idx} className="p-4 bg-black/40 border border-white/10 rounded-2xl space-y-2.5">
+                  <div key={idx} className="p-4 bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl space-y-2.5">
                     <div className="flex items-center justify-between">
                       <h4 className="text-xs font-black uppercase text-temple-gold tracking-wider">{tpl.title}</h4>
                       <button
@@ -833,7 +833,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                           setCopiedBroadcastIdx(idx);
                           setTimeout(() => setCopiedBroadcastIdx(null), 2500);
                         }}
-                        className="px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition"
+                        className="px-3 py-1 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition"
                       >
                         {copiedBroadcastIdx === idx ? (
                           <>
@@ -848,18 +848,18 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                         )}
                       </button>
                     </div>
-                    <p className="text-xs text-gray-300 whitespace-pre-line leading-relaxed font-sans bg-black/30 p-2.5 rounded-xl border border-white/5">
+                    <p className="text-xs text-slate-700 dark:text-gray-300 whitespace-pre-line leading-relaxed font-sans bg-black/[0.03] dark:bg-black/30 p-2.5 rounded-xl border border-black/5 dark:border-white/5">
                       {tpl.body}
                     </p>
                   </div>
                 ))}
               </div>
 
-              <div className="flex justify-end pt-3 border-t border-white/10">
+              <div className="flex justify-end pt-3 border-t border-black/10 dark:border-white/10">
                 <button
                   type="button"
                   onClick={() => setIsBroadcastModalOpen(false)}
-                  className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Listo / Cerrar
                 </button>

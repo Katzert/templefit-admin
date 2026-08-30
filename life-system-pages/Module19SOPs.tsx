@@ -137,7 +137,7 @@ export function Module19SOPs() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 max-w-7xl mx-auto font-sans">
       
       {/* Header Visual */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-[#0a1128] via-black to-black p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-white p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <Zap size={180} />
         </div>
@@ -147,32 +147,32 @@ export function Module19SOPs() {
               Operaciones & Soporte
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
+          <h2 className="text-3xl md:text-4xl font-black text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
             <Zap className="text-temple-gold" size={32} />
             Guías Operativas & SOPs
           </h2>
-          <p className="text-xs md:text-sm text-gray-400 mt-1">
+          <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 mt-1">
             Protocolos en 3 pasos, campañas activas y atención de consultas de atletas.
           </p>
         </div>
         
         {/* Modern Tabs */}
-        <div className="relative z-10 flex bg-white/5 p-1.5 rounded-2xl border border-white/10 w-full md:w-auto">
+        <div className="relative z-10 flex bg-white dark:bg-black/5 dark:bg-white/5 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 w-full md:w-auto">
           <button 
             onClick={() => setActiveTab('playbooks')}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'playbooks' ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'playbooks' ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20' : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'}`}
           >
             <AlertOctagon size={16} /> Protocolos
           </button>
           <button 
             onClick={() => setActiveTab('marketing')}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'marketing' ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'marketing' ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'}`}
           >
             <Target size={16} /> Campañas
           </button>
           <button 
             onClick={() => setActiveTab('claims')}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'claims' ? 'bg-red-500 text-white shadow-lg shadow-red-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'claims' ? 'bg-red-500 text-white shadow-lg shadow-red-500/20' : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'}`}
           >
             <HelpCircle size={16} /> {pendingClaims.length > 0 && <span className="bg-white text-red-500 px-1.5 rounded-full text-[10px]">{pendingClaims.length}</span>} Consultas
           </button>
@@ -184,10 +184,10 @@ export function Module19SOPs() {
         {/* PLAYBOOKS TAB (Rule of 3) */}
         {activeTab === 'playbooks' && (
           <motion.div key="playbooks" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
+            <div className="flex justify-between items-center bg-white dark:bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
               <div>
-                <h3 className="text-lg font-black text-white uppercase tracking-wider">Protocolos en 3 Pasos</h3>
-                <p className="text-xs text-gray-400">Guías directas y sin rodeos para resolver cualquier situación en el gimnasio o campamento.</p>
+                <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Protocolos en 3 Pasos</h3>
+                <p className="text-xs text-slate-600 dark:text-gray-400">Guías directas y sin rodeos para resolver cualquier situación en el gimnasio o campamento.</p>
               </div>
               <button onClick={addSop} className="flex items-center gap-2 px-5 py-2.5 bg-temple-gold text-black rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-amber-400 transition shadow-lg shadow-temple-gold/20">
                 <Plus size={16} /> Nuevo Protocolo
@@ -196,8 +196,8 @@ export function Module19SOPs() {
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {sopsList.map((sop) => (
-                <Card key={sop.id} className="bg-[#0E1424] border-white/10 shadow-xl overflow-hidden hover:border-temple-gold/30 transition-all group">
-                  <div className="bg-gradient-to-r from-black/60 to-transparent p-5 border-b border-white/5 flex justify-between items-center">
+                <Card key={sop.id} className="bg-white dark:bg-[#0E1424] border-black/10 dark:border-white/10 shadow-xl overflow-hidden hover:border-temple-gold/30 transition-all group">
+                  <div className="bg-gradient-to-r from-black/60 to-transparent p-5 border-b border-black/5 dark:border-white/5 flex justify-between items-center">
                     <input 
                       value={sop.title} 
                       onChange={e => updateSop(sop.id, 'title', e.target.value)}
@@ -213,32 +213,32 @@ export function Module19SOPs() {
                   <CardContent className="p-0">
                     <div className="flex flex-col divide-y divide-white/5">
                       {/* Step 1 */}
-                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white/5 text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">1</div>
+                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
+                        <div className="w-8 h-8 rounded-full bg-white dark:bg-black/5 dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">1</div>
                         <textarea
                           value={sop.step1 || ''}
                           onChange={e => updateSop(sop.id, 'step1', e.target.value)}
-                          className="w-full bg-transparent text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
+                          className="w-full bg-transparent text-slate-900 dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
                           placeholder="Paso 1: Acción Inmediata"
                         />
                       </div>
                       {/* Step 2 */}
-                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white/5 text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">2</div>
+                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
+                        <div className="w-8 h-8 rounded-full bg-white dark:bg-black/5 dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">2</div>
                         <textarea
                           value={sop.step2 || ''}
                           onChange={e => updateSop(sop.id, 'step2', e.target.value)}
-                          className="w-full bg-transparent text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
+                          className="w-full bg-transparent text-slate-900 dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
                           placeholder="Paso 2: Resolución"
                         />
                       </div>
                       {/* Step 3 */}
-                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white/5 text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">3</div>
+                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
+                        <div className="w-8 h-8 rounded-full bg-white dark:bg-black/5 dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">3</div>
                         <textarea
                           value={sop.step3 || ''}
                           onChange={e => updateSop(sop.id, 'step3', e.target.value)}
-                          className="w-full bg-transparent text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
+                          className="w-full bg-transparent text-slate-900 dark:text-white focus:outline-none resize-y font-medium mt-1 leading-relaxed min-h-[80px]"
                           placeholder="Paso 3: Cierre o Seguimiento"
                         />
                       </div>
@@ -247,7 +247,7 @@ export function Module19SOPs() {
                 </Card>
               ))}
               {sopsList.length === 0 && (
-                <div className="col-span-full py-16 text-center text-gray-500 border border-dashed border-white/10 rounded-3xl">
+                <div className="col-span-full py-16 text-center text-slate-500 dark:text-gray-500 border border-dashed border-black/10 dark:border-white/10 rounded-3xl">
                   <AlertOctagon size={48} className="mx-auto mb-4 opacity-20" />
                   <p className="font-bold">No hay protocolos de combate activos.</p>
                 </div>
@@ -259,10 +259,10 @@ export function Module19SOPs() {
         {/* MARKETING TAB (Visual Posters) */}
         {activeTab === 'marketing' && (
           <motion.div key="marketing" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
+            <div className="flex justify-between items-center bg-white dark:bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
               <div>
-                <h3 className="text-lg font-black text-white uppercase tracking-wider">Iniciativas de Crecimiento</h3>
-                <p className="text-xs text-gray-400">Las grandes apuestas del mes.</p>
+                <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Iniciativas de Crecimiento</h3>
+                <p className="text-xs text-slate-600 dark:text-gray-400">Las grandes apuestas del mes.</p>
               </div>
               <button onClick={addMarketingTask} className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-blue-600 transition shadow-lg shadow-blue-500/20">
                 <Plus size={16} /> Nueva Iniciativa
@@ -271,7 +271,7 @@ export function Module19SOPs() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {marketingTasks.map((task) => (
-                <div key={task.id} className="relative group rounded-3xl overflow-hidden bg-gradient-to-br from-[#0a1128] to-black border border-white/10 shadow-2xl hover:border-blue-500/40 hover:shadow-blue-900/20 transition-all duration-300 flex flex-col">
+                <div key={task.id} className="relative group rounded-3xl overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-[#0a1128] dark:to-black text-temple-navy dark:text-white border border-black/10 dark:border-white/10 shadow-2xl hover:border-blue-500/40 hover:shadow-blue-900/20 transition-all duration-300 flex flex-col">
                   {/* Banner superior */}
                   <div className="min-h-[160px] h-auto bg-gradient-to-t from-black/80 to-blue-900/20 relative p-6 flex flex-col justify-between">
                     <div className="flex justify-between items-start relative z-20">
@@ -285,7 +285,7 @@ export function Module19SOPs() {
                       </div>
                       <button 
                         onClick={() => deleteItem('marketing', task.id)} 
-                        className="text-gray-600 hover:text-red-500 transition-colors bg-white/5 hover:bg-red-500/10 p-2 rounded-xl backdrop-blur-md" 
+                        className="text-gray-600 hover:text-red-500 transition-colors bg-black/5 dark:bg-white/5 hover:bg-red-500/10 p-2 rounded-xl backdrop-blur-md" 
                         title="Eliminar Iniciativa"
                       >
                         <Plus size={16} className="rotate-45" />
@@ -297,28 +297,28 @@ export function Module19SOPs() {
                     <textarea 
                       value={task.campaignName} 
                       onChange={e => updateMarketingTask(task.id, 'campaignName', e.target.value)}
-                      className="bg-transparent text-white font-black text-3xl md:text-4xl focus:outline-none w-full relative z-10 leading-[1.1] placeholder-white/20 resize-none overflow-hidden mt-4"
+                      className="bg-transparent text-slate-900 dark:text-white font-black text-3xl md:text-4xl focus:outline-none w-full relative z-10 leading-[1.1] placeholder-white/20 resize-none overflow-hidden mt-4"
                       rows={2}
                       placeholder="ESCRIBE TU TITULAR..."
                     />
                   </div>
                   
                   {/* Cuerpo */}
-                  <div className="p-6 flex-1 flex flex-col bg-black/40">
-                    <label className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
+                  <div className="p-6 flex-1 flex flex-col bg-slate-50 dark:bg-white dark:bg-black/40">
+                    <label className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
                       <Megaphone size={12} className="text-blue-500" /> Estrategia de Combate
                     </label>
                     <textarea
                       value={task.strategy}
                       onChange={e => updateMarketingTask(task.id, 'strategy', e.target.value)}
-                      className="w-full bg-transparent text-gray-300 text-sm min-h-[120px] focus:outline-none resize-y leading-relaxed"
+                      className="w-full bg-transparent text-slate-700 dark:text-gray-300 text-sm min-h-[120px] focus:outline-none resize-y leading-relaxed"
                       placeholder="Anota la premisa principal, el gancho o la estrategia de esta campaña..."
                     />
                   </div>
                 </div>
               ))}
               {marketingTasks.length === 0 && (
-                <div className="col-span-full py-16 text-center text-gray-500 border border-dashed border-white/10 rounded-3xl">
+                <div className="col-span-full py-16 text-center text-slate-500 dark:text-gray-500 border border-dashed border-black/10 dark:border-white/10 rounded-3xl">
                   <Target size={48} className="mx-auto mb-4 opacity-20" />
                   <p className="font-bold">No hay iniciativas de marketing.</p>
                 </div>
@@ -335,7 +335,7 @@ export function Module19SOPs() {
                 <h3 className="text-lg font-black text-red-400 uppercase tracking-wider flex items-center gap-2">
                   <AlertOctagon size={20} /> Fuego Cruzado (Reclamos)
                 </h3>
-                <p className="text-xs text-gray-400">La regla es simple: Lee, soluciona en la vida real, y dale al botón verde.</p>
+                <p className="text-xs text-slate-600 dark:text-gray-400">La regla es simple: Lee, soluciona en la vida real, y dale al botón verde.</p>
               </div>
               <button onClick={addClaim} className="flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-red-600 transition shadow-lg shadow-red-500/20">
                 <Plus size={16} /> Reportar Fuego
@@ -346,7 +346,7 @@ export function Module19SOPs() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <AnimatePresence>
                   {pendingClaims.map((ticket) => (
-                    <motion.div key={ticket.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9, x: -100 }} className="bg-gradient-to-r from-red-900/30 to-[#0a1128] border-l-4 border-l-red-500 border border-white/10 rounded-2xl p-6 flex flex-col shadow-2xl relative overflow-hidden group">
+                    <motion.div key={ticket.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9, x: -100 }} className="bg-gradient-to-r from-red-900/30 to-[#FBF9F5] dark:to-[#0a1128] border-l-4 border-l-red-500 border border-black/10 dark:border-white/10 rounded-2xl p-6 flex flex-col shadow-2xl relative overflow-hidden group">
                       <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                         <AlertOctagon size={100} className="text-red-500" />
                       </div>
@@ -360,27 +360,27 @@ export function Module19SOPs() {
                         </div>
                         
                         <div>
-                          <label className="text-[9px] uppercase tracking-widest text-gray-500 font-bold">Atleta / Involucrado</label>
+                          <label className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold">Atleta / Involucrado</label>
                           <input 
                             value={ticket.clientName} 
                             onChange={e => {
                               const updated = claimsTickets.map(t => t.id === ticket.id ? { ...t, clientName: e.target.value } : t);
                               saveToDb(undefined, undefined, updated);
                             }}
-                            className="bg-transparent text-white font-black text-xl focus:outline-none w-full border-b border-transparent focus:border-red-500/50 pb-1 placeholder-white/20"
+                            className="bg-transparent text-slate-900 dark:text-white font-black text-xl focus:outline-none w-full border-b border-transparent focus:border-red-500/50 pb-1 placeholder-white/20"
                             placeholder="Nombre..."
                           />
                         </div>
                         
                         <div className="flex-1">
-                          <label className="text-[9px] uppercase tracking-widest text-gray-500 font-bold">Descripción del Fuego</label>
+                          <label className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold">Descripción del Fuego</label>
                           <textarea 
                             value={ticket.issue} 
                             onChange={e => {
                               const updated = claimsTickets.map(t => t.id === ticket.id ? { ...t, issue: e.target.value } : t);
                               saveToDb(undefined, undefined, updated);
                             }}
-                            className="bg-transparent text-gray-300 text-sm focus:outline-none w-full min-h-[60px] resize-y mt-1 leading-relaxed"
+                            className="bg-transparent text-slate-700 dark:text-gray-300 text-sm focus:outline-none w-full min-h-[60px] resize-y mt-1 leading-relaxed"
                             placeholder="¿Qué pasó? Breve y al punto."
                           />
                         </div>
@@ -407,15 +407,15 @@ export function Module19SOPs() {
             {/* Historial Resuelto */}
             {resolvedClaims.length > 0 && (
               <div className="mt-12">
-                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <h4 className="text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
                   <CheckCircle2 size={14} /> Historial Resuelto (Últimos {resolvedClaims.length})
                 </h4>
                 <div className="flex flex-col gap-2 opacity-60">
                   {resolvedClaims.map(ticket => (
-                    <div key={ticket.id} className="bg-white/5 rounded-xl p-4 flex items-center justify-between border border-white/5">
+                    <div key={ticket.id} className="bg-white dark:bg-black/5 dark:bg-white/5 rounded-xl p-4 flex items-center justify-between border border-black/5 dark:border-white/5">
                       <div>
                         <span className="text-emerald-400 font-bold mr-3 line-through">{ticket.clientName}</span>
-                        <span className="text-gray-400 text-sm">{ticket.issue}</span>
+                        <span className="text-slate-600 dark:text-gray-400 text-sm">{ticket.issue}</span>
                       </div>
                       <button onClick={() => deleteItem('claims', ticket.id)} className="text-gray-600 hover:text-red-500 ml-4"><Plus className="rotate-45" size={16}/></button>
                     </div>

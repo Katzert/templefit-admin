@@ -16,29 +16,29 @@ export function HubFinances({ defaultSubTab = 'ledger' }: HubFinancesProps) {
   return (
     <div className="space-y-6 max-w-7xl mx-auto font-sans">
       {/* Top Consolidated Sub-Navigation */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-[#0E1424] via-[#0B0F19] to-black p-4 md:p-6 rounded-3xl border border-white/10 shadow-2xl">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-4 md:p-6 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-500/10">
             <DollarSign size={22} />
           </div>
           <div>
-            <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">
+            <h2 className="text-xl md:text-2xl font-black text-temple-navy dark:text-white uppercase tracking-wider">
               Finanzas & Corte 50/50
             </h2>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-slate-600 dark:text-gray-400">
               Libro diario de ingresos/gastos y balance ejecutivo semanal bajo la regla del semáforo
             </p>
           </div>
         </div>
 
         {/* Pill Selector */}
-        <div className="flex bg-black/60 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md">
+        <div className="flex bg-white dark:bg-black/5 dark:bg-black/60 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 backdrop-blur-md">
           <button
             onClick={() => setSubTab('ledger')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'ledger'
                 ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20 font-extrabold'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <FileText size={15} />
@@ -50,7 +50,7 @@ export function HubFinances({ defaultSubTab = 'ledger' }: HubFinancesProps) {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'corte'
                 ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20 font-extrabold'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <PieChart size={15} />
