@@ -493,19 +493,19 @@ export function Module2DailyLog() {
               <div className="flex flex-wrap bg-white dark:bg-black/5 dark:bg-black/60 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 backdrop-blur-md gap-1">
                 <button 
                   onClick={() => setEvaluationType('daily')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'daily' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'daily' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'}`}
                 >
                   <Clock size={12} /> 1. Diario Atleta
                 </button>
                 <button 
                   onClick={() => setEvaluationType('monthly')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'monthly' ? 'bg-temple-gold text-black font-extrabold shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'monthly' ? 'bg-temple-gold text-black font-extrabold shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'}`}
                 >
                   <Calendar size={12} /> 2. Calendario Mes
                 </button>
                 <button 
                   onClick={() => setEvaluationType('admin-habits')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'admin-habits' ? 'bg-emerald-500 text-black font-extrabold shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'admin-habits' ? 'bg-emerald-500 text-black font-extrabold shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'}`}
                 >
                   <ShieldCheck size={12} /> 3. Hábitos de Calidad (Admin)
                 </button>
@@ -742,13 +742,13 @@ export function Module2DailyLog() {
           >
             {/* Dashboard Analítico Mensual & Month Navigator */}
             <div className="flex items-center justify-between bg-slate-50 dark:bg-white dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-full px-6 py-3 shadow-xl w-fit mx-auto">
-              <button onClick={handlePrevMonth} className="text-slate-600 dark:text-gray-400 hover:text-white p-1 rounded-full transition-colors">
+              <button onClick={handlePrevMonth} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white p-1 rounded-full transition-colors">
                 <ChevronLeft size={22} />
               </button>
               <span className="text-sm font-black uppercase tracking-[0.2em] text-temple-gold min-w-[220px] text-center">
                 {formatMonthYear(viewingMonth)}
               </span>
-              <button onClick={handleNextMonth} className="text-slate-600 dark:text-gray-400 hover:text-white p-1 rounded-full transition-colors">
+              <button onClick={handleNextMonth} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white p-1 rounded-full transition-colors">
                 <ChevronRight size={22} />
               </button>
             </div>
@@ -809,7 +809,7 @@ export function Module2DailyLog() {
                             ) : (
                               <button 
                                 onClick={() => setIsEditingHistorical(false)} 
-                                className="text-[10px] uppercase font-bold text-slate-600 dark:text-gray-400 hover:text-white px-2 py-1"
+                                className="text-[10px] uppercase font-bold text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white px-2 py-1"
                               >
                                 Cancelar
                               </button>
@@ -819,7 +819,7 @@ export function Module2DailyLog() {
                                 setSelectedHistoricalDay(null);
                                 setIsEditingHistorical(false);
                               }} 
-                              className="text-slate-600 dark:text-gray-400 hover:text-white p-1 rounded-lg hover:bg-black/5 dark:bg-white/5"
+                              className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white p-1 rounded-lg hover:bg-black/5 dark:bg-white/5"
                             >
                               <X size={18} />
                             </button>

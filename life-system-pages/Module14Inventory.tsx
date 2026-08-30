@@ -145,18 +145,18 @@ export function Module14Inventory() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400 font-black">
-                <th className="pb-3 pr-4 font-black cursor-pointer hover:text-white" onClick={() => handleSort('name')}>
+                <th className="pb-3 pr-4 font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('name')}>
                   <div className="flex items-center gap-1.5">Ítem / Artículo <ArrowUpDown size={12}/></div>
                 </th>
-                <th className="pb-3 pr-4 font-black cursor-pointer hover:text-white" onClick={() => handleSort('category')}>
+                <th className="pb-3 pr-4 font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('category')}>
                   <div className="flex items-center gap-1.5">Categoría <ArrowUpDown size={12}/></div>
                 </th>
-                <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-white" onClick={() => handleSort('stock')}>
+                <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('stock')}>
                   <div className="flex items-center justify-end gap-1.5">Stock Actual <ArrowUpDown size={12}/></div>
                 </th>
                 <th className="pb-3 pr-4 text-right font-black">Stock Mín.</th>
                 <th className="pb-3 pr-4 text-right font-black">Costo Unit.</th>
-                <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-white" onClick={() => handleSort('price')}>
+                <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('price')}>
                   <div className="flex items-center justify-end gap-1.5">Precio Venta <ArrowUpDown size={12}/></div>
                 </th>
                 <th className="pb-3 pr-4 text-right font-black text-emerald-400">Margen Unit.</th>
@@ -246,7 +246,7 @@ export function Module14Inventory() {
                       exit={{ opacity: 0 }}
                       className="hover:bg-black/5 dark:bg-white/5 transition-colors group"
                     >
-                      <td className="py-4 pl-4 font-bold text-white group-hover:text-temple-gold transition-colors">
+                      <td className="py-4 pl-4 font-bold text-temple-navy dark:text-temple-navy dark:text-white group-hover:text-temple-gold transition-colors">
                         {item.name}
                       </td>
                       <td className="py-4 pl-4">
@@ -260,7 +260,7 @@ export function Module14Inventory() {
                           {item.category}
                         </span>
                       </td>
-                      <td className="py-4 pl-4 text-right tabular-nums font-black text-white">
+                      <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
                         {item.stock}
                       </td>
                       <td className="py-4 pl-4 text-right tabular-nums text-slate-600 dark:text-gray-400">
@@ -275,7 +275,7 @@ export function Module14Inventory() {
                       <td className="py-4 pl-4 text-right tabular-nums font-bold text-emerald-400">
                         +Bs. {unitMargin}
                       </td>
-                      <td className="py-4 pl-4 text-right tabular-nums font-black text-white">
+                      <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
                         Bs. {totalStockValue.toLocaleString()}
                       </td>
                       <td className="py-4 pl-4 text-center whitespace-nowrap">
@@ -291,7 +291,7 @@ export function Module14Inventory() {
                       </td>
                       <td className="py-4 pl-4 text-center">
                         <div className="flex items-center justify-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => startEditing(item)} className="p-1.5 text-slate-600 dark:text-gray-400 hover:text-white bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg transition-colors" title="Editar"><Edit3 size={14}/></button>
+                          <button onClick={() => startEditing(item)} className="p-1.5 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg transition-colors" title="Editar"><Edit3 size={14}/></button>
                           <button onClick={() => deleteItem(item.id)} className="p-1.5 text-slate-600 dark:text-gray-400 hover:text-red-400 bg-black/5 dark:bg-white/5 hover:bg-red-500/10 rounded-lg transition-colors" title="Eliminar"><Trash2 size={14}/></button>
                         </div>
                       </td>
@@ -302,11 +302,11 @@ export function Module14Inventory() {
             </tbody>
             {/* Totales Consolidados (Footer Excel) */}
             <tfoot>
-              <tr className="border-t border-black/10 dark:border-white/10 font-black text-white text-xs">
+              <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
                 <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums" colSpan={2}>
                   Totales ({filteredItems.length} ítems)
                 </td>
-                <td className="py-4 pl-4 text-right tabular-nums text-white">
+                <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-white">
                   {filteredItems.reduce((sum, i) => sum + i.stock, 0)} uds
                 </td>
                 <td className="py-4 pl-4 text-right tabular-nums text-slate-500 dark:text-gray-500">-</td>

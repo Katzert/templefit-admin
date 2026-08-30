@@ -147,7 +147,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
                             setSelectedStudent(student);
                             onNavigate?.('profile');
                           }}
-                          className="text-sm font-bold text-white group-hover:text-temple-gold cursor-pointer transition flex items-center gap-1.5"
+                          className="text-sm font-bold text-temple-navy dark:text-temple-navy dark:text-white group-hover:text-temple-gold cursor-pointer transition flex items-center gap-1.5"
                         >
                           {student.name}
                         </h4>
@@ -170,7 +170,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
                         {idx > 0 && (
                           <button
                             onClick={() => movePhase(student.id, idx === 1 ? '1 - Iniciación' : '2 - Desarrollo')}
-                            className="p-1.5 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-white rounded-lg transition text-[10px] flex items-center gap-1"
+                            className="p-1.5 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white rounded-lg transition text-[10px] flex items-center gap-1"
                             title="Retroceder Fase"
                           >
                             <ArrowLeft size={13} />

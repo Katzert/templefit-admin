@@ -133,7 +133,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
               </span>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white p-1 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
+                className="text-slate-400 hover:text-slate-900 dark:text-gray-400 dark:hover:text-temple-gold dark:hover:text-white p-1 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
                 aria-label="Cerrar búsqueda"
               >
                 <X size={14} />
@@ -265,7 +265,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <ShoppingBag size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-white group-hover:text-amber-400 transition-colors leading-tight">{inv.name}</p>
+                              <p className="text-xs font-black text-temple-navy dark:text-white group-hover:text-amber-400 transition-colors leading-tight">{inv.name}</p>
                               <p className="text-[10px] text-gray-400 mt-0.5">Stock: {inv.stock} • Bs. {inv.price}</p>
                             </div>
                           </div>
@@ -298,7 +298,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <BookOpen size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-white group-hover:text-purple-400 transition-colors leading-tight">{sop.title}</p>
+                              <p className="text-xs font-black text-temple-navy dark:text-white group-hover:text-purple-400 transition-colors leading-tight">{sop.title}</p>
                               <p className="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{sop.content ? `${sop.content.slice(0, 45)}...` : ''}</p>
                             </div>
                           </div>

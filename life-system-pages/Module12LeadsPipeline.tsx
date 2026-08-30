@@ -260,7 +260,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                 <select 
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as any)}
-                  className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer"
+                  className="bg-transparent text-xs font-bold text-temple-navy dark:text-white focus:outline-none cursor-pointer"
                 >
                   <option className="bg-white dark:bg-[#0E1424] text-white" value="todos">Estado: Todos</option>
                   <option className="bg-white dark:bg-[#0E1424] text-white" value="new">Nuevos</option>
@@ -289,7 +289,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   {filteredLeads.map(lead => (
                     <tr key={lead.id} className="hover:bg-black/5 dark:bg-white/5 transition group">
                       <td className="py-4 pl-4">
-                        <p className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-temple-gold transition">{lead.name}</p>
+                        <p className="text-sm font-bold text-slate-800 dark:text-temple-navy dark:text-white group-hover:text-temple-gold transition">{lead.name}</p>
                         <p className="text-xs text-slate-600 dark:text-gray-400 tabular-nums">{lead.phone}</p>
                       </td>
                       <td className="py-4">
@@ -302,7 +302,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                         <select
                           value={lead.status}
                           onChange={(e) => updateLeadStatus(lead.id, e.target.value as LocalLeadStatus)}
-                          className="bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-xs font-bold text-white rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-temple-gold/50 cursor-pointer"
+                          className="bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-xs font-bold text-temple-navy dark:text-white rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-temple-gold/50 cursor-pointer"
                         >
                           <option className="bg-white dark:bg-[#121826]" value="new">Nuevo</option>
                           <option className="bg-white dark:bg-[#121826]" value="contacted">Contactado</option>
@@ -340,7 +340,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
 
                           <button
                             onClick={() => handleOpenEditModal(lead)}
-                            className="p-2 text-slate-600 dark:text-gray-400 hover:text-white bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg transition"
+                            className="p-2 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg transition"
                             title="Editar Prospecto"
                           >
                             <Edit3 size={15} />
@@ -377,7 +377,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-white text-xs">
+                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
                     <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredLeads.length} Prospectos
                     </td>
@@ -420,7 +420,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     {editingLeadId ? 'Editar Prospecto' : 'Nuevo Prospecto'}
                   </h3>
                 </div>
-                <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white transition">
+                <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white transition">
                   <X size={20} />
                 </button>
               </div>
@@ -432,7 +432,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     type="text" 
                     required
                     placeholder="Ej. Andrés Morales"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.name}
                     onChange={e => setLeadForm({ ...leadForm, name: e.target.value })}
                   />
@@ -444,7 +444,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     type="text" 
                     required
                     placeholder="+591 71234567"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.phone}
                     onChange={e => setLeadForm({ ...leadForm, phone: e.target.value })}
                   />
@@ -454,7 +454,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Canal de Origen</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
                       value={leadForm.source}
                       onChange={e => setLeadForm({ ...leadForm, source: e.target.value as any })}
                     >
@@ -468,7 +468,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Estado</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
                       value={leadForm.status}
                       onChange={e => setLeadForm({ ...leadForm, status: e.target.value as any })}
                     >
@@ -487,7 +487,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <textarea 
                     rows={2}
                     placeholder="Interesado en Reto 21 Días, Crossfit o Neuro-Ventas..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.notes}
                     onChange={e => setLeadForm({ ...leadForm, notes: e.target.value })}
                   />
@@ -497,7 +497,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-gray-400 hover:text-white uppercase tracking-wider transition"
+                    className="px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white uppercase tracking-wider transition"
                   >
                     Cancelar
                   </button>

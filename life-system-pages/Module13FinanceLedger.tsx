@@ -302,7 +302,7 @@ export function Module13FinanceLedger() {
                     <select
                       value={newTx.type}
                       onChange={e => setNewTx({ ...newTx, type: e.target.value as any })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     >
                       <option className="bg-white dark:bg-[#121826]" value="income">Ingreso (+)</option>
                       <option className="bg-white dark:bg-[#121826]" value="expense">Egreso (-)</option>
@@ -314,7 +314,7 @@ export function Module13FinanceLedger() {
                     <select
                       value={newTx.category}
                       onChange={e => setNewTx({ ...newTx, category: e.target.value as any })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     >
                       <option className="bg-white dark:bg-[#121826]" value="membership">Membresía / Reto 21 Días</option>
                       <option className="bg-white dark:bg-[#121826]" value="courses">Cursos / E.A.G.E. / Neuro-Ventas</option>
@@ -334,7 +334,7 @@ export function Module13FinanceLedger() {
                       placeholder="Ej. 200"
                       value={newTx.amount}
                       onChange={e => setNewTx({ ...newTx, amount: e.target.value })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     />
                   </div>
 
@@ -344,7 +344,7 @@ export function Module13FinanceLedger() {
                       type="date"
                       value={newTx.date}
                       onChange={e => setNewTx({ ...newTx, date: e.target.value })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     />
                   </div>
 
@@ -423,7 +423,7 @@ export function Module13FinanceLedger() {
                   <select 
                     value={typeFilter}
                     onChange={e => setTypeFilter(e.target.value as any)}
-                    className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer"
+                    className="bg-transparent text-xs font-bold text-temple-navy dark:text-white focus:outline-none cursor-pointer"
                   >
                     <option className="bg-white dark:bg-[#0E1424]" value="todos">Tipo: Todos</option>
                     <option className="bg-white dark:bg-[#0E1424]" value="income">Ingresos (+)</option>
@@ -435,7 +435,7 @@ export function Module13FinanceLedger() {
                   <select 
                     value={categoryFilter}
                     onChange={e => setCategoryFilter(e.target.value)}
-                    className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer"
+                    className="bg-transparent text-xs font-bold text-temple-navy dark:text-white focus:outline-none cursor-pointer"
                   >
                     <option className="bg-white dark:bg-[#0E1424]" value="todos">Categoría: Todas</option>
                     <option className="bg-white dark:bg-[#0E1424]" value="membership">Membresías</option>
@@ -526,7 +526,7 @@ export function Module13FinanceLedger() {
                           <span className="text-xs tabular-nums font-bold text-slate-700 dark:text-gray-300">{tx.date}</span>
                         </td>
                         <td className="py-4">
-                          <p className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-temple-gold transition">{tx.description}</p>
+                          <p className="text-sm font-bold text-slate-800 dark:text-temple-navy dark:text-white group-hover:text-temple-gold transition">{tx.description}</p>
                         </td>
                         <td className="py-4">
                           <span className="text-[10px] uppercase font-bold tracking-wider text-temple-gold px-2.5 py-1 bg-black/5 dark:bg-white/5 rounded-full border border-black/10 dark:border-white/10">
@@ -543,7 +543,7 @@ export function Module13FinanceLedger() {
                           <div className="flex items-center justify-center gap-1.5">
                             <button 
                               onClick={() => startEditing(tx)} 
-                              className="p-2 text-slate-600 dark:text-gray-400 hover:text-white bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg transition"
+                              className="p-2 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg transition"
                               title="Editar Asiento"
                             >
                               <Edit3 size={15} />
@@ -570,7 +570,7 @@ export function Module13FinanceLedger() {
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-white text-xs">
+                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
                     <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredTransactions.length} Asientos
                     </td>

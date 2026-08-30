@@ -187,7 +187,7 @@ export function Module40CorteEjecutivo() {
                 <div>
                   <p className="text-xs text-slate-600 dark:text-gray-400 uppercase tracking-widest font-bold">{stat.title}</p>
                   <div className="flex items-end gap-2 mt-1">
-                    <span className="text-2xl font-black text-white">{stat.value}</span>
+                    <span className="text-2xl font-black text-temple-navy dark:text-white">{stat.value}</span>
                   </div>
                 </div>
               </CardContent>
@@ -207,7 +207,7 @@ export function Module40CorteEjecutivo() {
               <p className="text-[10px] text-slate-600 dark:text-gray-400">Desglose analítico de unidades de negocio</p>
             </div>
           </div>
-          <button className="flex items-center gap-1.5 px-3 py-1.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-lg text-[10px] uppercase font-bold text-slate-700 dark:text-gray-300 hover:text-white hover:bg-black/10 dark:bg-white/10 transition">
+          <button className="flex items-center gap-1.5 px-3 py-1.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-lg text-[10px] uppercase font-bold text-slate-700 dark:text-gray-300 hover:text-temple-gold dark:hover:text-white hover:bg-black/10 dark:bg-white/10 transition">
             <Download size={14} />
             Exportar XLS
           </button>
@@ -229,7 +229,7 @@ export function Module40CorteEjecutivo() {
             <tbody className="divide-y divide-white/5">
               {categoryBreakdown.map((row) => (
                 <tr key={row.area} className="hover:bg-black/5 dark:bg-white/5 transition-colors">
-                  <td className="py-4 pl-4 font-bold text-white flex items-center gap-2">
+                  <td className="py-4 pl-4 font-bold text-temple-navy dark:text-white flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-temple-gold shrink-0" />
                     <span>{row.area}</span>
                   </td>
@@ -242,7 +242,7 @@ export function Module40CorteEjecutivo() {
                   <td className="py-4 pl-4 text-right tabular-nums text-red-400">
                     Bs. {row.actualExpense.toLocaleString('es-BO')}
                   </td>
-                  <td className="py-4 pl-4 text-right tabular-nums font-black text-white">
+                  <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
                     Bs. {row.netMargin.toLocaleString('es-BO')}
                   </td>
                   <td className="py-4 pl-4 text-center">
@@ -257,7 +257,7 @@ export function Module40CorteEjecutivo() {
               ))}
             </tbody>
             <tfoot>
-              <tr className="border-t border-black/10 dark:border-white/10 text-xs font-black text-white">
+              <tr className="border-t border-black/10 dark:border-white/10 text-xs font-black text-temple-navy dark:text-white">
                 <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold font-serif">
                   TOTALES CONSOLIDADOS
                 </td>
@@ -270,7 +270,7 @@ export function Module40CorteEjecutivo() {
                 <td className="py-4 pl-4 text-right tabular-nums text-red-400">
                   Bs. {kpis.expense.toLocaleString('es-BO')}
                 </td>
-                <td className="py-4 pl-4 text-right tabular-nums text-white text-sm font-black">
+                <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-white text-sm font-black">
                   Bs. {net.toLocaleString('es-BO')}
                 </td>
                 <td className="py-4 pl-4 text-center">
@@ -353,7 +353,7 @@ export function Module40CorteEjecutivo() {
                 {board.goals.map((goal, i) => (
                   <div key={goal.area} className="bg-white dark:bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
                     <div className="flex justify-between items-center mb-2 gap-3">
-                      <span className="text-sm font-bold text-white uppercase tracking-wider">{goal.area}</span>
+                      <span className="text-sm font-bold text-temple-navy dark:text-white uppercase tracking-wider">{goal.area}</span>
                       <input
                         type="number"
                         min={0}
@@ -490,7 +490,7 @@ export function Module40CorteEjecutivo() {
                 {kpis.squads.map((squad, i) => (
                   <div key={i} className="bg-white dark:bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-bold text-white">{squad.name}</span>
+                      <span className="text-sm font-bold text-temple-navy dark:text-white">{squad.name}</span>
                       <span className="text-xs font-black text-slate-700 dark:text-gray-300">{squad.progress}%</span>
                     </div>
                     <div className="w-full bg-slate-100 dark:bg-white dark:bg-black/50 rounded-full h-2 overflow-hidden">

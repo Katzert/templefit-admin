@@ -108,7 +108,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <p className="text-[9px] text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em] font-extrabold">Panel de Control</p>
             </div>
           </div>
-          <button className="md:hidden text-amber-700 dark:text-temple-gold hover:text-slate-900 dark:hover:text-white transition p-1" onClick={() => setSidebarOpen(false)} aria-label="Cerrar barra lateral">
+          <button className="md:hidden text-amber-700 dark:text-temple-gold hover:text-slate-900 dark:hover:text-temple-gold dark:hover:text-white transition p-1" onClick={() => setSidebarOpen(false)} aria-label="Cerrar barra lateral">
             <X size={22} />
           </button>
         </div>
@@ -119,7 +119,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             {onBackToWeb && (
               <button
                 onClick={onBackToWeb}
-                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-temple-gold bg-amber-500/10 dark:bg-temple-gold/10 border border-amber-500/30 dark:border-temple-gold/30 hover:bg-amber-600 hover:text-white dark:hover:bg-temple-gold dark:hover:text-black transition-all duration-200 mb-2 group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-temple-gold bg-amber-500/10 dark:bg-temple-gold/10 border border-amber-500/30 dark:border-temple-gold/30 hover:bg-amber-600 hover:text-temple-gold dark:hover:text-white dark:hover:bg-temple-gold dark:hover:text-black transition-all duration-200 mb-2 group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
               >
                 <div className="flex items-center gap-2">
                   <Globe size={16} />
@@ -133,7 +133,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               href="https://katzert.github.io/templefit-wiki/"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-temple-gold bg-amber-500/10 dark:bg-temple-gold/10 border border-amber-500/30 dark:border-temple-gold/30 hover:bg-amber-600 hover:text-white dark:hover:bg-temple-gold dark:hover:text-black transition-all duration-200 mb-2 group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-temple-gold bg-amber-500/10 dark:bg-temple-gold/10 border border-amber-500/30 dark:border-temple-gold/30 hover:bg-amber-600 hover:text-temple-gold dark:hover:text-white dark:hover:bg-temple-gold dark:hover:text-black transition-all duration-200 mb-2 group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
             >
               <div className="flex items-center gap-2">
                 <ClipboardList size={16} />
@@ -166,7 +166,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                         className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold ${
                           isActive
                             ? 'bg-amber-500/15 dark:bg-gradient-to-r dark:from-temple-gold/20 dark:to-amber-500/10 text-amber-950 dark:text-white border border-amber-500/30 dark:border-temple-gold/40 shadow-sm font-bold'
-                            : 'text-slate-600 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
+                            : 'text-slate-600 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-temple-gold dark:hover:text-white'
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -339,7 +339,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setActiveTab('finance')}
-                  className="px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-emerald-600 hover:text-temple-gold dark:hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   title="Nuevo Asiento Contable"
                 >
                   <DollarSign size={13} />
@@ -347,7 +347,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                 </button>
                 <button
                   onClick={() => setActiveTab('pipeline')}
-                  className="px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-blue-500/40 text-blue-700 dark:text-blue-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-blue-600 hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-blue-500/40 text-blue-700 dark:text-blue-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-blue-600 hover:text-temple-gold dark:hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   title="Nuevo Prospecto"
                 >
                   <Briefcase size={13} />

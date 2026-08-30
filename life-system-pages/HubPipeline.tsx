@@ -39,7 +39,7 @@ export function HubPipeline({ onNavigate, defaultSubTab = 'leads' }: HubPipeline
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'leads'
                 ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20 font-extrabold'
-                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <UserPlus size={15} />
@@ -51,7 +51,7 @@ export function HubPipeline({ onNavigate, defaultSubTab = 'leads' }: HubPipeline
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'phases'
                 ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 font-extrabold'
-                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <Kanban size={15} />

@@ -13,15 +13,6 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  const triggerThemeChange = (nextTheme: string) => {
-    const root = document.documentElement;
-    root.classList.add("theme-transition");
-    setTheme(nextTheme);
-    setTimeout(() => {
-      root.classList.remove("theme-transition");
-    }, 260);
-  };
-
   if (!mounted) {
     return (
       <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 opacity-40" />
@@ -32,8 +23,8 @@ export function ThemeToggle() {
 
   return (
     <button
-      onClick={() => triggerThemeChange(isDark ? "light" : "dark")}
-      className="relative w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:border-temple-gold/40 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 flex items-center justify-center overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold shadow-sm"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="relative w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:border-temple-gold/40 hover:bg-black/10 dark:hover:bg-white/10 flex items-center justify-center overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold shadow-sm"
       aria-label="Alternar modo claro y oscuro"
       title={isDark ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
     >
@@ -65,4 +56,3 @@ export function ThemeToggle() {
     </button>
   );
 }
-

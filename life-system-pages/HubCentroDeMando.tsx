@@ -39,7 +39,7 @@ export function HubCentroDeMando({ onNavigate, defaultSubTab = 'home' }: HubCent
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'home'
                 ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20 font-extrabold'
-                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <Home size={14} />
@@ -51,7 +51,7 @@ export function HubCentroDeMando({ onNavigate, defaultSubTab = 'home' }: HubCent
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'daily'
                 ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20 font-extrabold'
-                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <Activity size={14} />
@@ -63,7 +63,7 @@ export function HubCentroDeMando({ onNavigate, defaultSubTab = 'home' }: HubCent
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'sops'
                 ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 font-extrabold'
-                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <BookOpen size={14} />
@@ -75,7 +75,7 @@ export function HubCentroDeMando({ onNavigate, defaultSubTab = 'home' }: HubCent
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'content'
                 ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20 font-extrabold'
-                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <Share2 size={14} />

@@ -229,7 +229,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <button
                   type="button"
                   onClick={() => { setStatusFilter('all'); setPhaseFilter('all'); }}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${statusFilter === 'all' && phaseFilter === 'all' ? 'bg-temple-gold text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/10 dark:bg-white/10'}`}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${statusFilter === 'all' && phaseFilter === 'all' ? 'bg-temple-gold text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/10 dark:bg-white/10'}`}
                 >
                   Todos ({localStudents.length})
                 </button>
@@ -329,7 +329,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                             )}
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-temple-gold transition">{student.name}</p>
+                            <p className="text-sm font-bold text-slate-800 dark:text-temple-navy dark:text-white group-hover:text-temple-gold transition">{student.name}</p>
                             <p className="text-[11px] text-slate-600 dark:text-gray-400">
                               Escuadrón: <span className="text-temple-gold font-bold">{student.escuadronId || 'Paz-Alfa'}</span>
                             </p>
@@ -412,7 +412,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-white text-xs">
+                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
                     <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredStudents.length} Atletas
                     </td>
@@ -459,7 +459,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <p className="text-xs text-slate-600 dark:text-gray-400">Crea el expediente holístico de 3 pilares.</p>
                   </div>
                 </div>
-                <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white transition">
+                <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white transition">
                   <X size={20} />
                 </button>
               </div>
@@ -502,7 +502,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       type="text" 
                       required
                       placeholder="Ej. Juan Pérez"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.name}
                       onChange={e => setNewAthlete({ ...newAthlete, name: e.target.value })}
                     />
@@ -513,7 +513,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       type="text" 
                       required
                       placeholder="+591 70012345"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.phone}
                       onChange={e => setNewAthlete({ ...newAthlete, phone: e.target.value })}
                     />
@@ -526,7 +526,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <input 
                       type="text" 
                       placeholder="Ej. Alfa-1, Gedeón-2..."
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.escuadronId}
                       onChange={e => setNewAthlete({ ...newAthlete, escuadronId: e.target.value })}
                     />
@@ -534,7 +534,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Fase del Programa</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.phase}
                       onChange={e => setNewAthlete({ ...newAthlete, phase: e.target.value as any })}
                     >
@@ -549,7 +549,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Plan de Membresía</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.plan}
                       onChange={e => setNewAthlete({ ...newAthlete, plan: e.target.value as any })}
                     >
@@ -564,7 +564,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <input 
                       type="number" 
                       placeholder="70"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.weightKg}
                       onChange={e => setNewAthlete({ ...newAthlete, weightKg: Number(e.target.value) })}
                     />
@@ -576,7 +576,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <input 
                     type="text" 
                     placeholder="Ej. Bajar 5kg de grasa, ganar fuerza en calistenia..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={newAthlete.physicalGoal}
                     onChange={e => setNewAthlete({ ...newAthlete, physicalGoal: e.target.value })}
                   />
@@ -587,7 +587,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <input 
                     type="text" 
                     placeholder="Ej. Hábito de oración matutina y vencer el estrés..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={newAthlete.spiritualIntention}
                     onChange={e => setNewAthlete({ ...newAthlete, spiritualIntention: e.target.value })}
                   />
@@ -597,7 +597,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-gray-400 hover:text-white uppercase tracking-wider transition"
+                    className="px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white uppercase tracking-wider transition"
                   >
                     Cancelar
                   </button>
@@ -636,7 +636,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setIsRetentionModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white p-1">
+                <button onClick={() => setIsRetentionModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white p-1">
                   <X size={20} />
                 </button>
               </div>
@@ -713,7 +713,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setIsBatchModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white p-1">
+                <button onClick={() => setIsBatchModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white p-1">
                   <X size={20} />
                 </button>
               </div>
@@ -786,7 +786,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setIsBroadcastModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white p-1">
+                <button onClick={() => setIsBroadcastModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white p-1">
                   <X size={20} />
                 </button>
               </div>
@@ -800,7 +800,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all ${
                       selectedBroadcastSquad === squad
                         ? 'bg-temple-gold text-black font-extrabold shadow-md'
-                        : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-white'
+                        : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'
                     }`}
                   >
                     Escuadrón {squad}

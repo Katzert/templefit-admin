@@ -363,7 +363,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                   >
                     <span className="text-2xl p-2 rounded-xl bg-black/5 dark:bg-white/5 group-hover:scale-110 transition-transform">{action.emoji}</span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-temple-gold transition truncate">{action.title}</p>
+                      <p className="text-sm font-bold text-slate-800 dark:text-temple-navy dark:text-white group-hover:text-temple-gold transition truncate">{action.title}</p>
                       <p className="text-xs text-slate-500 dark:text-gray-500 truncate">{action.desc}</p>
                     </div>
                     <ArrowRight size={14} className="text-gray-600 group-hover:text-temple-gold group-hover:translate-x-1 transition-all" />

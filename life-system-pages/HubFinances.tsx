@@ -38,7 +38,7 @@ export function HubFinances({ defaultSubTab = 'ledger' }: HubFinancesProps) {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'ledger'
                 ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20 font-extrabold'
-                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <FileText size={15} />
@@ -50,7 +50,7 @@ export function HubFinances({ defaultSubTab = 'ledger' }: HubFinancesProps) {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               subTab === 'corte'
                 ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20 font-extrabold'
-                : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
             }`}
           >
             <PieChart size={15} />

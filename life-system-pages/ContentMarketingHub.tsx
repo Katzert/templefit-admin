@@ -166,7 +166,7 @@ export function ContentMarketingHub() {
                 className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
                   hubView === 'content'
                     ? 'bg-temple-gold text-black font-extrabold shadow-md'
-                    : 'text-slate-600 dark:text-gray-400 hover:text-white'
+                    : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'
                 }`}
               >
                 1. Banco de Redes (90D)
@@ -176,7 +176,7 @@ export function ContentMarketingHub() {
                 className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
                   hubView === 'annual-roadmap'
                     ? 'bg-emerald-500 text-black font-extrabold shadow-md'
-                    : 'text-slate-600 dark:text-gray-400 hover:text-white'
+                    : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'
                 }`}
               >
                 2. Plan Anual (Mes 1 a 12)
@@ -210,11 +210,11 @@ export function ContentMarketingHub() {
                 {folder.icon}
               </div>
               <div>
-                <h4 className="text-xs font-bold text-temple-navy dark:text-white group-hover:text-temple-gold transition line-clamp-1">{folder.name}</h4>
+                <h4 className="text-xs font-bold text-temple-navy dark:text-temple-navy dark:text-white group-hover:text-temple-gold transition line-clamp-1">{folder.name}</h4>
                 <p className="text-[10px] text-slate-500 dark:text-gray-500 font-medium">{folder.count}</p>
               </div>
             </div>
-            <ExternalLink size={14} className="text-slate-500 dark:text-gray-500 group-hover:text-white transition" />
+            <ExternalLink size={14} className="text-slate-500 dark:text-gray-500 group-hover:text-temple-gold dark:hover:text-white transition" />
           </a>
         ))}
       </motion.div>
@@ -292,7 +292,7 @@ export function ContentMarketingHub() {
                   className={`flex-1 md:flex-none px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
                     selectedMonth === m.index
                       ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20 font-extrabold'
-                      : 'text-slate-600 dark:text-gray-400 hover:text-white hover:bg-black/5 dark:bg-white/5'
+                      : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
                   }`}
                 >
                   {m.label}
@@ -329,7 +329,7 @@ export function ContentMarketingHub() {
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
               pillarFilter === p.id
                 ? 'bg-white/20 text-white border border-white/30'
-                : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-white border border-transparent'
+                : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white border border-transparent'
             }`}
           >
             {p.label}
@@ -353,7 +353,7 @@ export function ContentMarketingHub() {
                     </span>
                   )}
                 </div>
-                <CardTitle className="text-base font-bold text-white leading-snug">
+                <CardTitle className="text-base font-bold text-temple-navy dark:text-temple-navy dark:text-white leading-snug">
                   {post.title}
                 </CardTitle>
               </CardHeader>
@@ -394,7 +394,7 @@ export function ContentMarketingHub() {
 
                   <button
                     onClick={() => handleCopyText(post.id, `${post.title}\n\n${post.hookAndStory}\n\n${post.callToAction}`)}
-                    className="px-3 py-1.5 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg text-xs font-bold text-slate-700 dark:text-gray-300 hover:text-white transition flex items-center gap-1.5"
+                    className="px-3 py-1.5 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 rounded-lg text-xs font-bold text-slate-700 dark:text-gray-300 hover:text-temple-gold dark:hover:text-white transition flex items-center gap-1.5"
                   >
                     {copiedId === post.id ? (
                       <>
@@ -426,7 +426,7 @@ export function ContentMarketingHub() {
                 <Plus className="text-temple-gold" size={20} />
                 Nuevo Guion / Contenido
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-white">
+              <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white">
                 <X size={20} />
               </button>
             </div>
@@ -528,7 +528,7 @@ export function ContentMarketingHub() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-white rounded-xl font-bold uppercase text-xs"
+                  className="px-4 py-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white rounded-xl font-bold uppercase text-xs"
                 >
                   Cancelar
                 </button>

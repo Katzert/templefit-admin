@@ -12,7 +12,7 @@ const buttonVariants = cva(
         destructive: "bg-temple-red text-white hover:bg-temple-red/90",
         outline: "border border-temple-gold/50 bg-transparent text-temple-gold hover:bg-temple-gold/10",
         secondary: "bg-white dark:bg-temple-navy text-white hover:bg-white/80 dark:bg-temple-navy/80",
-        ghost: "hover:bg-white dark:bg-temple-navy hover:text-white",
+        ghost: "hover:bg-white dark:bg-temple-navy hover:text-temple-gold dark:hover:text-white",
         link: "text-temple-gold underline-offset-4 hover:underline",
       },
       size: {
