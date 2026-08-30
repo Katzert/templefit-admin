@@ -417,7 +417,7 @@ export function Module19SOPs() {
                         <span className="text-emerald-400 font-bold mr-3 line-through">{ticket.clientName}</span>
                         <span className="text-slate-600 dark:text-gray-400 text-sm">{ticket.issue}</span>
                       </div>
-                      <button onClick={() => deleteItem('claims', ticket.id)} className="text-gray-600 hover:text-red-500 ml-4"><Plus className="rotate-45" size={16}/></button>
+                      <button onClick={() => deleteItem('claims', ticket.id)} aria-label="Eliminar reclamo resuelto" className="text-gray-600 hover:text-red-500 ml-4"><Plus className="rotate-45" size={16}/></button>
                     </div>
                   ))}
                 </div>

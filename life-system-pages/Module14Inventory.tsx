@@ -229,8 +229,8 @@ export function Module14Inventory() {
                         </td>
                         <td className="p-3 text-center">
                           <div className="flex items-center justify-center gap-1.5">
-                            <button onClick={saveEdit} className="p-1.5 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 font-bold transition shadow-sm"><Save size={14}/></button>
-                            <button onClick={() => setEditingId(null)} className="p-1.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"><X size={14}/></button>
+                            <button onClick={saveEdit} aria-label="Guardar cambios" className="p-1.5 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 font-bold transition shadow-sm"><Save size={14}/></button>
+                            <button onClick={() => setEditingId(null)} aria-label="Cancelar edición" className="p-1.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"><X size={14}/></button>
                           </div>
                         </td>
                       </motion.tr>

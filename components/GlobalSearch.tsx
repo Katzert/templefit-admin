@@ -124,10 +124,10 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full left-0 md:right-0 mt-3 w-80 sm:w-96 md:w-[480px] bg-white dark:bg-[#0E1424] border border-black/10 dark:border-temple-gold/30 rounded-3xl shadow-2xl overflow-hidden max-h-[420px] overflow-y-auto custom-scrollbar z-50 backdrop-blur-2xl text-slate-900 dark:text-temple-navy dark:text-white"
+            className="absolute top-full left-0 md:right-0 mt-3 w-80 sm:w-96 md:w-[480px] max-w-[92vw] bg-white dark:bg-[#0E1424] border border-black/10 dark:border-temple-gold/30 rounded-3xl shadow-2xl overflow-hidden max-h-[420px] overflow-y-auto custom-scrollbar z-50 backdrop-blur-2xl text-temple-navy dark:text-white"
           >
             {/* Header info */}
-            <div className="px-4 py-3 bg-white dark:bg-black/[0.03] dark:bg-black/40 border-b border-black/5 dark:border-white/10 flex items-center justify-between">
+            <div className="px-4 py-3 bg-black/[0.02] dark:bg-white/5 border-b border-black/5 dark:border-white/10 flex items-center justify-between">
               <span className="text-[10px] font-black uppercase tracking-widest text-amber-800 dark:text-temple-gold">
                 Resultados Globales ({searchResults?.totalCount || 0})
               </span>

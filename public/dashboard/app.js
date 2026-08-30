@@ -236,10 +236,10 @@ function setupProfitSimulator() {
             div.innerHTML = `
                 <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 rounded-sm" style="background:${cat.color}"></div>
-                    <span class="text-[10px] font-bold uppercase text-white/80">${cat.name}</span>
+                    <span class="text-[10px] font-bold uppercase text-slate-700 dark:text-white/80">${cat.name}</span>
                 </div>
                 <div class="text-right">
-                    <span class="text-[11px] font-black text-white block">${Math.round(cat.amount).toLocaleString()} Bs.</span>
+                    <span class="text-[11px] font-black text-temple-navy dark:text-white block">${Math.round(cat.amount).toLocaleString()} Bs.</span>
                     <span class="text-[9px] text-temple-gold font-bold">${percentage}%</span>
                 </div>
             `;
@@ -258,12 +258,12 @@ function setupCorrectionForm() {
     financialData.forEach((row, i) => {
         const val = Math.round(parseVal(row['Total Ingresos']));
         const div = document.createElement('div');
-        div.className = 'bg-white/5 p-4 border-l-2 border-temple-gold/30 hover:border-temple-gold transition-all';
+        div.className = 'bg-black/5 dark:bg-white/5 p-4 border-l-2 border-temple-gold/30 hover:border-temple-gold transition-all';
         div.innerHTML = `
             <label class="text-[10px] uppercase font-bold text-temple-gold mb-1 block opacity-60">${row.Mes} 2026</label>
-            <div class="flex items-center border-b border-white/10 pb-1">
-                <span class="text-white/40 text-xs mr-2 font-bold">Bs.</span>
-                <input type="number" id="input-month-${i}" value="${val}" class="bg-transparent text-white font-bold text-xl w-full focus:outline-none"
+            <div class="flex items-center border-b border-black/10 dark:border-white/10 pb-1">
+                <span class="text-slate-400 dark:text-white/40 text-xs mr-2 font-bold">Bs.</span>
+                <input type="number" id="input-month-${i}" value="${val}" class="bg-transparent text-temple-navy dark:text-white font-bold text-xl w-full focus:outline-none"
                        oninput="updateData(${i}, this.value)">
             </div>
         `;
