@@ -4,6 +4,7 @@ import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, U
 import { useAuth } from '../context/AuthContext';
 import { GlobalSearch } from '../components/GlobalSearch';
 import { ThemeToggle } from '../components/ThemeToggle';
+import AccessibilityWidget from '../components/AccessibilityWidget';
 import { syncFromCloud, getCRMDatabase } from '../store';
 import type { ReactNode } from 'react';
 
@@ -382,6 +383,9 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
           </AnimatePresence>
         </div>
       </main>
+
+      {/* Floating Accessibility Widget */}
+      <AccessibilityWidget />
     </div>
   );
 }
