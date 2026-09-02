@@ -37,26 +37,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [students, setStudents] = useState<Student[]>([]);
 
   useEffect(() => {
-    const db = getCRMDatabase();
-    setStudents(db.students || []);
+    try {
+      const db = getCRMDatabase();
+      setStudents(db.students || []);
 
-    const savedUser = localStorage.getItem('templefit_user');
-    const savedStudent = localStorage.getItem('templefit_selected_student');
-    
-    if (savedUser) {
-      const parsedUser = JSON.parse(savedUser) as User;
-      // Safety check: if an old 'alumno' session exists, log them out
-      if ((parsedUser.role as any) === 'alumno') {
-        localStorage.removeItem('templefit_user');
-        return;
+      if (typeof window !== 'undefined') {
+        const savedUser = localStorage.getItem('templefit_user');
+        const savedStudent = localStorage.getItem('templefit_selected_student');
+        
+        if (savedUser) {
+          try {
+            const parsedUser = JSON.parse(savedUser) as User;
+            // Safety check: if an old 'alumno' session exists, log them out
+            if ((parsedUser.role as any) === 'alumno') {
+              localStorage.removeItem('templefit_user');
+              return;
+            }
+            
+            setUser(parsedUser);
+            if (savedStudent) {
+              try {
+                setSelectedStudentState(JSON.parse(savedStudent));
+              } catch (e) {
+                if (db.students && db.students.length > 0) setSelectedStudentState(db.students[0]);
+              }
+            } else {
+              if (db.students && db.students.length > 0) setSelectedStudentState(db.students[0]);
+            }
+          } catch (e) {
+            console.warn('Error al deserializar sesión de usuario:', e);
+            localStorage.removeItem('templefit_user');
+          }
+        }
       }
-      
-      setUser(parsedUser);
-      if (savedStudent) {
-        setSelectedStudentState(JSON.parse(savedStudent));
-      } else {
-        if(db.students && db.students.length > 0) setSelectedStudentState(db.students[0]);
-      }
+    } catch (e) {
+      console.warn('Error inicializando AuthProvider:', e);
     }
   }, []);
 

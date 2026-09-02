@@ -1,3 +1,5 @@
+'use client';
+
 import { CRMDatabase } from './types';
 import { db as firestoreDb } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -597,13 +599,14 @@ const DEFAULT_DB: CRMDatabase = {
 export function getCRMDatabase(): CRMDatabase {
   if (typeof window === 'undefined') return DEFAULT_DB;
   
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (!saved) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DB));
-    return DEFAULT_DB;
-  }
-  
   try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DB));
+      } catch (e) {}
+      return DEFAULT_DB;
+    }
     return JSON.parse(saved);
   } catch (err) {
     console.error("Error al parsear CRMDatabase de localStorage:", err);
@@ -613,7 +616,11 @@ export function getCRMDatabase(): CRMDatabase {
 
 export function saveCRMDatabase(db: CRMDatabase) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+  } catch (e) {
+    console.warn("No se pudo persistir en localStorage:", e);
+  }
 
   // Sync back to cloud in background
   if (firestoreDb) {
@@ -638,7 +645,9 @@ export async function syncFromCloud(): Promise<CRMDatabase> {
     const snap = await getDoc(docRef);
     if (snap.exists()) {
       const data = snap.data() as CRMDatabase;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {}
       return data;
     }
   } catch (err) {
