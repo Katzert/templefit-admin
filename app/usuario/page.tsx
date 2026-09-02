@@ -1,15 +1,53 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useAuth } from '@/context/AuthContext';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
-import { LoginPage } from '@/life-system-pages/LoginPage';
-import { HubCentroDeMando } from '@/life-system-pages/HubCentroDeMando';
-import { Module18Directory } from '@/life-system-pages/Module18Directory';
-import { Module1Profile } from '@/life-system-pages/Module1Profile';
-import { HubPipeline } from '@/life-system-pages/HubPipeline';
-import { HubArmeria } from '@/life-system-pages/HubArmeria';
-import { HubFinances } from '@/life-system-pages/HubFinances';
+
+const ModuleLoading = () => (
+  <div className="p-8 flex items-center justify-center min-h-[400px]">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-8 h-8 border-2 border-temple-gold border-t-transparent rounded-full animate-spin" />
+      <span className="text-xs font-bold text-temple-gold uppercase tracking-widest">Cargando módulo...</span>
+    </div>
+  </div>
+);
+
+const LoginPage = dynamic(() => import('@/life-system-pages/LoginPage').then(m => m.LoginPage), {
+  loading: ModuleLoading,
+  ssr: false
+});
+
+const HubCentroDeMando = dynamic(() => import('@/life-system-pages/HubCentroDeMando').then(m => m.HubCentroDeMando), {
+  loading: ModuleLoading,
+  ssr: false
+});
+
+const Module18Directory = dynamic(() => import('@/life-system-pages/Module18Directory').then(m => m.Module18Directory), {
+  loading: ModuleLoading,
+  ssr: false
+});
+
+const Module1Profile = dynamic(() => import('@/life-system-pages/Module1Profile').then(m => m.Module1Profile), {
+  loading: ModuleLoading,
+  ssr: false
+});
+
+const HubPipeline = dynamic(() => import('@/life-system-pages/HubPipeline').then(m => m.HubPipeline), {
+  loading: ModuleLoading,
+  ssr: false
+});
+
+const HubArmeria = dynamic(() => import('@/life-system-pages/HubArmeria').then(m => m.HubArmeria), {
+  loading: ModuleLoading,
+  ssr: false
+});
+
+const HubFinances = dynamic(() => import('@/life-system-pages/HubFinances').then(m => m.HubFinances), {
+  loading: ModuleLoading,
+  ssr: false
+});
 
 export default function UsuarioPage() {
   const { isAuthenticated, hasRole } = useAuth();

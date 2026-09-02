@@ -19,8 +19,15 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "TEMPLEFIT - Centro de Transformación",
-  description: "Entrenamiento funcional, nutrición preventiva y desarrollo espiritual.",
+  metadataBase: new URL("https://katzert.github.io/templefit-admin"),
+  title: "TEMPLEFIT Admin - Holistic Life System CRM",
+  description: "Sistema integral de gestión de atletas, finanzas y entrenamiento TempleFit.",
+  robots: { index: false, follow: false },
+  manifest: "/templefit-admin/manifest.json",
+  icons: {
+    icon: "/templefit-admin/assets/img/logo-tf-abreviado.png",
+    apple: "/templefit-admin/assets/img/logo-tf-corona.png",
+  },
 };
 
 export default function RootLayout({
