@@ -215,9 +215,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
             <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b border-black/10 dark:border-white/10 pb-6">
               <div className="relative w-full md:w-96">
                 <Search className="absolute left-3.5 top-3 text-slate-600 dark:text-gray-400" size={16} />
-                <input 
-                  type="text"
-                  placeholder="Buscar por nombre, escuadrón, email o teléfono..." 
+                <input type="text" aria-label="Buscar atleta por nombre o teléfono" placeholder="Buscar por nombre, escuadrón, email o teléfono..." 
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
@@ -442,7 +440,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       {/* Modal Añadir Atleta */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="athlete-modal-title">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -477,9 +475,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   </div>
                   <div className="flex-1">
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Foto del Atleta (Opcional)</label>
-                    <input 
-                      type="file" 
-                      accept="image/*"
+                    <input type="file" aria-label="Cargar foto de perfil de atleta" accept="image/*"
                       className="text-xs text-slate-600 dark:text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-temple-gold file:text-black hover:file:bg-amber-400 cursor-pointer"
                       onChange={(e) => {
                         const file = e.target.files?.[0];

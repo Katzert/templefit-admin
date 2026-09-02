@@ -96,9 +96,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
         <div className="pl-3.5 pr-2 text-slate-500 dark:text-gray-400">
           <Search size={15} className={isOpen ? 'text-amber-600 dark:text-temple-gold' : ''} />
         </div>
-        <input 
-          ref={inputRef}
-          type="text"
+        <input ref={inputRef} type="text" aria-label="Búsqueda global del sistema"
           placeholder="Buscar atleta, lead, receta, stock..."
           className="bg-transparent border-none outline-none text-xs text-slate-900 dark:text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 py-2.5 w-48 sm:w-64 md:w-80 font-medium"
           value={query}

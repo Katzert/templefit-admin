@@ -62,8 +62,7 @@ export function InlineEdit({ value, onSave, multiline = false, className, placeh
       );
     }
     return (
-      <input
-        ref={inputRef as React.RefObject<HTMLInputElement>}
+      <input aria-label="Editar valor inline" ref={inputRef as React.RefObject<HTMLInputElement>}
         type="text"
         value={tempValue}
         onChange={(e) => setTempValue(e.target.value)}

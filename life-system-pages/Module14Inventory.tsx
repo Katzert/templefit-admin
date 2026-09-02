@@ -177,8 +177,7 @@ export function Module14Inventory() {
                     return (
                       <motion.tr key={item.id} layout className="bg-black/5 dark:bg-white/5 border-t border-black/10 dark:border-white/10">
                         <td className="p-3">
-                          <input 
-                            value={editForm.name} 
+                          <input aria-label="Editar nombre del producto" value={editForm.name} 
                             onChange={e => setEditForm({...editForm, name: e.target.value})}
                             className="bg-slate-100 dark:bg-black/50 text-white px-3 py-1.5 rounded-xl border border-temple-gold/30 w-full focus:outline-none text-xs font-bold"
                           />

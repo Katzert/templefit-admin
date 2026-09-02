@@ -219,8 +219,16 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         </div>
       </aside>
 
+      {/* Skip to main content link for screen readers and keyboard users */}
+      <a 
+        href="#admin-main-content" 
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:bg-temple-gold focus:text-black focus:px-4 focus:py-2.5 focus:rounded-xl focus:font-black focus:text-xs focus:uppercase focus:tracking-wider focus:shadow-2xl focus:outline-none focus:ring-4 focus:ring-amber-500"
+      >
+        Saltar al panel principal
+      </a>
+
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 bg-[#FBF9F5] dark:bg-[#05070B] text-temple-navy dark:text-temple-navy dark:text-white relative transition-colors duration-300">
+      <main id="admin-main-content" className="flex-1 flex flex-col min-w-0 bg-[#FBF9F5] dark:bg-[#05070B] text-temple-navy dark:text-white relative transition-colors duration-300 focus:outline-none" tabIndex={-1}>
         
         {/* Top Header Mobile */}
         <header className="md:hidden flex items-center justify-between px-3 py-2.5 border-b border-black/5 dark:border-white/5 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-lg sticky top-0 z-30 shadow-sm gap-2">

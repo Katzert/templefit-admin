@@ -178,7 +178,7 @@ export function Module20Recipes() {
                         <span className="text-xs uppercase font-bold tracking-widest">Subir Imagen</span>
                       </div>
                     )}
-                    <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
+                    <input type="file" aria-label="Subir fotografía de la receta" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
                   </div>
                 </div>
 
@@ -186,7 +186,7 @@ export function Module20Recipes() {
                 <div className="space-y-4">
                   <div>
                     <label className="text-xs text-slate-600 dark:text-gray-400 uppercase font-bold tracking-wider mb-1 block">Nombre</label>
-                    <input type="text" value={newRecipe.name} onChange={e => setNewRecipe({ ...newRecipe, name: e.target.value })} required className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-temple-navy dark:text-white focus:border-temple-gold outline-none" placeholder="Ej. Batido de Proteína" />
+                    <input type="text" aria-label="Nombre de la receta" value={newRecipe.name} onChange={e => setNewRecipe({ ...newRecipe, name: e.target.value })} required className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-temple-navy dark:text-white focus:border-temple-gold outline-none" placeholder="Ej. Batido de Proteína" />
                   </div>
                   <div>
                     <label className="text-xs text-slate-600 dark:text-gray-400 uppercase font-bold tracking-wider mb-1 block">Descripción Breve</label>
@@ -212,11 +212,11 @@ export function Module20Recipes() {
                     </div>
                     <div>
                       <label className="text-xs text-slate-600 dark:text-gray-400 uppercase font-bold tracking-wider mb-1 block">Tiempo (Min)</label>
-                      <input type="number" value={newRecipe.time} onChange={e => setNewRecipe({ ...newRecipe, time: Number(e.target.value) })} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-temple-navy dark:text-white focus:border-temple-gold outline-none" />
+                      <input type="number" aria-label="Tiempo de cocción en minutos" value={newRecipe.time} onChange={e => setNewRecipe({ ...newRecipe, time: Number(e.target.value) })} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-temple-navy dark:text-white focus:border-temple-gold outline-none" />
                     </div>
                     <div>
                       <label className="text-xs text-slate-600 dark:text-gray-400 uppercase font-bold tracking-wider mb-1 block">Porciones</label>
-                      <input type="number" value={newRecipe.servings} onChange={e => setNewRecipe({ ...newRecipe, servings: Number(e.target.value) })} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-temple-navy dark:text-white focus:border-temple-gold outline-none" />
+                      <input type="number" aria-label="Número de porciones" value={newRecipe.servings} onChange={e => setNewRecipe({ ...newRecipe, servings: Number(e.target.value) })} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-temple-navy dark:text-white focus:border-temple-gold outline-none" />
                     </div>
                   </div>
                 </div>
@@ -226,10 +226,10 @@ export function Module20Recipes() {
                   <div>
                     <label className="text-xs text-slate-600 dark:text-gray-400 uppercase font-bold tracking-wider mb-1 block">Macros</label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                      <input type="number" placeholder="Kcal" value={newRecipe.macros?.calories || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, calories: Number(e.target.value) }})} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-center text-temple-navy dark:text-white outline-none" />
-                      <input type="number" placeholder="Prot(g)" value={newRecipe.macros?.protein || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, protein: Number(e.target.value) }})} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-center text-temple-navy dark:text-white outline-none" />
-                      <input type="number" placeholder="Gras(g)" value={newRecipe.macros?.fat || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, fat: Number(e.target.value) }})} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-center text-temple-navy dark:text-white outline-none" />
-                      <input type="number" placeholder="Carb(g)" value={newRecipe.macros?.carbs || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, carbs: Number(e.target.value) }})} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-center text-temple-navy dark:text-white outline-none" />
+                      <input type="number" aria-label="Calorías totales (Kcal)" placeholder="Kcal" value={newRecipe.macros?.calories || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, calories: Number(e.target.value) }})} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-center text-temple-navy dark:text-white outline-none" />
+                      <input type="number" aria-label="Proteínas en gramos" placeholder="Prot(g)" value={newRecipe.macros?.protein || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, protein: Number(e.target.value) }})} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-center text-temple-navy dark:text-white outline-none" />
+                      <input type="number" aria-label="Grasas en gramos" placeholder="Gras(g)" value={newRecipe.macros?.fat || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, fat: Number(e.target.value) }})} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-center text-temple-navy dark:text-white outline-none" />
+                      <input type="number" aria-label="Carbohidratos en gramos" placeholder="Carb(g)" value={newRecipe.macros?.carbs || ''} onChange={e => setNewRecipe({ ...newRecipe, macros: { ...newRecipe.macros!, carbs: Number(e.target.value) }})} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-center text-temple-navy dark:text-white outline-none" />
                     </div>
                   </div>
                   <div>
@@ -268,7 +268,7 @@ export function Module20Recipes() {
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative flex-1 w-full">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-500" size={18} />
-          <input type="text" placeholder="Buscar receta o ingrediente..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-white dark:bg-[#0B0F19] border border-black/10 dark:border-white/10 rounded-xl py-3 pl-12 pr-4 text-xs text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold transition-colors" />
+          <input type="text" aria-label="Buscar receta o ingrediente" placeholder="Buscar receta o ingrediente..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-white dark:bg-[#0B0F19] border border-black/10 dark:border-white/10 rounded-xl py-3 pl-12 pr-4 text-xs text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold transition-colors" />
         </div>
 
         {/* View Mode Toggle */}

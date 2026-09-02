@@ -404,45 +404,62 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
       {/* Modal Nuevo / Editar Prospecto */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/80 backdrop-blur-md"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="lead-modal-title"
+            onClick={() => setIsModalOpen(false)}
+          >
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="bg-white dark:bg-[#121826] border border-temple-gold/40 rounded-3xl w-full max-w-md p-6 md:p-8 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4 mb-6">
                 <div className="flex items-center gap-2">
                   <div className="p-2 rounded-xl bg-temple-gold/10 text-temple-gold border border-temple-gold/30">
                     {editingLeadId ? <Edit3 size={18} /> : <Plus size={18} />}
                   </div>
-                  <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
+                  <h3 id="lead-modal-title" className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
                     {editingLeadId ? 'Editar Prospecto' : 'Nuevo Prospecto'}
                   </h3>
                 </div>
-                <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white transition">
+                <button 
+                  onClick={() => setIsModalOpen(false)} 
+                  className="p-1.5 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white transition rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
+                  aria-label="Cerrar modal de prospecto"
+                >
                   <X size={20} />
                 </button>
               </div>
 
               <form onSubmit={handleSubmitLead} className="space-y-4">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Nombre Completo *</label>
+                  <label htmlFor="lead-fullname" className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Nombre Completo *</label>
                   <input 
+                    id="lead-fullname"
                     type="text" 
                     required
+                    aria-required="true"
+                    autoComplete="name"
                     placeholder="Ej. Andrés Morales"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.name}
                     onChange={e => setLeadForm({ ...leadForm, name: e.target.value })}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Celular / WhatsApp *</label>
+                  <label htmlFor="lead-phone" className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Celular / WhatsApp *</label>
                   <input 
-                    type="text" 
+                    id="lead-phone"
+                    type="tel" 
                     required
+                    aria-required="true"
+                    autoComplete="tel"
                     placeholder="+591 71234567"
                     className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.phone}
@@ -452,9 +469,10 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Canal de Origen</label>
+                    <label htmlFor="lead-source" className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Canal de Origen</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      id="lead-source"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50 cursor-pointer"
                       value={leadForm.source}
                       onChange={e => setLeadForm({ ...leadForm, source: e.target.value as any })}
                     >
@@ -466,9 +484,10 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Estado</label>
+                    <label htmlFor="lead-status" className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Estado</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      id="lead-status"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50 cursor-pointer"
                       value={leadForm.status}
                       onChange={e => setLeadForm({ ...leadForm, status: e.target.value as any })}
                     >
@@ -483,11 +502,12 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Notas / Objetivo</label>
+                  <label htmlFor="lead-notes" className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Notas / Objetivo</label>
                   <textarea 
+                    id="lead-notes"
                     rows={2}
                     placeholder="Interesado en Reto 21 Días, Crossfit o Neuro-Ventas..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.notes}
                     onChange={e => setLeadForm({ ...leadForm, notes: e.target.value })}
                   />
@@ -503,7 +523,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2.5 bg-temple-gold text-black rounded-xl text-xs font-extrabold uppercase tracking-wider hover:bg-amber-400 transition shadow-lg shadow-temple-gold/20 flex items-center gap-2"
+                    className="px-6 py-2.5 bg-temple-gold text-black rounded-xl text-xs font-extrabold uppercase tracking-wider hover:bg-amber-400 transition shadow-lg shadow-temple-gold/20 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
                   >
                     <Check size={16} /> Guardar Cambios
                   </button>
