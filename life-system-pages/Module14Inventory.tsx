@@ -329,7 +329,7 @@ export function Module14Inventory() {
           </table>
           
           {filteredItems.length === 0 && (
-            <div className="p-12 text-center text-slate-500 dark:text-gray-500">
+            <div className="p-6 sm:p-12 text-center text-slate-500 dark:text-gray-500">
               <Search size={32} className="mx-auto mb-4 opacity-20" />
               <p>No se encontraron artículos en el inventario.</p>
             </div>

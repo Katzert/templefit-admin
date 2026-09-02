@@ -223,35 +223,23 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
       <main className="flex-1 flex flex-col min-w-0 bg-[#FBF9F5] dark:bg-[#05070B] text-temple-navy dark:text-temple-navy dark:text-white relative transition-colors duration-300">
         
         {/* Top Header Mobile */}
-        <header className="md:hidden flex items-center justify-between p-4 border-b border-black/5 dark:border-white/5 bg-white/90 dark:bg-[#0B0F19]/80 backdrop-blur-lg sticky top-0 z-30 shadow-sm">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 text-amber-800 dark:text-temple-gold bg-black/5 dark:bg-white/5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold" aria-label="Abrir navegación lateral">
+        <header className="md:hidden flex items-center justify-between px-3 py-2.5 border-b border-black/5 dark:border-white/5 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-lg sticky top-0 z-30 shadow-sm gap-2">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 min-h-[40px] min-w-[40px] flex items-center justify-center text-amber-800 dark:text-temple-gold bg-black/5 dark:bg-white/5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold shrink-0" aria-label="Abrir navegación lateral">
             <Menu size={20} />
           </button>
           
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 flex items-center justify-center bg-white dark:bg-white/5 rounded-lg p-1 border border-black/10 dark:border-white/10">
-              <img 
-                src="assets/img/logo-tf-abreviado.png" 
-                alt="TF" 
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  if (!target.src.includes('templefit-admin')) {
-                    target.src = '/templefit-admin/assets/img/logo-tf-abreviado.png';
-                  }
-                }}
-                className="w-full h-full object-contain" 
-              />
-            </div>
+          <div className="flex-1 max-w-[200px] sm:max-w-xs">
+            <GlobalSearch onNavigate={setActiveTab} />
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 shrink-0">
             <ThemeToggle />
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-2 text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-temple-gold transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold rounded-lg"
+              className="p-2 min-h-[40px] min-w-[40px] flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-temple-gold transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold rounded-xl bg-black/5 dark:bg-white/5"
               aria-label="Ver notificaciones"
             >
-              <Bell size={20} />
+              <Bell size={18} />
               {unreadNotifications && (
                 <span className="absolute top-2 right-2 w-2 h-2 bg-amber-600 dark:bg-temple-gold rounded-full ring-2 ring-white dark:ring-[#0B0F19]" />
               )}

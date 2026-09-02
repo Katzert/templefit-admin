@@ -372,7 +372,7 @@ export function Module40CorteEjecutivo() {
                   </div>
                 ))}
               </div>
-              <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="bg-white dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
                   <p className="text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold mb-1">Ticket Promedio (Bs.)</p>
                   <input
@@ -380,7 +380,7 @@ export function Module40CorteEjecutivo() {
                     min={0}
                     value={board.averageTicket}
                     onChange={e => updateBoard({ averageTicket: Number(e.target.value) || 0 })}
-                    className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-white p-2 rounded-lg focus:border-temple-gold outline-none"
+                    className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-temple-navy dark:text-white p-2 rounded-lg focus:border-temple-gold outline-none"
                   />
                 </div>
                 <div className="bg-white dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
@@ -390,7 +390,7 @@ export function Module40CorteEjecutivo() {
                     min={0}
                     value={board.newMembersTarget}
                     onChange={e => updateBoard({ newMembersTarget: Number(e.target.value) || 0 })}
-                    className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-white p-2 rounded-lg focus:border-temple-gold outline-none"
+                    className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-temple-navy dark:text-white p-2 rounded-lg focus:border-temple-gold outline-none"
                   />
                 </div>
               </div>

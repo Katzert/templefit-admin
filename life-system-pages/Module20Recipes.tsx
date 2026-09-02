@@ -412,7 +412,7 @@ export function Module20Recipes() {
               </div>
               
               <div className="p-5 flex flex-col flex-1">
-                <h3 className="font-bold text-lg text-temple-navy dark:text-temple-navy dark:text-white mb-2">{recipe.name}</h3>
+                <h3 className="font-bold text-lg text-temple-navy dark:text-white mb-2">{recipe.name}</h3>
                 <div className="grid grid-cols-3 gap-2 mb-4 border-b border-black/10 dark:border-white/10 pb-4">
                   <div className="text-center bg-white dark:bg-white/5 rounded-lg py-2">
                     <span className="block text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-500">Kcal</span>

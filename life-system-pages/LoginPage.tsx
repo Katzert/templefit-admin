@@ -44,11 +44,11 @@ export function LoginPage() {
         className="relative z-10 w-full max-w-md mx-4"
       >
         {/* Login Card */}
-        <div className="bg-white/80 dark:bg-[#0B0F19]/90 backdrop-blur-2xl p-8 md:p-12 rounded-3xl border border-black/10 dark:border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
+        <div className="bg-white/90 dark:bg-[#0B0F19]/90 backdrop-blur-2xl p-6 sm:p-8 md:p-12 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
           {/* Accent Line */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-temple-gold to-transparent opacity-50"></div>
           
-          <h2 className="text-xl font-bold text-slate-900 dark:text-temple-navy dark:text-white mb-1">Iniciar Sesión</h2>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Iniciar Sesión</h2>
           <p className="text-sm text-slate-600 dark:text-gray-400 mb-6">
             Ingresa tus credenciales para acceder al sistema.
           </p>
@@ -67,7 +67,7 @@ export function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-black/5 dark:bg-[#07090E]/50 border border-black/10 dark:border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-slate-900 dark:text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-temple-gold/50 focus:border-temple-gold transition-all"
+                  className="w-full bg-black/5 dark:bg-[#07090E]/50 border border-black/10 dark:border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-temple-gold/50 focus:border-temple-gold transition-all"
                   placeholder="admin@templefit.com"
                   required
                 />

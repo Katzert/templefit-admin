@@ -596,7 +596,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <FieldLabel label="Peso Actual (kg)" tooltip="Peso corporal en kilogramos" />
                       <InlineEdit 
@@ -615,7 +615,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <FieldLabel label="Fecha de Nacimiento" tooltip="Usado para calcular edad y metabolismo" />
                       <InlineEdit 

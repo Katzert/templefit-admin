@@ -833,27 +833,27 @@ export function Module2DailyLog() {
                           {isEditingHistorical && editedHistoricalRecord && (
                             <div>
                               <label className="text-[9px] uppercase tracking-widest text-slate-600 dark:text-gray-400 font-bold block mb-2">Estado del Día</label>
-                              <div className="grid grid-cols-3 gap-2">
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 <button
                                   type="button"
                                   onClick={() => setEditedHistoricalRecord({ ...editedHistoricalRecord, status: 'green' })}
-                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'green' ? 'bg-emerald-500 text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-emerald-400 hover:bg-emerald-500/20'}`}
+                                  className={`min-h-[40px] p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'green' ? 'bg-emerald-500 text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20'}`}
                                 >
-                                  <CheckCircle2 size={12} /> Óptimo
+                                  <CheckCircle2 size={14} /> Óptimo
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setEditedHistoricalRecord({ ...editedHistoricalRecord, status: 'yellow' })}
-                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'yellow' ? 'bg-amber-500 text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-amber-400 hover:bg-amber-500/20'}`}
+                                  className={`min-h-[40px] p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'yellow' ? 'bg-amber-500 text-black shadow-md' : 'bg-black/5 dark:bg-white/5 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20'}`}
                                 >
-                                  <AlertOctagon size={12} /> Precaución
+                                  <AlertOctagon size={14} /> Precaución
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setEditedHistoricalRecord({ ...editedHistoricalRecord, status: 'red' })}
-                                  className={`p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'red' ? 'bg-red-500 text-white shadow-md' : 'bg-black/5 dark:bg-white/5 text-red-400 hover:bg-red-500/20'}`}
+                                  className={`min-h-[40px] p-2 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-1.5 transition-all ${editedHistoricalRecord.status === 'red' ? 'bg-red-500 text-white shadow-md' : 'bg-black/5 dark:bg-white/5 text-red-600 dark:text-red-400 hover:bg-red-500/20'}`}
                                 >
-                                  <Zap size={12} /> Alerta
+                                  <Zap size={14} /> Alerta
                                 </button>
                               </div>
                             </div>
@@ -871,7 +871,7 @@ export function Module2DailyLog() {
                                 rows={2}
                               />
                             ) : (
-                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
+                              <p className="text-xs text-slate-700 dark:text-gray-200 font-medium leading-relaxed bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
                                 {selectedHistoricalDay.primaryVictory || 'Sin registro de victoria.'}
                               </p>
                             )}
@@ -889,7 +889,7 @@ export function Module2DailyLog() {
                                 rows={2}
                               />
                             ) : (
-                              <p className="text-xs text-gray-200 font-medium leading-relaxed bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
+                              <p className="text-xs text-slate-700 dark:text-gray-200 font-medium leading-relaxed bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5">
                                 {selectedHistoricalDay.primaryAdjustment || 'Sin registro de ajuste.'}
                               </p>
                             )}
@@ -898,7 +898,7 @@ export function Module2DailyLog() {
                           {/* Micro-Routines Status */}
                           <div className="pt-2 border-t border-black/10 dark:border-white/10">
                             <span className="text-[9px] uppercase tracking-widest text-slate-600 dark:text-gray-400 font-bold block mb-2">Micro-Rutinas Realizadas</span>
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                               {microItems.map((m) => {
                                 const currentMicro = isEditingHistorical && editedHistoricalRecord
                                   ? editedHistoricalRecord.microRoutines

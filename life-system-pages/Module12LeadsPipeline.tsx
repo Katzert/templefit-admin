@@ -444,17 +444,17 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                     type="text" 
                     required
                     placeholder="+591 71234567"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.phone}
                     onChange={e => setLeadForm({ ...leadForm, phone: e.target.value })}
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Canal de Origen</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold/50"
                       value={leadForm.source}
                       onChange={e => setLeadForm({ ...leadForm, source: e.target.value as any })}
                     >

@@ -422,23 +422,23 @@ export function ContentMarketingHub() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
           <div className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
-              <h3 className="text-lg font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white flex items-center gap-2">
+              <h3 className="text-lg font-black uppercase tracking-wider text-temple-navy dark:text-white flex items-center gap-2">
                 <Plus className="text-temple-gold" size={20} />
                 Nuevo Guion / Contenido
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white">
+              <button onClick={() => setIsModalOpen(false)} aria-label="Cerrar modal" className="text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-white p-1">
                 <X size={20} />
               </button>
             </div>
 
             <form onSubmit={handleCreatePost} className="space-y-4 text-xs">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Mes del Plan</label>
                   <select
                     value={newPost.monthIndex}
                     onChange={(e) => setNewPost({ ...newPost, monthIndex: Number(e.target.value) as any })}
-                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
+                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-temple-navy dark:text-white font-bold"
                   >
                     <option value={1} className="bg-white dark:bg-[#121826]">Mes 1</option>
                     <option value={2} className="bg-white dark:bg-[#121826]">Mes 2</option>
