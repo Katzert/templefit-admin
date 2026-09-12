@@ -258,7 +258,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     return (
       <div className="text-center py-16 font-sans">
         <User size={48} className="text-gray-600 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-temple-navy dark:text-temple-navy dark:text-white mb-2">No hay ningún atleta seleccionado</h3>
+        <h3 className="text-xl font-bold text-temple-navy dark:text-white mb-2">No hay ningún atleta seleccionado</h3>
         <p className="text-sm text-slate-600 dark:text-gray-400 mb-6">Selecciona un atleta desde el Directorio para abrir su expediente.</p>
         <button
           onClick={() => onNavigate?.('directory')}
@@ -285,7 +285,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       )}
 
       {/* Header Banner & Athlete Info */}
-      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
+      <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           
           <div className="flex items-center gap-5">
@@ -324,7 +324,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   ) : (
                     <span>{(name || 'TF').substring(0, 2).toUpperCase()}</span>
                   )}
-                  <div className="absolute inset-0 bg-white dark:bg-black/5 dark:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                  <div className="absolute inset-0 bg-white dark:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                     <Camera size={20} className="text-temple-gold" />
                   </div>
                 </div>
@@ -345,7 +345,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               <InlineEdit
                 value={name}
                 onSave={(val) => handleSaveField('name', val)}
-                className="text-2xl md:text-3xl font-serif font-black uppercase text-slate-900 dark:text-temple-navy dark:text-white tracking-tight"
+                className="text-2xl md:text-3xl font-serif font-black uppercase text-slate-900 dark:text-white tracking-tight"
                 placeholder="Nombre del Atleta"
               />
               <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-slate-600 dark:text-gray-400">
@@ -362,7 +362,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           </div>
 
           {/* Quick Athlete Switcher & Attendance 1-Tap */}
-          <div className="flex flex-wrap items-center gap-2 bg-white dark:bg-black/5 dark:bg-black/60 border border-black/10 dark:border-white/10 p-2 rounded-2xl backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-2 bg-white dark:bg-black/60 border border-black/10 dark:border-white/10 p-2 rounded-2xl backdrop-blur-md">
             {/* Prev / Next buttons */}
             <div className="flex items-center gap-1">
               <button
@@ -384,7 +384,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   const std = allStudents.find(s => s.id === e.target.value);
                   if (std) setSelectedStudent(std);
                 }}
-                className="bg-white dark:bg-[#121826] text-temple-navy dark:text-temple-navy dark:text-white text-xs font-bold px-2.5 py-1.5 rounded-xl border border-black/10 dark:border-white/10 focus:outline-none focus:border-temple-gold/50 cursor-pointer max-w-[180px] truncate"
+                className="bg-white dark:bg-[#121826] text-temple-navy dark:text-white text-xs font-bold px-2.5 py-1.5 rounded-xl border border-black/10 dark:border-white/10 focus:outline-none focus:border-temple-gold/50 cursor-pointer max-w-[180px] truncate"
               >
                 {allStudents.map(s => (
                   <option key={s.id} value={s.id} className="bg-white dark:bg-[#121826] text-white">
@@ -444,7 +444,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           <select
             value={phase}
             onChange={(e) => handleSaveField('phase', e.target.value as any)}
-            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
+            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
           >
             <option className="bg-white dark:bg-[#121826]" value="1 - Iniciación">Fase 1 - Escuadrón de Paz</option>
             <option className="bg-white dark:bg-[#121826]" value="2 - Desarrollo">Fase 2 - Gedeón (21 Días)</option>
@@ -457,7 +457,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           <select
             value={plan}
             onChange={(e) => handleSaveField('plan', e.target.value as any)}
-            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
+            className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
           >
             <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
             <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
@@ -484,7 +484,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       <motion.div variants={item} className="bg-black/5 dark:bg-black/60 border border-black/10 dark:border-white/10 p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Sparkles size={16} className="text-temple-gold shrink-0" />
-          <span className="text-xs font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">Plantillas Rápidas (1 Toque):</span>
+          <span className="text-xs font-black uppercase tracking-wider text-temple-navy dark:text-white">Plantillas Rápidas (1 Toque):</span>
           <span className="text-[10px] text-slate-600 dark:text-gray-400 hidden md:inline">Autocompleta rutina y nutrición al instante</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -531,7 +531,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       </motion.div>
 
       {/* Sub-Tabs Selector */}
-      <div className="flex flex-wrap gap-2 bg-white dark:bg-black/5 dark:bg-black/60 p-2 rounded-2xl border border-black/10 dark:border-white/10">
+      <div className="flex flex-wrap gap-2 bg-white dark:bg-black/60 p-2 rounded-2xl border border-black/10 dark:border-white/10">
         {[
           { id: 'biometrics', label: '1. Biometría, IMC & Rutina', icon: <Scale size={15} /> },
           { id: 'nutrition', label: '2. Nutrición & Salud Mental', icon: <Utensils size={15} /> },
@@ -568,7 +568,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-5 space-y-6">
               <Card className="border-temple-gold/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                     <Scale className="text-temple-gold" size={18} />
                     Cálculo Antropométrico & IMC
                   </CardTitle>
@@ -585,7 +585,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       </span>
                     </div>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-4xl font-black text-temple-navy dark:text-temple-navy dark:text-white">{imc}</span>
+                      <span className="text-4xl font-black text-temple-navy dark:text-white">{imc}</span>
                       <span className="text-xs text-slate-600 dark:text-gray-400 font-medium">kg/m² (Cálculo automático)</span>
                     </div>
                     <div className="w-full bg-white dark:bg-white/10 h-2 rounded-full overflow-hidden mt-1">
@@ -630,7 +630,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       <select
                         value={workoutLevel}
                         onChange={(e) => handleSaveField('workoutLevel', e.target.value as any)}
-                        className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2 text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer"
+                        className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-3 py-2 text-xs font-black text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer"
                       >
                         <option className="bg-white dark:bg-[#121826]" value="Principiante">Principiante</option>
                         <option className="bg-white dark:bg-[#121826]" value="Intermedio">Intermedio</option>
@@ -646,32 +646,97 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-7 space-y-6">
               <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl h-full">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
-                    <Activity className="text-red-400" size={18} />
-                    Ficha Técnica de Ejercicios y Rutina Actual
+                  <CardTitle className="flex items-center justify-between text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
+                    <div className="flex items-center gap-2">
+                      <Activity className="text-red-400" size={18} />
+                      <span>Ficha Técnica de Ejercicios y Rutina Actual</span>
+                    </div>
+                    <span className="text-[10px] bg-temple-gold/15 text-temple-gold px-2.5 py-1 rounded-full border border-temple-gold/30">
+                      Con Demostraciones Visuales
+                    </span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-5">
                   <div>
                     <FieldLabel 
-                      label="Rutina Actual & Ejemplos Prescritos" 
+                      label="Rutina Actual & Prescripción del Ciclo" 
                       tooltip="Lista de ejercicios con series, repeticiones y tempos asignados para este ciclo."
                     />
                     <InlineEdit
                       value={currentRoutineExercises}
                       onSave={(val) => handleSaveField('currentRoutineExercises', val)}
                       multiline
-                      className="tabular-nums text-xs leading-relaxed text-gray-200 bg-black/[0.03] dark:bg-black/40 p-4 rounded-xl border border-black/10 dark:border-white/10"
+                      className="tabular-nums text-xs leading-relaxed text-slate-800 dark:text-gray-200 bg-slate-100 dark:bg-black/40 p-4 rounded-xl border border-black/10 dark:border-white/10"
                       placeholder="1. Dominadas estrictas (4x8)..."
                     />
                   </div>
 
-                  <div className="p-4 bg-white dark:bg-white/5 rounded-2xl border border-black/10 dark:border-white/10 text-xs space-y-2">
+                  {/* Visual Demonstration Cards */}
+                  <div className="space-y-3 pt-2">
+                    <span className="text-xs font-black uppercase tracking-wider text-temple-gold flex items-center gap-1.5">
+                      📸 Movimientos Clave con Foto de Muestra
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {[
+                        {
+                          name: "Dominadas en Jaula",
+                          reps: "4x8-10",
+                          cue: "Pecho alto, pausa en barra",
+                          img: "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?q=80&w=400&auto=format&fit=crop"
+                        },
+                        {
+                          name: "Fondos en Paralelas",
+                          reps: "4x10-12",
+                          cue: "Codos a 90°, empuje firme",
+                          img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=400&auto=format&fit=crop"
+                        },
+                        {
+                          name: "Sentadilla Búlgara",
+                          reps: "4x12 p/lado",
+                          cue: "Rodilla al ras, torso recto",
+                          img: "https://images.unsplash.com/photo-1434682881908-b43d0467b798?q=80&w=400&auto=format&fit=crop"
+                        },
+                        {
+                          name: "Flexión Diamante",
+                          reps: "4x15",
+                          cue: "Rombo al esternón, core firme",
+                          img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=400&auto=format&fit=crop"
+                        },
+                        {
+                          name: "Boxeo Sparring",
+                          reps: "5 rounds x 3m",
+                          cue: "Sin golpes a cabeza, reflejos",
+                          img: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&auto=format&fit=crop"
+                        },
+                        {
+                          name: "Buteyko Matutino",
+                          reps: "15 min 06:00 AM",
+                          cue: "Respiración nasal diafragma",
+                          img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400&auto=format&fit=crop"
+                        }
+                      ].map((demo, dIdx) => (
+                        <div key={dIdx} className="bg-slate-50 dark:bg-black/40 rounded-xl overflow-hidden border border-black/10 dark:border-white/10 flex flex-col group hover:border-temple-gold/50 transition-all">
+                          <div className="h-24 w-full relative overflow-hidden bg-black/10">
+                            <img src={demo.img} alt={demo.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                            <span className="absolute bottom-1 right-1 bg-black/80 text-[9px] font-black text-temple-gold px-1.5 py-0.5 rounded">
+                              {demo.reps}
+                            </span>
+                          </div>
+                          <div className="p-2 space-y-0.5">
+                            <p className="text-[11px] font-bold text-temple-navy dark:text-white truncate">{demo.name}</p>
+                            <p className="text-[10px] text-slate-500 dark:text-gray-400 truncate">{demo.cue}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-slate-50 dark:bg-white/5 rounded-2xl border border-black/10 dark:border-white/10 text-xs space-y-1.5">
                     <span className="font-bold text-temple-gold uppercase text-[10px] tracking-wider block">
                       💡 Estructura Recomendada de Rutina
                     </span>
                     <p className="text-slate-600 dark:text-gray-400 leading-relaxed">
-                      Incluye: Calentamiento articular → Ejercicio compuesto principal → Calistenia o fuerza → Cardio funcional → Respiración final.
+                      1. Calentamiento articular y Buteyko → 2. Ejercicio compuesto principal (Calistenia en barras) → 3. Empuje / Tracción auxiliar → 4. Boxeo ético o cardio funcional → 5. Descompresión.
                     </p>
                   </div>
                 </CardContent>
@@ -693,7 +758,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-6 space-y-6">
               <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                     <Utensils className="text-emerald-400" size={18} />
                     Plan Nutricional Dual (Actual vs Programado)
                   </CardTitle>
@@ -743,7 +808,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-6 space-y-6">
               <Card className="border-amber-500/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                     <AlertTriangle className="text-amber-400" size={18} />
                     Factores Clínicos & Salud Mental
                   </CardTitle>
@@ -778,7 +843,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   </div>
 
                   <div className="p-3 bg-white dark:bg-white/5 rounded-xl border border-black/10 dark:border-white/10 text-[11px] text-slate-600 dark:text-gray-400">
-                    <span className="font-bold text-temple-navy dark:text-temple-navy dark:text-white block mb-1">Enfoque Preventivo de Paulo:</span>
+                    <span className="font-bold text-temple-navy dark:text-white block mb-1">Enfoque Preventivo de Paulo:</span>
                     Cada factor de estrés se aborda con respiración diafragmática 06:00 AM y orden de descanso nocturno.
                   </div>
                 </CardContent>
@@ -799,7 +864,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-12 space-y-6">
               <Card className="border-temple-gold/30 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                     <BrainCircuit className="text-temple-gold" size={18} />
                     Pilar Espíritu & Liderazgo (Coaching & Fe)
                   </CardTitle>
@@ -867,7 +932,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     <Calendar size={18} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-temple-navy dark:text-white tracking-wider">
+                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-white tracking-wider">
                       Libro de Asistencias ({attendanceHistory.length} registros)
                     </h4>
                     <p className="text-[11px] text-slate-600 dark:text-gray-400">Control de asistencia cronológico por sesión</p>
@@ -928,7 +993,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     <Award size={18} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-temple-navy dark:text-white tracking-wider">
+                    <h4 className="text-sm font-black uppercase text-temple-navy dark:text-white tracking-wider">
                       Matriz Antropométrica & Evolución IMC
                     </h4>
                     <p className="text-[11px] text-slate-600 dark:text-gray-400">Historial simétrico de mediciones corporales</p>
@@ -962,7 +1027,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                         <td className="py-4 pl-4 tabular-nums font-bold text-temple-gold whitespace-nowrap">
                           {ass.date}
                         </td>
-                        <td className="py-4 pl-4 tabular-nums font-black text-temple-navy dark:text-temple-navy dark:text-white text-right whitespace-nowrap">
+                        <td className="py-4 pl-4 tabular-nums font-black text-temple-navy dark:text-white text-right whitespace-nowrap">
                           {ass.weightKg} kg
                         </td>
                         <td className="py-4 pl-4 tabular-nums text-slate-700 dark:text-gray-300 text-right whitespace-nowrap">

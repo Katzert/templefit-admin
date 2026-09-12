@@ -164,7 +164,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <User size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-slate-900 dark:text-temple-navy dark:text-white group-hover:text-amber-700 dark:group-hover:text-temple-gold transition-colors leading-tight">{st.name}</p>
+                              <p className="text-xs font-black text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-temple-gold transition-colors leading-tight">{st.name}</p>
                               <p className="text-[10px] text-slate-500 dark:text-gray-400 mt-0.5">{st.escuadronId} • {st.plan}</p>
                             </div>
                           </div>
@@ -197,7 +197,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <Briefcase size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-slate-900 dark:text-temple-navy dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">{ld.name}</p>
+                              <p className="text-xs font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">{ld.name}</p>
                               <p className="text-[10px] text-slate-500 dark:text-gray-400 mt-0.5">{ld.phone} • Estado: {ld.status}</p>
                             </div>
                           </div>
@@ -230,7 +230,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <ChefHat size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-slate-900 dark:text-temple-navy dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-tight">{rc.name}</p>
+                              <p className="text-xs font-black text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-tight">{rc.name}</p>
                               <p className="text-[10px] text-slate-500 dark:text-gray-400 mt-0.5">Bs. {rc.suggestedPrice || 0} • {rc.category || 'Nutrición'}</p>
                             </div>
                           </div>
@@ -263,7 +263,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <ShoppingBag size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white group-hover:text-amber-400 transition-colors leading-tight">{inv.name}</p>
+                              <p className="text-xs font-black text-temple-navy dark:text-white group-hover:text-amber-400 transition-colors leading-tight">{inv.name}</p>
                               <p className="text-[10px] text-gray-400 mt-0.5">Stock: {inv.stock} • Bs. {inv.price}</p>
                             </div>
                           </div>
@@ -296,7 +296,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                               <BookOpen size={14} />
                             </div>
                             <div>
-                              <p className="text-xs font-black text-temple-navy dark:text-temple-navy dark:text-white group-hover:text-purple-400 transition-colors leading-tight">{sop.title}</p>
+                              <p className="text-xs font-black text-temple-navy dark:text-white group-hover:text-purple-400 transition-colors leading-tight">{sop.title}</p>
                               <p className="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{sop.content ? `${sop.content.slice(0, 45)}...` : ''}</p>
                             </div>
                           </div>

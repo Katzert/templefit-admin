@@ -492,7 +492,7 @@ export function Module2DailyLog() {
                 Radar de Cierre
               </span>
               
-              <div className="flex flex-wrap bg-white dark:bg-black/5 dark:bg-black/60 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 backdrop-blur-md gap-1">
+              <div className="flex flex-wrap bg-white dark:bg-black/60 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 backdrop-blur-md gap-1">
                 <button 
                   onClick={() => setEvaluationType('daily')}
                   className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'daily' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'}`}
@@ -514,7 +514,7 @@ export function Module2DailyLog() {
               </div>
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
+            <h2 className="text-4xl md:text-5xl font-black text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
               {selectedStudent?.name || 'Atleta No Seleccionado'}
             </h2>
             <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 mt-2 font-medium">
@@ -528,7 +528,7 @@ export function Module2DailyLog() {
           {evaluationType === 'daily' && (
             <div className="flex flex-col items-end gap-2 shrink-0">
               <span className="text-[10px] uppercase font-black tracking-widest text-slate-500 dark:text-gray-500">Estado Global (Hoy)</span>
-              <div className="bg-white dark:bg-black/5 dark:bg-black/60 backdrop-blur-md p-2 rounded-2xl border border-black/10 dark:border-white/10 flex gap-2">
+              <div className="bg-white dark:bg-black/60 backdrop-blur-md p-2 rounded-2xl border border-black/10 dark:border-white/10 flex gap-2">
                 <button 
                   onClick={() => setGlobalStatus('green')}
                   className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all ${globalStatus === 'green' ? 'bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.5)] scale-110' : 'bg-black/5 dark:bg-white/5 text-emerald-500/50 hover:bg-emerald-500/20'}`}
@@ -623,7 +623,7 @@ export function Module2DailyLog() {
                       <Activity size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-slate-800 dark:text-temple-navy dark:text-white uppercase tracking-wider">Cuerpo</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Cuerpo</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.body ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.body ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -644,7 +644,7 @@ export function Module2DailyLog() {
                       <BrainCircuit size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-slate-800 dark:text-temple-navy dark:text-white uppercase tracking-wider">Mente</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Mente</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.mind ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.mind ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -665,7 +665,7 @@ export function Module2DailyLog() {
                       <Heart size={24} />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-black text-slate-800 dark:text-temple-navy dark:text-white uppercase tracking-wider">Espíritu</p>
+                      <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider">Espíritu</p>
                       <p className={`text-[10px] font-bold uppercase tracking-widest ${pillars.spirit ? 'text-emerald-500' : 'text-red-400'}`}>
                         {pillars.spirit ? 'En Orden' : 'Requiere Ajuste'}
                       </p>
@@ -1046,7 +1046,7 @@ export function Module2DailyLog() {
                     <ShieldCheck size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
+                    <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
                       12 Hábitos de Calidad del Administrador
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-gray-400">
@@ -1055,7 +1055,7 @@ export function Module2DailyLog() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 bg-white dark:bg-black/5 dark:bg-black/60 px-4 py-2 rounded-2xl border border-black/10 dark:border-white/10">
+                <div className="flex items-center gap-2 bg-white dark:bg-black/60 px-4 py-2 rounded-2xl border border-black/10 dark:border-white/10">
                   <span className="text-xs font-black text-temple-gold">
                     {defaultAdminHabits.filter(h => adminHabits[h]).length} / 12
                   </span>
@@ -1107,7 +1107,7 @@ export function Module2DailyLog() {
                   <ListChecks size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
+                  <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
                     Planes de Acción Estándar
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-gray-400">

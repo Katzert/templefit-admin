@@ -86,7 +86,7 @@ export function LoginPage() {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full bg-black/5 dark:bg-[#07090E]/50 border border-black/10 dark:border-white/10 rounded-xl py-3.5 px-4 pr-12 text-slate-900 dark:text-temple-navy dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-temple-gold focus:ring-2 focus:ring-temple-gold/50 transition-all"
+                  className="w-full bg-black/5 dark:bg-[#07090E]/50 border border-black/10 dark:border-white/10 rounded-xl py-3.5 px-4 pr-12 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-temple-gold focus:ring-2 focus:ring-temple-gold/50 transition-all"
                 />
                 <button
                   type="button"
@@ -127,7 +127,7 @@ export function LoginPage() {
 
           {/* Quick Login Buttons */}
           <div className="mt-6 pt-6 border-t border-black/5 dark:border-white/5">
-            <h2 className="text-3xl font-serif font-black tracking-wider text-slate-900 dark:text-temple-navy dark:text-white uppercase mb-2">
+            <h2 className="text-3xl font-serif font-black tracking-wider text-slate-900 dark:text-white uppercase mb-2">
               TEMPLE<span className="text-temple-gold">FIT</span>
             </h2>
             <p className="text-xs text-slate-600 dark:text-gray-400 uppercase tracking-[0.3em] font-extrabold mb-8">

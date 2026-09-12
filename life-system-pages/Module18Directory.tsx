@@ -177,7 +177,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <Users size={140} className="text-white" />
         </div>
@@ -189,7 +189,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
               </span>
               <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">Total: {localStudents.length} alumnos</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <User className="text-temple-gold" size={26} />
               Directorio de Atletas
             </h2>
@@ -216,7 +216,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
               <div className="relative w-full md:w-96">
                 <Search className="absolute left-3.5 top-3 text-slate-600 dark:text-gray-400" size={16} />
                 <input type="text" aria-label="Buscar atleta por nombre o teléfono" placeholder="Buscar por nombre, escuadrón, email o teléfono..." 
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold/50 rounded-xl text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
@@ -327,7 +327,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                             )}
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-slate-800 dark:text-temple-navy dark:text-white group-hover:text-temple-gold transition">{student.name}</p>
+                            <p className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-temple-gold transition">{student.name}</p>
                             <p className="text-[11px] text-slate-600 dark:text-gray-400">
                               Escuadrón: <span className="text-temple-gold font-bold">{student.escuadronId || 'Paz-Alfa'}</span>
                             </p>
@@ -410,7 +410,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-temple-navy dark:text-white text-xs">
+                  <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
                     <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredStudents.length} Atletas
                     </td>
@@ -453,7 +453,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <Plus size={18} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">Nuevo Atleta TempleFit</h3>
+                    <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Nuevo Atleta TempleFit</h3>
                     <p className="text-xs text-slate-600 dark:text-gray-400">Crea el expediente holístico de 3 pilares.</p>
                   </div>
                 </div>
@@ -498,7 +498,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       type="text" 
                       required
                       placeholder="Ej. Juan Pérez"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.name}
                       onChange={e => setNewAthlete({ ...newAthlete, name: e.target.value })}
                     />
@@ -509,7 +509,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       type="text" 
                       required
                       placeholder="+591 70012345"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.phone}
                       onChange={e => setNewAthlete({ ...newAthlete, phone: e.target.value })}
                     />
@@ -522,7 +522,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <input 
                       type="text" 
                       placeholder="Ej. Alfa-1, Gedeón-2..."
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.escuadronId}
                       onChange={e => setNewAthlete({ ...newAthlete, escuadronId: e.target.value })}
                     />
@@ -530,7 +530,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Fase del Programa</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.phase}
                       onChange={e => setNewAthlete({ ...newAthlete, phase: e.target.value as any })}
                     >
@@ -545,7 +545,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Plan de Membresía</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.plan}
                       onChange={e => setNewAthlete({ ...newAthlete, plan: e.target.value as any })}
                     >
@@ -560,7 +560,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <input 
                       type="number" 
                       placeholder="70"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                       value={newAthlete.weightKg}
                       onChange={e => setNewAthlete({ ...newAthlete, weightKg: Number(e.target.value) })}
                     />
@@ -572,7 +572,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <input 
                     type="text" 
                     placeholder="Ej. Bajar 5kg de grasa, ganar fuerza en calistenia..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={newAthlete.physicalGoal}
                     onChange={e => setNewAthlete({ ...newAthlete, physicalGoal: e.target.value })}
                   />
@@ -583,7 +583,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <input 
                     type="text" 
                     placeholder="Ej. Hábito de oración matutina y vencer el estrés..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-temple-navy dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={newAthlete.spiritualIntention}
                     onChange={e => setNewAthlete({ ...newAthlete, spiritualIntention: e.target.value })}
                   />
@@ -624,7 +624,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <MessageSquare size={16} />
                   </div>
                   <div>
-                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
+                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                       Notificar Próximos Vencimientos
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-gray-400">
@@ -648,7 +648,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       className="p-4 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
                       <div>
-                        <h4 className="text-sm font-bold text-temple-navy dark:text-temple-navy dark:text-white flex items-center gap-2">
+                        <h4 className="text-sm font-bold text-temple-navy dark:text-white flex items-center gap-2">
                           {expiringStudent.name}
                           <span className="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
                             Vence: {expiringStudent.renewalDate}
@@ -677,7 +677,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <button
                   type="button"
                   onClick={() => setIsRetentionModalOpen(false)}
-                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Cerrar
                 </button>
@@ -701,7 +701,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <Check size={16} />
                   </div>
                   <div>
-                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
+                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                       Pase de Lista Grupal (Hoy)
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-gray-400">
@@ -726,7 +726,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       className="p-4 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl flex items-center justify-between gap-4"
                     >
                       <div>
-                        <h4 className="text-sm font-bold text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider">
+                        <h4 className="text-sm font-bold text-temple-navy dark:text-white uppercase tracking-wider">
                           Escuadrón {squad}
                         </h4>
                         <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">
@@ -750,7 +750,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <button
                   type="button"
                   onClick={() => setIsBatchModalOpen(false)}
-                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Cerrar
                 </button>
@@ -774,7 +774,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                     <Share2 size={16} />
                   </div>
                   <div>
-                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-temple-navy dark:text-white">
+                    <h3 className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                       Comunicados Rápidos de WhatsApp
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-gray-400">
@@ -829,7 +829,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                           setCopiedBroadcastIdx(idx);
                           setTimeout(() => setCopiedBroadcastIdx(null), 2500);
                         }}
-                        className="px-3 py-1 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-temple-navy dark:text-white rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition"
+                        className="px-3 py-1 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition"
                       >
                         {copiedBroadcastIdx === idx ? (
                           <>
@@ -855,7 +855,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                 <button
                   type="button"
                   onClick={() => setIsBroadcastModalOpen(false)}
-                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
+                  className="px-5 py-2.5 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-temple-navy dark:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition"
                 >
                   Listo / Cerrar
                 </button>

@@ -115,13 +115,13 @@ export function Module20Recipes() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-white to-slate-50 dark:from-temple-navy-dark dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-6 rounded-xl border border-black/5 dark:border-white/5 relative overflow-hidden">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-white to-slate-50 dark:from-temple-navy-dark dark:to-black text-temple-navy dark:text-white p-6 rounded-xl border border-black/5 dark:border-white/5 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ChefHat size={120} />
         </div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between w-full gap-4">
           <div>
-            <h2 className="text-2xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-2xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <ChefHat className="text-temple-gold" size={24} />
               Gestión de Recetas
             </h2>
@@ -186,11 +186,11 @@ export function Module20Recipes() {
                 <div className="space-y-4">
                   <div>
                     <label className="text-xs text-slate-600 dark:text-gray-400 uppercase font-bold tracking-wider mb-1 block">Nombre</label>
-                    <input type="text" aria-label="Nombre de la receta" value={newRecipe.name} onChange={e => setNewRecipe({ ...newRecipe, name: e.target.value })} required className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-temple-navy dark:text-white focus:border-temple-gold outline-none" placeholder="Ej. Batido de Proteína" />
+                    <input type="text" aria-label="Nombre de la receta" value={newRecipe.name} onChange={e => setNewRecipe({ ...newRecipe, name: e.target.value })} required className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-white focus:border-temple-gold outline-none" placeholder="Ej. Batido de Proteína" />
                   </div>
                   <div>
                     <label className="text-xs text-slate-600 dark:text-gray-400 uppercase font-bold tracking-wider mb-1 block">Descripción Breve</label>
-                    <textarea value={newRecipe.description} onChange={e => setNewRecipe({ ...newRecipe, description: e.target.value })} required rows={2} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-temple-navy dark:text-white focus:border-temple-gold outline-none" placeholder="El desayuno oficial del Reto 21 Días..." />
+                    <textarea value={newRecipe.description} onChange={e => setNewRecipe({ ...newRecipe, description: e.target.value })} required rows={2} className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-white focus:border-temple-gold outline-none" placeholder="El desayuno oficial del Reto 21 Días..." />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -238,7 +238,7 @@ export function Module20Recipes() {
                       value={newRecipe.ingredientsText?.join('\n')} 
                       onChange={e => setNewRecipe({ ...newRecipe, ingredientsText: e.target.value.split('\n') })} 
                       rows={4} 
-                      className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-temple-navy dark:text-white focus:border-temple-gold outline-none" 
+                      className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-white focus:border-temple-gold outline-none" 
                       placeholder="2 huevos\n1 aguacate..." 
                     />
                   </div>
@@ -248,7 +248,7 @@ export function Module20Recipes() {
                       value={newRecipe.steps?.join('\n')} 
                       onChange={e => setNewRecipe({ ...newRecipe, steps: e.target.value.split('\n') })} 
                       rows={4} 
-                      className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-temple-navy dark:text-white focus:border-temple-gold outline-none" 
+                      className="w-full bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-sm text-slate-900 dark:text-white focus:border-temple-gold outline-none" 
                       placeholder="1. Batir los huevos\n2. Cocinar a fuego lento..." 
                     />
                   </div>
@@ -272,7 +272,7 @@ export function Module20Recipes() {
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex bg-white dark:bg-black/5 dark:bg-black/60 p-1 rounded-2xl border border-black/10 dark:border-white/10 shrink-0">
+        <div className="flex bg-white dark:bg-black/60 p-1 rounded-2xl border border-black/10 dark:border-white/10 shrink-0">
           <button
             onClick={() => setViewMode('table')}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
@@ -319,7 +319,7 @@ export function Module20Recipes() {
               <tbody className="divide-y divide-white/5">
                 {filteredRecipes.map((recipe) => (
                   <tr key={recipe.id} className="hover:bg-black/5 dark:bg-white/5 transition-colors group">
-                    <td className="py-4 pl-4 font-bold text-temple-navy dark:text-temple-navy dark:text-white group-hover:text-temple-gold transition-colors">
+                    <td className="py-4 pl-4 font-bold text-temple-navy dark:text-white group-hover:text-temple-gold transition-colors">
                       <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-lg overflow-hidden bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 shrink-0 flex items-center justify-center">
                           {recipe.image ? (
@@ -329,7 +329,7 @@ export function Module20Recipes() {
                           )}
                         </div>
                         <div>
-                          <p className="font-bold text-slate-800 dark:text-temple-navy dark:text-white">{recipe.name}</p>
+                          <p className="font-bold text-slate-800 dark:text-white">{recipe.name}</p>
                           <p className="text-[10px] text-slate-500 dark:text-gray-500">{recipe.servings || 1} porción</p>
                         </div>
                       </div>
@@ -342,7 +342,7 @@ export function Module20Recipes() {
                     <td className="py-4 pl-4 text-center tabular-nums text-slate-700 dark:text-gray-300">
                       {recipe.time || 15}m
                     </td>
-                    <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-temple-navy dark:text-white">
+                    <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
                       {recipe.macros?.calories || 0} kcal
                     </td>
                     <td className="py-4 pl-4 text-right tabular-nums font-bold text-emerald-400">
@@ -367,11 +367,11 @@ export function Module20Recipes() {
                 ))}
               </tbody>
               <tfoot>
-                <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-temple-navy dark:text-white text-xs">
+                <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
                   <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold" colSpan={3}>
                     Promedios del Menú ({filteredRecipes.length} recetas)
                   </td>
-                  <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-temple-navy dark:text-white">
+                  <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-white">
                     {filteredRecipes.length > 0 ? Math.round(filteredRecipes.reduce((sum, r) => sum + (r.macros?.calories || 0), 0) / filteredRecipes.length) : 0} kcal
                   </td>
                   <td className="py-4 pl-4 text-right tabular-nums text-emerald-400">
@@ -406,7 +406,7 @@ export function Module20Recipes() {
                     <span className="text-[10px] font-bold uppercase tracking-widest">Sin Imagen</span>
                   </div>
                 )}
-                <div className="absolute top-3 right-3 bg-white dark:bg-black/5 dark:bg-black/60 backdrop-blur-md px-2 py-1 rounded-full border border-black/10 dark:border-white/10 text-[9px] font-bold text-temple-gold uppercase">
+                <div className="absolute top-3 right-3 bg-white dark:bg-black/60 backdrop-blur-md px-2 py-1 rounded-full border border-black/10 dark:border-white/10 text-[9px] font-bold text-temple-gold uppercase">
                   {recipe.category}
                 </div>
               </div>

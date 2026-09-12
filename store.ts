@@ -494,6 +494,26 @@ const DEFAULT_DB: CRMDatabase = {
       id: 'sop-6', 
       title: 'SOP-06: Los 9 Alimentos Prohibidos en Convalecencia', 
       content: 'Si un atleta cursa con enfermedad o inflamación aguda, se restringen 9 alimentos:\n1. Café\n2. Zumo de naranja procesado\n3. Dulces y azúcares refinados\n4. Sodas y gaseosas\n5. Patatas fritas\n6. Alcohol\n7. Leche de vaca\n8. Comidas fritas\n9. Platos picantes irritantes.' 
+    },
+    {
+      id: 'sop-auditoria-cierre',
+      title: 'SOP-07: Auditoría de KPIs y Cierre de Ciclo',
+      content: '1. Auditoría de progreso de atletas y sumatoria de logros por escuadrón.\n2. Reporte de rentabilidad mensual en Bs. y análisis de conversión post-evento.\n3. Checklist de protocolo de premiación (Coronas Bronce, Plata y Oro) y contratos/remanentes.'
+    },
+    {
+      id: 'sop-planificacion-expansion',
+      title: 'SOP-08: Planificación Anual, Alianzas y Expansión',
+      content: '1. Coordinación con líderes locales y alianzas regionales / empresas aliadas.\n2. Planificación estratégica regional y proyección de crecimiento de los 25 escuadrones.\n3. Reunión de alineación semanal y revisión de cumplimiento de objetivos 50/50.'
+    },
+    {
+      id: 'sop-habitos-calidad',
+      title: 'SOP-09: Hábitos de Calidad y Rendición Semanal',
+      content: '1. Registro diario de prospectos y validación de asistencia técnica 06:00 AM.\n2. Mentoría grupal de 30 min y auditoría del movimiento con capitanes.\n3. Seguimiento de hidratación ElectroHidra y adherencia nutricional del alumno.'
+    },
+    {
+      id: 'sop-plan-accion-estandar',
+      title: 'SOP-10: Plan de Acción Estándar & Embudo de Ventas',
+      content: '1. Firma de roles, responsabilidades y setup tecnológico (WhatsApp, Sheets, CRM).\n2. Capacitación teórica y práctica inicial + Campaña de expectativa masiva.\n3. Refuerzo de ventas del Reto 21 Días, permanencia y cierre de contratos.'
     }
   ],
   claimsTickets: [
@@ -593,7 +613,312 @@ const DEFAULT_DB: CRMDatabase = {
       status: 'draft',
       targetAudience: 'Antonio Eid / Atletas VIP'
     }
-  ]
+  ],
+  inventory: [
+    {
+      id: 'inv-polera-1',
+      name: 'Polera Oficial de Algodón TempleFit',
+      category: 'apparel',
+      cost: 50,
+      price: 100,
+      stock: 45,
+      minStock: 10,
+      size: 'M',
+      color: 'Negro con Dorado',
+      imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-shorts-1',
+      name: 'Shorts Deportivos Tácticos',
+      category: 'apparel',
+      cost: 35,
+      price: 70,
+      stock: 30,
+      minStock: 8,
+      size: 'L',
+      color: 'Azul Marino Táctico',
+      imageUrl: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-hoodie-1',
+      name: 'Canguro / Hoodie Oficial TempleFit',
+      category: 'apparel',
+      cost: 80,
+      price: 150,
+      stock: 20,
+      minStock: 5,
+      size: 'XL',
+      color: 'Negro Premium',
+      imageUrl: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-ginkgo-1',
+      name: 'Ginkgo Biloba Neuro-Circulatorio (120 caps)',
+      category: 'suplementos',
+      cost: 85,
+      price: 150,
+      stock: 25,
+      minStock: 6,
+      imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-coco-1',
+      name: 'Óleo de Coco Extra Virgen (200 ml)',
+      category: 'suplementos',
+      cost: 40,
+      price: 75,
+      stock: 40,
+      minStock: 10,
+      imageUrl: 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-colageno-1',
+      name: 'Colágeno Hidrolizado Articular (100 ml)',
+      category: 'suplementos',
+      cost: 50,
+      price: 95,
+      stock: 35,
+      minStock: 8,
+      imageUrl: 'https://images.unsplash.com/photo-1550572017-edd951aa8f72?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-glutamina-1',
+      name: 'Glutamina Pura Anticatabólica (300 gr)',
+      category: 'suplementos',
+      cost: 80,
+      price: 150,
+      stock: 20,
+      minStock: 5,
+      imageUrl: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-omega-1',
+      name: 'Tabletas de Pescado Omega-3 (20 tabletas)',
+      category: 'suplementos',
+      cost: 5,
+      price: 10,
+      stock: 100,
+      minStock: 25,
+      imageUrl: 'https://images.unsplash.com/photo-1577401239170-897942555fb3?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-levadura-1',
+      name: 'Levadura de Cerveza en Polvo (500 gr)',
+      category: 'suplementos',
+      cost: 45,
+      price: 85,
+      stock: 30,
+      minStock: 6,
+      imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-curcuma-1',
+      name: 'Cúrcuma (Cupesí) en polvo (250 gr)',
+      category: 'suplementos',
+      cost: 18,
+      price: 35,
+      stock: 50,
+      minStock: 12,
+      imageUrl: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-reumasan-1',
+      name: 'Reumasan Crema Articular Tópica',
+      category: 'suplementos',
+      cost: 8,
+      price: 15,
+      stock: 60,
+      minStock: 15,
+      imageUrl: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-sal-1',
+      name: 'Sal Marina Natural (50 gr)',
+      category: 'suplementos',
+      cost: 8,
+      price: 20,
+      stock: 80,
+      minStock: 20,
+      imageUrl: 'https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-b12-1',
+      name: 'Complejo Vitamínico B12',
+      category: 'suplementos',
+      cost: 40,
+      price: 80,
+      stock: 25,
+      minStock: 6,
+      imageUrl: 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-electrohidra-1',
+      name: 'ElectroHidra "Elite-Hydration" (1L)',
+      category: 'snack',
+      cost: 6,
+      price: 15,
+      stock: 50,
+      minStock: 15,
+      imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-electrodetox-1',
+      name: 'ElectroDetox Blast (1L)',
+      category: 'snack',
+      cost: 6,
+      price: 15,
+      stock: 40,
+      minStock: 10,
+      imageUrl: 'https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-bowl-1',
+      name: 'Bowl del Guerrero de Elías',
+      category: 'snack',
+      cost: 10,
+      price: 25,
+      stock: 35,
+      minStock: 10,
+      imageUrl: 'https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: 'inv-smoothie-1',
+      name: 'Smoothie Cerebral de Salomón',
+      category: 'snack',
+      cost: 9,
+      price: 20,
+      stock: 30,
+      minStock: 8,
+      imageUrl: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?q=80&w=800&auto=format&fit=crop'
+    }
+  ],
+  showcaseItems: [
+    {
+      id: 'show-polera-1',
+      type: 'merch',
+      title: 'Polera Oficial de Algodón TempleFit',
+      description: 'Algodón de alta densidad 240gsm, corte vintage elegante y distintivo de escuadrón oficial.',
+      price: 100,
+      imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    },
+    {
+      id: 'show-shorts-1',
+      type: 'merch',
+      title: 'Shorts Deportivos Tácticos',
+      description: 'Microfibra de alto rendimiento transpirable para calistenia y sparring de boxeo ético.',
+      price: 70,
+      imageUrl: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    },
+    {
+      id: 'show-hoodie-1',
+      type: 'merch',
+      title: 'Canguro / Hoodie Oficial TempleFit',
+      description: 'Tejido térmico resistente con bolsillo táctico para el amanecer 06:00 AM en el CristoFit Camp.',
+      price: 150,
+      imageUrl: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    },
+    {
+      id: 'show-ginkgo-1',
+      type: 'merch',
+      title: 'Ginkgo Biloba Neuro-Circulatorio (120 caps)',
+      description: 'Estimulación del flujo sanguíneo cerebral, concentración y biohacking cognitivo.',
+      price: 150,
+      imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    },
+    {
+      id: 'show-coco-1',
+      type: 'merch',
+      title: 'Óleo de Coco Extra Virgen (200 ml)',
+      description: 'Triglicéridos de cadena media (TCM) para energía limpia y metabolismo celular.',
+      price: 75,
+      imageUrl: 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    },
+    {
+      id: 'show-colageno-1',
+      type: 'merch',
+      title: 'Colágeno Hidrolizado (100 ml)',
+      description: 'Regeneración articular, cartílagos y soporte ligamentario para entrenamientos de impacto.',
+      price: 95,
+      imageUrl: 'https://images.unsplash.com/photo-1550572017-edd951aa8f72?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    },
+    {
+      id: 'show-glutamina-1',
+      type: 'merch',
+      title: 'Glutamina Pura Anticatabólica (300 gr)',
+      description: 'Recuperación intestinal y síntesis muscular acelerada post CristoFit Camp.',
+      price: 150,
+      imageUrl: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    },
+    {
+      id: 'show-electrohidra-1',
+      type: 'recipe',
+      title: 'ElectroHidra "Elite-Hydration"',
+      description: 'Fórmula isotónica con sal marina, bicarbonato, magnesio, miel pura y limón.',
+      price: 15,
+      imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    },
+    {
+      id: 'show-electrodetox-1',
+      type: 'recipe',
+      title: 'ElectroDetox Blast (Autofagia)',
+      description: 'Infusión botánica de clavo de olor, canela, pepino, apio y jengibre desintoxicante.',
+      price: 15,
+      imageUrl: 'https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=800&auto=format&fit=crop',
+      status: 'active'
+    }
+  ],
+  sopsList: [
+    {
+      id: 'sop-auditoria-cierre',
+      title: 'SOP: Auditoría de KPIs y Cierre de Ciclo',
+      step1: 'Auditoría de progreso de atletas y sumatoria de logros por escuadrón.',
+      step2: 'Reporte de rentabilidad mensual en Bs. y análisis de conversión post-evento.',
+      step3: 'Checklist de protocolo de premiación (Coronas de Bronce, Plata y Oro) y contratos/remanentes.'
+    },
+    {
+      id: 'sop-planificacion-expansion',
+      title: 'SOP: Planificación Anual, Alianzas y Expansión',
+      step1: 'Coordinación con líderes locales y alianzas regionales / empresas aliadas.',
+      step2: 'Planificación estratégica regional y proyección de crecimiento de los 25 escuadrones.',
+      step3: 'Reunión de alineación semanal y revisión de cumplimiento de objetivos 50/50.'
+    },
+    {
+      id: 'sop-habitos-calidad',
+      title: 'SOP: Hábitos de Calidad y Rendición Semanal',
+      step1: 'Registro diario de prospectos y validación de asistencia técnica 06:00 AM.',
+      step2: 'Mentoría grupal de 30 min y auditoría del movimiento con capitanes.',
+      step3: 'Seguimiento de hidratación ElectroHidra y adherencia nutricional del alumno.'
+    },
+    {
+      id: 'sop-plan-accion-estandar',
+      title: 'SOP: Plan de Acción Estándar & Embudo de Ventas',
+      step1: 'Firma de roles, responsabilidades y setup tecnológico (WhatsApp, Sheets, CRM).',
+      step2: 'Capacitación teórica y práctica inicial + Campaña de expectativa masiva.',
+      step3: 'Refuerzo de ventas del Reto 21 Días, permanencia y cierre de contratos.'
+    }
+  ],
+  monthlyBoard: {
+    month: 'Agosto 2026',
+    verse: 'El espíritu da el diseño. El cuerpo es el templo. La mente crea y edifica vidas. (1 Corintios 6:19-20)',
+    goals: [
+      { area: 'Gimnasio & Reto 21 Días', targetBs: 45000 },
+      { area: 'Snack Bar & Bebidas', targetBs: 15000 },
+      { area: 'Formación E.A.G.E. & Cursos', targetBs: 25000 },
+      { area: 'Armería & Suplementos', targetBs: 18000 }
+    ],
+    retentionTarget: 85,
+    averageTicket: 200,
+    newMembersTarget: 10,
+    notes: 'Enfoque en consolidación de 25 Escuadrones y expansión de CristoFit Camp los sábados.'
+  }
 };
 
 export function getCRMDatabase(): CRMDatabase {
@@ -607,7 +932,32 @@ export function getCRMDatabase(): CRMDatabase {
       } catch (e) {}
       return DEFAULT_DB;
     }
-    return JSON.parse(saved);
+    const parsed = JSON.parse(saved) as CRMDatabase;
+    
+    // Auto-migration: ensure inventory, showcaseItems, sopsList and monthlyBoard are populated
+    let hasUpdated = false;
+    if (!parsed.inventory || parsed.inventory.length === 0) {
+      parsed.inventory = DEFAULT_DB.inventory;
+      hasUpdated = true;
+    }
+    if (!parsed.showcaseItems || parsed.showcaseItems.length === 0) {
+      parsed.showcaseItems = DEFAULT_DB.showcaseItems;
+      hasUpdated = true;
+    }
+    if (!parsed.sopsList || parsed.sopsList.length === 0) {
+      parsed.sopsList = DEFAULT_DB.sopsList;
+      hasUpdated = true;
+    }
+    if (!parsed.monthlyBoard) {
+      parsed.monthlyBoard = DEFAULT_DB.monthlyBoard;
+      hasUpdated = true;
+    }
+    if (hasUpdated) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+      } catch (e) {}
+    }
+    return parsed;
   } catch (err) {
     console.error("Error al parsear CRMDatabase de localStorage:", err);
     return DEFAULT_DB;

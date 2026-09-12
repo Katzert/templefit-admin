@@ -89,7 +89,7 @@ export function Module14Showcase() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 max-w-7xl mx-auto font-sans">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-temple-navy dark:text-white p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#0a1128] dark:via-black dark:to-black text-temple-navy dark:text-white p-8 rounded-3xl border border-black/10 dark:border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ImageIcon size={180} />
         </div>
@@ -99,7 +99,7 @@ export function Module14Showcase() {
               Multimedia & Catálogo
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-temple-navy dark:text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
+          <h2 className="text-3xl md:text-4xl font-black text-temple-navy dark:text-white uppercase tracking-tighter flex items-center gap-3">
             <ImageIcon className="text-pink-500" size={32} />
             Vitrina Pública
           </h2>
@@ -156,12 +156,12 @@ export function Module14Showcase() {
               <Card className={`group relative overflow-hidden rounded-3xl border-2 transition-all hover:border-black/20 dark:border-white/20 shadow-2xl ${itemData.status === 'draft' ? 'border-black/5 dark:border-white/5 opacity-60 hover:opacity-100' : (itemData.type === 'merch' ? 'border-temple-gold/20' : 'border-emerald-500/20')}`}>
                 
                 {/* Image Preview & Upload Area */}
-                <div className="h-52 relative overflow-hidden bg-white dark:bg-black flex flex-col items-center justify-center">
+                <div className="h-52 relative overflow-hidden bg-slate-100 dark:bg-black flex flex-col items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={itemData.imageUrl} alt={itemData.title} className="w-full h-full object-cover opacity-75 group-hover:opacity-40 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500&auto=format&fit=crop'; }} />
+                  <img src={itemData.imageUrl} alt={itemData.title} className="w-full h-full object-cover opacity-85 group-hover:opacity-40 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500&auto=format&fit=crop'; }} />
                   
                   {/* Overlay Controls */}
-                  <div className="absolute inset-0 bg-white dark:bg-black/5 dark:bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 gap-2.5">
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 gap-2.5">
                     <button
                       type="button"
                       onClick={() => fileInputRefs.current[itemData.id]?.click()}
@@ -181,7 +181,7 @@ export function Module14Showcase() {
                     <input 
                       value={itemData.imageUrl}
                       onChange={e => updateItem(itemData.id, 'imageUrl', e.target.value)}
-                      className="w-full bg-black/8 dark:bg-black/80 text-slate-900 dark:text-temple-navy dark:text-white text-[11px] tabular-nums px-3 py-1.5 rounded-xl border border-black/20 dark:border-white/20 focus:outline-none focus:border-temple-gold text-center"
+                      className="w-full bg-black/80 text-white text-[11px] tabular-nums px-3 py-1.5 rounded-xl border border-white/20 focus:outline-none focus:border-temple-gold text-center"
                       placeholder="o pega URL de la imagen..."
                     />
                   </div>
@@ -189,24 +189,24 @@ export function Module14Showcase() {
                   {/* Status Badge */}
                   <button 
                     onClick={() => updateItem(itemData.id, 'status', itemData.status === 'active' ? 'draft' : 'active')}
-                    className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center gap-1 backdrop-blur-md ${itemData.status === 'active' ? 'bg-emerald-500/80 text-white' : 'bg-black/8 dark:bg-black/80 text-slate-600 dark:text-gray-400 border border-black/20 dark:border-white/20'}`}
+                    className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center gap-1 backdrop-blur-md ${itemData.status === 'active' ? 'bg-emerald-500/90 text-white' : 'bg-black/70 text-gray-300 border border-white/20'}`}
                   >
                     {itemData.status === 'active' ? <Eye size={12}/> : <EyeOff size={12}/>}
                     {itemData.status === 'active' ? 'Público' : 'Oculto'}
                   </button>
 
                   {/* Type Badge */}
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white dark:bg-black/8 dark:bg-black/80 text-[9px] font-bold uppercase tracking-widest text-temple-navy dark:text-white border border-black/10 dark:border-white/10 flex items-center gap-1 backdrop-blur-md">
-                    {itemData.type === 'merch' ? <ShoppingBag size={12} className="text-temple-gold"/> : <Utensils size={12} className="text-emerald-500"/>}
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 text-[9px] font-bold uppercase tracking-widest text-white border border-white/10 flex items-center gap-1 backdrop-blur-md">
+                    {itemData.type === 'merch' ? <ShoppingBag size={12} className="text-temple-gold"/> : <Utensils size={12} className="text-emerald-400"/>}
                     {itemData.type === 'merch' ? 'Tienda' : 'Receta'}
                   </div>
                 </div>
 
-                <CardContent className="!p-5 flex flex-col gap-3 bg-gradient-to-b from-[#FBF9F5] dark:from-[#0E1424] to-[#FBF9F5] dark:to-[#07090E]">
+                <CardContent className="!p-5 flex flex-col gap-3 bg-white dark:bg-[#0E1424]">
                   <input 
                     value={itemData.title} 
                     onChange={e => updateItem(itemData.id, 'title', e.target.value)}
-                    className="bg-transparent text-slate-900 dark:text-temple-navy dark:text-white font-black text-lg focus:outline-none w-full border-b border-transparent focus:border-temple-gold/40 pb-1"
+                    className="bg-transparent text-slate-900 dark:text-white font-black text-lg focus:outline-none w-full border-b border-transparent focus:border-temple-gold/40 pb-1"
                     placeholder="Título del elemento"
                   />
                   
