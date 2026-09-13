@@ -190,12 +190,24 @@ html.a11y-monochrome {
   filter: grayscale(100%) !important;
 }
 
-html.a11y-highlight-links a,
-html.a11y-highlight-links button:not([aria-controls="a11y-modal-drawer"]) {
+html.a11y-highlight-links a:not(#accessibility-modal-drawer a):not([aria-controls="accessibility-modal-drawer"]),
+html.a11y-highlight-links button:not(#accessibility-modal-drawer button):not([aria-controls="accessibility-modal-drawer"]) {
   text-decoration: underline !important;
   text-decoration-thickness: 2px !important;
   text-underline-offset: 4px !important;
   outline: 2px solid #D4AF37 !important;
+}
+
+#accessibility-modal-drawer button,
+#accessibility-modal-drawer a {
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+#accessibility-modal-drawer button:focus-visible,
+#accessibility-modal-drawer a:focus-visible {
+  outline: 2px solid #D4AF37 !important;
+  outline-offset: 2px !important;
 }
 
 html.a11y-stop-animations *,

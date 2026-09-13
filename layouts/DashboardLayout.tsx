@@ -141,6 +141,19 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             )}
 
             <a
+              href="https://katzert.github.io/templefit/dashboard/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-temple-gold bg-amber-500/10 dark:bg-temple-gold/10 border border-amber-500/30 dark:border-temple-gold/30 hover:bg-amber-600 hover:text-temple-gold dark:hover:text-white dark:hover:bg-temple-gold dark:hover:text-black transition-all duration-200 mb-2 group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
+            >
+              <div className="flex items-center gap-2">
+                <PieChart size={16} />
+                <span>Simulador ADM</span>
+              </div>
+              <ExternalLink size={14} className="group-hover:translate-x-0.5 transition" />
+            </a>
+
+            <a
               href="https://katzert.github.io/templefit-wiki/"
               target="_blank"
               rel="noopener noreferrer"

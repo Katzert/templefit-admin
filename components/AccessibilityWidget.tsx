@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Eye, 
   Type, 
@@ -46,6 +46,30 @@ export default function AccessibilityWidget() {
   const [mouseY, setMouseY] = useState(0);
   const [showFloatingButton, setShowFloatingButton] = useState(true);
 
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const openDrawer = () => {
+    triggerRef.current = document.activeElement as HTMLElement | null;
+    setIsOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsOpen(false);
+    setTimeout(() => {
+      triggerRef.current?.focus();
+    }, 50);
+  };
+
+  // Focus trap initiation on open
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+    }
+  }, [isOpen]);
+
   // Load saved preferences from localStorage on mount
   useEffect(() => {
     try {
@@ -61,8 +85,18 @@ export default function AccessibilityWidget() {
     } catch (e) {}
 
     // Global custom events so Navbar/Sidebar can open the accessibility drawer
-    const handleToggle = () => setIsOpen(prev => !prev);
-    const handleOpen = () => setIsOpen(true);
+    const handleToggle = () => {
+      setIsOpen(prev => {
+        if (!prev) {
+          triggerRef.current = document.activeElement as HTMLElement | null;
+          return true;
+        } else {
+          setTimeout(() => triggerRef.current?.focus(), 50);
+          return false;
+        }
+      });
+    };
+    const handleOpen = () => openDrawer();
     window.addEventListener('toggle-accessibility-widget', handleToggle);
     window.addEventListener('open-accessibility-widget', handleOpen);
 
@@ -70,10 +104,18 @@ export default function AccessibilityWidget() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.altKey && (e.key === 'a' || e.key === 'A')) {
         e.preventDefault();
-        setIsOpen(prev => !prev);
+        setIsOpen(prev => {
+          if (!prev) {
+            triggerRef.current = document.activeElement as HTMLElement | null;
+            return true;
+          } else {
+            setTimeout(() => triggerRef.current?.focus(), 50);
+            return false;
+          }
+        });
       }
       if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
+        closeDrawer();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -84,14 +126,23 @@ export default function AccessibilityWidget() {
     };
   }, [isOpen]);
 
-  // Track mouse for reading ruler
+  // Track mouse and touch for reading ruler
   useEffect(() => {
     if (!settings.readingRuler) return;
     const handleMouseMove = (e: MouseEvent) => {
       setMouseY(e.clientY);
     };
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches && e.touches[0]) {
+        setMouseY(e.touches[0].clientY);
+      }
+    };
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
   }, [settings.readingRuler]);
 
   // Apply CSS classes to <html> root
@@ -146,10 +197,11 @@ export default function AccessibilityWidget() {
       {showFloatingButton && (
         <aside aria-label="Opciones de accesibilidad">
           <button
-            onClick={() => setIsOpen(prev => !prev)}
+            onClick={() => (isOpen ? closeDrawer() : openDrawer())}
             className="fixed bottom-5 left-5 z-[990] min-w-[48px] min-h-[48px] px-3.5 py-2.5 rounded-full bg-temple-gold hover:bg-temple-gold-bright text-black font-bold shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 border-2 border-amber-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-500"
             aria-label="Abrir opciones de accesibilidad (Alt + A)"
             aria-expanded={isOpen}
+            aria-haspopup="dialog"
             aria-controls="accessibility-modal-drawer"
             title="Opciones de accesibilidad (Alt + A)"
           >
@@ -172,7 +224,7 @@ export default function AccessibilityWidget() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="accessibility-panel-title"
-          onClick={() => setIsOpen(false)}
+          onClick={closeDrawer}
         >
           <div 
             className="bg-white dark:bg-[#0B0F19] text-temple-navy dark:text-white border-2 border-temple-gold/40 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto custom-scrollbar p-6 shadow-2xl relative space-y-6 animate-in slide-in-from-bottom duration-300"
@@ -192,7 +244,8 @@ export default function AccessibilityWidget() {
                 </div>
               </div>
               <button
-                onClick={() => setIsOpen(false)}
+                ref={closeButtonRef}
+                onClick={closeDrawer}
                 className="p-2 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-temple-navy dark:hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
                 aria-label="Cerrar panel de accesibilidad"
               >
@@ -442,7 +495,7 @@ export default function AccessibilityWidget() {
                 Restablecer Todo
               </button>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={closeDrawer}
                 className="px-5 py-2 rounded-xl bg-temple-gold hover:bg-temple-gold-bright text-black font-extrabold text-xs uppercase tracking-wider shadow-md transition"
               >
                 Listo
