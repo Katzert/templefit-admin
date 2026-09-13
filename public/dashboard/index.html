@@ -54,8 +54,23 @@
 </head>
 <body class="bg-temple-navy-dark" style="overflow-x:hidden;">
 
+    <!-- Executive Top Portal Bar -->
+    <div style="background: #070B16; color: #F8FAFC; border-bottom: 2px solid #C5A059; padding: 10px 20px; text-align: center; font-family: 'Outfit', sans-serif; font-size: 12px; position: sticky; top: 0; z-index: 99999; box-shadow: 0 4px 20px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <span style="font-weight: 700; letter-spacing: 0.05em; color: #E2E8F0;">
+            Centro de Transformación <span style="color: #C5A059; font-weight: 900;">TEMPLEFIT</span> • Panel Administrativo & Simulación
+        </span>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <a href="../" style="background: #C5A059; color: #000; padding: 5px 14px; border-radius: 999px; text-decoration: none; text-transform: uppercase; font-size: 10px; font-weight: 900; letter-spacing: 0.08em; transition: all 0.2s;">
+                Portal CRM Activo ➔
+            </a>
+            <a href="https://katzert.github.io/templefit/" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.08); color: #FFF; padding: 5px 14px; border-radius: 999px; text-decoration: none; text-transform: uppercase; font-size: 10px; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); letter-spacing: 0.08em;">
+                Web Pública Principal
+            </a>
+        </div>
+    </div>
+
     <!-- Navigation Header -->
-    <header class="fixed top-0 w-full z-[100] header-glass" id="mainHeader">
+    <header class="fixed top-0 w-full z-[100] header-glass" id="mainHeader" style="top: 46px;">
         <div class="container mx-auto px-4 py-3 md:px-6 md:py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="w-8 h-8 md:w-11 md:h-11 bg-white border-2 border-temple-gold flex items-center justify-center shrink-0 rounded">
@@ -205,96 +220,100 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-7xl mx-auto">
-                <!-- Paquete 1500 -->
+                <!-- Paquete 1: Reto 21 Días -->
                 <div class="tactical-card flex flex-col relative overflow-hidden group p-0">
-                    <div class="h-1 bg-temple-red"></div>
-                    <div class="p-8 border-b border-white/10">
-                        <p class="text-[10px] text-white/40 uppercase tracking-widest mb-2">Transformación Personal</p>
-                        <h4 class="text-2xl font-bold text-white uppercase leading-none">1500 ÍNTEGROS</h4>
-                    </div>
-                    <div class="p-8 flex-grow space-y-6">
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">Entrenamiento NeuroEspiritual</span>
-                            <span class="text-sm font-bold text-temple-gold">200 Bs</span>
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">Catering Abuela Fit (21d)</span>
-                            <span class="text-sm font-bold text-temple-gold">400 Bs</span>
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">Casa del Tenis (CDT)</span>
-                            <span class="text-sm font-bold text-temple-gold">700 Bs</span>
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">Salud Prepago Irene</span>
-                            <span class="text-sm font-bold text-temple-gold">200 Bs</span>
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">Reserva Membresía</span>
-                            <span class="text-sm font-bold text-temple-gold">200 Bs</span>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-temple-red/5 border-t border-temple-red/20">
-                        <p class="text-[10px] text-temple-red font-bold uppercase text-center">¡Oferta válida por 15 días!</p>
-                    </div>
-                </div>
-
-                <!-- Paquete 3000 -->
-                <div class="tactical-card flex flex-col relative overflow-hidden group p-0 border-temple-gold/20">
                     <div class="h-1 bg-temple-gold"></div>
                     <div class="p-8 border-b border-white/10">
-                        <p class="text-[10px] text-temple-gold font-bold uppercase tracking-widest mb-2">Acceso VIP</p>
-                        <h4 class="text-2xl font-bold text-white uppercase leading-none">3000 INQUEBRANTABLES</h4>
+                        <p class="text-[10px] text-temple-gold font-bold uppercase tracking-widest mb-2">Transformación Inicial</p>
+                        <h4 class="text-2xl font-bold text-white uppercase leading-none">RETO 21 DÍAS</h4>
+                        <p class="text-3xl font-black text-white mt-3">200 <span class="text-sm font-bold text-temple-gold">Bs.</span></p>
                     </div>
-                    <div class="p-8 flex-grow space-y-6">
+                    <div class="p-8 flex-grow space-y-5">
                         <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">Capacitación Ventas (10h)</span>
-                            <span class="text-sm font-bold text-temple-gold">500 Bs</span>
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">Catering Abuela Fit</span>
-                            <span class="text-sm font-bold text-temple-gold">400 Bs</span>
+                            <span class="text-xs text-white/70 uppercase font-bold">Entrenamiento Funcional Guiado</span>
+                            <span class="text-xs font-bold text-emerald-400">Incluido</span>
                         </div>
                         <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">Casa del Tenis (Kit)</span>
-                            <span class="text-sm font-bold text-temple-gold">700 Bs</span>
+                            <span class="text-xs text-white/70 uppercase font-bold">Guía Nutricional Antiinflamatoria</span>
+                            <span class="text-xs font-bold text-emerald-400">Incluido</span>
                         </div>
                         <div class="flex justify-between items-start">
-                            <span class="text-xs text-white/60 uppercase font-bold">1 Año Membresía Irene</span>
-                            <span class="text-sm font-bold text-temple-gold">900 Bs</span>
+                            <span class="text-xs text-white/70 uppercase font-bold">Comunidad & Soporte WhatsApp</span>
+                            <span class="text-xs font-bold text-emerald-400">Incluido</span>
                         </div>
-                        <div class="flex justify-between items-start border-t border-white/5 pt-4">
-                            <span class="text-xs text-white/40 uppercase font-bold">TOTAL PAQUETE</span>
-                            <span class="text-xl font-black text-white">3000 Bs</span>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-white/70 uppercase font-bold">Sábado CristoFit Camp</span>
+                            <span class="text-xs font-bold text-emerald-400">Incluido</span>
                         </div>
+                    </div>
+                    <div class="p-4 bg-temple-gold/10 border-t border-temple-gold/20">
+                        <p class="text-[10px] text-temple-gold font-bold uppercase text-center">Inscripción directa en la Web Pública</p>
                     </div>
                 </div>
 
-                <!-- Negocio y Reventa -->
-                <div class="tactical-card flex flex-col relative overflow-hidden group p-0 bg-temple-navy-dark/30">
-                    <div class="h-1 bg-white/20"></div>
+                <!-- Paquete 2: Membresía Trimestral (Featured) -->
+                <div class="tactical-card flex flex-col relative overflow-hidden group p-0 border-2 border-temple-gold shadow-2xl relative">
+                    <div class="h-1 bg-gradient-to-r from-temple-gold to-amber-500"></div>
                     <div class="p-8 border-b border-white/10">
-                        <p class="text-[10px] text-white/40 uppercase tracking-widest mb-2">Escalabilidad</p>
-                        <h4 class="text-2xl font-bold text-white uppercase leading-none">NEGOCIO & REVENTA</h4>
+                        <div class="inline-block bg-temple-gold text-black text-[9px] font-black uppercase tracking-widest px-3 py-0.5 rounded-full mb-2">Más Elegido</div>
+                        <p class="text-[10px] text-temple-gold font-bold uppercase tracking-widest mb-1">Membresía Continua</p>
+                        <h4 class="text-2xl font-bold text-white uppercase leading-none">TRIMESTRAL ATLETA</h4>
+                        <p class="text-3xl font-black text-temple-gold mt-3">500 <span class="text-sm font-bold text-white">Bs. / 3 meses</span></p>
+                        <p class="text-[10px] text-white/50 uppercase tracking-wider mt-1">O 200 Bs. por mes individual</p>
                     </div>
-                    <div class="p-8 flex-grow space-y-6">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-white/60 uppercase font-bold">3 Personas (6 Meses)</span>
-                            <span class="text-sm font-bold text-white">970 Bs</span>
+                    <div class="p-8 flex-grow space-y-5">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-white/70 uppercase font-bold">Acceso a Escuadrones y Horarios</span>
+                            <span class="text-xs font-bold text-emerald-400">Total</span>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-white/60 uppercase font-bold">5 Personas (6 Meses)</span>
-                            <span class="text-sm font-bold text-white">550 Bs</span>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-white/70 uppercase font-bold">Plan Nutricional Adaptativo + Recetas</span>
+                            <span class="text-xs font-bold text-emerald-400">Total</span>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-white/60 uppercase font-bold">20 Personas (1 Año)</span>
-                            <span class="text-sm font-bold text-white">500 Bs</span>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-white/70 uppercase font-bold">Evaluación Antropométrica Mensual</span>
+                            <span class="text-xs font-bold text-emerald-400">Incluido</span>
                         </div>
-                        <div class="pt-4 border-t border-white/5">
-                            <p class="text-[10px] text-temple-gold/60 uppercase leading-tight font-bold">Descuentos corporativos adicionales (10% - 20%) para grupos grandes.</p>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-white/70 uppercase font-bold">Mentoría Hábitos & Disciplina</span>
+                            <span class="text-xs font-bold text-emerald-400">Incluido</span>
                         </div>
                     </div>
-                </div><!-- end Negocio & Reventa card -->
+                    <div class="p-4 bg-temple-gold/15 border-t border-temple-gold/30">
+                        <p class="text-[10px] text-temple-gold font-black uppercase text-center tracking-wider">Ahorro de 100 Bs. vs mes individual</p>
+                    </div>
+                </div>
+
+                <!-- Paquete 3: Formación E.A.G.E. -->
+                <div class="tactical-card flex flex-col relative overflow-hidden group p-0">
+                    <div class="h-1 bg-white/30"></div>
+                    <div class="p-8 border-b border-white/10">
+                        <p class="text-[10px] text-white/40 uppercase tracking-widest mb-2">Certificación & Liderazgo</p>
+                        <h4 class="text-2xl font-bold text-white uppercase leading-none">FORMACIÓN E.A.G.E.</h4>
+                        <p class="text-3xl font-black text-white mt-3">1200 <span class="text-sm font-bold text-temple-gold">Bs.</span></p>
+                    </div>
+                    <div class="p-8 flex-grow space-y-5">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-white/70 uppercase font-bold">Metodología 21 Días (Teoría + Práctica)</span>
+                            <span class="text-xs font-bold text-temple-gold">Intensivo</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-white/70 uppercase font-bold">Neuroventas y Servicio Protocolar</span>
+                            <span class="text-xs font-bold text-temple-gold">Oficial</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-white/70 uppercase font-bold">Certificación con Valor Curricular</span>
+                            <span class="text-xs font-bold text-temple-gold">IBTA / R.M.</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-white/70 uppercase font-bold">Acceso a Bolsa Laboral & Mentoría</span>
+                            <span class="text-xs font-bold text-temple-gold">Exclusivo</span>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white/5 border-t border-white/10">
+                        <p class="text-[10px] text-white/60 font-bold uppercase text-center">Dirigido a líderes y profesionales</p>
+                    </div>
+                </div>
             </div><!-- end grid -->
         </div>
     </section>

@@ -9,11 +9,11 @@ import {
   Link, 
   RotateCcw, 
   X, 
-  Sliders, 
   Check, 
   Maximize2, 
   FileText,
-  MousePointer
+  MousePointer,
+  Accessibility
 } from 'lucide-react';
 
 interface A11ySettings {
@@ -44,7 +44,9 @@ export default function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [settings, setSettings] = useState<A11ySettings>(defaultSettings);
   const [mouseY, setMouseY] = useState(0);
+  const [showFloatingButton, setShowFloatingButton] = useState(true);
 
+  // Load saved preferences from localStorage on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem('templefit_admin_a11y_prefs');
@@ -52,8 +54,19 @@ export default function AccessibilityWidget() {
         const parsed = JSON.parse(saved);
         setSettings({ ...defaultSettings, ...parsed });
       }
+      const hideFab = localStorage.getItem('templefit_admin_hide_a11y_fab');
+      if (hideFab === 'true') {
+        setShowFloatingButton(false);
+      }
     } catch (e) {}
 
+    // Global custom events so Navbar/Sidebar can open the accessibility drawer
+    const handleToggle = () => setIsOpen(prev => !prev);
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('toggle-accessibility-widget', handleToggle);
+    window.addEventListener('open-accessibility-widget', handleOpen);
+
+    // Keyboard shortcut Alt + A to toggle
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.altKey && (e.key === 'a' || e.key === 'A')) {
         e.preventDefault();
@@ -64,9 +77,14 @@ export default function AccessibilityWidget() {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('toggle-accessibility-widget', handleToggle);
+      window.removeEventListener('open-accessibility-widget', handleOpen);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen]);
 
+  // Track mouse for reading ruler
   useEffect(() => {
     if (!settings.readingRuler) return;
     const handleMouseMove = (e: MouseEvent) => {
@@ -76,13 +94,16 @@ export default function AccessibilityWidget() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [settings.readingRuler]);
 
+  // Apply CSS classes to <html> root
   useEffect(() => {
     const root = document.documentElement;
 
+    // Font size
     root.classList.remove('a11y-font-lg', 'a11y-font-xl');
     if (settings.fontSize === 'large') root.classList.add('a11y-font-lg');
     if (settings.fontSize === 'xlarge') root.classList.add('a11y-font-xl');
 
+    // Modifiers
     root.classList.toggle('a11y-dyslexic', settings.dyslexicFont);
     root.classList.toggle('a11y-high-contrast', settings.highContrast);
     root.classList.toggle('a11y-monochrome', settings.monochrome);
@@ -91,6 +112,7 @@ export default function AccessibilityWidget() {
     root.classList.toggle('a11y-text-spacing', settings.textSpacing);
     root.classList.toggle('a11y-big-cursor', settings.bigCursor);
 
+    // Save to localStorage
     try {
       localStorage.setItem('templefit_admin_a11y_prefs', JSON.stringify(settings));
     } catch (e) {}
@@ -111,7 +133,7 @@ export default function AccessibilityWidget() {
 
   return (
     <>
-      {/* Reading Ruler */}
+      {/* Reading Ruler overlay when enabled */}
       {settings.readingRuler && (
         <div 
           className="fixed left-0 right-0 h-10 bg-amber-400/20 border-y-2 border-amber-500 pointer-events-none z-[9999] shadow-2xl transition-all duration-75"
@@ -120,34 +142,36 @@ export default function AccessibilityWidget() {
         />
       )}
 
-      {/* Floating Trigger Button */}
-      <aside aria-label="Herramientas de accesibilidad">
-        <button
-          onClick={() => setIsOpen(prev => !prev)}
-          className="fixed bottom-5 left-5 z-[990] min-w-[48px] min-h-[48px] p-3 rounded-full bg-temple-gold hover:bg-temple-gold-bright text-temple-navy-dark dark:text-black font-bold shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 border-2 border-amber-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-500"
-          aria-label="Abrir panel de accesibilidad A11y (Alt + A)"
-          aria-expanded={isOpen}
-          aria-controls="a11y-modal-drawer"
-          title="Herramientas de Accesibilidad (Alt + A)"
-        >
-          <Sliders size={22} aria-hidden="true" className="animate-spin-slow" />
-          <span className="hidden sm:inline-block text-xs font-black uppercase tracking-wider pr-1">A11y</span>
-          {activeCount > 0 && (
-            <span className="w-5 h-5 rounded-full bg-temple-navy text-temple-gold text-[10px] font-black flex items-center justify-center absolute -top-1 -right-1 shadow-md">
-              {activeCount}
-            </span>
-          )}
-        </button>
-      </aside>
+      {/* Floating Accessibility Trigger Button */}
+      {showFloatingButton && (
+        <aside aria-label="Opciones de accesibilidad">
+          <button
+            onClick={() => setIsOpen(prev => !prev)}
+            className="fixed bottom-5 left-5 z-[990] min-w-[48px] min-h-[48px] px-3.5 py-2.5 rounded-full bg-temple-gold hover:bg-temple-gold-bright text-black font-bold shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 border-2 border-amber-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-500"
+            aria-label="Abrir opciones de accesibilidad (Alt + A)"
+            aria-expanded={isOpen}
+            aria-controls="accessibility-modal-drawer"
+            title="Opciones de accesibilidad (Alt + A)"
+          >
+            <Accessibility size={20} aria-hidden="true" className="text-black" />
+            <span className="hidden sm:inline-block text-xs font-black uppercase tracking-wider">Accesibilidad</span>
+            {activeCount > 0 && (
+              <span className="w-5 h-5 rounded-full bg-temple-navy text-temple-gold text-[10px] font-black flex items-center justify-center absolute -top-1 -right-1 shadow-md">
+                {activeCount}
+              </span>
+            )}
+          </button>
+        </aside>
+      )}
 
-      {/* A11y Drawer Panel */}
+      {/* Accessibility Settings Panel Drawer */}
       {isOpen && (
         <div 
-          id="a11y-modal-drawer"
+          id="accessibility-modal-drawer"
           className="fixed inset-0 z-[1000] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-start p-3 sm:p-6"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="a11y-admin-panel-title"
+          aria-labelledby="accessibility-panel-title"
           onClick={() => setIsOpen(false)}
         >
           <div 
@@ -157,14 +181,14 @@ export default function AccessibilityWidget() {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-temple-gold/15 text-temple-gold border border-temple-gold/30">
-                  <Sliders size={20} />
+                <div className="p-2.5 rounded-xl bg-temple-gold/15 text-temple-gold border border-temple-gold/30">
+                  <Accessibility size={22} />
                 </div>
                 <div>
-                  <h3 id="a11y-admin-panel-title" className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
-                    Accesibilidad (A11y)
+                  <h3 id="accessibility-panel-title" className="text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
+                    Opciones de Accesibilidad
                   </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-gray-400">Estándar WCAG 2.1 AA • Panel CRM</p>
+                  <p className="text-[11px] text-slate-500 dark:text-gray-400">Personaliza la visualización, tamaño y lectura</p>
                 </div>
               </div>
               <button
@@ -278,7 +302,7 @@ export default function AccessibilityWidget() {
                   </div>
                   <div>
                     <p className="text-xs font-bold">Alto Contraste</p>
-                    <p className="text-[10px] text-slate-500 dark:text-gray-400">Realce visual</p>
+                    <p className="text-[10px] text-slate-500 dark:text-gray-400">Máxima nitidez</p>
                   </div>
                 </button>
 
@@ -301,7 +325,7 @@ export default function AccessibilityWidget() {
                 </button>
               </div>
 
-              {/* 4. Highlight Links & Stop Animations */}
+              {/* 4. Links & Stop Animations */}
               <div className="grid grid-cols-2 gap-2.5">
                 <button
                   onClick={() => updateSetting('highlightLinks', !settings.highlightLinks)}
@@ -316,7 +340,7 @@ export default function AccessibilityWidget() {
                     {settings.highlightLinks && <Check size={14} className="text-temple-gold" />}
                   </div>
                   <div>
-                    <p className="text-xs font-bold">Resaltar Links</p>
+                    <p className="text-xs font-bold">Resaltar Enlaces</p>
                     <p className="text-[10px] text-slate-500 dark:text-gray-400">Subrayar enlaces</p>
                   </div>
                 </button>
@@ -376,6 +400,34 @@ export default function AccessibilityWidget() {
                     <p className="text-xs font-bold">Cursor Grande</p>
                     <p className="text-[10px] text-slate-500 dark:text-gray-400">Puntero accesible</p>
                   </div>
+                </button>
+              </div>
+
+              {/* 6. Floating button toggle */}
+              <div className="p-3 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold text-slate-900 dark:text-white">Botón Flotante en Pantalla</p>
+                  <p className="text-[10px] text-slate-500 dark:text-gray-400">Acceso rápido visible en la esquina inferior</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowFloatingButton(prev => {
+                      const next = !prev;
+                      try {
+                        localStorage.setItem('templefit_admin_hide_a11y_fab', String(!next));
+                      } catch (e) {}
+                      return next;
+                    });
+                  }}
+                  className={`w-11 h-6 rounded-full transition-colors relative p-0.5 ${
+                    showFloatingButton ? 'bg-temple-gold' : 'bg-slate-300 dark:bg-slate-700'
+                  }`}
+                  aria-label="Alternar visibilidad del botón flotante"
+                >
+                  <span className={`block w-5 h-5 rounded-full bg-white shadow-md transform transition-transform ${
+                    showFloatingButton ? 'translate-x-5' : 'translate-x-0'
+                  }`} />
                 </button>
               </div>
             </div>
