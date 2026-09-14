@@ -105,7 +105,6 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-          aria-label="Búsqueda global"
         />
         <div className="pr-3 flex items-center gap-1">
           <kbd className="hidden sm:inline-flex items-center gap-0.5 px-2 py-0.5 text-[9px] font-black uppercase text-slate-500 dark:text-gray-400 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 rounded-md">

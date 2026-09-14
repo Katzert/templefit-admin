@@ -5824,17 +5824,6 @@ const DEFAULT_DB: CRMDatabase = {
     }
   ],
   mentorshipSessions: [],
-  inventory: [
-    { id: 'inv-1', name: 'Polera Oficial TempleFit (Algodón Vintage)', category: 'apparel', cost: 50, price: 100, stock: 24, minStock: 8, size: 'L', color: 'Azul Marino / Oro' },
-    { id: 'inv-2', name: 'Shorts Deportivos Tácticos', category: 'apparel', cost: 35, price: 70, stock: 18, minStock: 6, size: 'M', color: 'Azul Marino' },
-    { id: 'inv-3', name: 'Canguro / Hoodie Oficial TempleFit', category: 'apparel', cost: 80, price: 150, stock: 12, minStock: 4, size: 'L', color: 'Negro / Oro' },
-    { id: 'inv-4', name: 'Ginkgo Biloba Neuro-Circulatorio (120 caps)', category: 'suplementos', cost: 95, price: 150, stock: 15, minStock: 5, size: '120 caps' },
-    { id: 'inv-5', name: 'Óleo de Coco Extra Virgen (200 ml)', category: 'suplementos', cost: 45, price: 75, stock: 20, minStock: 5, size: '200 ml' },
-    { id: 'inv-6', name: 'Colágeno Hidrolizado Articular', category: 'suplementos', cost: 60, price: 95, stock: 14, minStock: 4, size: '100 ml' },
-    { id: 'inv-7', name: 'Glutamina Pura Anticatabólica (300 gr)', category: 'suplementos', cost: 95, price: 150, stock: 10, minStock: 3, size: '300 gr' },
-    { id: 'inv-8', name: 'Tabletas Omega-3 Pescado Puro', category: 'suplementos', cost: 5, price: 10, stock: 50, minStock: 15, size: '20 tabletas' },
-    { id: 'inv-9', name: 'Cúrcuma Cupesí Pura en Polvo', category: 'suplementos', cost: 18, price: 35, stock: 30, minStock: 10, size: '250 gr' }
-  ],
   leads: [
     { id: 'ld-1', name: 'Samuel Ortiz', phone: '+59178901234', source: 'instagram', status: 'appointment_set', notes: 'Agendado para clase de prueba sábado 06:00 AM en CristoFit Camp', dateAdded: '2026-08-10' },
     { id: 'ld-2', name: 'Valeria Justiniano', phone: '+59165432198', source: 'whatsapp', status: 'trial', notes: 'En semana de prueba gratuita (Escuadrón Paz). Muy interesada en nutrición.', dateAdded: '2026-08-12' },
@@ -5876,94 +5865,9 @@ const DEFAULT_DB: CRMDatabase = {
   marketingTasks: [
     { id: 'mkt-1', month: 'Agosto 2026', campaignName: 'Lanzamiento Reto 21 Días = ÍNTEGROS', driveLink: 'https://drive.google.com/...', strategy: 'Testimonios reales de atletas, rutina 06:00 AM y cobertura de CristoFit Camp' }
   ],
-  sopsList: [
-    { 
-      id: 'sop-1', 
-      title: 'SOP-01: Protocolo Sábado CristoFit Camp', 
-      content: '06:00-09:30 Entrenamiento físico matutino al aire libre.\n10:00-11:00 Evaluación biométrica Reto 21 Días.\n11:00-13:00 Servicio solidario (Palabra y Pan / Ciudad sin Basura).\n17:30-18:00 Degustación Snack Bar y testimonios.\n18:00-21:00 Show Fit y cierre de inscripciones.' 
-    },
-    { 
-      id: 'sop-2', 
-      title: 'SOP-02: La Regla de los 12 Atletas y Escuadrones', 
-      content: '1. Capacidad estricta de 12 atletas por escuadrón.\n2. Cada escuadrón cuenta con un Capitán asignado.\n3. Si un atleta falta 3 días seguidos, el escuadrón activa visita de respaldo.\n4. Progresión de fases: Paz (Bronce) -> Salvación/Gedeón (Plata) -> Cristo (Oro).' 
-    },
-    { 
-      id: 'sop-3', 
-      title: 'SOP-03: Regla de Decisión del Semáforo', 
-      content: 'Lunes a las 08:00 AM se evalúan 3 números en el Dashboard:\n- VERDE: Replicar lo que funciona. No tocar lo que da fruto.\n- AMARILLO: Ajustar una sola variable a la vez y monitorear 7 días.\n- ROJO: Reunión de emergencia y acción correctiva inmediata.' 
-    },
-    { 
-      id: 'sop-4', 
-      title: 'SOP-04: Protocolo de Pedidos y Regla de No Stock', 
-      content: '1. Prohibido acumular stock perecedero en exceso.\n2. Todo pedido de viandas, catering y snacks requiere 50% de seña antes del viernes.\n3. Producción concentrada los viernes.\n4. Entrega presencial los sábados en CristoFit Camp.' 
-    },
-    { 
-      id: 'sop-5', 
-      title: 'SOP-05: Protocolo Anti-MLM en Productos Nutricionales', 
-      content: '1. Los productos nutricionales se comercializan exclusivamente por su valor nutricional de uso como consumidor.\n2. Prohibido cualquier lenguaje de redes, afiliaciones o negocios multinivel.\n3. Enfoque 100% en salud, energía y recuperación del atleta.' 
-    },
-    { 
-      id: 'sop-6', 
-      title: 'SOP-06: Los 9 Alimentos Prohibidos en Convalecencia', 
-      content: 'Si un atleta cursa con enfermedad o inflamación aguda, se restringen 9 alimentos:\n1. Café\n2. Zumo de naranja procesado\n3. Dulces y azúcares refinados\n4. Sodas y gaseosas\n5. Patatas fritas\n6. Alcohol\n7. Leche de vaca\n8. Comidas fritas\n9. Platos picantes irritantes.' 
-    },
-    {
-      id: 'sop-auditoria-cierre',
-      title: 'SOP-07: Auditoría de KPIs y Cierre de Ciclo',
-      content: '1. Auditoría de progreso de atletas y sumatoria de logros por escuadrón.\n2. Reporte de rentabilidad mensual en Bs. y análisis de conversión post-evento.\n3. Checklist de protocolo de premiación (Coronas Bronce, Plata y Oro) y contratos/remanentes.'
-    },
-    {
-      id: 'sop-planificacion-expansion',
-      title: 'SOP-08: Planificación Anual, Alianzas y Expansión',
-      content: '1. Coordinación con líderes locales y alianzas regionales / empresas aliadas.\n2. Planificación estratégica regional y proyección de crecimiento de los 25 escuadrones.\n3. Reunión de alineación semanal y revisión de cumplimiento de objetivos 50/50.'
-    },
-    {
-      id: 'sop-habitos-calidad',
-      title: 'SOP-09: Hábitos de Calidad y Rendición Semanal',
-      content: '1. Registro diario de prospectos y validación de asistencia técnica 06:00 AM.\n2. Mentoría grupal de 30 min y auditoría del movimiento con capitanes.\n3. Seguimiento de hidratación ElectroHidra y adherencia nutricional del alumno.'
-    },
-    {
-      id: 'sop-plan-accion-estandar',
-      title: 'SOP-10: Plan de Acción Estándar & Embudo de Ventas',
-      content: '1. Firma de roles, responsabilidades y setup tecnológico (WhatsApp, Sheets, CRM).\n2. Capacitación teórica y práctica inicial + Campaña de expectativa masiva.\n3. Refuerzo de ventas del Reto 21 Días, permanencia y cierre de contratos.'
-    }
-  ],
   claimsTickets: [
     { id: 'tck-1', date: '2026-08-04', clientName: 'Valeria Condori', issue: 'Consulta sobre compatibilidad de colágeno hidrolizado con ayuno', status: 'pending', resolution: '' }
   ],
-  showcaseItems: [
-    {
-      id: 'show-1',
-      type: 'merch',
-      title: 'Polera Oficial TempleFit (Algodón Vintage)',
-      description: 'Algodón pesado de alta densidad con distintivo de escuadrón',
-      price: 100,
-      imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&h=500&fit=crop',
-      status: 'active'
-    },
-    {
-      id: 'show-2',
-      type: 'recipe',
-      title: 'ElectroHidra "Elite-Hydration"',
-      description: 'Bebida isotónica con buffer contra lactato y electrolitos puros',
-      price: 15,
-      imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&h=500&fit=crop',
-      status: 'active'
-    }
-  ],
-  monthlyBoard: {
-    month: 'Agosto 2026',
-    verse: 'El espíritu da el diseño. El cuerpo es el templo. La mente crea y edifica vidas. (1 Corintios 6:19-20)',
-    goals: [
-      { area: 'Gimnasio & Reto 21 Días', targetBs: 8000 },
-      { area: 'Snack Bar & Bebidas', targetBs: 3500 },
-      { area: 'Formación E.A.G.E. & Cursos', targetBs: 6000 },
-      { area: 'Armería & Suplementos', targetBs: 2500 }
-    ],
-    retentionTarget: 95,
-    averageTicket: 250,
-    newMembersTarget: 25
-  },
   contentPosts: [
     {
       id: 'post-1',
