@@ -214,7 +214,7 @@ export function Module40CorteEjecutivo() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-[720px] w-full text-left border-collapse">
+          <table className="min-w-[640px] w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400 font-black">
                 <th className="pb-3 pr-4 font-black">Área / Concepto de Negocio</th>
@@ -223,7 +223,6 @@ export function Module40CorteEjecutivo() {
                 <th className="pb-3 pr-4 font-black text-right">Gasto Operativo</th>
                 <th className="pb-3 pr-4 font-black text-right">Margen Neto</th>
                 <th className="pb-3 pr-4 font-black text-center">% Cumplimiento</th>
-                <th className="pb-3 pr-4 font-black text-right">Retiro Fundador (50%)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -250,9 +249,6 @@ export function Module40CorteEjecutivo() {
                       {row.pct}%
                     </span>
                   </td>
-                  <td className="py-4 pl-4 text-right tabular-nums font-bold text-temple-gold">
-                    Bs. {row.founderShare.toLocaleString('es-BO')}
-                  </td>
                 </tr>
               ))}
             </tbody>
@@ -278,12 +274,34 @@ export function Module40CorteEjecutivo() {
                     {totalGoals > 0 ? Math.round((kpis.income / totalGoals) * 100) : 0}%
                   </span>
                 </td>
-                <td className="py-4 pl-4 text-right tabular-nums text-temple-gold text-sm font-black">
-                  Bs. {Math.max(0, Math.round(net * 0.5)).toLocaleString('es-BO')}
-                </td>
               </tr>
             </tfoot>
           </table>
+        </div>
+
+        {/* Distribución Consolidada Regla 50/50 */}
+        <div className="mt-6 pt-5 border-t border-black/10 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50 dark:bg-white/[0.02] p-4 rounded-2xl border border-black/5 dark:border-white/5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-temple-gold/20 text-temple-gold flex items-center justify-center font-black text-sm border border-temple-gold/40">
+              50/50
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase text-temple-navy dark:text-white tracking-wider">
+                Distribución de Utilidades (Regla 50/50 Paulo)
+              </p>
+              <p className="text-[11px] text-slate-600 dark:text-gray-400">
+                Margen Neto Operativo Total: <strong className="text-emerald-400">Bs. {net.toLocaleString('es-BO')}</strong>
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 text-xs font-bold">
+            <div className="px-3.5 py-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/30">
+              50% Reinversión Operativa: <span className="font-black tabular-nums">Bs. {Math.max(0, Math.round(net * 0.5)).toLocaleString('es-BO')}</span>
+            </div>
+            <div className="px-3.5 py-2 rounded-xl bg-temple-gold/10 text-temple-gold border border-temple-gold/30">
+              50% Retiro Sugerido Fundador: <span className="font-black tabular-nums">Bs. {Math.max(0, Math.round(net * 0.5)).toLocaleString('es-BO')}</span>
+            </div>
+          </div>
         </div>
       </motion.div>
 

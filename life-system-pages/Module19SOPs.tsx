@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Megaphone, FileText, HelpCircle, Save, Plus, ChevronDown, ChevronRight, CheckCircle2, AlertOctagon, ArrowRight, Zap, Target, Image as ImageIcon } from 'lucide-react';
+import { BookOpen, Megaphone, FileText, HelpCircle, Save, Plus, Trash2, ChevronDown, ChevronRight, CheckCircle2, AlertOctagon, ArrowRight, Zap, Target, Image as ImageIcon } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { MarketingTask, SOPItem, ClaimTicket } from '../types';
@@ -87,7 +87,7 @@ export function Module19SOPs() {
   const addSop = () => {
     const newSop: SOPItem = {
       id: 'sop-' + Date.now(),
-      title: 'Nuevo Playbook de Combate',
+      title: 'Nuevo Protocolo Operativo',
       step1: '¿Qué hacer primero?',
       step2: '¿Qué hacer después?',
       step3: '¿Cómo cerrar la situación?'
@@ -204,9 +204,13 @@ export function Module19SOPs() {
                       className="bg-transparent text-temple-gold font-black text-xl focus:outline-none w-full uppercase tracking-tighter"
                       placeholder="TÍTULO DEL PROTOCOLO"
                     />
-                    <button onClick={() => deleteItem('playbooks', sop.id)} className="text-gray-600 hover:text-red-500 transition-colors ml-4" title="Destruir Playbook">
-                      <Save size={18} className="opacity-0 w-0" /> {/* Hack to keep spacing */}
-                      Eliminar
+                    <button 
+                      onClick={() => deleteItem('playbooks', sop.id)} 
+                      className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-red-400 transition-colors ml-4 px-2.5 py-1.5 rounded-lg hover:bg-red-500/10 shrink-0" 
+                      title="Eliminar protocolo"
+                    >
+                      <Trash2 size={15} />
+                      <span>Eliminar</span>
                     </button>
                   </div>
                   
@@ -249,7 +253,7 @@ export function Module19SOPs() {
               {sopsList.length === 0 && (
                 <div className="col-span-full py-16 text-center text-slate-500 dark:text-gray-500 border border-dashed border-black/10 dark:border-white/10 rounded-3xl">
                   <AlertOctagon size={48} className="mx-auto mb-4 opacity-20" />
-                  <p className="font-bold">No hay protocolos de combate activos.</p>
+                  <p className="font-bold">No hay protocolos operativos activos.</p>
                 </div>
               )}
             </div>
@@ -306,7 +310,7 @@ export function Module19SOPs() {
                   {/* Cuerpo */}
                   <div className="p-6 flex-1 flex flex-col bg-black/[0.03] dark:bg-black/40">
                     <label className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
-                      <Megaphone size={12} className="text-blue-500" /> Estrategia de Combate
+                      <Megaphone size={12} className="text-blue-500" /> Estrategia de Campaña
                     </label>
                     <textarea
                       value={task.strategy}
@@ -333,12 +337,12 @@ export function Module19SOPs() {
             <div className="flex justify-between items-center bg-red-500/10 p-4 rounded-2xl border border-red-500/20">
               <div>
                 <h3 className="text-lg font-black text-red-400 uppercase tracking-wider flex items-center gap-2">
-                  <AlertOctagon size={20} /> Fuego Cruzado (Reclamos)
+                  <AlertOctagon size={20} /> Reclamos e Incidencias
                 </h3>
-                <p className="text-xs text-slate-600 dark:text-gray-400">La regla es simple: Lee, soluciona en la vida real, y dale al botón verde.</p>
+                <p className="text-xs text-slate-600 dark:text-gray-400">Atención rápida de situaciones con atletas para resolver en el mismo día.</p>
               </div>
               <button onClick={addClaim} className="flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-red-600 transition shadow-lg shadow-red-500/20">
-                <Plus size={16} /> Reportar Fuego
+                <Plus size={16} /> Nuevo Reclamo
               </button>
             </div>
 
@@ -354,7 +358,7 @@ export function Module19SOPs() {
                       <div className="relative z-10 flex flex-col flex-1 gap-4">
                         <div className="flex justify-between items-start">
                           <span className="text-[10px] bg-red-500/20 text-red-400 px-2.5 py-1 rounded-full font-black uppercase tracking-widest">{ticket.date}</span>
-                          <button onClick={() => deleteItem('claims', ticket.id)} className="text-gray-600 hover:text-red-400 transition" title="Borrar Error">
+                          <button onClick={() => deleteItem('claims', ticket.id)} className="text-gray-600 hover:text-red-400 transition" title="Eliminar Reclamo">
                             <Plus size={18} className="rotate-45" />
                           </button>
                         </div>
@@ -373,7 +377,7 @@ export function Module19SOPs() {
                         </div>
                         
                         <div className="flex-1">
-                          <label className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold">Descripción del Fuego</label>
+                          <label className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold">Descripción de la Incidencia</label>
                           <textarea 
                             value={ticket.issue} 
                             onChange={e => {
@@ -399,8 +403,8 @@ export function Module19SOPs() {
             ) : (
               <div className="py-12 text-center text-emerald-500 border border-dashed border-emerald-500/20 bg-emerald-900/10 rounded-3xl">
                 <CheckCircle2 size={48} className="mx-auto mb-4 opacity-50" />
-                <p className="font-black text-xl uppercase tracking-widest">Cero Fuego</p>
-                <p className="text-sm text-emerald-500/70 mt-2">Todo en paz. Buen trabajo, Head Coach.</p>
+                <p className="font-black text-xl uppercase tracking-widest">Sin Reclamos Pendientes</p>
+                <p className="text-sm text-emerald-500/70 mt-2">Todos los reportes e incidencias están al día.</p>
               </div>
             )}
 

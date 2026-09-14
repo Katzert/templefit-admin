@@ -24,11 +24,11 @@ const FLAT_NAV_GROUPS: NavGroup[] = [
   {
     groupName: 'Administración TempleFit',
     items: [
-      { id: 'home', icon: <Home size={18} />, label: '1. Centro de Mando' },
-      { id: 'directory', icon: <Users size={18} />, label: '2. Atletas & Fichas', minRole: 'instructor' },
-      { id: 'pipeline', icon: <Briefcase size={18} />, label: '3. Embudo Comercial', minRole: 'admin' },
-      { id: 'armeria', icon: <ShoppingBag size={18} />, label: '4. Armería & Snack Bar', minRole: 'admin' },
-      { id: 'finance', icon: <DollarSign size={18} />, label: '5. Finanzas & Caja', minRole: 'admin' },
+      { id: 'home', icon: <Home size={18} />, label: 'Centro de Mando' },
+      { id: 'directory', icon: <Users size={18} />, label: 'Atletas & Fichas', minRole: 'instructor' },
+      { id: 'pipeline', icon: <Briefcase size={18} />, label: 'Embudo Comercial', minRole: 'admin' },
+      { id: 'armeria', icon: <ShoppingBag size={18} />, label: 'Armería & Snack Bar', minRole: 'admin' },
+      { id: 'finance', icon: <DollarSign size={18} />, label: 'Finanzas & Caja', minRole: 'admin' },
     ]
   }
 ];

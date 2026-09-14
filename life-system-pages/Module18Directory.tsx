@@ -418,7 +418,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       {filteredStudents.filter(s => s.phase?.startsWith('1')).length} F1 • {filteredStudents.filter(s => s.phase?.startsWith('2')).length} F2 • {filteredStudents.filter(s => s.phase?.startsWith('3')).length} F3
                     </td>
                     <td className="py-4 text-emerald-400 tabular-nums">
-                      {filteredStudents.filter(s => s.phone).length} WhatsApps
+                      {filteredStudents.filter(s => s.phone).length} Con Teléfono
                     </td>
                     <td className="py-4 tabular-nums">
                       <span className="text-emerald-400">{filteredStudents.filter(s => s.status === 'active').length} Activos</span>
@@ -427,7 +427,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       )}
                     </td>
                     <td className="py-4 pr-4 text-right tabular-nums text-temple-gold font-black">
-                      Cuotas: Bs. {(filteredStudents.filter(s => s.status === 'active').length * 200).toLocaleString()}
+                      Cuotas: Bs. {filteredStudents.filter(s => s.status === 'active').reduce((sum, s) => sum + (s.serviceFeeBs || 200), 0).toLocaleString('es-BO')}
                     </td>
                   </tr>
                 </tfoot>

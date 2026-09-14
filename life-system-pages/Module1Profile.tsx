@@ -565,12 +565,18 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
             <button
               type="button"
-              onClick={() => handleAddSnackCharge(20)}
+              onClick={() => {
+                const input = typeof window !== 'undefined' ? window.prompt("Monto consumido en Snack Bar / Suplementos (Bs.):", "20") : null;
+                if (input) {
+                  const val = parseFloat(input);
+                  if (!isNaN(val) && val > 0) handleAddSnackCharge(val);
+                }
+              }}
               className="px-3 py-2 bg-black/5 dark:bg-white/5 hover:bg-amber-500/20 text-slate-700 dark:text-gray-300 hover:text-temple-gold border border-black/10 dark:border-white/10 rounded-xl text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5"
-              title="Registrar consumo de hidratación o snack"
+              title="Anotar consumo en el Snack Bar"
             >
               <Coffee size={14} className="text-temple-gold" />
-              <span>+ 20 Bs Snack Bar</span>
+              <span>+ Consumo Snack</span>
             </button>
           </div>
         </div>
@@ -591,7 +597,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                 else if (newPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
                 else if (newPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
                 else if (newPlan === 'CristoFit Camp') { fee = 150; cycle = 'mensual'; }
-                else if (newPlan === 'Formación E.A.G.E. (Guerra Espiritual)') { fee = 300; cycle = 'mensual'; }
+                else if (newPlan === 'Formación E.A.G.E.') { fee = 300; cycle = 'mensual'; }
                 else if (newPlan === 'Pase Diario') { fee = 25; cycle = 'sesion'; }
                 handleSaveField('serviceFeeBs', fee);
                 handleSaveField('billingCycle', cycle);
@@ -605,7 +611,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Semestral Atleta (950 Bs. / 6 meses)</option>
               <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 (450 Bs.)</option>
               <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp (150 Bs.)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E. (Guerra Espiritual)">Formación E.A.G.E. (300 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. (300 Bs.)</option>
               <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario (25 Bs.)</option>
             </select>
           </div>
