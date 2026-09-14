@@ -246,7 +246,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         
         {/* Top Header Mobile */}
         <header className="md:hidden flex items-center justify-between px-3 py-2.5 border-b border-black/5 dark:border-white/5 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-lg sticky top-0 z-30 shadow-sm gap-2">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 min-h-[40px] min-w-[40px] flex items-center justify-center text-amber-800 dark:text-temple-gold bg-black/5 dark:bg-white/5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold shrink-0" aria-label="Abrir navegación lateral">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-amber-800 dark:text-temple-gold bg-black/5 dark:bg-white/5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold shrink-0" aria-label="Abrir navegación lateral">
             <Menu size={20} />
           </button>
           
@@ -262,7 +262,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                   window.dispatchEvent(new CustomEvent('toggle-accessibility-widget'));
                 }
               }}
-              className="p-2 min-h-[40px] min-w-[40px] flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-temple-gold transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold rounded-xl bg-black/5 dark:bg-white/5"
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-temple-gold transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold rounded-xl bg-black/5 dark:bg-white/5"
               aria-label="Abrir opciones de accesibilidad"
               title="Opciones de Accesibilidad (Alt + A)"
             >
@@ -270,7 +270,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             </button>
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-2 min-h-[40px] min-w-[40px] flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-temple-gold transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold rounded-xl bg-black/5 dark:bg-white/5"
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-temple-gold transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold rounded-xl bg-black/5 dark:bg-white/5"
               aria-label="Ver notificaciones"
             >
               <Bell size={18} />
@@ -395,7 +395,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setActiveTab('finance')}
-                  className="px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-emerald-600 hover:text-temple-gold dark:hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="min-h-[44px] px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-emerald-600 hover:text-temple-gold dark:hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   title="Nuevo Asiento Contable"
                 >
                   <DollarSign size={13} />
@@ -403,7 +403,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                 </button>
                 <button
                   onClick={() => setActiveTab('pipeline')}
-                  className="px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-blue-500/40 text-blue-700 dark:text-blue-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-blue-600 hover:text-temple-gold dark:hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="min-h-[44px] px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-blue-500/40 text-blue-700 dark:text-blue-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-blue-600 hover:text-temple-gold dark:hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   title="Nuevo Prospecto"
                 >
                   <Briefcase size={13} />
@@ -411,7 +411,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
                 </button>
                 <button
                   onClick={() => setActiveTab('directory')}
-                  className="px-3.5 py-2 rounded-xl bg-temple-gold text-black text-[10px] font-black uppercase tracking-wider shadow-lg hover:bg-amber-400 transition-all flex items-center gap-1.5 shadow-temple-gold/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
+                  className="min-h-[44px] px-3.5 py-2 rounded-xl bg-temple-gold text-black text-[10px] font-black uppercase tracking-wider shadow-lg hover:bg-amber-400 transition-all flex items-center gap-1.5 shadow-temple-gold/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
                   title="Directorio de Atletas"
                 >
                   <Users size={13} />
