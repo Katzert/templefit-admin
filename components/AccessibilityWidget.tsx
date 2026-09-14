@@ -198,7 +198,7 @@ export default function AccessibilityWidget() {
         <aside aria-label="Opciones de accesibilidad">
           <button
             onClick={() => (isOpen ? closeDrawer() : openDrawer())}
-            className="fixed bottom-5 left-5 z-[990] min-w-[48px] min-h-[48px] px-3.5 py-2.5 rounded-full bg-temple-gold hover:bg-temple-gold-bright text-black font-bold shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 border-2 border-amber-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-500"
+            className="fixed bottom-20 md:bottom-5 left-4 md:left-5 z-[990] min-w-[44px] min-h-[44px] sm:min-w-[48px] sm:min-h-[48px] px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full bg-temple-gold hover:bg-temple-gold-bright text-black font-bold shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 border-2 border-amber-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-500"
             aria-label="Abrir opciones de accesibilidad (Alt + A)"
             aria-expanded={isOpen}
             aria-haspopup="dialog"

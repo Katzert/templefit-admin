@@ -230,7 +230,7 @@ function setupProfitSimulator() {
 
         legend.innerHTML = '';
         categoryData.forEach(cat => {
-            const percentage = ((cat.amount / totalInc) * 100).toFixed(1);
+            const percentage = avgMonthly > 0 ? ((cat.amount / avgMonthly) * 100).toFixed(1) : '0.0';
             const div = document.createElement('div');
             div.className = 'flex items-center justify-between border-b border-white/5 pb-2';
             div.innerHTML = `

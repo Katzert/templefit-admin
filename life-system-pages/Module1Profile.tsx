@@ -31,7 +31,12 @@ import {
   Award,
   Crown,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  DollarSign,
+  CreditCard,
+  Receipt,
+  Clock,
+  Coffee
 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -58,6 +63,18 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [birthDate, setBirthDate] = useState<string>("1995-01-01");
   const [isVipProfile, setIsVipProfile] = useState<boolean>(false);
+
+  // Servicio Contratado & Facturación / Cobranzas
+  const [paidServiceTitle, setPaidServiceTitle] = useState<string>("Reto 21 Días - Transformación Inicial (200 Bs.)");
+  const [serviceFeeBs, setServiceFeeBs] = useState<number>(200);
+  const [billingCycle, setBillingCycle] = useState<string>("mensual");
+  const [paymentStatus, setPaymentStatus] = useState<string>("pagado");
+  const [amountPaidBs, setAmountPaidBs] = useState<number>(200);
+  const [pendingBalanceBs, setPendingBalanceBs] = useState<number>(0);
+  const [lastPaymentDate, setLastPaymentDate] = useState<string>("2026-08-01");
+  const [nextDueDate, setNextDueDate] = useState<string>("2026-09-01");
+  const [snackBarBalanceBs, setSnackBarBalanceBs] = useState<number>(0);
+  const [additionalServices, setAdditionalServices] = useState<string[]>([]);
 
   // Biometrics & Body (Pilar 1)
   const [heightM, setHeightM] = useState<number>(1.75);
@@ -131,6 +148,18 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     setBirthDate(selectedStudent.birthDate || "1995-01-01");
     setIsVipProfile(!!selectedStudent.isVipProfile);
 
+    // Sync billing & active service
+    setPaidServiceTitle(selectedStudent.paidServiceTitle || `${selectedStudent.plan || 'Reto 21 Días'} (${selectedStudent.serviceFeeBs || 200} Bs.)`);
+    setServiceFeeBs(selectedStudent.serviceFeeBs || 200);
+    setBillingCycle(selectedStudent.billingCycle || "mensual");
+    setPaymentStatus(selectedStudent.paymentStatus || "pagado");
+    setAmountPaidBs(selectedStudent.amountPaidBs !== undefined ? selectedStudent.amountPaidBs : (selectedStudent.serviceFeeBs || 200));
+    setPendingBalanceBs(selectedStudent.pendingBalanceBs !== undefined ? selectedStudent.pendingBalanceBs : 0);
+    setLastPaymentDate(selectedStudent.lastPaymentDate || selectedStudent.startDate || "2026-08-01");
+    setNextDueDate(selectedStudent.nextDueDate || selectedStudent.renewalDate || "2026-09-01");
+    setSnackBarBalanceBs(selectedStudent.snackBarBalanceBs || 0);
+    setAdditionalServices(selectedStudent.additionalServices || ['Snack Bar Prepago', 'ElectroHidra']);
+
     setHeightM(selectedStudent.heightM || 1.75);
     setWeightKg(selectedStudent.weightKg || 75);
     setWorkoutLevel(selectedStudent.workoutLevel || "Intermedio");
@@ -187,8 +216,16 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
         if (field === 'neuroticAndStressFactors') updated.neuroticAndStressFactors = String(newValue);
         if (field === 'purpose') updated.spiritualIntention = String(newValue);
         if (field === 'mentorshipNotes') updated.mentorshipNotes = String(newValue);
-        if (field === 'attendanceHistory') updated.attendanceHistory = newValue;
-        if (field === 'assessments') updated.assessments = newValue;
+        if (field === 'paidServiceTitle') updated.paidServiceTitle = String(newValue);
+        if (field === 'serviceFeeBs') updated.serviceFeeBs = Number(newValue);
+        if (field === 'billingCycle') updated.billingCycle = newValue;
+        if (field === 'paymentStatus') updated.paymentStatus = newValue;
+        if (field === 'amountPaidBs') updated.amountPaidBs = Number(newValue);
+        if (field === 'pendingBalanceBs') updated.pendingBalanceBs = Number(newValue);
+        if (field === 'lastPaymentDate') updated.lastPaymentDate = String(newValue);
+        if (field === 'nextDueDate') updated.nextDueDate = String(newValue);
+        if (field === 'snackBarBalanceBs') updated.snackBarBalanceBs = Number(newValue);
+        if (field === 'additionalServices') updated.additionalServices = newValue;
 
         updatedActiveStudent = updated;
         return updated;
@@ -212,6 +249,16 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     if (field === 'avatarUrl') setAvatarUrl(newValue);
     if (field === 'birthDate') setBirthDate(newValue);
     if (field === 'isVipProfile') setIsVipProfile(newValue);
+    if (field === 'paidServiceTitle') setPaidServiceTitle(newValue);
+    if (field === 'serviceFeeBs') setServiceFeeBs(Number(newValue));
+    if (field === 'billingCycle') setBillingCycle(newValue);
+    if (field === 'paymentStatus') setPaymentStatus(newValue);
+    if (field === 'amountPaidBs') setAmountPaidBs(Number(newValue));
+    if (field === 'pendingBalanceBs') setPendingBalanceBs(Number(newValue));
+    if (field === 'lastPaymentDate') setLastPaymentDate(newValue);
+    if (field === 'nextDueDate') setNextDueDate(newValue);
+    if (field === 'snackBarBalanceBs') setSnackBarBalanceBs(Number(newValue));
+    if (field === 'additionalServices') setAdditionalServices(newValue);
     if (field === 'heightM') setHeightM(Number(newValue));
     if (field === 'weightKg') setWeightKg(Number(newValue));
     if (field === 'workoutLevel') setWorkoutLevel(newValue);
@@ -228,6 +275,52 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
     setShowSavedToast(true);
     setTimeout(() => setShowSavedToast(false), 2000);
+  };
+
+  const handleRecordFullPayment = () => {
+    if (!selectedStudent) return;
+    const fee = serviceFeeBs || 200;
+    const today = new Date().toISOString().split('T')[0];
+    const nextMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+    handleSaveField('amountPaidBs', fee);
+    handleSaveField('pendingBalanceBs', 0);
+    handleSaveField('paymentStatus', 'pagado');
+    handleSaveField('lastPaymentDate', today);
+    handleSaveField('nextDueDate', nextMonth);
+    handleSaveField('status', 'active');
+
+    // Also register in CRM financial ledger
+    const db = getCRMDatabase();
+    const newTx = {
+      id: `tx-${Date.now()}`,
+      date: today,
+      type: 'income' as const,
+      category: 'membership' as const,
+      amount: fee,
+      description: `Cobro cuota: ${plan} (${fee} Bs.) - ${name}`
+    };
+    db.transactions = [newTx, ...(db.transactions || [])];
+    saveCRMDatabase(db);
+  };
+
+  const handleAddSnackCharge = (amount: number) => {
+    if (!selectedStudent) return;
+    const today = new Date().toISOString().split('T')[0];
+    const newBalance = (snackBarBalanceBs || 0) + amount;
+    handleSaveField('snackBarBalanceBs', newBalance);
+
+    const db = getCRMDatabase();
+    const newTx = {
+      id: `tx-${Date.now()}`,
+      date: today,
+      type: 'income' as const,
+      category: 'snack' as const,
+      amount: amount,
+      description: `Consumo Snack Bar (+${amount} Bs.) - ${name}`
+    };
+    db.transactions = [newTx, ...(db.transactions || [])];
+    saveCRMDatabase(db);
   };
 
   const handleAddAttendance = () => {
@@ -423,6 +516,151 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                 <span>Marcar Asistencia Hoy</span>
               </button>
             )}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* SERVICIO CONTRATADO & ESTADO DE CUENTA (CONEXIÓN FINANCIERA) */}
+      <motion.div variants={item} className="bg-white dark:bg-[#0E1424]/95 border-2 border-temple-gold/30 rounded-3xl p-5 md:p-6 shadow-2xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/10 dark:border-white/10 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-temple-gold/20 flex items-center justify-center text-temple-gold border border-temple-gold/40 shadow-md">
+              <Receipt size={20} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-temple-gold">Servicio Activo & Facturación</span>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                  paymentStatus === 'pagado' ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/40' :
+                  paymentStatus === 'parcial' ? 'bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/40' :
+                  'bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/40 animate-pulse'
+                }`}>
+                  {paymentStatus === 'pagado' ? '✓ Al Día (Pagado)' : paymentStatus === 'parcial' ? 'Abono Parcial' : '⚡ Saldo Pendiente'}
+                </span>
+              </div>
+              <h3 className="text-base md:text-lg font-black uppercase text-temple-navy dark:text-white tracking-wide mt-0.5">
+                {paidServiceTitle || `${plan} (Bs. ${serviceFeeBs})`}
+              </h3>
+            </div>
+          </div>
+
+          {/* Quick Action Buttons */}
+          <div className="flex flex-wrap items-center gap-2">
+            {pendingBalanceBs > 0 ? (
+              <button
+                type="button"
+                onClick={handleRecordFullPayment}
+                className="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-1.5 shadow-md shadow-emerald-500/20"
+                title="Marcar pago total y registrar en caja"
+              >
+                <CheckCircle2 size={14} />
+                <span>Cobrar Saldo (Bs. {pendingBalanceBs})</span>
+              </button>
+            ) : (
+              <span className="px-3 py-1.5 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 rounded-xl text-xs font-bold flex items-center gap-1.5 border border-emerald-500/30">
+                <CheckCircle2 size={14} className="text-emerald-500" />
+                <span>Membresía Cubierta</span>
+              </span>
+            )}
+
+            <button
+              type="button"
+              onClick={() => handleAddSnackCharge(20)}
+              className="px-3 py-2 bg-black/5 dark:bg-white/5 hover:bg-amber-500/20 text-slate-700 dark:text-gray-300 hover:text-temple-gold border border-black/10 dark:border-white/10 rounded-xl text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5"
+              title="Registrar consumo de hidratación o snack"
+            >
+              <Coffee size={14} className="text-temple-gold" />
+              <span>+ 20 Bs Snack Bar</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Breakdown Row */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+          <div className="p-3.5 bg-slate-50 dark:bg-black/40 rounded-2xl border border-black/5 dark:border-white/5">
+            <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-gray-400 block">Plan Contratado</span>
+            <select
+              value={plan}
+              onChange={(e) => {
+                const newPlan = e.target.value as any;
+                handleSaveField('plan', newPlan);
+                let fee = 200;
+                let cycle: any = 'mensual';
+                if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual') { fee = 200; cycle = 'mensual'; }
+                else if (newPlan === 'Trimestral Atleta') { fee = 500; cycle = 'trimestral'; }
+                else if (newPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
+                else if (newPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
+                else if (newPlan === 'CristoFit Camp') { fee = 150; cycle = 'mensual'; }
+                else if (newPlan === 'Formación E.A.G.E. (Guerra Espiritual)') { fee = 300; cycle = 'mensual'; }
+                else if (newPlan === 'Pase Diario') { fee = 25; cycle = 'sesion'; }
+                handleSaveField('serviceFeeBs', fee);
+                handleSaveField('billingCycle', cycle);
+                handleSaveField('paidServiceTitle', `${newPlan} (${fee} Bs.)`);
+              }}
+              className="w-full bg-transparent font-black text-xs md:text-sm text-temple-navy dark:text-white mt-1 focus:outline-none cursor-pointer"
+            >
+              <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días (200 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual (200 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Trimestral Atleta (500 Bs. / 3 meses)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Semestral Atleta (950 Bs. / 6 meses)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 (450 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp (150 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E. (Guerra Espiritual)">Formación E.A.G.E. (300 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario (25 Bs.)</option>
+            </select>
+          </div>
+
+          <div className="p-3.5 bg-slate-50 dark:bg-black/40 rounded-2xl border border-black/5 dark:border-white/5">
+            <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-gray-400 block">Monto Abonado</span>
+            <div className="flex items-baseline gap-1 mt-1">
+              <span className="text-xs font-bold text-temple-gold">Bs.</span>
+              <InlineEdit
+                value={String(amountPaidBs)}
+                onSave={(val) => {
+                  const num = Number(val) || 0;
+                  handleSaveField('amountPaidBs', num);
+                  const rem = Math.max((serviceFeeBs || 200) - num, 0);
+                  handleSaveField('pendingBalanceBs', rem);
+                  handleSaveField('paymentStatus', rem === 0 ? 'pagado' : num > 0 ? 'parcial' : 'pendiente');
+                }}
+                className="text-base font-black text-emerald-600 dark:text-emerald-400 p-0"
+                placeholder="200"
+              />
+            </div>
+          </div>
+
+          <div className="p-3.5 bg-slate-50 dark:bg-black/40 rounded-2xl border border-black/5 dark:border-white/5">
+            <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-gray-400 block">Saldo Pendiente</span>
+            <div className="flex items-baseline gap-1 mt-1">
+              <span className="text-xs font-bold text-temple-gold">Bs.</span>
+              <span className={`text-base font-black ${pendingBalanceBs > 0 ? 'text-red-500 dark:text-red-400' : 'text-slate-400 dark:text-gray-500'}`}>
+                {pendingBalanceBs}
+              </span>
+            </div>
+          </div>
+
+          <div className="p-3.5 bg-slate-50 dark:bg-black/40 rounded-2xl border border-black/5 dark:border-white/5">
+            <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-gray-400 block">Próxima Renovación</span>
+            <InlineEdit
+              value={nextDueDate}
+              onSave={(val) => handleSaveField('nextDueDate', val)}
+              className="text-xs md:text-sm font-bold text-temple-navy dark:text-white mt-1 p-0"
+              placeholder="AAAA-MM-DD"
+            />
+          </div>
+        </div>
+
+        {/* Consumo Hub & Snack Bar */}
+        <div className="p-3.5 bg-black/[0.02] dark:bg-white/[0.02] rounded-2xl border border-black/5 dark:border-white/5 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2">
+            <Coffee size={16} className="text-temple-gold" />
+            <span className="font-bold text-slate-700 dark:text-gray-300">Consumo Snack Bar Acumulado:</span>
+            <span className="font-black text-temple-navy dark:text-white">Bs. {snackBarBalanceBs || 0}</span>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] font-medium text-slate-600 dark:text-gray-400">
+            <span>Último pago registrado: <strong className="text-slate-900 dark:text-white">{lastPaymentDate || 'Al inicio'}</strong></span>
+            <span>•</span>
+            <span>Ciclo: <strong className="text-temple-gold uppercase">{billingCycle}</strong></span>
           </div>
         </div>
       </motion.div>
@@ -666,7 +904,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={currentRoutineExercises}
                       onSave={(val) => handleSaveField('currentRoutineExercises', val)}
                       multiline
-                      className="tabular-nums text-xs leading-relaxed text-slate-800 dark:text-gray-200 bg-slate-100 dark:bg-black/40 p-4 rounded-xl border border-black/10 dark:border-white/10"
+                      className="tabular-nums text-xs leading-relaxed text-slate-950 dark:text-gray-100 bg-white dark:bg-black/50 p-4 rounded-xl border border-slate-300 dark:border-white/20 font-medium"
                       placeholder="1. Dominadas estrictas (4x8)..."
                     />
                   </div>
@@ -773,7 +1011,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={currentDiet}
                       onSave={(val) => handleSaveField('currentDiet', val)}
                       multiline
-                      className="text-xs text-slate-700 dark:text-gray-300 bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/10 dark:border-white/10"
+                      className="text-xs text-slate-900 dark:text-gray-100 bg-white dark:bg-black/50 p-3 rounded-xl border border-slate-300 dark:border-white/20 font-medium"
                       placeholder="Ej. Café en ayunas, comida rápida al mediodía y cenas copiosas..."
                     />
                   </div>
@@ -787,7 +1025,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={prescribedDiet}
                       onSave={(val) => handleSaveField('prescribedDiet', val)}
                       multiline
-                      className="text-xs font-bold text-emerald-400 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/30"
+                      className="text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/30"
                       placeholder="Ej. Desayuno con avena y chía, almuerzo con proteína limpia y cena ligera..."
                     />
                   </div>
@@ -797,6 +1035,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                     <InlineEdit
                       value={allergies}
                       onSave={(val) => handleSaveField('allergies', val)}
+                      className="text-slate-900 dark:text-white font-medium"
                       placeholder="Ej. Intolerante a lactosa, celiaquía o mariscos..."
                     />
                   </div>
@@ -823,7 +1062,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={eatingDisordersOrIssues}
                       onSave={(val) => handleSaveField('eatingDisordersOrIssues', val)}
                       multiline
-                      className="text-xs text-amber-200 bg-amber-500/10 p-3 rounded-xl border border-amber-500/30"
+                      className="text-xs font-semibold text-amber-900 dark:text-amber-200 bg-amber-500/15 p-3 rounded-xl border border-amber-500/40"
                       placeholder="Ej. Picar compulsivamente en la noche o gastritis por estrés..."
                     />
                   </div>
@@ -837,7 +1076,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                       value={neuroticAndStressFactors}
                       onSave={(val) => handleSaveField('neuroticAndStressFactors', val)}
                       multiline
-                      className="text-xs text-slate-700 dark:text-gray-300 bg-black/[0.03] dark:bg-black/40 p-3 rounded-xl border border-black/10 dark:border-white/10"
+                      className="text-xs text-slate-900 dark:text-gray-100 bg-white dark:bg-black/50 p-3 rounded-xl border border-slate-300 dark:border-white/20 font-medium"
                       placeholder="Ej. Insomnio leve, tensión muscular en cuello por jornada laboral..."
                     />
                   </div>

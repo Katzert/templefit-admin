@@ -214,7 +214,7 @@ export function Module40CorteEjecutivo() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="min-w-[720px] w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400 font-black">
                 <th className="pb-3 pr-4 font-black">Área / Concepto de Negocio</th>

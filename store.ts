@@ -4,295 +4,5707 @@ import { CRMDatabase } from './types';
 import { db as firestoreDb } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const STORAGE_KEY = 'templefit_holistic_students_v3';
+const STORAGE_KEY = 'templefit_holistic_students_v4';
 
 const DEFAULT_DB: CRMDatabase = {
   students: [
-    {
-      id: 'std-vip-antonio',
-      name: 'Antonio Eid',
-      phone: '+59178099887',
-      email: 'antonio.eid@templefit.com',
-      instructorAssigned: 'Paulo Alberto Gil Cuellar (Head Coach)',
-      status: 'active',
-      plan: 'Coaching 1 a 1',
-      startDate: '2026-08-01',
-      renewalDate: '2026-09-01',
-      birthDate: '1992-05-18',
-      
-      // Pilar 1: CUERPO
-      physicalGoal: 'Hipertrofia funcional, potencia en calistenia y composición corporal óptima',
-      weightKg: 79.5,
-      heightM: 1.78,
-      workoutLevel: 'Avanzado',
-      currentRoutineExercises: '1. Dominadas estrictas lastradas (4x8)\n2. Fondos en paralelas olímpicas (4x10)\n3. Sentadilla búlgara con tempo 3-0-1 (4x12)\n4. Flexiones diamante explosivas (4x15)\n5. Protocolo de respiración Buteyko y cardio funcional 06:00 AM',
-      
-      // Pilar 2: MENTE & NUTRICIÓN
-      nutritionPlan: 'Protocolo Salomón + Proteína Limpia y Superávit Controlado',
-      currentDiet: 'Alimentación irregular por trabajo, exceso de café sin desayuno y cenas altas en carbohidratos después de las 21:00.',
-      prescribedDiet: '06:00 AM: Hidratación con ElectroHidra (1L).\n08:00 AM: Bowl de Elías con avena, chía y miel pura.\n13:00 PM: Proteína limpia + vegetales al vapor y grasas buenas.\n19:30 PM: Cena digestiva ligera (Catering Abuela Fit) + infusión relajante.',
-      allergiesOrRestrictions: 'Sensibilidad a lácteos enteros y comida frita irritante',
-      eatingDisordersOrIssues: 'Tendencia a picar por estrés nocturno y digestión lenta por comidas a destiempo.',
-      neuroticAndStressFactors: 'Picos de cortisol laboral, tensión cervical por pantalla e insomnio ocasional.',
-      
-      // Pilar 3: ESPÍRITU
-      spiritualIntention: 'Liderazgo con propósito, serenidad mental y disciplina innegociable en el Reto 21 Días',
-      mentorshipNotes: 'Atleta con altísima capacidad de enfoque. La clave es el orden en sus horas de sueño y la hidratación matutina.',
-      
-      // Seguimiento
-      attendanceHistory: [
-        { date: '2026-08-20', attended: true, notes: 'Sesión CristoFit Camp - Cumplió 100%' },
-        { date: '2026-08-21', attended: true, notes: 'Fuerza tren superior' },
-        { date: '2026-08-22', attended: true, notes: 'Evaluación Reto 21 Días' },
-        { date: '2026-08-24', attended: true, notes: 'Calistenia y movilidad' },
-        { date: '2026-08-25', attended: true, notes: 'Respiración y fondos' }
-      ],
-      assessments: [
-        { date: '2026-08-01', weightKg: 82.0, heightM: 1.78, imc: 25.9, notes: 'Evaluación inicial de ingreso' },
-        { date: '2026-08-22', weightKg: 79.5, heightM: 1.78, imc: 25.1, notes: 'Bajó 2.5kg de grasa y mejoró resistencia' }
-      ],
-      
-      escuadronId: 'Cristo-1',
-      phase: '3 - Perfeccionamiento',
-      isVipProfile: true,
-      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: true },
-      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80'
+  {
+    "id": "std-vip-antonio",
+    "name": "Antonio Eid",
+    "phone": "+59171000000",
+    "email": "antonio.eid@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Coaching 1 a 1",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1988-01-01",
+    "paidServiceTitle": "Coaching Personalizado 1 a 1 (450 Bs.)",
+    "serviceFeeBs": 450,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 450,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 55,
+    "heightM": 1.6,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Alfa. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 56.8,
+        "heightM": 1.6,
+        "imc": 22.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 55,
+        "heightM": 1.6,
+        "imc": 21.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Alfa",
+    "phase": "1 - Iniciación",
+    "isVipProfile": true,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": true
     },
-    {
-      id: 'std-1',
-      name: 'Carlos Gutiérrez',
-      phone: '+59170012345',
-      email: 'carlos.g@templefit.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Reto 21 Días',
-      startDate: '2026-08-01',
-      renewalDate: '2026-08-22',
-      physicalGoal: 'Perder 5kg de grasa y ganar potencia en calistenia',
-      weightKg: 81.5,
-      workoutLevel: 'Intermedio',
-      nutritionPlan: 'ElectroHidra + Nutrición Anti-inflamatoria',
-      allergiesOrRestrictions: 'Intolerante a la lactosa',
-      spiritualIntention: 'Consistencia en la oración 06:00 AM y control del estrés',
-      mentorshipNotes: 'Excelente disciplina en CristoFit Camp. Superó récord en barras paralelas.',
-      escuadronId: 'Gedeón-1',
-      phase: '2 - Desarrollo',
-      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: false }
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80"
+  },
+  {
+    "id": "std-1",
+    "name": "Carlos Gutiérrez",
+    "phone": "+59171083719",
+    "email": "carlos.gutierrez@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1989-02-04",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 62.5,
+    "heightM": 1.63,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Beta. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 64.3,
+        "heightM": 1.63,
+        "imc": 24.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 62.5,
+        "heightM": 1.63,
+        "imc": 23.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Beta",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
     },
-    {
-      id: 'std-2',
-      name: 'Mariana Flores',
-      phone: '+59178945612',
-      email: 'mariana.f@templefit.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Reto 21 Días',
-      startDate: '2026-08-05',
-      renewalDate: '2026-08-26',
-      physicalGoal: 'Tonificación muscular, postura y flexibilidad',
-      weightKg: 59.5,
-      workoutLevel: 'Principiante',
-      nutritionPlan: 'Smoothie de Salomón + Plan Detox sin azúcar',
-      allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Renovación de mentalidad y lectura de NeuroBiblia',
-      mentorshipNotes: 'Notable mejoría en niveles de energía matutina. Integrada a su escuadrón.',
-      escuadronId: 'Paz-Alfa',
-      phase: '1 - Iniciación',
-      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-2",
+    "name": "Mariana Flores",
+    "phone": "+59171167438",
+    "email": "mariana.flores@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1990-03-07",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 70,
+    "heightM": 1.66,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Gamma. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 71.8,
+        "heightM": 1.66,
+        "imc": 26.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 70,
+        "heightM": 1.66,
+        "imc": 25.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Gamma",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
     },
-    {
-      id: 'std-3',
-      name: 'José Luis Mamani',
-      phone: '+59170123456',
-      email: 'jluis.mamani@templefit.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Formación E.A.G.E. (Guerra Espiritual)',
-      startDate: '2026-07-15',
-      renewalDate: '2026-08-15',
-      physicalGoal: 'Fuerza extrema, calistenia avanzada y combate ético',
-      weightKg: 78.0,
-      workoutLevel: 'Avanzado',
-      nutritionPlan: 'Bowl de Elías + Suplementación con Glutamina',
-      allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Capitán de Escuadrón y formador de nuevos atletas',
-      mentorshipNotes: 'Capitán del Escuadrón Cristo-1. Lidera las brigadas de servicio Palabra y Pan.',
-      escuadronId: 'Cristo-1',
-      phase: '3 - Perfeccionamiento',
-      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: true }
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-3",
+    "name": "José Luis Mamani",
+    "phone": "+59171251157",
+    "email": "jose.luis.mamani@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1991-04-10",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 76,
+    "heightM": 1.69,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Delta. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 77.8,
+        "heightM": 1.69,
+        "imc": 27.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 76,
+        "heightM": 1.69,
+        "imc": 26.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Delta",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
     },
-    {
-      id: 'std-4',
-      name: 'Daniela Quispe',
-      phone: '+59171234567',
-      email: 'dani.quispe@templefit.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Reto 21 Días',
-      startDate: '2026-08-01',
-      renewalDate: '2026-08-22',
-      physicalGoal: 'Resistencia cardiovascular y hábitos matutinos',
-      weightKg: 57.0,
-      workoutLevel: 'Principiante',
-      nutritionPlan: 'Infusión de Daniel + Hidratación 2.8L',
-      allergiesOrRestrictions: 'Alergia al maní',
-      spiritualIntention: 'Paz espiritual, vencer la ansiedad y devocional diario',
-      mentorshipNotes: 'Asistió puntual al CristoFit Camp del sábado. Muy comprometida.',
-      escuadronId: 'Paz-Alfa',
-      phase: '1 - Iniciación',
-      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: false }
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-4",
+    "name": "Daniela Quispe",
+    "phone": "+59171334876",
+    "email": "daniela.quispe@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1992-05-13",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 83.5,
+    "heightM": 1.72,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-1. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 85.3,
+        "heightM": 1.72,
+        "imc": 28.8,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 83.5,
+        "heightM": 1.72,
+        "imc": 28.2,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-1",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
     },
-    {
-      id: 'std-5',
-      name: 'Miguel Ángel Rojas',
-      phone: '+59172345678',
-      email: 'miguel.rojas@templefit.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Formación E.A.G.E. (Guerra Espiritual)',
-      startDate: '2026-06-01',
-      renewalDate: '2026-08-30',
-      physicalGoal: 'Atleta de Alto Rendimiento y prevención de lesiones',
-      weightKg: 75.0,
-      workoutLevel: 'Avanzado',
-      nutritionPlan: 'Nutrición Metabólica + Ginkgo Biloba + Omega-3',
-      allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Liderazgo ético en su empresa y mentoría en escuadrón',
-      mentorshipNotes: 'Completó 210 horas académicas del ciclo 1. Excelente testimonio.',
-      escuadronId: 'Cristo-1',
-      phase: '3 - Perfeccionamiento',
-      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: true }
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-5",
+    "name": "Andrés Paredes",
+    "phone": "+59171418595",
+    "email": "andres.paredes@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1993-06-16",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 59,
+    "heightM": 1.75,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-2. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 60.8,
+        "heightM": 1.75,
+        "imc": 19.9,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 59,
+        "heightM": 1.75,
+        "imc": 19.3,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-2",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
     },
-    {
-      id: 'std-6',
-      name: 'Valeria Condori',
-      phone: '+59173456789',
-      email: 'vale.condori@templefit.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'expiring',
-      plan: 'Reto 21 Días',
-      startDate: '2026-07-20',
-      renewalDate: '2026-08-10',
-      physicalGoal: 'Reducir grasa corporal y mejorar digestión',
-      weightKg: 62.0,
-      workoutLevel: 'Principiante',
-      nutritionPlan: 'ElectroDetox Blast + Pan sin levadura (Abuela Fit)',
-      allergiesOrRestrictions: 'Intolerancia al gluten',
-      spiritualIntention: 'Vencer el insomnio y alinear ritmo circadiano (22:00 a 06:00)',
-      mentorshipNotes: 'Membresía por vencer en 3 días. Enviar mensaje de renovación cordial vía WhatsApp.',
-      escuadronId: 'Gedeón-2',
-      phase: '2 - Desarrollo',
-      hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-6",
+    "name": "Valeria Mercado",
+    "phone": "+59171502314",
+    "email": "valeria.mercado@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1994-07-19",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 65,
+    "heightM": 1.78,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-3. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 66.8,
+        "heightM": 1.78,
+        "imc": 21.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 65,
+        "heightM": 1.78,
+        "imc": 20.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-3",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": false
     },
-    {
-      id: 'std-7',
-      name: 'Andrés Paredes',
-      phone: '+59174567890',
-      email: 'andres.paredes@templefit.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Neuro-Entrenamiento en Ventas (Completo)',
-      startDate: '2026-07-25',
-      renewalDate: '2026-08-25',
-      physicalGoal: 'Acondicionamiento físico de atleta comercial',
-      weightKg: 80.0,
-      workoutLevel: 'Intermedio',
-      nutritionPlan: 'Superávit limpio + Alimentos Neuro-cognitivos',
-      allergiesOrRestrictions: 'Ninguna',
-      spiritualIntention: 'Integrar principios bíblicos en negociaciones y ventas',
-      mentorshipNotes: 'Módulo 02 (Respiración Buteyko) completado con éxito.',
-      escuadronId: 'Gedeón-2',
-      phase: '2 - Desarrollo',
-      hubConsumption: { snackBar: true, merchandise: true, preventiveMedicine: false }
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-7",
+    "name": "Rodrigo Mendoza",
+    "phone": "+59171586033",
+    "email": "rodrigo.mendoza@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1995-08-22",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 72.5,
+    "heightM": 1.81,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-4. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 74.3,
+        "heightM": 1.81,
+        "imc": 22.7,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 72.5,
+        "heightM": 1.81,
+        "imc": 22.1,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-4",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
     },
-    {
-      id: 'std-8',
-      name: 'Camila Vargas',
-      phone: '+59175678901',
-      email: 'camila.vargas@templefit.com',
-      instructorAssigned: 'Paulo (Head Coach)',
-      status: 'active',
-      plan: 'Reto 21 Días',
-      startDate: '2026-08-01',
-      renewalDate: '2026-08-22',
-      physicalGoal: 'Bajar 6kg de grasa y ganar energía vital',
-      weightKg: 68.0,
-      workoutLevel: 'Principiante',
-      nutritionPlan: 'Catering Saludable Abuela Fit + Hidratación activa',
-      allergiesOrRestrictions: 'Alergia a mariscos',
-      spiritualIntention: 'Disciplina diaria de oración y enfoque',
-      mentorshipNotes: 'Excelente progreso en los primeros 10 días de reto.',
-      escuadronId: 'Paz-Beta',
-      phase: '1 - Iniciación',
-      hubConsumption: { snackBar: true, merchandise: false, preventiveMedicine: true }
-    }
-  ],
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-8",
+    "name": "Camila Zeballos",
+    "phone": "+59171669752",
+    "email": "camila.zeballos@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "expiring",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-08-28",
+    "birthDate": "1996-09-25",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pendiente",
+    "amountPaidBs": 0,
+    "pendingBalanceBs": 200,
+    "lastPaymentDate": "",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 80,
+    "heightM": 1.84,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-5. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 81.8,
+        "heightM": 1.84,
+        "imc": 24.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 80,
+        "heightM": 1.84,
+        "imc": 23.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-5",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-9",
+    "name": "Fernando Torrico",
+    "phone": "+59171753471",
+    "email": "fernando.torrico@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1997-10-01",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 86,
+    "heightM": 1.62,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-6. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 87.8,
+        "heightM": 1.62,
+        "imc": 33.5,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 86,
+        "heightM": 1.62,
+        "imc": 32.8,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-6",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-10",
+    "name": "Gabriela Rojas",
+    "phone": "+59171837190",
+    "email": "gabriela.rojas@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1998-11-04",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 61.5,
+    "heightM": 1.65,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-7. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 63.3,
+        "heightM": 1.65,
+        "imc": 23.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 61.5,
+        "heightM": 1.65,
+        "imc": 22.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-7",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-11",
+    "name": "Diego Villarroel",
+    "phone": "+59171920909",
+    "email": "diego.villarroel@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1999-12-07",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 69,
+    "heightM": 1.68,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-8. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 70.8,
+        "heightM": 1.68,
+        "imc": 25.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 69,
+        "heightM": 1.68,
+        "imc": 24.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-8",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-12",
+    "name": "Luciana Peñaranda",
+    "phone": "+59172004628",
+    "email": "luciana.penaranda@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2000-01-10",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 75,
+    "heightM": 1.71,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-1. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 76.8,
+        "heightM": 1.71,
+        "imc": 26.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 75,
+        "heightM": 1.71,
+        "imc": 25.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-1",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-13",
+    "name": "Mauricio Calvimontes",
+    "phone": "+59172088347",
+    "email": "mauricio.calvimontes@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2001-02-13",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 82.5,
+    "heightM": 1.74,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-2. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 84.3,
+        "heightM": 1.74,
+        "imc": 27.8,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 82.5,
+        "heightM": 1.74,
+        "imc": 27.2,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-2",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-14",
+    "name": "Sofia Banzer",
+    "phone": "+59172172066",
+    "email": "sofia.banzer@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2002-03-16",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "parcial",
+    "amountPaidBs": 100,
+    "pendingBalanceBs": 100,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 58,
+    "heightM": 1.77,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-3. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 59.8,
+        "heightM": 1.77,
+        "imc": 19.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 58,
+        "heightM": 1.77,
+        "imc": 18.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-3",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-15",
+    "name": "Javier Justiniano",
+    "phone": "+59172255785",
+    "email": "javier.justiniano@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1988-04-19",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 64,
+    "heightM": 1.8,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-4. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 65.8,
+        "heightM": 1.8,
+        "imc": 20.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 64,
+        "heightM": 1.8,
+        "imc": 19.8,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-4",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-16",
+    "name": "Natalia Aguilera",
+    "phone": "+59172339504",
+    "email": "natalia.aguilera@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1989-05-22",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 71.5,
+    "heightM": 1.83,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-5. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 73.3,
+        "heightM": 1.83,
+        "imc": 21.9,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 71.5,
+        "heightM": 1.83,
+        "imc": 21.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-5",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-17",
+    "name": "Mateo Saucedo",
+    "phone": "+59172423223",
+    "email": "mateo.saucedo@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1990-06-25",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 79,
+    "heightM": 1.61,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-6. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 80.8,
+        "heightM": 1.61,
+        "imc": 31.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 79,
+        "heightM": 1.61,
+        "imc": 30.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-6",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-18",
+    "name": "Isabella Hurtado",
+    "phone": "+59172506942",
+    "email": "isabella.hurtado@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1991-07-01",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 85,
+    "heightM": 1.64,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-7. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 86.8,
+        "heightM": 1.64,
+        "imc": 32.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 85,
+        "heightM": 1.64,
+        "imc": 31.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-7",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-19",
+    "name": "Sebastián Pinto",
+    "phone": "+59172590661",
+    "email": "sebastian.pinto@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "expiring",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-08-28",
+    "birthDate": "1992-08-04",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pendiente",
+    "amountPaidBs": 0,
+    "pendingBalanceBs": 200,
+    "lastPaymentDate": "",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 60.5,
+    "heightM": 1.67,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-8. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 62.3,
+        "heightM": 1.67,
+        "imc": 22.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 60.5,
+        "heightM": 1.67,
+        "imc": 21.7,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-8",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-20",
+    "name": "Renata Claros",
+    "phone": "+59172674380",
+    "email": "renata.claros@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1993-09-07",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 68,
+    "heightM": 1.7,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Alfa. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 69.8,
+        "heightM": 1.7,
+        "imc": 24.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 68,
+        "heightM": 1.7,
+        "imc": 23.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Alfa",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-21",
+    "name": "Nicolás Antelo",
+    "phone": "+59172758099",
+    "email": "nicolas.antelo@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1994-10-10",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 74,
+    "heightM": 1.73,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Beta. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 75.8,
+        "heightM": 1.73,
+        "imc": 25.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 74,
+        "heightM": 1.73,
+        "imc": 24.7,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Beta",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-22",
+    "name": "Paola Vaca",
+    "phone": "+59172841818",
+    "email": "paola.vaca@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1995-11-13",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 81.5,
+    "heightM": 1.76,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Gamma. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 83.3,
+        "heightM": 1.76,
+        "imc": 26.9,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 81.5,
+        "heightM": 1.76,
+        "imc": 26.3,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Gamma",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-23",
+    "name": "Ignacio Ribera",
+    "phone": "+59172925537",
+    "email": "ignacio.ribera@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1996-12-16",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 57,
+    "heightM": 1.79,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Delta. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 58.8,
+        "heightM": 1.79,
+        "imc": 18.4,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 57,
+        "heightM": 1.79,
+        "imc": 17.8,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Delta",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-24",
+    "name": "Juliana Morales",
+    "phone": "+59173009256",
+    "email": "juliana.morales@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Reto 21 Días",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1997-01-19",
+    "paidServiceTitle": "Reto 21 Días - Transformación Inicial (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 63,
+    "heightM": 1.82,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-1. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 64.8,
+        "heightM": 1.82,
+        "imc": 19.6,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 63,
+        "heightM": 1.82,
+        "imc": 19,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-1",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-25",
+    "name": "Álvaro Terrazas",
+    "phone": "+59173092975",
+    "email": "alvaro.terrazas@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1998-02-22",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 70.5,
+    "heightM": 1.6,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-2. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 72.3,
+        "heightM": 1.6,
+        "imc": 28.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 70.5,
+        "heightM": 1.6,
+        "imc": 27.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-2",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-26",
+    "name": "Claudia Justiniano",
+    "phone": "+59173176694",
+    "email": "claudia.justiniano@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1999-03-25",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 78,
+    "heightM": 1.63,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-3. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 79.8,
+        "heightM": 1.63,
+        "imc": 30,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 78,
+        "heightM": 1.63,
+        "imc": 29.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-3",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-27",
+    "name": "Gabriel Montero",
+    "phone": "+59173260413",
+    "email": "gabriel.montero@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2000-04-01",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 84,
+    "heightM": 1.66,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-4. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 85.8,
+        "heightM": 1.66,
+        "imc": 31.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 84,
+        "heightM": 1.66,
+        "imc": 30.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-4",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-28",
+    "name": "Adriana Siles",
+    "phone": "+59173344132",
+    "email": "adriana.siles@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2001-05-04",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 59.5,
+    "heightM": 1.69,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-5. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 61.3,
+        "heightM": 1.69,
+        "imc": 21.5,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 59.5,
+        "heightM": 1.69,
+        "imc": 20.8,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-5",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-29",
+    "name": "Fabián Arteaga",
+    "phone": "+59173427851",
+    "email": "fabian.arteaga@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2002-06-07",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 67,
+    "heightM": 1.72,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-6. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 68.8,
+        "heightM": 1.72,
+        "imc": 23.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 67,
+        "heightM": 1.72,
+        "imc": 22.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-6",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-30",
+    "name": "Alejandra Cossio",
+    "phone": "+59173511570",
+    "email": "alejandra.cossio@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1988-07-10",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 73,
+    "heightM": 1.75,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-7. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 74.8,
+        "heightM": 1.75,
+        "imc": 24.4,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 73,
+        "heightM": 1.75,
+        "imc": 23.8,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-7",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-31",
+    "name": "Leonardo Daza",
+    "phone": "+59173595289",
+    "email": "leonardo.daza@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1989-08-13",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 80.5,
+    "heightM": 1.78,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-8. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 82.3,
+        "heightM": 1.78,
+        "imc": 26,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 80.5,
+        "heightM": 1.78,
+        "imc": 25.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-8",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-32",
+    "name": "Melany Rivero",
+    "phone": "+59173679008",
+    "email": "melany.rivero@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "expiring",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-08-28",
+    "birthDate": "1990-09-16",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pendiente",
+    "amountPaidBs": 0,
+    "pendingBalanceBs": 200,
+    "lastPaymentDate": "",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 56,
+    "heightM": 1.81,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-1. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 57.8,
+        "heightM": 1.81,
+        "imc": 17.6,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 56,
+        "heightM": 1.81,
+        "imc": 17.1,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-1",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-33",
+    "name": "Lucas Arze",
+    "phone": "+59173762727",
+    "email": "lucas.arze@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1991-10-19",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 62,
+    "heightM": 1.84,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-2. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 63.8,
+        "heightM": 1.84,
+        "imc": 18.8,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 62,
+        "heightM": 1.84,
+        "imc": 18.3,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-2",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-34",
+    "name": "Micaela Paz",
+    "phone": "+59173846446",
+    "email": "micaela.paz@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1992-11-22",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 69.5,
+    "heightM": 1.62,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-3. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 71.3,
+        "heightM": 1.62,
+        "imc": 27.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 69.5,
+        "heightM": 1.62,
+        "imc": 26.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-3",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-35",
+    "name": "Santiago Soliz",
+    "phone": "+59173930165",
+    "email": "santiago.soliz@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1993-12-25",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 77,
+    "heightM": 1.65,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-4. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 78.8,
+        "heightM": 1.65,
+        "imc": 28.9,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 77,
+        "heightM": 1.65,
+        "imc": 28.3,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-4",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-36",
+    "name": "Patricia Barrientos",
+    "phone": "+59174013884",
+    "email": "patricia.barrientos@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1994-01-01",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 83,
+    "heightM": 1.68,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-5. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 84.8,
+        "heightM": 1.68,
+        "imc": 30,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 83,
+        "heightM": 1.68,
+        "imc": 29.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-5",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-37",
+    "name": "Bruno Melgar",
+    "phone": "+59174097603",
+    "email": "bruno.melgar@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1995-02-04",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "parcial",
+    "amountPaidBs": 100,
+    "pendingBalanceBs": 100,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 58.5,
+    "heightM": 1.71,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-6. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 60.3,
+        "heightM": 1.71,
+        "imc": 20.6,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 58.5,
+        "heightM": 1.71,
+        "imc": 20,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-6",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-38",
+    "name": "Estefanía Roca",
+    "phone": "+59174181322",
+    "email": "estefania.roca@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1996-03-07",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 66,
+    "heightM": 1.74,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-7. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 67.8,
+        "heightM": 1.74,
+        "imc": 22.4,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 66,
+        "heightM": 1.74,
+        "imc": 21.8,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-7",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-39",
+    "name": "Joaquín Cuéllar",
+    "phone": "+59174265041",
+    "email": "joaquin.cuellar@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1997-04-10",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 72,
+    "heightM": 1.77,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-8. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 73.8,
+        "heightM": 1.77,
+        "imc": 23.6,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 72,
+        "heightM": 1.77,
+        "imc": 23,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-8",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-40",
+    "name": "Silvia Camacho",
+    "phone": "+59174348760",
+    "email": "silvia.camacho@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1998-05-13",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 79.5,
+    "heightM": 1.8,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Alfa. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 81.3,
+        "heightM": 1.8,
+        "imc": 25.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 79.5,
+        "heightM": 1.8,
+        "imc": 24.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Alfa",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-41",
+    "name": "Matías Baldivieso",
+    "phone": "+59174432479",
+    "email": "matias.baldivieso@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1999-06-16",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 87,
+    "heightM": 1.83,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Beta. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 88.8,
+        "heightM": 1.83,
+        "imc": 26.5,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 87,
+        "heightM": 1.83,
+        "imc": 26,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Beta",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-42",
+    "name": "Tatiana Osinaga",
+    "phone": "+59174516198",
+    "email": "tatiana.osinaga@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2000-07-19",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 61,
+    "heightM": 1.61,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Gamma. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 62.8,
+        "heightM": 1.61,
+        "imc": 24.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 61,
+        "heightM": 1.61,
+        "imc": 23.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Gamma",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-43",
+    "name": "Emilio Landívar",
+    "phone": "+59174599917",
+    "email": "emilio.landivar@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2001-08-22",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 68.5,
+    "heightM": 1.64,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Delta. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 70.3,
+        "heightM": 1.64,
+        "imc": 26.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 68.5,
+        "heightM": 1.64,
+        "imc": 25.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Delta",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-44",
+    "name": "Carla Eguez",
+    "phone": "+59174683636",
+    "email": "carla.eguez@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Membresía Mensual",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2002-09-25",
+    "paidServiceTitle": "Membresía Mensual Atleta (200 Bs.)",
+    "serviceFeeBs": 200,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 200,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 76,
+    "heightM": 1.67,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-1. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 77.8,
+        "heightM": 1.67,
+        "imc": 27.9,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 76,
+        "heightM": 1.67,
+        "imc": 27.3,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-1",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-45",
+    "name": "Gonzalo Soria",
+    "phone": "+59174767355",
+    "email": "gonzalo.soria@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1988-10-01",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 82,
+    "heightM": 1.7,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-2. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 83.8,
+        "heightM": 1.7,
+        "imc": 29,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 82,
+        "heightM": 1.7,
+        "imc": 28.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-2",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-46",
+    "name": "Flavia Chávez",
+    "phone": "+59174851074",
+    "email": "flavia.chavez@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1989-11-04",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 57.5,
+    "heightM": 1.73,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-3. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 59.3,
+        "heightM": 1.73,
+        "imc": 19.8,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 57.5,
+        "heightM": 1.73,
+        "imc": 19.2,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-3",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-47",
+    "name": "Martín Urey",
+    "phone": "+59174934793",
+    "email": "martin.urey@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1990-12-07",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 65,
+    "heightM": 1.76,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-4. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 66.8,
+        "heightM": 1.76,
+        "imc": 21.6,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 65,
+        "heightM": 1.76,
+        "imc": 21,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-4",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-48",
+    "name": "Lorena Montaño",
+    "phone": "+59175018512",
+    "email": "lorena.montano@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "expiring",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-08-28",
+    "birthDate": "1991-01-10",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pendiente",
+    "amountPaidBs": 0,
+    "pendingBalanceBs": 500,
+    "lastPaymentDate": "",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 71,
+    "heightM": 1.79,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-5. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 72.8,
+        "heightM": 1.79,
+        "imc": 22.7,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 71,
+        "heightM": 1.79,
+        "imc": 22.2,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-5",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-49",
+    "name": "Eduardo Farah",
+    "phone": "+59175102231",
+    "email": "eduardo.farah@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1992-02-13",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 78.5,
+    "heightM": 1.82,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-6. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 80.3,
+        "heightM": 1.82,
+        "imc": 24.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 78.5,
+        "heightM": 1.82,
+        "imc": 23.7,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-6",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-50",
+    "name": "Ximena Tórrez",
+    "phone": "+59175185950",
+    "email": "ximena.torrez@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1993-03-16",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 86,
+    "heightM": 1.6,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-7. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 87.8,
+        "heightM": 1.6,
+        "imc": 34.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 86,
+        "heightM": 1.6,
+        "imc": 33.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-7",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-51",
+    "name": "Guillermo Prado",
+    "phone": "+59175269669",
+    "email": "guillermo.prado@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1994-04-19",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 60,
+    "heightM": 1.63,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-8. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 61.8,
+        "heightM": 1.63,
+        "imc": 23.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 60,
+        "heightM": 1.63,
+        "imc": 22.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-8",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-52",
+    "name": "Verónica Loza",
+    "phone": "+59175353388",
+    "email": "veronica.loza@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1995-05-22",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 67.5,
+    "heightM": 1.66,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-1. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 69.3,
+        "heightM": 1.66,
+        "imc": 25.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 67.5,
+        "heightM": 1.66,
+        "imc": 24.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-1",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-53",
+    "name": "Cristian Menacho",
+    "phone": "+59175437107",
+    "email": "cristian.menacho@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1996-06-25",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 75,
+    "heightM": 1.69,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-2. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 76.8,
+        "heightM": 1.69,
+        "imc": 26.9,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 75,
+        "heightM": 1.69,
+        "imc": 26.3,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-2",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-54",
+    "name": "Cecilia Justiniano",
+    "phone": "+59175520826",
+    "email": "cecilia.justiniano@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1997-07-01",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 81,
+    "heightM": 1.72,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-3. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 82.8,
+        "heightM": 1.72,
+        "imc": 28,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 81,
+        "heightM": 1.72,
+        "imc": 27.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-3",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-55",
+    "name": "Hernán Callau",
+    "phone": "+59175604545",
+    "email": "hernan.callau@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1998-08-04",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 56.5,
+    "heightM": 1.75,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-4. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 58.3,
+        "heightM": 1.75,
+        "imc": 19,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 56.5,
+        "heightM": 1.75,
+        "imc": 18.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-4",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-56",
+    "name": "Andrea Saucedo",
+    "phone": "+59175688264",
+    "email": "andrea.saucedo@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1999-09-07",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 64,
+    "heightM": 1.78,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-5. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 65.8,
+        "heightM": 1.78,
+        "imc": 20.8,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 64,
+        "heightM": 1.78,
+        "imc": 20.2,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-5",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-57",
+    "name": "Raúl Antezana",
+    "phone": "+59175771983",
+    "email": "raul.antezana@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Trimestral Atleta",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2000-10-10",
+    "paidServiceTitle": "Trimestral Atleta Continuo (500 Bs. / 3 meses)",
+    "serviceFeeBs": 500,
+    "billingCycle": "trimestral",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 500,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 70,
+    "heightM": 1.81,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-6. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 71.8,
+        "heightM": 1.81,
+        "imc": 21.9,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 70,
+        "heightM": 1.81,
+        "imc": 21.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-6",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-58",
+    "name": "Fabiola Marinkovic",
+    "phone": "+59175855702",
+    "email": "fabiola.marinkovic@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Coaching 1 a 1",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2001-11-13",
+    "paidServiceTitle": "Coaching Personalizado 1 a 1 (450 Bs.)",
+    "serviceFeeBs": 450,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 450,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 77.5,
+    "heightM": 1.84,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-7. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 79.3,
+        "heightM": 1.84,
+        "imc": 23.4,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 77.5,
+        "heightM": 1.84,
+        "imc": 22.9,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-7",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-59",
+    "name": "Gustavo Vaca",
+    "phone": "+59175939421",
+    "email": "gustavo.vaca@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Coaching 1 a 1",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "2002-12-16",
+    "paidServiceTitle": "Coaching Personalizado 1 a 1 (450 Bs.)",
+    "serviceFeeBs": 450,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 450,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 85,
+    "heightM": 1.62,
+    "workoutLevel": "Avanzado",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Cristo-8. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 86.8,
+        "heightM": 1.62,
+        "imc": 33.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 85,
+        "heightM": 1.62,
+        "imc": 32.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Cristo-8",
+    "phase": "3 - Perfeccionamiento",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-60",
+    "name": "Noelia Dorado",
+    "phone": "+59176023140",
+    "email": "noelia.dorado@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Coaching 1 a 1",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1988-01-19",
+    "paidServiceTitle": "Coaching Personalizado 1 a 1 (450 Bs.)",
+    "serviceFeeBs": 450,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 450,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 59,
+    "heightM": 1.65,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Alfa. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 60.8,
+        "heightM": 1.65,
+        "imc": 22.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 59,
+        "heightM": 1.65,
+        "imc": 21.7,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Alfa",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-61",
+    "name": "Pablo Escalante",
+    "phone": "+59176106859",
+    "email": "pablo.escalante@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Coaching 1 a 1",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1989-02-22",
+    "paidServiceTitle": "Coaching Personalizado 1 a 1 (450 Bs.)",
+    "serviceFeeBs": 450,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 450,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 66.5,
+    "heightM": 1.68,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Beta. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 68.3,
+        "heightM": 1.68,
+        "imc": 24.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 66.5,
+        "heightM": 1.68,
+        "imc": 23.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Beta",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-62",
+    "name": "Jimena Callaú",
+    "phone": "+59176190578",
+    "email": "jimena.callau@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "Coaching 1 a 1",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1990-03-25",
+    "paidServiceTitle": "Coaching Personalizado 1 a 1 (450 Bs.)",
+    "serviceFeeBs": 450,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 450,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 74,
+    "heightM": 1.71,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Buscar paz interior frente al estrés laboral mediante devocionales y Buteyko.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Gamma. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 75.8,
+        "heightM": 1.71,
+        "imc": 25.9,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 74,
+        "heightM": 1.71,
+        "imc": 25.3,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Gamma",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-63",
+    "name": "David Viruez",
+    "phone": "+59176274297",
+    "email": "david.viruez@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "CristoFit Camp",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1991-04-01",
+    "paidServiceTitle": "CristoFit Camp Sábados Intensivo (150 Bs.)",
+    "serviceFeeBs": 150,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 150,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 80,
+    "heightM": 1.74,
+    "workoutLevel": "Principiante",
+    "currentRoutineExercises": "1. Flexiones regulares y declinadas (4x15)\n2. Remo invertido en paralelas (4x10)\n3. Estocadas dinámicas (4x12)\n4. Elevación de piernas en barra (4x10)\n5. Cardio CristoFit Camp 06:00 AM",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Liderar su escuadrón con humildad, servicio y constancia innegociable.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Paz-Delta. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 81.8,
+        "heightM": 1.74,
+        "imc": 27,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 80,
+        "heightM": 1.74,
+        "imc": 26.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Paz-Delta",
+    "phase": "1 - Iniciación",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-64",
+    "name": "Vanesa Añez",
+    "phone": "+59176358016",
+    "email": "vanesa.anez@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "CristoFit Camp",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1992-05-04",
+    "paidServiceTitle": "CristoFit Camp Sábados Intensivo (150 Bs.)",
+    "serviceFeeBs": 150,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 150,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 55.5,
+    "heightM": 1.77,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Trabajo de core y estabilidad lumbar\n2. Flexiones hindúes y pike pushups (4x10)\n3. Saltos de cuerda (5 rondas x 2 min)\n4. Dominadas escapulares (4x12)\n5. Hidratación con ElectroHidra",
+    "nutritionPlan": "Protocolo Salomón + Proteína Limpia",
+    "currentDiet": "Desayuno con café y pan, almuerzo irregular, cenas pesadas.",
+    "prescribedDiet": "06:00 AM: ElectroHidra 1L. 08:00 AM: Bowl de Elías. Almuerzo anti-inflamatorio con proteína limpia y verduras.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Tendencia a picoteo por estrés en horario laboral",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Alinear cuerpo, mente y espíritu como templo del Creador (1 Corintios 6:19).",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-1. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 57.3,
+        "heightM": 1.77,
+        "imc": 18.3,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 55.5,
+        "heightM": 1.77,
+        "imc": 17.7,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-1",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": false,
+      "preventiveMedicine": true
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-65",
+    "name": "Marcelo Yáñez",
+    "phone": "+59176441735",
+    "email": "marcelo.yanez@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "active",
+    "plan": "CristoFit Camp",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1993-06-07",
+    "paidServiceTitle": "CristoFit Camp Sábados Intensivo (150 Bs.)",
+    "serviceFeeBs": 150,
+    "billingCycle": "mensual",
+    "paymentStatus": "pagado",
+    "amountPaidBs": 150,
+    "pendingBalanceBs": 0,
+    "lastPaymentDate": "2026-08-05",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 63,
+    "heightM": 1.8,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Flexiones diamante (4x15)\n5. Buteyko y cardio matutino 06:00 AM",
+    "nutritionPlan": "ElectroHidra + Nutrición Anti-inflamatoria",
+    "currentDiet": "Comida rápida al mediodía, picoteo dulce por ansiedad en la tarde.",
+    "prescribedDiet": "Plan Base Anti-inflamatorio. Snacks de frutos secos y batido verde. Cena ligera antes de las 20:00.",
+    "allergiesOrRestrictions": "Sensibilidad a la lactosa",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Cultivar autodominio y templanza en momentos de alta presión profesional.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-2. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 64.8,
+        "heightM": 1.8,
+        "imc": 20,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 63,
+        "heightM": 1.8,
+        "imc": 19.4,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-2",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-66",
+    "name": "Romina Salvatierra",
+    "phone": "+59176525454",
+    "email": "romina.salvatierra@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "inactive",
+    "plan": "Formación E.A.G.E. (Guerra Espiritual)",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1994-07-10",
+    "paidServiceTitle": "Formación E.A.G.E. Liderazgo y Combate (300 Bs.)",
+    "serviceFeeBs": 300,
+    "billingCycle": "mensual",
+    "paymentStatus": "pendiente",
+    "amountPaidBs": 0,
+    "pendingBalanceBs": 300,
+    "lastPaymentDate": "",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Snack Bar Prepago",
+      "ElectroHidra"
+    ],
+    "snackBarBalanceBs": 50,
+    "physicalGoal": "Fuerza funcional, calistenia y pérdida de 4kg de grasa",
+    "weightKg": 69,
+    "heightM": 1.83,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Calistenia funcional básica y movilidad\n2. Sentadillas con peso corporal (4x15)\n3. Flexiones en barra inclinada (4x10)\n4. Planchas isométricas (4x45s)\n5. Caminata activa y respiración nasal",
+    "nutritionPlan": "Catering Saludable Abuela Fit + Hidratación Activa",
+    "currentDiet": "Dieta hipercalórica desordenada, bajo consumo de agua.",
+    "prescribedDiet": "Catering Abuela Fit + 3L de agua alcalina con electrolitos naturales. Suplemento con glutamina.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Tensión cervical por jornadas frente a pantalla y cortisol elevado",
+    "spiritualIntention": "Consolidar la disciplina del despertar a las 05:30 AM con oración y enfoque.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-3. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 70.8,
+        "heightM": 1.83,
+        "imc": 21.1,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 69,
+        "heightM": 1.83,
+        "imc": 20.6,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-3",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": true,
+      "merchandise": true,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  },
+  {
+    "id": "std-67",
+    "name": "Felipe Castedo",
+    "phone": "+59176609173",
+    "email": "felipe.castedo@templefit.com",
+    "instructorAssigned": "Paulo Alberto Gil Cuellar (Head Coach)",
+    "status": "inactive",
+    "plan": "Formación E.A.G.E. (Guerra Espiritual)",
+    "startDate": "2026-08-01",
+    "renewalDate": "2026-09-15",
+    "birthDate": "1995-08-13",
+    "paidServiceTitle": "Formación E.A.G.E. Liderazgo y Combate (300 Bs.)",
+    "serviceFeeBs": 300,
+    "billingCycle": "mensual",
+    "paymentStatus": "pendiente",
+    "amountPaidBs": 0,
+    "pendingBalanceBs": 300,
+    "lastPaymentDate": "",
+    "nextDueDate": "2026-09-01",
+    "additionalServices": [
+      "Chequeo Antropométrico"
+    ],
+    "snackBarBalanceBs": 0,
+    "physicalGoal": "Composición corporal, masa muscular magra y resistencia",
+    "weightKg": 76.5,
+    "heightM": 1.61,
+    "workoutLevel": "Intermedio",
+    "currentRoutineExercises": "1. Muscle-ups y fondos lastrados (4x6)\n2. Dominadas con agarre supino (4x10)\n3. Pistols asistidos (4x8 p/lado)\n4. Flexiones pliométricas (4x12)\n5. Sparring técnico y Buteyko",
+    "nutritionPlan": "Smoothie de Salomón + Plan Detox 0 Azúcar",
+    "currentDiet": "Salteo de comidas, exceso de gaseosas y azúcar refinada.",
+    "prescribedDiet": "Detox 21 Días sin azúcar. Smoothie de Salomón matutino, ensaladas verdes y pescado fresco.",
+    "allergiesOrRestrictions": "Ninguna",
+    "eatingDisordersOrIssues": "Sin trastornos diagnosticados.",
+    "neuroticAndStressFactors": "Manejo de estrés cotidiano.",
+    "spiritualIntention": "Superar la pereza mental y liderar con el ejemplo en su hogar y trabajo.",
+    "mentorshipNotes": "Atleta integrado al escuadrón Gedeón-4. Compromiso regular en sesiones CristoFit Camp.",
+    "attendanceHistory": [
+      {
+        "date": "2026-08-20",
+        "attended": true,
+        "notes": "Sesión CristoFit Camp - 100%"
+      },
+      {
+        "date": "2026-08-22",
+        "attended": true,
+        "notes": "Entrenamiento de fuerza y calistenia"
+      },
+      {
+        "date": "2026-08-24",
+        "attended": true,
+        "notes": "Movilidad articular y Buteyko"
+      }
+    ],
+    "assessments": [
+      {
+        "date": "2026-08-01",
+        "weightKg": 78.3,
+        "heightM": 1.61,
+        "imc": 30.2,
+        "notes": "Evaluación inicial de ciclo"
+      },
+      {
+        "date": "2026-08-22",
+        "weightKg": 76.5,
+        "heightM": 1.61,
+        "imc": 29.5,
+        "notes": "Progreso notable en resistencia y fuerza"
+      }
+    ],
+    "escuadronId": "Gedeón-4",
+    "phase": "2 - Desarrollo",
+    "isVipProfile": false,
+    "hubConsumption": {
+      "snackBar": false,
+      "merchandise": false,
+      "preventiveMedicine": false
+    },
+    "avatarUrl": ""
+  }
+],
   transactions: [
-    {
-      id: 'tx-1',
-      date: '2026-08-01',
-      type: 'income',
-      category: 'membership',
-      amount: 200,
-      description: 'Membresía Reto 21 Días - Carlos Gutiérrez'
-    },
-    {
-      id: 'tx-2',
-      date: '2026-08-01',
-      type: 'income',
-      category: 'membership',
-      amount: 1200,
-      description: 'Programa E.A.G.E. Guerra Espiritual - José Luis Mamani'
-    },
-    {
-      id: 'tx-3',
-      date: '2026-08-02',
-      type: 'income',
-      category: 'membership',
-      amount: 200,
-      description: 'Membresía Reto 21 Días - Daniela Quispe'
-    },
-    {
-      id: 'tx-4',
-      date: '2026-08-03',
-      type: 'income',
-      category: 'snack',
-      amount: 350,
-      description: 'Venta Bebidas ElectroHidra y Pudines H-Control (Sábado Camp)'
-    },
-    {
-      id: 'tx-5',
-      date: '2026-08-04',
-      type: 'income',
-      category: 'merchandise',
-      amount: 470,
-      description: 'Venta Indumentaria (2 Poleras + 1 Shorts + 1 Canguro)'
-    },
-    {
-      id: 'tx-6',
-      date: '2026-08-05',
-      type: 'income',
-      category: 'courses',
-      amount: 1200,
-      description: 'Neuro-Entrenamiento de Impacto en Ventas - Andrés Paredes'
-    },
-    {
-      id: 'tx-7',
-      date: '2026-08-06',
-      type: 'expense',
-      category: 'operations',
-      amount: 650,
-      description: 'Compra de insumos botánicos (jengibre, cúrcuma, miel, sal marina, chía)'
-    },
-    {
-      id: 'tx-8',
-      date: '2026-08-07',
-      type: 'expense',
-      category: 'rent',
-      amount: 1500,
-      description: 'Aporte de espacio físico / Centro de Entrenamiento'
-    }
-  ],
+  {
+    "id": "tx-1",
+    "date": "2026-08-01",
+    "type": "income",
+    "category": "membership",
+    "amount": 450,
+    "description": "Coaching 1 a 1 - Antonio Eid (VIP)"
+  },
+  {
+    "id": "tx-2",
+    "date": "2026-08-01",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Reto 21 Días - Carlos Gutiérrez"
+  },
+  {
+    "id": "tx-3",
+    "date": "2026-08-01",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Reto 21 Días - Mariana Flores"
+  },
+  {
+    "id": "tx-4",
+    "date": "2026-08-01",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Reto 21 Días - José Luis Mamani"
+  },
+  {
+    "id": "tx-5",
+    "date": "2026-08-02",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Reto 21 Días - Daniela Quispe"
+  },
+  {
+    "id": "tx-6",
+    "date": "2026-08-02",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Mensual - Andrés Paredes"
+  },
+  {
+    "id": "tx-7",
+    "date": "2026-08-02",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Mensual - Valeria Mercado"
+  },
+  {
+    "id": "tx-8",
+    "date": "2026-08-03",
+    "type": "income",
+    "category": "membership",
+    "amount": 500,
+    "description": "Membresía Trimestral Atleta - Rodrigo Mendoza"
+  },
+  {
+    "id": "tx-9",
+    "date": "2026-08-03",
+    "type": "income",
+    "category": "membership",
+    "amount": 500,
+    "description": "Membresía Trimestral Atleta - Camila Zeballos"
+  },
+  {
+    "id": "tx-10",
+    "date": "2026-08-03",
+    "type": "income",
+    "category": "membership",
+    "amount": 500,
+    "description": "Membresía Trimestral Atleta - Fernando Torrico"
+  },
+  {
+    "id": "tx-11",
+    "date": "2026-08-04",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Mensual - Gabriela Rojas"
+  },
+  {
+    "id": "tx-12",
+    "date": "2026-08-04",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Reto 21 Días - Diego Villarroel"
+  },
+  {
+    "id": "tx-13",
+    "date": "2026-08-05",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Mensual - Luciana Peñaranda"
+  },
+  {
+    "id": "tx-14",
+    "date": "2026-08-05",
+    "type": "income",
+    "category": "membership",
+    "amount": 450,
+    "description": "Coaching 1 a 1 - Mauricio Calvimontes"
+  },
+  {
+    "id": "tx-15",
+    "date": "2026-08-06",
+    "type": "income",
+    "category": "membership",
+    "amount": 500,
+    "description": "Membresía Trimestral Atleta - Sofia Banzer"
+  },
+  {
+    "id": "tx-16",
+    "date": "2026-08-07",
+    "type": "income",
+    "category": "membership",
+    "amount": 300,
+    "description": "Formación E.A.G.E. - Javier Justiniano"
+  },
+  {
+    "id": "tx-17",
+    "date": "2026-08-08",
+    "type": "income",
+    "category": "membership",
+    "amount": 150,
+    "description": "CristoFit Camp Intensivo - Natalia Aguilera"
+  },
+  {
+    "id": "tx-18",
+    "date": "2026-08-10",
+    "type": "income",
+    "category": "membership",
+    "amount": 500,
+    "description": "Membresía Trimestral Atleta - Mateo Saucedo"
+  },
+  {
+    "id": "tx-19",
+    "date": "2026-08-12",
+    "type": "income",
+    "category": "membership",
+    "amount": 200,
+    "description": "Membresía Mensual - Isabella Hurtado"
+  },
+  {
+    "id": "tx-20",
+    "date": "2026-08-14",
+    "type": "income",
+    "category": "membership",
+    "amount": 450,
+    "description": "Coaching 1 a 1 - Sebastián Pinto"
+  },
+  {
+    "id": "tx-21",
+    "date": "2026-08-02",
+    "type": "income",
+    "category": "snack",
+    "amount": 420,
+    "description": "Venta Bebidas ElectroHidra y Pudines H-Control (Sábado Camp)"
+  },
+  {
+    "id": "tx-22",
+    "date": "2026-08-05",
+    "type": "income",
+    "category": "snack",
+    "amount": 580,
+    "description": "Recarga saldo prepago Snack Bar (10 atletas)"
+  },
+  {
+    "id": "tx-23",
+    "date": "2026-08-09",
+    "type": "income",
+    "category": "snack",
+    "amount": 650,
+    "description": "Venta Bowls de Elías y Smoothies de Salomón"
+  },
+  {
+    "id": "tx-24",
+    "date": "2026-08-15",
+    "type": "income",
+    "category": "snack",
+    "amount": 720,
+    "description": "Consumo cafetería saludable CristoFit Camp"
+  },
+  {
+    "id": "tx-25",
+    "date": "2026-08-18",
+    "type": "income",
+    "category": "snack",
+    "amount": 480,
+    "description": "Venta hidratación isotónica y té de profetas"
+  },
+  {
+    "id": "tx-26",
+    "date": "2026-08-04",
+    "type": "income",
+    "category": "merchandise",
+    "amount": 680,
+    "description": "Venta Indumentaria Oficial (4 Poleras TempleFit)"
+  },
+  {
+    "id": "tx-27",
+    "date": "2026-08-11",
+    "type": "income",
+    "category": "merchandise",
+    "amount": 520,
+    "description": "Venta Canguro Táctico y muñequeras"
+  },
+  {
+    "id": "tx-28",
+    "date": "2026-08-06",
+    "type": "income",
+    "category": "medicine",
+    "amount": 800,
+    "description": "Pack Suplementos Glutamina + Omega-3 (4 atletas)"
+  },
+  {
+    "id": "tx-29",
+    "date": "2026-08-13",
+    "type": "income",
+    "category": "medicine",
+    "amount": 700,
+    "description": "Evaluaciones Antropométricas con Bioimpedancia"
+  },
+  {
+    "id": "tx-30",
+    "date": "2026-08-07",
+    "type": "income",
+    "category": "courses",
+    "amount": 1500,
+    "description": "Taller Neuro-Entrenamiento y Respiración Buteyko"
+  },
+  {
+    "id": "tx-31",
+    "date": "2026-08-01",
+    "type": "expense",
+    "category": "rent",
+    "amount": 3500,
+    "description": "Alquiler Centro de Entrenamiento / Sede Central"
+  },
+  {
+    "id": "tx-32",
+    "date": "2026-08-05",
+    "type": "expense",
+    "category": "operations",
+    "amount": 5000,
+    "description": "Honorarios Cuerpo Técnico (Head Coach + 2 Instructores Asistentes)"
+  },
+  {
+    "id": "tx-33",
+    "date": "2026-08-06",
+    "type": "expense",
+    "category": "operations",
+    "amount": 1400,
+    "description": "Insumos Snack Bar (sal marina, miel, chía, avena, cúrcuma)"
+  },
+  {
+    "id": "tx-34",
+    "date": "2026-08-08",
+    "type": "expense",
+    "category": "operations",
+    "amount": 750,
+    "description": "Servicios Básicos (Luz trifásica, Agua potable, Internet Fibra)"
+  },
+  {
+    "id": "tx-35",
+    "date": "2026-08-10",
+    "type": "expense",
+    "category": "ads",
+    "amount": 600,
+    "description": "Pauta publicitaria Meta Ads (Convocatoria Reto 21 Días)"
+  },
+  {
+    "id": "tx-36",
+    "date": "2026-08-12",
+    "type": "expense",
+    "category": "operations",
+    "amount": 450,
+    "description": "Mantenimiento jaula de calistenia y colchonetas de seguridad"
+  }
+],
   dailyLogs: [],
   users: [
     {

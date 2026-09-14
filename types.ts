@@ -20,10 +20,22 @@ export interface Student {
   email: string;
   instructorAssigned: string;
   status: 'active' | 'expiring' | 'inactive';
-  plan: 'Reto 21 Días' | 'CristoFit Camp' | 'Coaching 1 a 1' | 'Plan Integral Mensual' | 'Formación E.A.G.E. (Guerra Espiritual)' | 'Neuro-Entrenamiento en Ventas (Completo)';
+  plan: 'Reto 21 Días' | 'Membresía Mensual' | 'Trimestral Atleta' | 'Semestral Atleta' | 'Anual Atleta' | 'CristoFit Camp' | 'Coaching 1 a 1' | 'Plan Integral Mensual' | 'Pase Diario' | 'Formación E.A.G.E. (Guerra Espiritual)' | 'Neuro-Entrenamiento en Ventas (Completo)';
   startDate: string;
   renewalDate: string;
   birthDate?: string;
+  
+  // Servicio Contratado & Facturación / Cobranzas
+  paidServiceTitle?: string; // Título visible del servicio contratado
+  serviceFeeBs?: number; // Monto pactado del plan (ej. 200, 500, etc.)
+  billingCycle?: 'mensual' | 'trimestral' | 'semestral' | 'anual' | 'sesion';
+  paymentStatus?: 'pagado' | 'pendiente' | 'parcial';
+  amountPaidBs?: number; // Monto abonado a la fecha
+  pendingBalanceBs?: number; // Saldo adeudado
+  lastPaymentDate?: string; // Fecha del último cobro registrado
+  nextDueDate?: string; // Fecha límite de renovación/pago
+  additionalServices?: string[]; // Servicios adicionales activos (Snack, Suplementos, etc.)
+  snackBarBalanceBs?: number; // Saldo a favor o consumo en snack bar
   
   // Pilar 1: CUERPO (Biometría & Antropometría)
   physicalGoal: string;
