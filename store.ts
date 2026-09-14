@@ -6346,8 +6346,16 @@ export function getCRMDatabase(): CRMDatabase {
     }
     const parsed = JSON.parse(saved) as CRMDatabase;
     
-    // Auto-migration: ensure inventory, showcaseItems, sopsList and monthlyBoard are populated
+    // Auto-migration: ensure students has at least 65 athletes and coherent financials
     let hasUpdated = false;
+    if (!parsed.students || parsed.students.length < 65) {
+      parsed.students = DEFAULT_DB.students;
+      hasUpdated = true;
+    }
+    if (!parsed.transactions || parsed.transactions.length < 20) {
+      parsed.transactions = DEFAULT_DB.transactions;
+      hasUpdated = true;
+    };
     if (!parsed.inventory || parsed.inventory.length === 0) {
       parsed.inventory = DEFAULT_DB.inventory;
       hasUpdated = true;
