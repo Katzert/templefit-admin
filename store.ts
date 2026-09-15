@@ -3,7 +3,6 @@
 import { CRMDatabase } from './types';
 import { db as firestoreDb } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { pushToGoogleSheetsDebounced, pullFromGoogleSheets } from './lib/googleSheets';
 
 const STORAGE_KEY = 'templefit_holistic_students_v5';
 
@@ -6308,19 +6307,12 @@ export function saveCRMDatabase(db: CRMDatabase) {
       console.warn("Firebase no disponible:", e);
     }
   }
-
-  // 2. Sincronización secundaria con Google Sheets si está configurado
-  try {
-    pushToGoogleSheetsDebounced(db);
-  } catch (e) {
-    // Silencioso si no hay webhook configurado
-  }
 }
 
 export async function syncFromCloud(): Promise<CRMDatabase> {
   if (typeof window === 'undefined') return DEFAULT_DB;
 
-  // 1. Sincronización ONLINE desde Firebase Firestore
+  // Sincronización ONLINE desde Firebase Firestore
   if (firestoreDb) {
     try {
       const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
@@ -6343,17 +6335,6 @@ export async function syncFromCloud(): Promise<CRMDatabase> {
       console.warn("Error consultando Firebase:", err);
     }
   }
-
-  // 2. Fallback a Google Sheets si existe URL
-  try {
-    const sheetsData = await pullFromGoogleSheets();
-    if (sheetsData && sheetsData.students && sheetsData.students.length >= 65) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(sheetsData));
-      } catch (e) {}
-      return sheetsData;
-    }
-  } catch (err) {}
 
   return getCRMDatabase();
 }

@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban, ShoppingBag, DollarSign, Download, CheckCircle2, Accessibility, FileSpreadsheet } from 'lucide-react';
+import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban, ShoppingBag, DollarSign, Download, CheckCircle2, Accessibility } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { GlobalSearch } from '../components/GlobalSearch';
 import { ThemeToggle } from '../components/ThemeToggle';
 import AccessibilityWidget from '../components/AccessibilityWidget';
-import GoogleSheetsModal from '../components/GoogleSheetsModal';
 import { syncFromCloud, getCRMDatabase } from '../store';
 import type { ReactNode } from 'react';
 
@@ -49,7 +48,6 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
   const [isSyncing, setIsSyncing] = useState(true);
 
   const [backupDownloaded, setBackupDownloaded] = useState(false);
-  const [showSheetsModal, setShowSheetsModal] = useState(false);
 
   const handleDownloadBackup = () => {
     try {
@@ -244,14 +242,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             >
               <Accessibility size={18} />
             </button>
-            <button
-              onClick={() => setShowSheetsModal(true)}
-              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl bg-emerald-500/10 border border-emerald-500/20"
-              aria-label="Sincronización con Google Sheets"
-              title="Google Sheets en la Nube"
-            >
-              <FileSpreadsheet size={18} />
-            </button>
+
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
               className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-temple-gold transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold rounded-xl bg-black/5 dark:bg-white/5"
@@ -289,16 +280,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <Accessibility size={15} className="text-amber-700 dark:text-temple-gold" />
               <span className="hidden lg:inline">Accesibilidad</span>
             </button>
-            
-            <button
-              onClick={() => setShowSheetsModal(true)}
-              title="Configurar y sincronizar con Google Sheets"
-              aria-label="Sincronización con Google Sheets"
-              className="flex items-center gap-1.5 px-3 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 rounded-xl text-xs font-bold transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-            >
-              <FileSpreadsheet size={15} className="text-emerald-600 dark:text-emerald-400" />
-              <span className="hidden lg:inline">Google Sheets</span>
-            </button>
+
 
             <button
               onClick={handleDownloadBackup}
@@ -420,8 +402,6 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
       {/* Floating Accessibility Widget */}
       <AccessibilityWidget />
 
-      {/* Google Sheets Sync Modal */}
-      <GoogleSheetsModal isOpen={showSheetsModal} onClose={() => setShowSheetsModal(false)} />
     </div>
   );
 }
