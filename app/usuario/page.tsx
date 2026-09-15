@@ -14,15 +14,8 @@ const ModuleLoading = () => (
   </div>
 );
 
-const LoginPage = dynamic(() => import('@/life-system-pages/LoginPage').then(m => m.LoginPage), {
-  loading: ModuleLoading,
-  ssr: false
-});
-
-const HubCentroDeMando = dynamic(() => import('@/life-system-pages/HubCentroDeMando').then(m => m.HubCentroDeMando), {
-  loading: ModuleLoading,
-  ssr: false
-});
+import { LoginPage } from '@/life-system-pages/LoginPage';
+import { HubCentroDeMando } from '@/life-system-pages/HubCentroDeMando';
 
 const Module18Directory = dynamic(() => import('@/life-system-pages/Module18Directory').then(m => m.Module18Directory), {
   loading: ModuleLoading,
