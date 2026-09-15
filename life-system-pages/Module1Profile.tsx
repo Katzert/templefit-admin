@@ -586,7 +586,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           <div className="p-3.5 bg-slate-50 dark:bg-black/40 rounded-2xl border border-black/5 dark:border-white/5">
             <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-gray-400 block">Plan Contratado</span>
             <select
-              value={plan}
+              value={plan === 'Formación E.A.G.E. (Guerra Espiritual)' ? 'Formación E.A.G.E.' : plan}
               onChange={(e) => {
                 const newPlan = e.target.value as any;
                 handleSaveField('plan', newPlan);

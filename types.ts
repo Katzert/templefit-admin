@@ -20,7 +20,7 @@ export interface Student {
   email: string;
   instructorAssigned: string;
   status: 'active' | 'expiring' | 'inactive';
-  plan: 'Reto 21 Días' | 'Membresía Mensual' | 'Trimestral Atleta' | 'Semestral Atleta' | 'Anual Atleta' | 'CristoFit Camp' | 'Coaching 1 a 1' | 'Plan Integral Mensual' | 'Pase Diario' | 'Formación E.A.G.E. (Guerra Espiritual)' | 'Neuro-Entrenamiento en Ventas (Completo)';
+  plan: 'Reto 21 Días' | 'Membresía Mensual' | 'Trimestral Atleta' | 'Semestral Atleta' | 'Anual Atleta' | 'CristoFit Camp' | 'Coaching 1 a 1' | 'Plan Integral Mensual' | 'Pase Diario' | 'Formación E.A.G.E.' | 'Formación E.A.G.E. (Guerra Espiritual)' | 'Neuro-Entrenamiento en Ventas (Completo)';
   startDate: string;
   renewalDate: string;
   birthDate?: string;
