@@ -6297,14 +6297,7 @@ export function saveCRMDatabase(db: CRMDatabase) {
     console.warn("No se pudo persistir en localStorage:", e);
   }
 
-  // 1. Sincronización principal con Google Sheets en segundo plano
-  try {
-    pushToGoogleSheetsDebounced(db);
-  } catch (e) {
-    console.warn("Error enviando a Google Sheets:", e);
-  }
-
-  // 2. Fallback secundario a Firebase si está activo
+  // 1. Sincronización ONLINE principal con Firebase Firestore
   if (firestoreDb) {
     try {
       const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
@@ -6315,40 +6308,53 @@ export function saveCRMDatabase(db: CRMDatabase) {
       console.warn("Firebase no disponible:", e);
     }
   }
+
+  // 2. Sincronización secundaria con Google Sheets si está configurado
+  try {
+    pushToGoogleSheetsDebounced(db);
+  } catch (e) {
+    // Silencioso si no hay webhook configurado
+  }
 }
 
 export async function syncFromCloud(): Promise<CRMDatabase> {
   if (typeof window === 'undefined') return DEFAULT_DB;
 
-  // 1. Intentar descargar primero de Google Sheets
-  try {
-    const sheetsData = await pullFromGoogleSheets();
-    if (sheetsData && sheetsData.students && sheetsData.students.length > 0) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(sheetsData));
-      } catch (e) {}
-      return sheetsData;
-    }
-  } catch (err) {
-    console.warn("No se pudo obtener datos de Google Sheets:", err);
-  }
-
-  // 2. Fallback secundario a Firebase si está activo
+  // 1. Sincronización ONLINE desde Firebase Firestore
   if (firestoreDb) {
     try {
       const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
       const snap = await getDoc(docRef);
       if (snap.exists()) {
-        const data = snap.data() as CRMDatabase;
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        } catch (e) {}
-        return data;
+        const cloudData = snap.data() as CRMDatabase;
+        // Solo aceptar si la cohorte está completa (al menos 65 atletas)
+        if (cloudData.students && cloudData.students.length >= 65) {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudData));
+          } catch (e) {}
+          return cloudData;
+        } else {
+          // Si Firebase tiene datos antiguos, actualizar la nube con la cohorte local completa
+          const localDb = getCRMDatabase();
+          setDoc(docRef, localDb, { merge: true }).catch(() => {});
+        }
       }
     } catch (err) {
-      console.warn("No se pudo obtener datos de la nube, usando local:", err);
+      console.warn("Error consultando Firebase:", err);
     }
   }
 
+  // 2. Fallback a Google Sheets si existe URL
+  try {
+    const sheetsData = await pullFromGoogleSheets();
+    if (sheetsData && sheetsData.students && sheetsData.students.length >= 65) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sheetsData));
+      } catch (e) {}
+      return sheetsData;
+    }
+  } catch (err) {}
+
   return getCRMDatabase();
 }
+
