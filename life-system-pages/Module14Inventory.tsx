@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, AlertCircle, Plus, FileSpreadsheet, ArrowUpDown, Trash2, Edit3, Save, X } from 'lucide-react';
+import { Search, Filter, AlertCircle, Plus, Package, ArrowUpDown, Trash2, Edit3, Save, X } from 'lucide-react';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { InventoryItem } from '../types';
 
@@ -92,7 +92,7 @@ export function Module14Inventory() {
             <p className="text-2xl font-black text-slate-800 dark:text-white">Bs. {totalValue.toLocaleString()}</p>
           </div>
           <div className="w-12 h-12 rounded-full bg-temple-gold/20 flex items-center justify-center text-temple-gold">
-            <FileSpreadsheet size={24} />
+            <Package size={24} />
           </div>
         </div>
         <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
@@ -267,7 +267,7 @@ export function Module14Inventory() {
                             <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-gray-400">
-                              <FileSpreadsheet size={16} />
+                              <Package size={16} />
                             </div>
                           )}
                         </div>

@@ -6296,12 +6296,31 @@ export function saveCRMDatabase(db: CRMDatabase) {
     console.warn("No se pudo persistir en localStorage:", e);
   }
 
-  // 1. Sincronización ONLINE principal con Firebase Firestore
+  // 1. Sincronización ONLINE principal con Firebase Firestore (CRM Interno)
   if (firestoreDb) {
     try {
       const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
       setDoc(docRef, db, { merge: true }).catch(err => {
         console.warn("Error sincronizando a Firebase:", err);
+      });
+
+      // 2. Sincronización de Contenido Público Sanitizado (Sin datos de alumnos, finanzas ni contraseñas)
+      const publicDocRef = doc(firestoreDb, 'public_content', 'main');
+      const publicPayload = JSON.parse(JSON.stringify({
+        recipes: db.recipes || [],
+        showcaseItems: db.showcaseItems || [],
+        inventoryPublic: (db.inventory || []).map(inv => ({
+          id: inv.id,
+          name: inv.name,
+          category: inv.category,
+          price: inv.price || 0,
+          stock: inv.stock || 0,
+          imageUrl: inv.imageUrl || ''
+        })),
+        updatedAt: new Date().toISOString()
+      }));
+      setDoc(publicDocRef, publicPayload, { merge: true }).catch(err => {
+        console.warn("Error sincronizando contenido público:", err);
       });
     } catch (e) {
       console.warn("Firebase no disponible:", e);
