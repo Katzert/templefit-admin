@@ -3,6 +3,7 @@
 import { CRMDatabase } from './types';
 import { db as firestoreDb } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { pushToGoogleSheetsDebounced, pullFromGoogleSheets } from './lib/googleSheets';
 
 const STORAGE_KEY = 'templefit_holistic_students_v5';
 
@@ -6296,7 +6297,14 @@ export function saveCRMDatabase(db: CRMDatabase) {
     console.warn("No se pudo persistir en localStorage:", e);
   }
 
-  // Sync back to cloud in background
+  // 1. Sincronización principal con Google Sheets en segundo plano
+  try {
+    pushToGoogleSheetsDebounced(db);
+  } catch (e) {
+    console.warn("Error enviando a Google Sheets:", e);
+  }
+
+  // 2. Fallback secundario a Firebase si está activo
   if (firestoreDb) {
     try {
       const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
@@ -6312,20 +6320,34 @@ export function saveCRMDatabase(db: CRMDatabase) {
 export async function syncFromCloud(): Promise<CRMDatabase> {
   if (typeof window === 'undefined') return DEFAULT_DB;
 
-  if (!firestoreDb) return getCRMDatabase();
-
+  // 1. Intentar descargar primero de Google Sheets
   try {
-    const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
-    const snap = await getDoc(docRef);
-    if (snap.exists()) {
-      const data = snap.data() as CRMDatabase;
+    const sheetsData = await pullFromGoogleSheets();
+    if (sheetsData && sheetsData.students && sheetsData.students.length > 0) {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sheetsData));
       } catch (e) {}
-      return data;
+      return sheetsData;
     }
   } catch (err) {
-    console.warn("No se pudo obtener datos de la nube, usando local:", err);
+    console.warn("No se pudo obtener datos de Google Sheets:", err);
+  }
+
+  // 2. Fallback secundario a Firebase si está activo
+  if (firestoreDb) {
+    try {
+      const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
+      const snap = await getDoc(docRef);
+      if (snap.exists()) {
+        const data = snap.data() as CRMDatabase;
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {}
+        return data;
+      }
+    } catch (err) {
+      console.warn("No se pudo obtener datos de la nube, usando local:", err);
+    }
   }
 
   return getCRMDatabase();
