@@ -63,7 +63,7 @@ export function Module14Showcase() {
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
-        const maxWidth = 800;
+        const maxWidth = 500;
         if (width > maxWidth) {
           height = Math.round((height * maxWidth) / width);
           width = maxWidth;
@@ -73,7 +73,7 @@ export function Module14Showcase() {
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0, width, height);
-          const compressed = canvas.toDataURL('image/jpeg', 0.8);
+          const compressed = canvas.toDataURL('image/jpeg', 0.6);
           updateItem(id, 'imageUrl', compressed);
         } else {
           updateItem(id, 'imageUrl', event.target?.result as string);

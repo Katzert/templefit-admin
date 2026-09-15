@@ -50,9 +50,34 @@ export function Module20Recipes() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Por favor selecciona un archivo de imagen válido.');
+        return;
+      }
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewRecipe({ ...newRecipe, image: reader.result as string });
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxWidth = 500;
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            const compressed = canvas.toDataURL('image/jpeg', 0.6);
+            setNewRecipe(prev => ({ ...prev, image: compressed }));
+          } else {
+            setNewRecipe(prev => ({ ...prev, image: event.target?.result as string }));
+          }
+        };
       };
       reader.readAsDataURL(file);
     }

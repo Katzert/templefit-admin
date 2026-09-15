@@ -24,6 +24,8 @@ import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Lead, Student } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { db as firestoreDb } from '../lib/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
@@ -52,8 +54,51 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
   });
 
   useEffect(() => {
-    const db = getCRMDatabase();
-    setLeads(db.leads || []);
+    const localDb = getCRMDatabase();
+    const currentLeads = [...(localDb.leads || [])];
+    setLeads(currentLeads);
+
+    // Real-time synchronization from public website 'leads' collection
+    if (firestoreDb) {
+      try {
+        const leadsCol = collection(firestoreDb, 'leads');
+        const unsubscribe = onSnapshot(leadsCol, (snapshot) => {
+          if (!snapshot.empty) {
+            let hasNew = false;
+            const updated = [...currentLeads];
+            snapshot.forEach(docSnap => {
+              const data = docSnap.data();
+              const exists = updated.some(l => 
+                (l.phone && data.phone && l.phone.replace(/\D/g, '') === data.phone.replace(/\D/g, '')) ||
+                (l.name && data.name && l.name.toLowerCase().trim() === data.name.toLowerCase().trim())
+              );
+              if (!exists && data.name) {
+                hasNew = true;
+                updated.unshift({
+                  id: docSnap.id || `lead-web-${Date.now()}`,
+                  name: data.name,
+                  phone: data.phone || '',
+                  source: (data.source as any) || 'whatsapp',
+                  notes: data.notes || 'Lead captado desde la Web Pública',
+                  status: (data.status as any) || 'new',
+                  dateAdded: data.dateAdded || new Date().toISOString().split('T')[0]
+                });
+              }
+            });
+            if (hasNew) {
+              setLeads(updated);
+              localDb.leads = updated;
+              saveCRMDatabase(localDb);
+            }
+          }
+        }, (err) => {
+          console.warn("Error leyendo leads de Firebase:", err);
+        });
+        return () => unsubscribe();
+      } catch (e) {
+        console.warn("Firestore leads no disponible:", e);
+      }
+    }
   }, []);
 
   const saveLeads = (newLeads: Lead[]) => {
