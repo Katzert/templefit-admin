@@ -551,7 +551,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   <textarea 
                     id="lead-notes"
                     rows={2}
-                    placeholder="Interesado en Reto 21 Días, Crossfit o Neuro-Ventas..."
+                    placeholder="Interesado en Reto 21 Días, Crossfit o Liderazgo..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
                     value={leadForm.notes}
                     onChange={e => setLeadForm({ ...leadForm, notes: e.target.value })}

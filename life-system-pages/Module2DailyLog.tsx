@@ -75,20 +75,6 @@ const defaultAdminHabits = [
   'Proyección estratégica a largo plazo.'
 ];
 
-const defaultActionPlans = [
-  { phase: 'Mes 1 - Cimentación', plan: 'Firma de roles y setup tecnológico. Registro de responsabilidades y contratos.' },
-  { phase: 'Mes 2 - Captación', plan: 'Embudo de ventas y citas con medios. Ventas Reto 21 Días y entrevistas.' },
-  { phase: 'Mes 3 - Inicio CAMP (A)', plan: 'Capacitación teórica y práctica inicial. NeuroEntrenamiento y Discipulado (1-30).' },
-  { phase: 'Mes 4 - Inicio CAMP (B)', plan: 'Campaña de expectativa masiva. Discipulado (31-60) y transición Parque Urbano.' },
-  { phase: 'Mes 5 - Consolidación', plan: 'Refuerzo de ventas y permanencia. Práctica supervisada y Discipulado (61-90).' },
-  { phase: 'Mes 6 - Multiplicación (A)', plan: 'Ejecución de primer gran evento masivo c/tarima, Premiación (Copa/Corona).' },
-  { phase: 'Mes 7 - Multiplicación (B)', plan: 'Ajuste de logística según resultados previos y segundo evento masivo.' },
-  { phase: 'Mes 8 - Multiplicación (C)', plan: 'Consolidación de marca en la ciudad y lanzamiento de iniciativas.' },
-  { phase: 'Mes 9 - Expansión (A)', plan: 'Mapeo y apertura de nuevos puntos en nuevas zonas y atracción masiva.' },
-  { phase: 'Mes 10 - Expansión (B)', plan: 'Formalización de alianzas estratégicas regionales y consolidación.' },
-  { phase: 'Mes 11 - Proyección', plan: 'Análisis integral del rendimiento anual, auditoría de KPIs y sumatoria de logros.' },
-  { phase: 'Mes 12 - Consolidación', plan: 'Plan Año 2, Movimiento Consolidado, lanzamiento de servicios futuros y celebración.' }
-];
 
 const microItems = [
   { key: 'water' as const, label: 'Hidratación 3L', icon: Droplet },
@@ -210,21 +196,7 @@ export function Module2DailyLog() {
     }
   }, [studentEmail, storageKey, todayKey]);
 
-  // When changing month, ensure historical seeds exist for that month if never loaded
-  useEffect(() => {
-    const year = viewingMonth.getFullYear();
-    const month = viewingMonth.getMonth();
-    const dateKeyPrefix = `${year}-${String(month + 1).padStart(2, '0')}`;
-    
-    // Check if we have any records for this month
-    const hasMonthData = Object.keys(macroRecords).some(k => k.startsWith(dateKeyPrefix));
-    if (!hasMonthData) {
-      const monthSeed = generateInitialHistoryForStudent(studentEmail, year, month);
-      const updated = { ...monthSeed, ...macroRecords };
-      localStorage.setItem(storageKey, JSON.stringify(updated));
-      setMacroRecords(updated);
-    }
-  }, [viewingMonth, studentEmail, storageKey, macroRecords]);
+
 
   // Save Today's Log
   const handleSaveToday = () => {
@@ -1007,7 +979,7 @@ export function Module2DailyLog() {
               </div>
             </div>
 
-            {/* Planes de Acción Estándar (Mes 1 a Mes 12) */}
+            {/* Operaciones Estándar de Gestión */}
             <div className="bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
               <div className="flex items-center gap-3 pb-4 border-b border-black/10 dark:border-white/10">
                 <div className="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-md">
@@ -1015,16 +987,21 @@ export function Module2DailyLog() {
                 </div>
                 <div>
                   <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
-                    Planes de Acción Estándar
+                    Operaciones Diarias del Centro
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-gray-400">
-                    Checklist táctico de implementación por fase y preparación de responsables
+                    Checklist operativo para apertura, entrenamiento y cierre de jornada
                   </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {defaultActionPlans.map((planItem) => {
+                {[
+                  { phase: 'Turno Mañana (06:00 AM)', plan: 'Apertura de jaula, preparación de sales ElectroHidra y bienvenida de escuadrones.' },
+                  { phase: 'Control Diario', plan: 'Pase de lista de atletas, registro de consumos en Snack Bar y revisión de hidratación.' },
+                  { phase: 'Turno Tarde (18:00 PM)', plan: 'Entrenamiento vespertino, técnica de calistenia y seguimiento de atletas en riesgo.' },
+                  { phase: 'Cierre Operativo', plan: 'Corte de caja diaria, reposición de inventario y limpieza del cuadrilátero.' }
+                ].map((planItem) => {
                   const isChecked = !!actionPlans[planItem.phase];
                   return (
                     <div 

@@ -622,7 +622,7 @@ const DEFAULT_DB: CRMDatabase = {
     "type": "income",
     "category": "courses",
     "amount": 1500,
-    "description": "Taller Neuro-Entrenamiento y Respiración Buteyko"
+    "description": "Taller de Entrenamiento y Respiración Buteyko"
   },
   {
     "id": "tx-31",
@@ -795,7 +795,7 @@ const DEFAULT_DB: CRMDatabase = {
   leads: [
     { id: 'ld-1', name: 'Samuel Ortiz', phone: '+59178901234', source: 'instagram', status: 'appointment_set', notes: 'Agendado para clase de prueba sábado 06:00 AM en CristoFit Camp', dateAdded: '2026-08-10' },
     { id: 'ld-2', name: 'Valeria Justiniano', phone: '+59165432198', source: 'whatsapp', status: 'trial', notes: 'En semana de prueba gratuita (Escuadrón Paz). Muy interesada en nutrición.', dateAdded: '2026-08-12' },
-    { id: 'ld-3', name: 'Carlos Medina', phone: '+59170098765', source: 'walk-in', status: 'contacted', notes: 'Consultó por Neuro-Entrenamiento en Ventas y horario nocturno', dateAdded: '2026-08-14' },
+    { id: 'ld-3', name: 'Carlos Medina', phone: '+59170098765', source: 'walk-in', status: 'contacted', notes: 'Consultó por formación en ventas y horario nocturno', dateAdded: '2026-08-14' },
     { id: 'ld-4', name: 'Laura Torrez', phone: '+59171122334', source: 'referral', status: 'new', notes: 'Recomendada por Carlos Gutiérrez. Quiere unirse al Reto 21 Días.', dateAdded: '2026-08-16' }
   ],
   weeklyChecklist: {
@@ -854,7 +854,7 @@ const DEFAULT_DB: CRMDatabase = {
       monthIndex: 1,
       dayOfWeek: 'Miércoles',
       pillar: 'Hábitos 3 Áreas',
-      title: 'El Trípode Inquebrantable: Espíritu, Mente y Cuerpo',
+      title: 'Los 3 Pilares Diarios: Espíritu, Mente y Cuerpo',
       hookAndStory: 'Si entrenas el cuerpo pero descuidas tus pensamientos y tu nutrición, vives en conflicto constante. Conoce el método de 3 pilares.',
       callToAction: 'Guarda esta guía práctica y aplícala mañana a primera hora.',
       driveDocLink: 'https://docs.google.com/document/d/templefit-habitos-tripode',
@@ -937,7 +937,7 @@ const DEFAULT_DB: CRMDatabase = {
     },
     {
       id: 'inv-ginkgo-1',
-      name: 'Ginkgo Biloba Neuro-Circulatorio (120 caps)',
+      name: 'Ginkgo Biloba Concentrado (120 caps)',
       category: 'suplementos',
       cost: 85,
       price: 150,
@@ -1107,7 +1107,7 @@ const DEFAULT_DB: CRMDatabase = {
     {
       id: 'show-ginkgo-1',
       type: 'merch',
-      title: 'Ginkgo Biloba Neuro-Circulatorio (120 caps)',
+      title: 'Ginkgo Biloba Concentrado (120 caps)',
       description: 'Estimulación del flujo sanguíneo cerebral, concentración y biohacking cognitivo.',
       price: 150,
       imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop',

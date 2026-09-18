@@ -57,7 +57,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
     squadCount,
     retentionRate
   } = useMemo(() => {
-    // --- Daily Log data (Hábitos Holísticos) ---
+    // --- Daily Log data (Hábitos y Disciplina) ---
     const dailyKey = `templefit_daily_${studentEmail}`;
     const dailyRaw = typeof window !== 'undefined' ? localStorage.getItem(dailyKey) : null;
     let streak = 7;
@@ -198,7 +198,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </motion.div>
 
-      {/* WIDGET HÁBITOS HOLÍSTICOS & DISCIPLINA DIARIA */}
+      {/* WIDGET HÁBITOS & DISCIPLINA DIARIA */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <motion.div variants={item}>
           <Card className="bg-white dark:bg-[#0E1424]/90 border border-amber-500/30 shadow-lg hover:border-amber-500/50 transition">

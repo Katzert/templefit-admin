@@ -454,7 +454,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   </div>
                   <div>
                     <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">Nuevo Atleta TempleFit</h3>
-                    <p className="text-xs text-slate-600 dark:text-gray-400">Crea el expediente holístico de 3 pilares.</p>
+                    <p className="text-xs text-slate-600 dark:text-gray-400">Crea la ficha integral de 3 pilares.</p>
                   </div>
                 </div>
                 <button onClick={() => setIsModalOpen(false)} className="text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white transition">

@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://katzert.github.io/templefit-admin"),
-  title: "TEMPLEFIT Admin - Holistic Life System CRM",
+  title: "TEMPLEFIT Admin - Sistema Integral de Gestión",
   description: "Sistema integral de gestión de atletas, finanzas y entrenamiento TempleFit.",
   robots: { index: false, follow: false },
   manifest: "/templefit-admin/manifest.json",
