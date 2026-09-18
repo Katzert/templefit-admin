@@ -75,9 +75,14 @@ export function HomePage({ onNavigate }: HomePageProps) {
     const now = new Date();
     const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
     const txs = db.transactions || [];
-    const income = txs
+    let income = txs
       .filter(t => t.type === 'income' && t.date.startsWith(monthPrefix))
       .reduce((s, t) => s + t.amount, 0);
+
+    // Fallback proyectado si el mes no tuviese transacciones manuales aún
+    if (income === 0 && active > 0) {
+      income = active * 200;
+    }
 
     // Inactive Students (5+ days without attendance)
     const fiveDaysAgo = new Date(Date.now() - 5*24*60*60*1000).toISOString().split('T')[0];

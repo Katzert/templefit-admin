@@ -5416,6 +5416,174 @@ const DEFAULT_DB: CRMDatabase = {
   }
 ],
   transactions: [
+    {
+      "id": "tx-sep-1",
+      "date": "2026-09-01",
+      "type": "income",
+      "category": "membership",
+      "amount": 450,
+      "description": "Coaching 1 a 1 - Antonio Eid (VIP)"
+    },
+    {
+      "id": "tx-sep-2",
+      "date": "2026-09-01",
+      "type": "income",
+      "category": "membership",
+      "amount": 200,
+      "description": "Membresía Reto 21 Días - Carlos Gutiérrez"
+    },
+    {
+      "id": "tx-sep-3",
+      "date": "2026-09-01",
+      "type": "income",
+      "category": "membership",
+      "amount": 200,
+      "description": "Membresía Reto 21 Días - Mariana Flores"
+    },
+    {
+      "id": "tx-sep-4",
+      "date": "2026-09-02",
+      "type": "income",
+      "category": "membership",
+      "amount": 200,
+      "description": "Membresía Reto 21 Días - José Luis Mamani"
+    },
+    {
+      "id": "tx-sep-5",
+      "date": "2026-09-02",
+      "type": "income",
+      "category": "membership",
+      "amount": 200,
+      "description": "Membresía Reto 21 Días - Daniela Quispe"
+    },
+    {
+      "id": "tx-sep-6",
+      "date": "2026-09-03",
+      "type": "income",
+      "category": "membership",
+      "amount": 200,
+      "description": "Membresía Mensual - Andrés Paredes"
+    },
+    {
+      "id": "tx-sep-7",
+      "date": "2026-09-03",
+      "type": "expense",
+      "category": "operations",
+      "amount": 600,
+      "description": "Alquiler espacio CristoFit Camp y parque deportivo"
+    },
+    {
+      "id": "tx-sep-8",
+      "date": "2026-09-03",
+      "type": "income",
+      "category": "membership",
+      "amount": 500,
+      "description": "Membresía Trimestral Atleta - Rodrigo Mendoza"
+    },
+    {
+      "id": "tx-sep-9",
+      "date": "2026-09-04",
+      "type": "income",
+      "category": "membership",
+      "amount": 500,
+      "description": "Membresía Trimestral Atleta - Camila Zeballos"
+    },
+    {
+      "id": "tx-sep-10",
+      "date": "2026-09-05",
+      "type": "income",
+      "category": "courses",
+      "amount": 850,
+      "description": "Formación E.A.G.E. - Juan Carlos Banegas"
+    },
+    {
+      "id": "tx-sep-11",
+      "date": "2026-09-05",
+      "type": "expense",
+      "category": "snack",
+      "amount": 320,
+      "description": "Insumos Snack Bar (Miel de abeja, Cúrcuma Cupesí, Sal marina)"
+    },
+    {
+      "id": "tx-sep-12",
+      "date": "2026-09-06",
+      "type": "income",
+      "category": "courses",
+      "amount": 850,
+      "description": "Formación E.A.G.E. - Lucía Torrez"
+    },
+    {
+      "id": "tx-sep-13",
+      "date": "2026-09-08",
+      "type": "income",
+      "category": "snack",
+      "amount": 180,
+      "description": "Consumo Snack Bar & ElectroHidra - Escuadrón Gedeón"
+    },
+    {
+      "id": "tx-sep-14",
+      "date": "2026-09-09",
+      "type": "expense",
+      "category": "operations",
+      "amount": 250,
+      "description": "Mantenimiento jaula de calistenia y ajuste de anillas"
+    },
+    {
+      "id": "tx-sep-15",
+      "date": "2026-09-10",
+      "type": "income",
+      "category": "snack",
+      "amount": 240,
+      "description": "Consumo Snack Bar - Atletas CristoFit Camp"
+    },
+    {
+      "id": "tx-sep-16",
+      "date": "2026-09-11",
+      "type": "income",
+      "category": "merchandise",
+      "amount": 100,
+      "description": "Venta Polera Oficial TempleFit - Rodrigo Mendoza"
+    },
+    {
+      "id": "tx-sep-17",
+      "date": "2026-09-12",
+      "type": "income",
+      "category": "merchandise",
+      "amount": 150,
+      "description": "Venta Hoodie Oficial TempleFit - Carlos Gutiérrez"
+    },
+    {
+      "id": "tx-sep-18",
+      "date": "2026-09-14",
+      "type": "income",
+      "category": "courses",
+      "amount": 350,
+      "description": "Inscripción Evento Sábado y Degustación Snack Bar"
+    },
+    {
+      "id": "tx-sep-19",
+      "date": "2026-09-15",
+      "type": "income",
+      "category": "snack",
+      "amount": 120,
+      "description": "Consumo Snack Bar & Shakes Proteicos"
+    },
+    {
+      "id": "tx-sep-20",
+      "date": "2026-09-15",
+      "type": "expense",
+      "category": "operations",
+      "amount": 200,
+      "description": "Material y logística para mesa de evento deportivo del sábado"
+    },
+    {
+      "id": "tx-sep-21",
+      "date": "2026-09-16",
+      "type": "income",
+      "category": "membership",
+      "amount": 200,
+      "description": "Membresía Reto 21 Días - Renovable"
+    },
   {
     "id": "tx-1",
     "date": "2026-08-01",
@@ -6259,7 +6427,14 @@ export function getCRMDatabase(): CRMDatabase {
     if (!parsed.transactions || parsed.transactions.length < 20) {
       parsed.transactions = DEFAULT_DB.transactions;
       hasUpdated = true;
-    };
+    } else {
+      const hasSept2026 = parsed.transactions.some(t => t.date && t.date.startsWith('2026-09'));
+      if (!hasSept2026) {
+        const septTxs = DEFAULT_DB.transactions.filter(t => t.date && t.date.startsWith('2026-09'));
+        parsed.transactions = [...septTxs, ...parsed.transactions];
+        hasUpdated = true;
+      }
+    }
     if (!parsed.inventory || parsed.inventory.length === 0) {
       parsed.inventory = DEFAULT_DB.inventory;
       hasUpdated = true;

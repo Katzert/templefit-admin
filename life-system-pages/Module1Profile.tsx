@@ -36,7 +36,11 @@ import {
   CreditCard,
   Receipt,
   Clock,
-  Coffee
+  Coffee,
+  X,
+  Search,
+  Dumbbell,
+  Check
 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -45,6 +49,39 @@ const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transiti
 interface Module1ProfileProps {
   onNavigate?: (tab: string) => void;
 }
+
+
+const MUSCLEWIKI_CATALOG = [
+  // Pecho / Empuje
+  { id: 'ex-1', muscle: 'Pecho', name: 'Press Banca Plano (Barra/Mancuernas)', reps: '4x8-10', cue: 'Retracción escapular, barra al esternón' },
+  { id: 'ex-2', muscle: 'Pecho', name: 'Fondos en Paralelas (Dips)', reps: '4x10-12', cue: 'Inclinación leve adelante, codos a 90°' },
+  { id: 'ex-3', muscle: 'Pecho', name: 'Flexiones Diamante (Calistenia)', reps: '4x12-15', cue: 'Manos juntas, énfasis en tríceps y pecho medio' },
+  { id: 'ex-4', muscle: 'Pecho', name: 'Flexiones Declinadas / Pies Elevados', reps: '4x15', cue: 'Core compacto, énfasis en haz clavicular' },
+  
+  // Espalda / Tracción
+  { id: 'ex-5', muscle: 'Espalda', name: 'Dominadas Estrictas Pronas (Pull-ups)', reps: '4x6-8', cue: 'Pecho a la barra, rango completo' },
+  { id: 'ex-6', muscle: 'Espalda', name: 'Dominadas Supinas (Chin-ups)', reps: '4x8-10', cue: 'Foco en bíceps y dorsal ancho' },
+  { id: 'ex-7', muscle: 'Espalda', name: 'Remo Invertido en Barra Baja', reps: '4x12', cue: 'Cuerpo en tabla rígida, tracción con codos' },
+  { id: 'ex-8', muscle: 'Espalda', name: 'Muscle-Up en Barra / Anillas', reps: '3x4-6', cue: 'Transición explosiva, empuje sobre barra' },
+
+  // Piernas
+  { id: 'ex-9', muscle: 'Piernas', name: 'Sentadilla Búlgara (Bulgarian Split Squat)', reps: '4x10-12/lado', cue: 'Tronco erguido, rodilla casi al suelo' },
+  { id: 'ex-10', muscle: 'Piernas', name: 'Peso Muerto Rumano (RDL)', reps: '4x10-12', cue: 'Bisagra de cadera, tensión en isquiotibiales' },
+  { id: 'ex-11', muscle: 'Piernas', name: 'Sentadilla Pistola Asistida (Pistol)', reps: '3x6-8/lado', cue: 'Estabilidad de tobillo, control excéntrico' },
+  { id: 'ex-12', muscle: 'Piernas', name: 'Saltos Pliométricos al Cajón', reps: '4x12', cue: 'Aterrizaje suave en media sentadilla' },
+
+  // Hombros & Brazos
+  { id: 'ex-13', muscle: 'Hombros', name: 'Flexiones en Pica / Pike Push-ups', reps: '4x8-10', cue: 'Cabeza por delante de las manos en triángulo' },
+  { id: 'ex-14', muscle: 'Hombros', name: 'Handstand Push-up en Pared', reps: '3x5-8', cue: 'Bloqueo escapular y core activo' },
+  { id: 'ex-15', muscle: 'Hombros', name: 'Elevaciones Laterales Estrictas', reps: '4x15', cue: 'Codos lideran el movimiento, sin balanceo' },
+  { id: 'ex-16', muscle: 'Hombros', name: 'Extensiones de Tríceps en Barra', reps: '4x12', cue: 'Aislamiento de codos con peso corporal' },
+
+  // Core & CristoFit
+  { id: 'ex-17', muscle: 'Core', name: 'Elevación de Piernas Colgado (Hanging Leg Raise)', reps: '4x10-12', cue: 'Sin balanceo pendular, subir con abdomen' },
+  { id: 'ex-18', muscle: 'Core', name: 'Plancha Abdominal Activa (Hollow Plank)', reps: '4x45 seg', cue: 'Retroversión pélvica, glúteos contraídos' },
+  { id: 'ex-19', muscle: 'Core', name: 'Circuito Cardio Táctico 06:00 AM', reps: '3 rondas', cue: 'Burpees éticos + skipping alto + sprint' },
+  { id: 'ex-20', muscle: 'Core', name: 'Respiración Buteyko Post-Entreno', reps: '5 min', cue: 'Control de volumen y pausa respiratoria calma' }
+];
 
 export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   const { selectedStudent, setSelectedStudent } = useAuth();
@@ -98,6 +135,24 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   // Attendance & Assessments
   const [attendanceHistory, setAttendanceHistory] = useState<AttendanceRecord[]>([]);
   const [assessments, setAssessments] = useState<ProgressAssessment[]>([]);
+
+  // Modals & UI States for Snack Bar, MuscleWiki, and Attendance
+  const [isSnackModalOpen, setIsSnackModalOpen] = useState(false);
+  const [snackAmount, setSnackAmount] = useState<number>(20);
+  const [snackConcept, setSnackConcept] = useState<string>('Batido de Proteína & Shake');
+  const [snackActionType, setSnackActionType] = useState<'charge' | 'payment'>('charge');
+
+  const [isMuscleModalOpen, setIsMuscleModalOpen] = useState(false);
+  const [muscleCategoryFilter, setMuscleCategoryFilter] = useState<string>('Todos');
+  const [selectedCatalogIds, setSelectedCatalogIds] = useState<string[]>([]);
+  const [searchExerciseTerm, setSearchExerciseTerm] = useState<string>('');
+
+  const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false);
+  const [attendanceDateInput, setAttendanceDateInput] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [attendanceNotesInput, setAttendanceNotesInput] = useState<string>('Sesión de Entrenamiento CristoFit Camp (06:00 AM)');
+  const [editingAttendanceIdx, setEditingAttendanceIdx] = useState<number | null>(null);
+  const [editAttDate, setEditAttDate] = useState<string>('');
+  const [editAttNotes, setEditAttNotes] = useState<string>('');
 
   // Calculate age from birthDate
   const age = useMemo(() => {
@@ -226,6 +281,8 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
         if (field === 'nextDueDate') updated.nextDueDate = String(newValue);
         if (field === 'snackBarBalanceBs') updated.snackBarBalanceBs = Number(newValue);
         if (field === 'additionalServices') updated.additionalServices = newValue;
+        if (field === 'attendanceHistory') updated.attendanceHistory = newValue;
+        if (field === 'assessments') updated.assessments = newValue;
 
         updatedActiveStudent = updated;
         return updated;
@@ -304,8 +361,8 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     saveCRMDatabase(db);
   };
 
-  const handleAddSnackCharge = (amount: number) => {
-    if (!selectedStudent) return;
+  const handleAddSnackCharge = (amount: number, concept: string = 'Consumo Snack Bar') => {
+    if (!selectedStudent || amount <= 0) return;
     const today = new Date().toISOString().split('T')[0];
     const newBalance = (snackBarBalanceBs || 0) + amount;
     handleSaveField('snackBarBalanceBs', newBalance);
@@ -317,20 +374,56 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       type: 'income' as const,
       category: 'snack' as const,
       amount: amount,
-      description: `Consumo Snack Bar (+${amount} Bs.) - ${name}`
+      description: `${concept} (+${amount} Bs.) - ${name}`
     };
     db.transactions = [newTx, ...(db.transactions || [])];
     saveCRMDatabase(db);
   };
 
-  const handleAddAttendance = () => {
+  const handleSnackPayment = (paymentAmount: number) => {
+    if (!selectedStudent || paymentAmount <= 0) return;
     const today = new Date().toISOString().split('T')[0];
-    const newRecord: AttendanceRecord = {
+    const currentBal = snackBarBalanceBs || 0;
+    const actualPayment = Math.min(paymentAmount, currentBal);
+    const newBalance = Math.max(0, currentBal - actualPayment);
+    handleSaveField('snackBarBalanceBs', newBalance);
+
+    const db = getCRMDatabase();
+    const newTx = {
+      id: `tx-${Date.now()}`,
       date: today,
+      type: 'income' as const,
+      category: 'snack' as const,
+      amount: actualPayment,
+      description: `Abono a cuenta Snack Bar (-${actualPayment} Bs.) - ${name}`
+    };
+    db.transactions = [newTx, ...(db.transactions || [])];
+    saveCRMDatabase(db);
+  };
+
+  const handleAddAttendance = (customDate?: string, customNotes?: string) => {
+    const sessionDate = customDate || new Date().toISOString().split('T')[0];
+    const newRecord: AttendanceRecord = {
+      date: sessionDate,
       attended: true,
-      notes: 'Sesión completada en CristoFit Camp'
+      notes: customNotes || "Sesión de Entrenamiento CristoFit Camp"
     };
     const updated = [newRecord, ...attendanceHistory];
+    handleSaveField('attendanceHistory', updated);
+  };
+
+  const handleUpdateAttendance = (index: number, updatedDate: string, updatedNotes: string) => {
+    const updated = attendanceHistory.map((att, i) => 
+      i === index ? { ...att, date: updatedDate, notes: updatedNotes } : att
+    );
+    handleSaveField('attendanceHistory', updated);
+    setEditingAttendanceIdx(null);
+  };
+
+  const handleDeleteAttendance = (index: number) => {
+    const target = attendanceHistory[index];
+    if (!window.confirm(`¿Deseas eliminar el registro de asistencia del ${target.date}?`)) return;
+    const updated = attendanceHistory.filter((_, i) => i !== index);
     handleSaveField('attendanceHistory', updated);
   };
 
@@ -509,7 +602,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             ) : (
               <button
                 type="button"
-                onClick={handleAddAttendance}
+                onClick={() => handleAddAttendance()}
                 className="flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider transition shadow-md shadow-emerald-500/20"
               >
                 <Plus size={14} />
@@ -566,17 +659,14 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <button
               type="button"
               onClick={() => {
-                const input = typeof window !== 'undefined' ? window.prompt("Monto consumido en Snack Bar / Suplementos (Bs.):", "20") : null;
-                if (input) {
-                  const val = parseFloat(input);
-                  if (!isNaN(val) && val > 0) handleAddSnackCharge(val);
-                }
+                setSnackActionType('charge');
+                setIsSnackModalOpen(true);
               }}
-              className="px-3 py-2 bg-black/5 dark:bg-white/5 hover:bg-amber-500/20 text-slate-700 dark:text-gray-300 hover:text-temple-gold border border-black/10 dark:border-white/10 rounded-xl text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5"
-              title="Anotar consumo en el Snack Bar"
+              className="px-3 py-2 bg-temple-gold/15 hover:bg-temple-gold text-slate-800 dark:text-white hover:text-black border border-temple-gold/40 rounded-xl text-xs font-extrabold uppercase tracking-wider transition flex items-center gap-1.5 shadow-sm"
+              title="Anotar consumo o pago en el Snack Bar"
             >
-              <Coffee size={14} className="text-temple-gold" />
-              <span>+ Consumo Snack</span>
+              <Coffee size={14} className="text-temple-gold group-hover:text-black" />
+              <span>+ Consumo / Saldo Snack</span>
             </button>
           </div>
         </div>
@@ -658,10 +748,19 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
         {/* Consumo Hub & Snack Bar */}
         <div className="p-3.5 bg-black/[0.02] dark:bg-white/[0.02] rounded-2xl border border-black/5 dark:border-white/5 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Coffee size={16} className="text-temple-gold" />
-            <span className="font-bold text-slate-700 dark:text-gray-300">Consumo Snack Bar Acumulado:</span>
-            <span className="font-black text-temple-navy dark:text-white">Bs. {snackBarBalanceBs || 0}</span>
+            <span className="font-bold text-slate-700 dark:text-gray-300">Consumo Snack Bar:</span>
+            <span className="font-black text-temple-gold dark:text-temple-gold text-sm">Bs. {snackBarBalanceBs || 0}</span>
+            <button
+              onClick={() => {
+                setSnackActionType(snackBarBalanceBs > 0 ? 'payment' : 'charge');
+                setIsSnackModalOpen(true);
+              }}
+              className="px-2.5 py-1 rounded-lg bg-temple-gold/20 hover:bg-temple-gold text-slate-900 dark:text-white hover:text-black font-extrabold text-[10px] uppercase tracking-wider transition border border-temple-gold/30"
+            >
+              {snackBarBalanceBs > 0 ? 'Saldar / Abonar' : 'Añadir Consumo'}
+            </button>
           </div>
           <div className="flex items-center gap-3 text-[11px] font-medium text-slate-600 dark:text-gray-400">
             <span>Último pago registrado: <strong className="text-slate-900 dark:text-white">{lastPaymentDate || 'Al inicio'}</strong></span>
@@ -890,14 +989,28 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             <div className="lg:col-span-7 space-y-6">
               <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-2xl h-full">
                 <CardHeader>
-                  <CardTitle className="flex items-center justify-between text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
+                  <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-base font-black uppercase tracking-wider text-temple-navy dark:text-white">
                     <div className="flex items-center gap-2">
                       <Activity className="text-red-400" size={18} />
                       <span>Ficha Técnica de Ejercicios y Rutina Actual</span>
                     </div>
-                    <span className="text-[10px] bg-temple-gold/15 text-temple-gold px-2.5 py-1 rounded-full border border-temple-gold/30">
-                      Con Demostraciones Visuales
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedCatalogIds([]);
+                          setIsMuscleModalOpen(true);
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-temple-gold text-black hover:bg-amber-400 font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-1.5 shadow-md"
+                        title="Seleccionar ejercicios con casillas de verificación"
+                      >
+                        <Dumbbell size={14} />
+                        <span>+ Catálogo MuscleWiki</span>
+                      </button>
+                      <span className="hidden sm:inline-block text-[10px] bg-temple-gold/15 text-temple-gold px-2.5 py-1 rounded-full border border-temple-gold/30">
+                        Prescripción Activa
+                      </span>
+                    </div>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-5">
@@ -1185,11 +1298,15 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                 </div>
 
                 <button
-                  onClick={handleAddAttendance}
+                  onClick={() => {
+                    setAttendanceDateInput(new Date().toISOString().split('T')[0]);
+                    setAttendanceNotesInput('Sesión de Entrenamiento CristoFit Camp (06:00 AM)');
+                    setIsAttendanceModalOpen(true);
+                  }}
                   className="px-4 py-2 bg-temple-gold text-black rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 hover:bg-amber-400 transition shadow-md self-start sm:self-auto"
                 >
                   <Plus size={14} />
-                  <span>+ Marcar Asistencia Hoy</span>
+                  <span>+ Marcar Asistencia</span>
                 </button>
               </div>
 
@@ -1197,31 +1314,94 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400 font-black">
-                      <th className="pb-3 pr-4 font-black w-32">Fecha</th>
+                      <th className="pb-3 pr-4 font-black w-36">Fecha</th>
                       <th className="pb-3 pr-4 font-black">Detalle de Sesión & Notas</th>
-                      <th className="pb-3 pr-4 font-black w-36 text-center">Estado</th>
+                      <th className="pb-3 pr-4 font-black w-28 text-center">Estado</th>
+                      <th className="pb-3 pr-4 font-black w-24 text-right">Acciones</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {attendanceHistory.map((att, idx) => (
-                      <tr key={idx} className="hover:bg-black/5 dark:bg-white/5 transition-colors">
-                        <td className="py-4 pl-4 tabular-nums font-bold text-temple-gold whitespace-nowrap">
-                          {att.date}
-                        </td>
-                        <td className="py-4 pl-4 text-slate-700 dark:text-gray-300 font-medium">
-                          {att.notes || 'Sesión CristoFit Camp'}
-                        </td>
-                        <td className="py-4 pl-4 text-center whitespace-nowrap">
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-black uppercase tracking-wider">
-                            <CheckCircle2 size={12} /> Presente
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
+                  <tbody className="divide-y divide-black/5 dark:divide-white/5">
+                    {attendanceHistory.map((att, idx) => {
+                      const isEditing = editingAttendanceIdx === idx;
+                      return (
+                        <tr key={idx} className="hover:bg-black/5 dark:bg-white/5 transition-colors">
+                          <td className="py-3 pl-4 tabular-nums font-bold text-temple-gold whitespace-nowrap">
+                            {isEditing ? (
+                              <input 
+                                type="date"
+                                value={editAttDate}
+                                onChange={(e) => setEditAttDate(e.target.value)}
+                                className="px-2 py-1 bg-white dark:bg-black/60 border border-temple-gold/50 rounded-lg text-xs font-bold text-slate-900 dark:text-white"
+                              />
+                            ) : (
+                              att.date
+                            )}
+                          </td>
+                          <td className="py-3 pl-4 text-slate-700 dark:text-gray-300 font-medium">
+                            {isEditing ? (
+                              <input 
+                                type="text"
+                                value={editAttNotes}
+                                onChange={(e) => setEditAttNotes(e.target.value)}
+                                className="w-full px-2 py-1 bg-white dark:bg-black/60 border border-temple-gold/50 rounded-lg text-xs text-slate-900 dark:text-white"
+                              />
+                            ) : (
+                              att.notes || 'Sesión CristoFit Camp'
+                            )}
+                          </td>
+                          <td className="py-3 pl-4 text-center whitespace-nowrap">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-black uppercase tracking-wider">
+                              <CheckCircle2 size={11} /> Presente
+                            </span>
+                          </td>
+                          <td className="py-3 pr-4 text-right whitespace-nowrap">
+                            {isEditing ? (
+                              <div className="flex items-center justify-end gap-1.5">
+                                <button
+                                  onClick={() => handleUpdateAttendance(idx, editAttDate, editAttNotes)}
+                                  className="p-1.5 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-black rounded-lg transition"
+                                  title="Guardar cambios"
+                                >
+                                  <Check size={14} />
+                                </button>
+                                <button
+                                  onClick={() => setEditingAttendanceIdx(null)}
+                                  className="p-1.5 bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition"
+                                  title="Cancelar"
+                                >
+                                  <X size={14} />
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="flex items-center justify-end gap-1.5">
+                                <button
+                                  onClick={() => {
+                                    setEditingAttendanceIdx(idx);
+                                    setEditAttDate(att.date);
+                                    setEditAttNotes(att.notes || '');
+                                  }}
+                                  className="p-1.5 bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-temple-gold rounded-lg transition"
+                                  title="Editar sesión"
+                                >
+                                  <Edit3 size={14} />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteAttendance(idx)}
+                                  className="p-1.5 bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-red-400 rounded-lg transition"
+                                  title="Eliminar sesión"
+                                >
+                                  <Trash2 size={14} />
+                                </button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
                     {attendanceHistory.length === 0 && (
                       <tr>
-                        <td colSpan={3} className="py-8 text-center text-slate-500 dark:text-gray-500 font-medium">
-                          Sin sesiones registradas aún. Haz clic en "+ Marcar Asistencia Hoy".
+                        <td colSpan={4} className="py-8 text-center text-slate-500 dark:text-gray-500 font-medium">
+                          Sin sesiones registradas aún. Haz clic en "+ Marcar Asistencia".
                         </td>
                       </tr>
                     )}
@@ -1310,6 +1490,456 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ========================================================================= */}
+      {/* MODAL 1: REGISTRO Y GESTIÓN DE CONSUMO SNACK BAR                         */}
+      {/* ========================================================================= */}
+      <AnimatePresence>
+        {isSnackModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-lg w-full space-y-5"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-temple-gold/20 flex items-center justify-center text-temple-gold">
+                    <Coffee size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-black uppercase text-base text-temple-navy dark:text-white">
+                      Snack Bar & Suplementación
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-gray-400">Atleta: <strong className="text-temple-gold">{name}</strong></p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsSnackModalOpen(false)}
+                  className="p-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-slate-500 transition"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Action Tabs: Anotar Consumo vs Abonar Pago */}
+              <div className="flex rounded-xl bg-black/5 dark:bg-white/5 p-1">
+                <button
+                  type="button"
+                  onClick={() => setSnackActionType('charge')}
+                  className={`flex-1 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition ${
+                    snackActionType === 'charge'
+                      ? 'bg-temple-gold text-black shadow-md'
+                      : 'text-slate-600 dark:text-gray-400 hover:text-white'
+                  }`}
+                >
+                  + Anotar Consumo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSnackActionType('payment')}
+                  className={`flex-1 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition ${
+                    snackActionType === 'payment'
+                      ? 'bg-emerald-500 text-white shadow-md'
+                      : 'text-slate-600 dark:text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Saldar / Abonar Pago
+                </button>
+              </div>
+
+              {snackActionType === 'charge' ? (
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-2">
+                      Selección Rápida de Productos Frecuentes
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { title: 'Batido de Proteína', price: 20 },
+                        { title: 'ElectroHidra Isotónica', price: 10 },
+                        { title: 'Barra de Avena & Miel', price: 15 },
+                        { title: 'Bowl Fruta & Proteína', price: 25 },
+                        { title: 'Smoothie Salomón', price: 20 },
+                        { title: 'Pudín H-Control', price: 18 },
+                      ].map((item, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => {
+                            setSnackAmount(item.price);
+                            setSnackConcept(item.title);
+                          }}
+                          className={`p-2.5 rounded-xl border text-left text-xs transition ${
+                            snackConcept === item.title
+                              ? 'bg-temple-gold/15 border-temple-gold text-slate-900 dark:text-white font-bold'
+                              : 'bg-black/5 dark:bg-white/5 border-transparent text-slate-600 dark:text-gray-400 hover:border-white/20'
+                          }`}
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className="truncate">{item.title}</span>
+                            <span className="text-temple-gold font-black">Bs. {item.price}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
+                        Monto (Bs.)
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={snackAmount}
+                        onChange={(e) => setSnackAmount(Math.max(1, Number(e.target.value) || 0))}
+                        className="w-full px-3 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 font-black text-slate-900 dark:text-white text-base"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
+                        Concepto / Detalle
+                      </label>
+                      <input
+                        type="text"
+                        value={snackConcept}
+                        onChange={(e) => setSnackConcept(e.target.value)}
+                        className="w-full px-3 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 text-xs font-bold text-slate-900 dark:text-white"
+                        placeholder="Ej. Batido + fruta"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-amber-500/10 rounded-xl border border-amber-500/20 text-xs text-amber-700 dark:text-amber-300 flex justify-between items-center">
+                    <span>Saldo actual pendiente: <strong>Bs. {snackBarBalanceBs || 0}</strong></span>
+                    <span>Nuevo saldo estimado: <strong>Bs. {(snackBarBalanceBs || 0) + snackAmount}</strong></span>
+                  </div>
+
+                  <div className="flex gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsSnackModalOpen(false)}
+                      className="flex-1 py-3 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-gray-400 hover:bg-black/10 transition"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleAddSnackCharge(snackAmount, snackConcept);
+                        setIsSnackModalOpen(false);
+                      }}
+                      className="flex-1 py-3 rounded-xl bg-temple-gold text-black font-extrabold text-xs uppercase tracking-wider hover:bg-amber-400 transition shadow-lg"
+                    >
+                      Confirmar Consumo
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-center space-y-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 block">Deuda Pendiente de Snack</span>
+                    <span className="text-3xl font-black text-emerald-400">Bs. {snackBarBalanceBs || 0}</span>
+                  </div>
+
+                  {snackBarBalanceBs > 0 ? (
+                    <>
+                      <div>
+                        <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
+                          Monto a Abonar (Bs.)
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="number"
+                            min="1"
+                            max={snackBarBalanceBs}
+                            value={snackAmount}
+                            onChange={(e) => setSnackAmount(Math.max(1, Number(e.target.value) || 0))}
+                            className="w-full px-3 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 font-black text-slate-900 dark:text-white text-base"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setSnackAmount(snackBarBalanceBs)}
+                            className="px-3 py-2 bg-emerald-500/20 text-emerald-400 font-black text-xs uppercase rounded-xl whitespace-nowrap hover:bg-emerald-500 hover:text-black transition"
+                          >
+                            Pagar Todo
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => setIsSnackModalOpen(false)}
+                          className="flex-1 py-3 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-gray-400 hover:bg-black/10 transition"
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleSnackPayment(snackAmount);
+                            setIsSnackModalOpen(false);
+                          }}
+                          className="flex-1 py-3 rounded-xl bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider hover:bg-emerald-600 transition shadow-lg"
+                        >
+                          Registrar Pago
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-center py-4 space-y-3">
+                      <p className="text-xs text-slate-500 dark:text-gray-400">Este atleta no tiene saldo adeudado en Snack Bar.</p>
+                      <button
+                        type="button"
+                        onClick={() => setIsSnackModalOpen(false)}
+                        className="w-full py-2.5 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider"
+                      >
+                        Cerrar
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ========================================================================= */}
+      {/* MODAL 2: SELECTOR DE EJERCICIOS MUSCLEWIKI / CALISTENIA                 */}
+      {/* ========================================================================= */}
+      <AnimatePresence>
+        {isMuscleModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col space-y-4"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center text-red-500">
+                    <Dumbbell size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-black uppercase text-base text-temple-navy dark:text-white">
+                      Catálogo MuscleWiki & Calistenia
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-gray-400">Selecciona con casillas los ejercicios para añadirlos a la rutina actual.</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsMuscleModalOpen(false)}
+                  className="p-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-slate-500 transition"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Categorías & Filtros */}
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap gap-1.5">
+                  {['Todos', 'Pecho', 'Espalda', 'Piernas', 'Hombros', 'Core'].map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setMuscleCategoryFilter(cat)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                        muscleCategoryFilter === cat
+                          ? 'bg-temple-gold text-black shadow-sm'
+                          : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+                <div className="relative w-full sm:w-48">
+                  <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    value={searchExerciseTerm}
+                    onChange={(e) => setSearchExerciseTerm(e.target.value)}
+                    placeholder="Buscar ejercicio..."
+                    className="w-full pl-8 pr-2.5 py-1.5 bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-lg text-xs text-slate-900 dark:text-white"
+                  />
+                </div>
+              </div>
+
+              {/* Lista de Ejercicios */}
+              <div className="flex-1 overflow-y-auto space-y-2 pr-1 divide-y divide-black/5 dark:divide-white/5">
+                {MUSCLEWIKI_CATALOG
+                  .filter(ex => muscleCategoryFilter === 'Todos' || ex.muscle === muscleCategoryFilter)
+                  .filter(ex => !searchExerciseTerm || ex.name.toLowerCase().includes(searchExerciseTerm.toLowerCase()) || ex.cue.toLowerCase().includes(searchExerciseTerm.toLowerCase()))
+                  .map((ex) => {
+                    const isChecked = selectedCatalogIds.includes(ex.id);
+                    return (
+                      <div
+                        key={ex.id}
+                        onClick={() => {
+                          if (isChecked) {
+                            setSelectedCatalogIds(selectedCatalogIds.filter(id => id !== ex.id));
+                          } else {
+                            setSelectedCatalogIds([...selectedCatalogIds, ex.id]);
+                          }
+                        }}
+                        className={`p-3 rounded-2xl cursor-pointer transition flex items-center justify-between gap-3 ${
+                          isChecked 
+                            ? 'bg-temple-gold/15 border border-temple-gold/40' 
+                            : 'hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={() => {}}
+                            className="w-4 h-4 rounded text-temple-gold focus:ring-temple-gold"
+                          />
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-xs text-slate-900 dark:text-white">{ex.name}</span>
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-slate-600 dark:text-gray-300 uppercase font-black tracking-wider">
+                                {ex.muscle}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-0.5">{ex.cue}</p>
+                          </div>
+                        </div>
+                        <span className="text-xs font-black text-temple-gold whitespace-nowrap">{ex.reps}</span>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              <div className="flex items-center justify-between pt-3 border-t border-black/10 dark:border-white/10">
+                <span className="text-xs font-bold text-slate-600 dark:text-gray-400">
+                  {selectedCatalogIds.length} ejercicio(s) seleccionado(s)
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsMuscleModalOpen(false)}
+                    className="px-4 py-2 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-gray-400 hover:bg-black/10 transition"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    disabled={selectedCatalogIds.length === 0}
+                    onClick={() => {
+                      const selectedItems = MUSCLEWIKI_CATALOG.filter(ex => selectedCatalogIds.includes(ex.id));
+                      const newLines = selectedItems.map((ex, i) => `${ex.name} (${ex.reps}) - ${ex.cue}`);
+                      const updatedRoutine = currentRoutineExercises 
+                        ? (currentRoutineExercises + '\n' + newLines.join('\n'))
+                        : newLines.map((line, idx) => `${idx + 1}. ${line}`).join('\n');
+                      
+                      handleSaveField('currentRoutineExercises', updatedRoutine);
+                      setIsMuscleModalOpen(false);
+                    }}
+                    className={`px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition shadow-lg ${
+                      selectedCatalogIds.length > 0
+                        ? 'bg-temple-gold text-black hover:bg-amber-400 cursor-pointer'
+                        : 'bg-black/10 dark:bg-white/10 text-slate-400 cursor-not-allowed'
+                    }`}
+                  >
+                    Insertar en Rutina
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ========================================================================= */}
+      {/* MODAL 3: REGISTRO DE ASISTENCIA PERSONALIZADA                             */}
+      {/* ========================================================================= */}
+      <AnimatePresence>
+        {isAttendanceModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-md w-full space-y-4"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                    <CheckCircle2 size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-black uppercase text-base text-temple-navy dark:text-white">
+                      Registrar Asistencia
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-gray-400">Atleta: <strong className="text-temple-gold">{name}</strong></p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsAttendanceModalOpen(false)}
+                  className="p-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-slate-500 transition"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
+                    Fecha de la Sesión
+                  </label>
+                  <input
+                    type="date"
+                    value={attendanceDateInput}
+                    onChange={(e) => setAttendanceDateInput(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 font-bold text-slate-900 dark:text-white text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
+                    Detalle de Sesión & Observaciones
+                  </label>
+                  <input
+                    type="text"
+                    value={attendanceNotesInput}
+                    onChange={(e) => setAttendanceNotesInput(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 text-xs font-bold text-slate-900 dark:text-white"
+                    placeholder="Ej. CristoFit Camp 06:00 AM, calistenia jaula..."
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsAttendanceModalOpen(false)}
+                  className="flex-1 py-3 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-gray-400 hover:bg-black/10 transition"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleAddAttendance(attendanceDateInput, attendanceNotesInput);
+                    setIsAttendanceModalOpen(false);
+                  }}
+                  className="flex-1 py-3 rounded-xl bg-temple-gold text-black font-extrabold text-xs uppercase tracking-wider hover:bg-amber-400 transition shadow-lg"
+                >
+                  Guardar Asistencia
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </motion.div>
   );
 }
