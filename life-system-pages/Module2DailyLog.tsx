@@ -30,7 +30,6 @@ import {
   ShieldCheck,
   ListChecks
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 15 }, show: { opacity: 1, y: 0 } };
@@ -109,79 +108,6 @@ function formatDateKey(year: number, month: number, day: number): string {
 function getTodayKey(): string {
   const now = new Date();
   return formatDateKey(now.getFullYear(), now.getMonth(), now.getDate());
-}
-
-// Pseudo-random deterministic generator for consistent mock history per student and date
-function deterministicSeed(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash << 5) - hash + str.charCodeAt(i);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-}
-
-function generateInitialHistoryForStudent(studentEmail: string, year: number, month: number): Record<string, MacroDayRecord> {
-  const records: Record<string, MacroDayRecord> = {};
-  const today = new Date();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const isPastOrToday = (year < today.getFullYear()) || 
-      (year === today.getFullYear() && month < today.getMonth()) || 
-      (year === today.getFullYear() && month === today.getMonth() && d <= today.getDate());
-
-    if (!isPastOrToday) continue;
-
-    const dateKey = formatDateKey(year, month, d);
-    const seed = deterministicSeed(`${studentEmail}_${dateKey}`);
-    const statusScore = seed % 10;
-    
-    let status: MacroStatus = 'green';
-    if (statusScore === 0 || statusScore === 1) status = 'red';
-    else if (statusScore === 2 || statusScore === 3) status = 'yellow';
-
-    const hasWater = (seed % 3) !== 0;
-    const hasSleep = status === 'green' || (seed % 4) === 0;
-    const hasWorkout = status !== 'red';
-    const hasNutrition = (seed % 2) === 0;
-    const hasMind = (seed % 3) !== 1;
-    const hasSpirit = true;
-
-    records[dateKey] = {
-      date: dateKey,
-      day: d,
-      month,
-      year,
-      status,
-      pillars: {
-        body: status !== 'red',
-        mind: status === 'green' || (seed % 2 === 0),
-        spirit: true
-      },
-      microRoutines: {
-        water: hasWater,
-        sleep: hasSleep,
-        workout: hasWorkout,
-        nutrition: hasNutrition,
-        mind: hasMind,
-        spirit: hasSpirit
-      },
-      primaryVictory: status === 'green' 
-        ? 'Cumplió todas las metas del día, excelente energía y enfoque en el entrenamiento.'
-        : status === 'yellow'
-        ? 'Se mantuvo hidratado y cumplió con la lectura matutina.'
-        : 'Completó el devocional matutino a pesar del cansancio.',
-      primaryAdjustment: status === 'red'
-        ? 'Déficit severo de sueño por jornada laboral, ajustar hora de apagado de pantallas a las 22:00.'
-        : status === 'yellow'
-        ? 'Mejorar el timing de las comidas para evitar saltarse la proteína post-entreno.'
-        : 'Mantener la consistencia y preparar las viandas la noche anterior.',
-      updatedAt: new Date(year, month, d, 21, 0, 0).toISOString()
-    };
-  }
-
-  return records;
 }
 
 export function Module2DailyLog() {
@@ -264,21 +190,11 @@ export function Module2DailyLog() {
       }
     }
 
-    // If empty or missing current month history, seed deterministic baseline
-    const year = viewingMonth.getFullYear();
-    const month = viewingMonth.getMonth();
-    const seedMap = generateInitialHistoryForStudent(studentEmail, year, month);
-
-    // Merge keeping existing user saves
-    const merged = { ...seedMap, ...currentMap };
-    
-    // Save to ensure stability
-    localStorage.setItem(storageKey, JSON.stringify(merged));
-    setMacroRecords(merged);
+    setMacroRecords(currentMap);
 
     // Initialize Today's form if record exists
-    if (merged[todayKey]) {
-      const rec = merged[todayKey];
+    if (currentMap[todayKey]) {
+      const rec = currentMap[todayKey];
       setGlobalStatus(rec.status);
       setPillars(rec.pillars);
       setMicroRoutines(rec.microRoutines);
@@ -313,15 +229,6 @@ export function Module2DailyLog() {
   // Save Today's Log
   const handleSaveToday = () => {
     if (!selectedStudent || !globalStatus) return;
-
-    if (globalStatus === 'green') {
-      confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#10B981', '#F59E0B']
-      });
-    }
 
     const now = new Date();
     const newRecord: MacroDayRecord = {

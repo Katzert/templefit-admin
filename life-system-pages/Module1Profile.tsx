@@ -1188,8 +1188,8 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
                   <div>
                     <FieldLabel 
-                      label="Factores Neuróticos, Estrés & Ansiedad" 
-                      tooltip="Niveles de cortisol, insomnio, sobrepensamiento o sobrecarga laboral."
+                      label="Manejo de Estrés, Ansiedad & Descanso" 
+                      tooltip="Nivel de estrés, descanso o tensión muscular del atleta."
                     />
                     <InlineEdit
                       value={neuroticAndStressFactors}

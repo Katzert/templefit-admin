@@ -317,7 +317,7 @@ export function Module13FinanceLedger() {
                       className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     >
                       <option className="bg-white dark:bg-[#121826]" value="membership">Membresía / Reto 21 Días</option>
-                      <option className="bg-white dark:bg-[#121826]" value="courses">Cursos / E.A.G.E. / Neuro-Ventas</option>
+                      <option className="bg-white dark:bg-[#121826]" value="courses">Cursos & Formación E.A.G.E.</option>
                       <option className="bg-white dark:bg-[#121826]" value="snack">Snack Bar / Bebidas</option>
                       <option className="bg-white dark:bg-[#121826]" value="merchandise">Indumentaria / Armería</option>
                       <option className="bg-white dark:bg-[#121826]" value="medicine">Salud / Masajes</option>

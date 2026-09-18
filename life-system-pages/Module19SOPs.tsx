@@ -6,7 +6,6 @@ import { BookOpen, Megaphone, FileText, HelpCircle, Save, Plus, Trash2, ChevronD
 import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { MarketingTask, SOPItem, ClaimTicket } from '../types';
-import confetti from 'canvas-confetti';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } };
@@ -113,12 +112,6 @@ export function Module19SOPs() {
   };
 
   const resolveClaim = (id: string) => {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#10B981', '#F59E0B']
-    });
     const updated = claimsTickets.map(t => t.id === id ? { ...t, status: 'resolved' as const } : t);
     saveToDb(undefined, undefined, updated);
   };

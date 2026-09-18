@@ -31,23 +31,7 @@ import {
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 15 }, show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } } };
 
-const twelveMonthRoadmap = [
-  { month: 'Mes 1', phase: 'F1: Cimentación', activities: 'Contratos, Sistema Digital, Reclutamiento, Permisos.', plan: 'Firma de roles y setup tecnológico.' },
-  { month: 'Mes 2', phase: 'F2: Captación (A)', activities: 'Ventas Reto 21 Días, Medios, Entrevistas vendedores.', plan: 'Embudo de ventas y citas con medios.' },
-  { month: 'Mes 3', phase: 'F3: Inicio CAMP (A)', activities: 'NeuroEntrenamiento, Discipulado (1-30), Eventos s/tarima.', plan: 'Capacitación teórica y práctica inicial.' },
-  { month: 'Mes 4', phase: 'F3: Inicio CAMP (B)', activities: 'Discipulado (31-60), Transición Parque Urbano.', plan: 'Campaña de expectativa masiva.' },
-  { month: 'Mes 5', phase: 'F4: Consolidación', activities: 'Práctica supervisada, Discipulado (61-90), Eventos s/tarima.', plan: 'Refuerzo de ventas y permanencia.' },
-  { month: 'Mes 6', phase: 'F5: Multiplicación (A)', activities: 'Eventos c/tarima, Premiación (Copa/Corona), Maduración.', plan: 'Ejecución de primer gran evento masivo.' },
-  { month: 'Mes 7', phase: 'F5: Multiplicación (B)', activities: 'Segundo evento masivo, Evaluación de impacto.', plan: 'Ajuste de logística según resultados previos.' },
-  { month: 'Mes 8', phase: 'F5: Multiplicación (C)', activities: 'Tercer evento masivo, Lanzamiento iniciativas.', plan: 'Consolidación de marca en la ciudad.' },
-  { month: 'Mes 9', phase: 'F6: Expansión (A)', activities: 'Escalado a nuevas zonas, Atracción masiva.', plan: 'Mapeo y apertura de nuevos puntos.' },
-  { month: 'Mes 10', phase: 'F6: Expansión (B)', activities: 'Consolidación nuevas zonas, Alianzas regionales.', plan: 'Formalización de alianzas estratégicas.' },
-  { month: 'Mes 11', phase: 'F7: Proyección', activities: 'Auditoría de KPIs, Sumatoria de logros.', plan: 'Análisis integral del rendimiento anual.' },
-  { month: 'Mes 12', phase: 'F7: Consolidación', activities: 'Plan Año 2, Movimiento Consolidado, Celebración.', plan: 'Lanzamiento de servicios futuros.' }
-];
-
 export function ContentMarketingHub() {
-  const [hubView, setHubView] = useState<'content' | 'annual-roadmap'>('content');
   const [selectedMonth, setSelectedMonth] = useState<1 | 2 | 3>(1);
   const [pillarFilter, setPillarFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -131,10 +115,10 @@ export function ContentMarketingHub() {
   };
 
   const resourceFolders = [
-    { name: 'Guiones & Storytelling (90 Días)', count: '12 guiones', icon: <FileText size={20} className="text-amber-400" />, link: 'https://drive.google.com' },
-    { name: 'Artes & Fotografías CristoFit Camp', count: '45 fotos HD', icon: <ImageIcon size={20} className="text-emerald-400" />, link: 'https://drive.google.com' },
-    { name: 'Recetario Snack Bar & AbuelaFit', count: '8 PDFs', icon: <Sparkles size={20} className="text-blue-400" />, link: 'https://drive.google.com' },
-    { name: 'Expediente VIP Antonio Eid', count: 'Plan Maestro', icon: <Crown size={20} className="text-temple-gold" />, link: 'https://drive.google.com' },
+    { name: 'Guiones & Copies para Redes', count: '12 publicaciones', icon: <FileText size={20} className="text-amber-400" /> },
+    { name: 'Fotos & Contenido CristoFit', count: 'Banco de medios', icon: <ImageIcon size={20} className="text-emerald-400" /> },
+    { name: 'Menú & Recetario Snack Bar', count: '8 Recetas activas', icon: <Sparkles size={20} className="text-blue-400" /> },
+    { name: 'Planes de Entrenamiento', count: 'Fuerza & Calistenia', icon: <Crown size={20} className="text-temple-gold" /> },
   ];
 
   return (
@@ -146,51 +130,26 @@ export function ContentMarketingHub() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="px-3 py-1 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
-                Contenido & Storytelling
+                Marketing & Redes Sociales
               </span>
-              <span className="text-[11px] text-slate-600 dark:text-gray-400 font-bold">Matriz de 90 Días Replicable</span>
+              <span className="text-[11px] text-slate-600 dark:text-gray-400 font-bold">Banco de Contenido para Publicar</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Share2 className="text-temple-gold" size={26} />
-              Marketing & Plan Estratégico
+              Contenidos & Redes
             </h2>
             <p className="text-xs md:text-sm text-slate-700 dark:text-gray-300 mt-1 max-w-2xl">
-              Banco de contenidos 90D para redes • Matriz Maestra de Expansión Anual (Mes 1 a 12) • Enlaces directos a Google Drive.
+              Banco de guiones, testimonios y llamadas a la acción listos para copiar y publicar en redes sociales (Instagram, TikTok, WhatsApp).
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex bg-white dark:bg-black/60 p-1 rounded-2xl border border-black/10 dark:border-white/10">
-              <button
-                onClick={() => setHubView('content')}
-                className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
-                  hubView === 'content'
-                    ? 'bg-temple-gold text-black font-extrabold shadow-md'
-                    : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'
-                }`}
-              >
-                1. Banco de Redes (90D)
-              </button>
-              <button
-                onClick={() => setHubView('annual-roadmap')}
-                className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
-                  hubView === 'annual-roadmap'
-                    ? 'bg-emerald-500 text-black font-extrabold shadow-md'
-                    : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'
-                }`}
-              >
-                2. Plan Anual (Mes 1 a 12)
-              </button>
-            </div>
-
-            {hubView === 'content' && (
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 px-5 py-2.5 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max shrink-0"
-              >
-                <Plus size={16} /> Nueva Publicación
-              </button>
-            )}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center gap-2 px-5 py-2.5 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max shrink-0"
+            >
+              <Plus size={16} /> Nueva Publicación
+            </button>
           </div>
         </div>
       </motion.div>
@@ -198,86 +157,24 @@ export function ContentMarketingHub() {
       {/* Resource Folders Grid */}
       <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {resourceFolders.map((folder, idx) => (
-          <a
+          <div
             key={idx}
-            href={folder.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-4 bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 hover:border-temple-gold/40 rounded-2xl transition group flex items-center justify-between shadow-lg"
+            className="p-4 bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-2xl flex items-center justify-between shadow-lg"
           >
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-white dark:bg-white/5 group-hover:scale-110 transition">
+              <div className="p-2.5 rounded-xl bg-white dark:bg-white/5">
                 {folder.icon}
               </div>
               <div>
-                <h4 className="text-xs font-bold text-temple-navy dark:text-white group-hover:text-temple-gold transition line-clamp-1">{folder.name}</h4>
+                <h4 className="text-xs font-bold text-temple-navy dark:text-white line-clamp-1">{folder.name}</h4>
                 <p className="text-[10px] text-slate-500 dark:text-gray-500 font-medium">{folder.count}</p>
               </div>
             </div>
-            <ExternalLink size={14} className="text-slate-500 dark:text-gray-500 group-hover:text-temple-gold dark:hover:text-white transition" />
-          </a>
+          </div>
         ))}
       </motion.div>
 
-      {hubView === 'annual-roadmap' ? (
-        /* MATRIZ MAESTRA DE EXPANSIÓN ANUAL (MES 1 A MES 12) */
-        <motion.div variants={item} className="bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/10 dark:border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-md">
-                <Map size={20} />
-              </div>
-              <div>
-                <h3 className="text-lg font-black text-temple-navy dark:text-white uppercase tracking-wider">
-                  Matriz Maestra de Expansión Anual (F1 a F7)
-                </h3>
-                <p className="text-xs text-slate-600 dark:text-gray-400">
-                  Planificación estratégica de 12 meses • Actividades clave • Eventos masivos • Planes de acción estándar
-                </p>
-              </div>
-            </div>
-            <span className="px-3.5 py-1.5 bg-black/5 dark:bg-black/60 border border-black/10 dark:border-white/10 rounded-xl text-xs tabular-nums text-emerald-400 font-bold self-start sm:self-auto">
-              Horizonte: 12 Meses
-            </span>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse font-sans text-xs">
-              <thead>
-                <tr className="border-y border-black/10 dark:border-white/10 text-[11px] uppercase tracking-wider text-slate-600 dark:text-gray-400">
-                  <th className="py-3.5 px-4 font-black w-24">Mes</th>
-                  <th className="py-3.5 px-4 font-black w-48">Fase / Concepto</th>
-                  <th className="py-3.5 px-4 font-black">Actividades Clave</th>
-                  <th className="py-3.5 px-4 font-black">Plan de Acción Estándar</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {twelveMonthRoadmap.map((row) => (
-                  <tr key={row.month} className="hover:bg-black/5 dark:bg-white/5 transition-colors">
-                    <td className="py-3.5 px-4 font-black tabular-nums text-temple-gold whitespace-nowrap">
-                      {row.month}
-                    </td>
-                    <td className="py-3.5 px-4 font-extrabold text-white">
-                      <span className="px-2.5 py-1 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 inline-block text-[11px]">
-                        {row.phase}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-slate-700 dark:text-gray-300 font-medium leading-relaxed">
-                      {row.activities}
-                    </td>
-                    <td className="py-3.5 px-4 text-emerald-300 font-bold leading-relaxed">
-                      {row.plan}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
-      ) : (
-        /* BANCO DE CONTENIDOS 90 DÍAS */
-        <>
-          {/* Month Tabs & Controls */}
+      {/* Month Tabs & Controls */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-black/60 p-3 rounded-2xl border border-black/10 dark:border-white/10">
             {/* Month Selector */}
             <div className="flex items-center gap-2 w-full md:w-auto">
@@ -414,8 +311,6 @@ export function ContentMarketingHub() {
           </motion.div>
         ))}
       </div>
-      </>
-      )}
 
       {/* Modal: Nueva Publicación */}
       {isModalOpen && (
