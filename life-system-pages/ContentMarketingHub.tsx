@@ -235,8 +235,25 @@ export function ContentMarketingHub() {
       </div>
 
       {/* Posts Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredPosts.map(post => (
+      {filteredPosts.length === 0 ? (
+        <Card className="border-dashed border-black/20 dark:border-white/20 bg-transparent p-12 text-center flex flex-col items-center justify-center">
+          <FileText className="w-12 h-12 text-slate-400 dark:text-gray-500 mb-3 opacity-60" />
+          <h3 className="text-base font-bold text-slate-700 dark:text-gray-300 mb-1">
+            No se encontraron publicaciones
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-gray-500 max-w-sm mb-4">
+            No hay contenidos que coincidan con los filtros seleccionados.
+          </p>
+          <button
+            onClick={() => { setPillarFilter('all'); setSearchTerm(''); }}
+            className="px-4 py-2 bg-temple-gold/20 hover:bg-temple-gold/30 text-temple-gold rounded-xl text-xs font-bold transition"
+          >
+            Restablecer filtros
+          </button>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredPosts.map(post => (
           <motion.div key={post.id} variants={item}>
             <Card className="border-black/10 dark:border-white/10 bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl shadow-xl hover:border-temple-gold/40 transition flex flex-col justify-between h-full">
               <CardHeader className="pb-3">
@@ -311,6 +328,7 @@ export function ContentMarketingHub() {
           </motion.div>
         ))}
       </div>
+      )}
 
       {/* Modal: Nueva Publicación */}
       {isModalOpen && (

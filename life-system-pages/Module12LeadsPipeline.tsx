@@ -23,6 +23,7 @@ import {
 import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Lead, Student } from '../types';
+import { createWhatsAppLink } from '../lib/utils';
 import { useAuth } from '../context/AuthContext';
 import { db as firestoreDb } from '../lib/firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -196,17 +197,31 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
 
   // Convert Lead to Official Athlete
   const handleConvertToAthlete = (lead: Lead) => {
+    if (!lead || lead.status === 'enrolled') return;
     const db = getCRMDatabase();
+    const today = new Date().toISOString().split('T')[0];
+    const nextMonth = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
+    const cleanEmail = `${lead.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '.').replace(/\.+/g, '.')}@templefit.com`;
+
     const newStudent: Student = {
       id: `std-${Date.now()}`,
       name: lead.name,
       phone: lead.phone,
-      email: `${lead.name.toLowerCase().replace(/\s+/g, '.')}@templefit.com`,
+      email: cleanEmail,
       instructorAssigned: 'Paulo (Head Coach)',
       status: 'active',
       plan: 'Reto 21 Días',
-      startDate: new Date().toISOString().split('T')[0],
-      renewalDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
+      serviceFeeBs: 200,
+      paidServiceTitle: 'Reto 21 Días = ÍNTEGROS (200 Bs.)',
+      billingCycle: 'mensual',
+      amountPaidBs: 200,
+      pendingBalanceBs: 0,
+      paymentStatus: 'pagado',
+      lastPaymentDate: today,
+      nextDueDate: nextMonth,
+      snackBarBalanceBs: 0,
+      startDate: today,
+      renewalDate: nextMonth,
       physicalGoal: 'Ganar disciplina y acondicionamiento inicial',
       weightKg: 70,
       workoutLevel: 'Principiante',
@@ -223,8 +238,8 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
     
     // Auto-generar asiento contable de inscripción en caja (Bs. 200)
     const initialTx = {
-      id: `tx-${Date.now()}`,
-      date: new Date().toISOString().split('T')[0],
+      id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      date: today,
       type: 'income' as const,
       category: 'membership' as const,
       amount: 200,
@@ -232,8 +247,8 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
     };
     db.transactions = [initialTx, ...(db.transactions || [])];
 
-    // Update lead status to enrolled
-    db.leads = leads.map(l => l.id === lead.id ? { ...l, status: 'enrolled' as const } : l);
+    // Update lead status to enrolled using fresh db.leads
+    db.leads = (db.leads || []).map(l => l.id === lead.id ? { ...l, status: 'enrolled' as const } : l);
     saveCRMDatabase(db);
     setLeads(db.leads);
 
@@ -307,13 +322,13 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                   onChange={(e) => setStatusFilter(e.target.value as any)}
                   className="bg-transparent text-xs font-bold text-temple-navy dark:text-white focus:outline-none cursor-pointer"
                 >
-                  <option className="bg-white dark:bg-[#0E1424] text-white" value="todos">Estado: Todos</option>
-                  <option className="bg-white dark:bg-[#0E1424] text-white" value="new">Nuevos</option>
-                  <option className="bg-white dark:bg-[#0E1424] text-white" value="contacted">Contactados</option>
-                  <option className="bg-white dark:bg-[#0E1424] text-white" value="appointment_set">Cita Agendada</option>
-                  <option className="bg-white dark:bg-[#0E1424] text-white" value="trial">En Prueba (F1)</option>
-                  <option className="bg-white dark:bg-[#0E1424] text-white" value="enrolled">Inscritos (F1)</option>
-                  <option className="bg-white dark:bg-[#0E1424] text-white" value="lost">Perdidos</option>
+                  <option className="bg-white dark:bg-[#0E1424] text-slate-900 dark:text-white" value="todos">Estado: Todos</option>
+                  <option className="bg-white dark:bg-[#0E1424] text-slate-900 dark:text-white" value="new">Nuevos</option>
+                  <option className="bg-white dark:bg-[#0E1424] text-slate-900 dark:text-white" value="contacted">Contactados</option>
+                  <option className="bg-white dark:bg-[#0E1424] text-slate-900 dark:text-white" value="appointment_set">Cita Agendada</option>
+                  <option className="bg-white dark:bg-[#0E1424] text-slate-900 dark:text-white" value="trial">En Prueba (F1)</option>
+                  <option className="bg-white dark:bg-[#0E1424] text-slate-900 dark:text-white" value="enrolled">Inscritos (F1)</option>
+                  <option className="bg-white dark:bg-[#0E1424] text-slate-900 dark:text-white" value="lost">Perdidos</option>
                 </select>
               </div>
             </div>
@@ -370,9 +385,10 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                                 {lead.status === 'new' ? 'Mañana' : lead.status === 'contacted' ? 'Tarde' : 'Noche'}
                               </span>
                               <a
-                                href={`https://wa.me/${lead.phone?.replace(/[^0-9]/g, '') || '59170000000'}?text=${encodeURIComponent(
-                                  `Hola ${lead.name}, te saluda Paulo de TempleFit. ¿Cómo estás? Te escribo para coordinar tu clase de prueba este sábado a las 6:00 AM.`
-                                )}`}
+                                href={createWhatsAppLink(
+                                  `Hola ${lead.name}, te saluda Paulo de TempleFit. ¿Cómo estás? Te escribo para coordinar tu clase de prueba este sábado a las 6:00 AM.`,
+                                  lead.phone
+                                )}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="p-2 text-emerald-400 hover:bg-emerald-500/20 rounded-lg transition"

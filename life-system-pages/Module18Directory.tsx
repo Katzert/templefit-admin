@@ -24,6 +24,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { useAuth } from '../context/AuthContext';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Student } from '../types';
+import { createWhatsAppLink } from '../lib/utils';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
@@ -119,40 +120,83 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
     e.preventDefault();
     if (!newAthlete.name) return;
 
+    const chosenPlan = (newAthlete.plan as any) || 'Reto 21 Días';
+    let fee = 200;
+    let cycle: 'mensual' | 'trimestral' | 'semestral' | 'sesion' = 'mensual';
+    if (chosenPlan === 'Reto 21 Días' || chosenPlan === 'Membresía Mensual' || chosenPlan === 'Plan Integral Mensual') { fee = 200; cycle = 'mensual'; }
+    else if (chosenPlan === 'Trimestral Atleta') { fee = 500; cycle = 'trimestral'; }
+    else if (chosenPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
+    else if (chosenPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
+    else if (chosenPlan === 'CristoFit Camp') { fee = 150; cycle = 'mensual'; }
+    else if (chosenPlan === 'Formación E.A.G.E.') { fee = 1200; cycle = 'trimestral'; }
+    else if (chosenPlan === 'Pase Diario') { fee = 25; cycle = 'sesion'; }
+
+    const daysToAdd = cycle === 'trimestral' ? 90 : cycle === 'semestral' ? 180 : cycle === 'sesion' ? 1 : 30;
+    const today = new Date().toISOString().split('T')[0];
+    const nextDueDateCalc = new Date(Date.now() + daysToAdd * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const cleanEmail = newAthlete.email || `${newAthlete.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '.').replace(/\.+/g, '.')}@templefit.com`;
+
     const student: Student = {
       id: `std-${Date.now()}`,
       name: newAthlete.name,
       phone: newAthlete.phone || '+591',
-      email: newAthlete.email || `${newAthlete.name.toLowerCase().replace(/\s+/g, '.')}@templefit.com`,
+      email: cleanEmail,
       instructorAssigned: newAthlete.instructorAssigned || 'Paulo Alberto Gil Cuellar (Head Coach)',
       status: (newAthlete.status as any) || 'active',
-      plan: (newAthlete.plan as any) || 'Reto 21 Días',
-      startDate: new Date().toISOString().split('T')[0],
-      renewalDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
+      plan: chosenPlan,
+      serviceFeeBs: fee,
+      paidServiceTitle: `${chosenPlan} (${fee} Bs.)`,
+      billingCycle: cycle,
+      amountPaidBs: fee,
+      pendingBalanceBs: 0,
+      paymentStatus: 'pagado',
+      lastPaymentDate: today,
+      nextDueDate: nextDueDateCalc,
+      snackBarBalanceBs: 0,
+      startDate: today,
+      renewalDate: nextDueDateCalc,
       birthDate: newAthlete.birthDate || '1995-01-01',
       heightM: Number(newAthlete.heightM) || 1.75,
       weightKg: Number(newAthlete.weightKg) || 70,
       isVipProfile: Boolean(newAthlete.isVipProfile),
       physicalGoal: newAthlete.physicalGoal || 'Definir objetivo físico',
       workoutLevel: (newAthlete.workoutLevel as any) || 'Principiante',
-      currentRoutineExercises: '1. Calistenia funcional básica\n2. Flexiones y dominadas asistidas\n3. Respiración 06:00 AM',
-      nutritionPlan: 'Plan Base Anti-inflamatorio + Proteína Limpia',
-      currentDiet: 'Alimentación regular con la que ingresa.',
-      prescribedDiet: 'Protocolo anti-inflamatorio con ElectroHidra y proteína limpia.',
+      currentRoutineExercises: newAthlete.workoutLevel ? '1. Calistenia funcional básica\n2. Flexiones y dominadas asistidas\n3. Respiración 06:00 AM' : '',
+      nutritionPlan: '',
+      currentDiet: '',
+      prescribedDiet: '',
       allergiesOrRestrictions: 'Ninguna',
-      eatingDisordersOrIssues: 'Sin trastornos diagnosticados.',
-      neuroticAndStressFactors: 'Manejo de estrés laboral.',
-      spiritualIntention: newAthlete.spiritualIntention || 'Fortaleza y devoción diaria',
+      eatingDisordersOrIssues: '',
+      neuroticAndStressFactors: '',
+      spiritualIntention: newAthlete.spiritualIntention || '',
       mentorshipNotes: 'Atleta ingresado al sistema.',
-      escuadronId: newAthlete.escuadronId || 'Alfa-1',
+      escuadronId: newAthlete.escuadronId || 'Paz-Alfa',
       phase: (newAthlete.phase as any) || '1 - Iniciación',
-      attendanceHistory: [{ date: new Date().toISOString().split('T')[0], attended: true, notes: 'Ingreso inicial' }],
-      assessments: [{ date: new Date().toISOString().split('T')[0], weightKg: Number(newAthlete.weightKg) || 70, heightM: Number(newAthlete.heightM) || 1.75, imc: Number(((Number(newAthlete.weightKg) || 70) / Math.pow(Number(newAthlete.heightM) || 1.75, 2)).toFixed(1)), notes: 'Evaluación inicial' }],
+      attendanceHistory: [],
+      assessments: (Number(newAthlete.weightKg) > 0 && Number(newAthlete.heightM) > 0) ? [{
+        date: today,
+        weightKg: Number(newAthlete.weightKg),
+        heightM: Number(newAthlete.heightM),
+        imc: Number((Number(newAthlete.weightKg) / Math.pow(Number(newAthlete.heightM), 2)).toFixed(1)),
+        notes: 'Evaluación inicial'
+      }] : [],
       hubConsumption: { snackBar: false, merchandise: false, preventiveMedicine: false }
     };
     
     const db = getCRMDatabase();
     db.students = [student, ...(db.students || [])];
+
+    // Registrar asiento de cobro inicial en caja
+    const initialTx = {
+      id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      date: today,
+      type: 'income' as const,
+      category: 'membership' as const,
+      amount: fee,
+      description: `Inscripción ${chosenPlan} (${fee} Bs.) - ${student.name}`
+    };
+    db.transactions = [initialTx, ...(db.transactions || [])];
+
     saveCRMDatabase(db);
     
     setLocalStudents(db.students);
@@ -369,11 +413,12 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       <td className="py-4 pr-4 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <a
-                            href={`https://wa.me/${student.phone?.replace(/[^0-9]/g, '') || '59170000000'}?text=${encodeURIComponent(
+                            href={createWhatsAppLink(
                               student.status === 'expiring'
                                 ? `Hola ${student.name}, te saluda Paulo de TempleFit. ¿Cómo estás? Te escribo para coordinar la renovación de tu membresía y seguir firmes con tus metas.`
-                                : `Hola ${student.name}, te saluda Paulo de TempleFit. ¿Cómo va tu plan de entrenamiento de esta semana?`
-                            )}`}
+                                : `Hola ${student.name}, te saluda Paulo de TempleFit. ¿Cómo va tu plan de entrenamiento de esta semana?`,
+                              student.phone
+                            )}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 text-emerald-400 hover:bg-emerald-500/20 rounded-lg transition"
@@ -549,10 +594,15 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       value={newAthlete.plan}
                       onChange={e => setNewAthlete({ ...newAthlete, plan: e.target.value as any })}
                     >
-                      <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
-                      <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual (200 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual (200 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Trimestral Atleta (500 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Semestral Atleta (950 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 (450 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp (150 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. (1.200 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario (25 Bs.)</option>
                     </select>
                   </div>
                   <div>
@@ -660,7 +710,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       </div>
 
                       <a
-                        href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`}
+                        href={createWhatsAppLink(message, expiringStudent.phone)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-4 py-2 bg-emerald-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider hover:bg-emerald-400 transition flex items-center justify-center gap-1.5 shadow-lg shrink-0"

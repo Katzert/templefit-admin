@@ -28,10 +28,6 @@ export function Module40CorteEjecutivo() {
     const students = db.students || [];
     const activeStudents = students.filter(s => s.status === 'active').length;
 
-    if (income === 0 && activeStudents > 0) {
-      income = activeStudents * 200;
-    }
-
     // Escuadrones: agrupación real desde estudiantes, progreso = promedio de fase
     const squadMap = new Map<string, { total: number; phaseSum: number }>();
     students.forEach(s => {
@@ -68,28 +64,25 @@ export function Module40CorteEjecutivo() {
     if (!board) return [];
     const now = new Date();
     const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-    let txs = rawTransactions.filter(t => t.date.startsWith(monthPrefix));
-    if (txs.length === 0 && rawTransactions.length > 0) {
-      txs = rawTransactions.slice(0, 30);
-    }
+    const txs = rawTransactions.filter(t => t.date && t.date.startsWith(monthPrefix));
 
     return board.goals.map((goal) => {
       let actualIncome = 0;
       let actualExpense = 0;
 
       if (goal.area.includes('Snack')) {
-        actualIncome = txs.filter(t => t.type === 'income' && (t.category === 'snack' || t.description?.toLowerCase().includes('snack') || t.description?.toLowerCase().includes('electro'))).reduce((s, t) => s + t.amount, 0);
-        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'snack' || t.description?.toLowerCase().includes('snack') || t.description?.toLowerCase().includes('insumo') || t.description?.toLowerCase().includes('botánico'))).reduce((s, t) => s + t.amount, 0);
+        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'snack').reduce((s, t) => s + t.amount, 0);
+        actualExpense = txs.filter(t => t.type === 'expense' && t.category === 'snack').reduce((s, t) => s + t.amount, 0);
       } else if (goal.area.includes('Gimnasio') || goal.area.includes('Reto') || goal.area.includes('Membres')) {
-        actualIncome = txs.filter(t => t.type === 'income' && (t.category === 'membership' || t.description?.toLowerCase().includes('membres') || t.description?.toLowerCase().includes('reto') || t.description?.toLowerCase().includes('camp'))).reduce((s, t) => s + t.amount, 0);
-        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'operations' || t.category === 'rent' || t.description?.toLowerCase().includes('alquiler') || t.description?.toLowerCase().includes('parque') || t.description?.toLowerCase().includes('espacio'))).reduce((s, t) => s + t.amount, 0);
+        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'membership').reduce((s, t) => s + t.amount, 0);
+        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'operations' || t.category === 'rent' || t.category === 'salary')).reduce((s, t) => s + t.amount, 0);
       } else if (goal.area.includes('Cursos') || goal.area.includes('Formación') || goal.area.includes('Mentor') || goal.area.includes('Guerra')) {
-        actualIncome = txs.filter(t => t.type === 'income' && (t.category === 'courses' || t.description?.toLowerCase().includes('curso') || t.description?.toLowerCase().includes('neuro') || t.description?.toLowerCase().includes('guerra') || t.description?.toLowerCase().includes('e.a.g.e'))).reduce((s, t) => s + t.amount, 0);
-        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'ads' || t.description?.toLowerCase().includes('publicidad') || t.description?.toLowerCase().includes('marketing'))).reduce((s, t) => s + t.amount, 0);
+        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'courses').reduce((s, t) => s + t.amount, 0);
+        actualExpense = txs.filter(t => t.type === 'expense' && t.category === 'ads').reduce((s, t) => s + t.amount, 0);
       } else {
         // Armería / Productos / Suplementos / Botica
-        actualIncome = txs.filter(t => t.type === 'income' && (t.category === 'merchandise' || t.category === 'medicine' || t.description?.toLowerCase().includes('polera') || t.description?.toLowerCase().includes('short') || t.description?.toLowerCase().includes('canguro') || t.description?.toLowerCase().includes('indumentaria') || t.description?.toLowerCase().includes('suplemento'))).reduce((s, t) => s + t.amount, 0);
-        actualExpense = txs.filter(t => t.type === 'expense' && (t.description?.toLowerCase().includes('inventario') || t.description?.toLowerCase().includes('textil') || t.description?.toLowerCase().includes('ropa'))).reduce((s, t) => s + t.amount, 0);
+        actualIncome = txs.filter(t => t.type === 'income' && (t.category === 'merchandise' || t.category === 'medicine')).reduce((s, t) => s + t.amount, 0);
+        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'merchandise' || t.category === 'medicine')).reduce((s, t) => s + t.amount, 0);
       }
 
       const netMargin = actualIncome - actualExpense;
@@ -352,7 +345,7 @@ export function Module40CorteEjecutivo() {
                 type="text"
                 value={board.month}
                 onChange={e => updateBoard({ month: e.target.value })}
-                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-white p-3 rounded-xl focus:border-temple-gold outline-none mb-4"
+                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white p-3 rounded-xl focus:border-temple-gold outline-none mb-4"
               />
               <label className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-500 font-bold mb-2">
                 <BookOpen size={12} /> Versículo / Fundamento (editable)
@@ -361,7 +354,7 @@ export function Module40CorteEjecutivo() {
                 value={board.verse}
                 onChange={e => updateBoard({ verse: e.target.value })}
                 rows={3}
-                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-white p-3 rounded-xl focus:border-temple-gold outline-none resize-none"
+                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white p-3 rounded-xl focus:border-temple-gold outline-none resize-none"
               />
             </CardContent>
           </Card>
@@ -385,7 +378,7 @@ export function Module40CorteEjecutivo() {
                         step={100}
                         value={goal.targetBs}
                         onChange={e => updateGoal(i, Number(e.target.value) || 0)}
-                        className="w-32 bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-white text-right p-2 rounded-lg focus:border-temple-gold outline-none"
+                        className="w-32 bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white text-right p-2 rounded-lg focus:border-temple-gold outline-none"
                       />
                     </div>
                     <div className="w-full bg-slate-100 dark:bg-black/50 rounded-full h-2 overflow-hidden">
@@ -428,7 +421,7 @@ export function Module40CorteEjecutivo() {
                     max={100}
                     value={board.retentionTarget}
                     onChange={e => updateBoard({ retentionTarget: Number(e.target.value) || 0 })}
-                    className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-white p-2 rounded-lg focus:border-temple-gold outline-none"
+                    className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white p-2 rounded-lg focus:border-temple-gold outline-none"
                   />
                 </div>
               </div>

@@ -6,6 +6,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { useAuth } from '../context/AuthContext';
 import { getCRMDatabase } from '../store';
 import { Student } from '../types';
+import { formatBoliviaWhatsAppPhone } from '../lib/utils';
 import { 
   Flame, 
   Users, 
@@ -57,18 +58,51 @@ export function HomePage({ onNavigate }: HomePageProps) {
     squadCount,
     retentionRate
   } = useMemo(() => {
-    // --- Daily Log data (Hábitos y Disciplina) ---
-    const dailyKey = `templefit_daily_${studentEmail}`;
-    const dailyRaw = typeof window !== 'undefined' ? localStorage.getItem(dailyKey) : null;
-    let streak = 7;
-    let water = 2.8;
+    // --- Daily Log data (Hábitos y Disciplina conectados con Module2DailyLog) ---
+    const macroKey = `templefit_macro_records_${studentEmail}`;
+    const macroRaw = typeof window !== 'undefined' ? localStorage.getItem(macroKey) : null;
+    let streak = 0;
+    let water = 0;
 
-    if (dailyRaw) {
+    if (macroRaw) {
       try {
-        const daily = JSON.parse(dailyRaw);
-        streak = daily.streak || 7;
-        water = daily.water !== undefined ? daily.water : 2.8;
+        const macroRecords: Record<string, any> = JSON.parse(macroRaw);
+        const today = new Date();
+        const formatDateStr = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        const todayStr = formatDateStr(today);
+        
+        // Water status for today
+        if (macroRecords[todayStr]?.microRoutines?.water) {
+          water = 3.5;
+        } else if (macroRecords[todayStr]) {
+          water = 1.5;
+        }
+
+        // Calculate consecutive streak backwards
+        const checkDate = new Date(today);
+        if (!macroRecords[todayStr]) {
+          checkDate.setDate(checkDate.getDate() - 1);
+        }
+        for (let i = 0; i < 365; i++) {
+          const dateStr = formatDateStr(checkDate);
+          if (macroRecords[dateStr] && macroRecords[dateStr].status && macroRecords[dateStr].status !== 'red') {
+            streak++;
+            checkDate.setDate(checkDate.getDate() - 1);
+          } else {
+            break;
+          }
+        }
       } catch { /* use defaults */ }
+    } else {
+      const dailyKey = `templefit_daily_${studentEmail}`;
+      const dailyRaw = typeof window !== 'undefined' ? localStorage.getItem(dailyKey) : null;
+      if (dailyRaw) {
+        try {
+          const daily = JSON.parse(dailyRaw);
+          streak = daily.streak || 0;
+          water = daily.water !== undefined ? daily.water : 0;
+        } catch { /* use defaults */ }
+      }
     }
 
     // --- CRM Data ---
@@ -87,11 +121,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
     let income = txs
       .filter(t => t.type === 'income' && t.date.startsWith(monthPrefix))
       .reduce((s, t) => s + t.amount, 0);
-
-    // Fallback proyectado si el mes no tuviese transacciones manuales aún
-    if (income === 0 && active > 0) {
-      income = active * 200;
-    }
 
     // Inactive Students (5+ days without attendance)
     const fiveDaysAgo = new Date(Date.now() - 5*24*60*60*1000).toISOString().split('T')[0];
@@ -337,7 +366,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               {/* Lista Accionable de Atletas por Vencer */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
                 {expiringStudentsList.slice(0, 6).map((student) => {
-                  const cleanPhone = student.phone?.replace(/[^0-9]/g, '') || '59170000000';
+                  const cleanPhone = formatBoliviaWhatsAppPhone(student.phone);
                   const messageText = `Hola ${student.name}, te saluda Paulo de TempleFit. ¿Cómo estás? Te escribo para coordinar la continuidad de tus entrenamientos y la renovación de tu plan (${student.plan || 'Membresía'}). ¿Seguimos firmes este mes?`;
                   const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageText)}`;
 
@@ -424,7 +453,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               {/* Lista Accionable de Atletas en Riesgo */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
                 {inactiveStudentsList.slice(0, 6).map((student) => {
-                  const cleanPhone = student.phone?.replace(/[^0-9]/g, '') || '59170000000';
+                  const cleanPhone = formatBoliviaWhatsAppPhone(student.phone);
                   const lastDate = student.attendanceHistory?.[0]?.date || 'Sin registro';
                   const messageText = `Hola ${student.name}, te saluda Paulo de TempleFit. Notamos que no has podido venir a entrenar en estos días. ¿Todo bien? ¡Tu escuadrón (${student.escuadronId || 'Paz-Alfa'}) te espera para seguir firmes con tus metas!`;
                   const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageText)}`;

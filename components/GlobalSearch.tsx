@@ -72,8 +72,11 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
     ).slice(0, 3);
 
     const sops = (db.sopsList || []).filter(s =>
-      s.title.toLowerCase().includes(q) ||
-      (s.content && s.content.toLowerCase().includes(q))
+      (s.title && s.title.toLowerCase().includes(q)) ||
+      (s.content && s.content.toLowerCase().includes(q)) ||
+      (s.step1 && s.step1.toLowerCase().includes(q)) ||
+      (s.step2 && s.step2.toLowerCase().includes(q)) ||
+      (s.step3 && s.step3.toLowerCase().includes(q))
     ).slice(0, 2);
 
     const totalCount = students.length + leads.length + recipes.length + inventory.length + sops.length;
@@ -98,7 +101,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
         </div>
         <input ref={inputRef} type="text" aria-label="Búsqueda global del sistema"
           placeholder="Buscar atleta, lead, receta, stock..."
-          className="bg-transparent border-none outline-none text-xs text-slate-900 dark:text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 py-2.5 w-48 sm:w-64 md:w-80 font-medium"
+          className="bg-transparent border-none outline-none text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 py-2.5 w-48 sm:w-64 md:w-80 font-medium"
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -286,7 +289,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                           onClick={() => {
                             setIsOpen(false);
                             setQuery('');
-                            onNavigate?.('home');
+                            onNavigate?.('sops');
                           }}
                           className="w-full text-left p-2.5 rounded-xl hover:bg-white/5 transition-all flex items-center justify-between group"
                         >
@@ -296,7 +299,7 @@ export function GlobalSearch({ onNavigate }: GlobalSearchProps) {
                             </div>
                             <div>
                               <p className="text-xs font-black text-temple-navy dark:text-white group-hover:text-purple-400 transition-colors leading-tight">{sop.title}</p>
-                              <p className="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{sop.content ? `${sop.content.slice(0, 45)}...` : ''}</p>
+                              <p className="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{sop.content ? `${sop.content.slice(0, 45)}...` : (sop.step1 ? `${sop.step1.slice(0, 45)}...` : '')}</p>
                             </div>
                           </div>
                           <ArrowRight size={12} className="text-gray-600 group-hover:text-purple-400 transition-transform group-hover:translate-x-1" />

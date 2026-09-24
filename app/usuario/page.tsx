@@ -101,7 +101,10 @@ export default function UsuarioPage() {
     <DashboardLayout 
       activeTab={activeTab} 
       setActiveTab={setActiveTab}
-      onBackToWeb={() => { window.location.href = 'https://katzert.github.io/templefit/'; }}
+      onBackToWeb={() => {
+        const isDev = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+        window.location.href = isDev ? 'http://localhost:3000' : 'https://katzert.github.io/templefit/';
+      }}
     >
       {renderPage()}
     </DashboardLayout>

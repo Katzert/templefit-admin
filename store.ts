@@ -831,7 +831,7 @@ const DEFAULT_DB: CRMDatabase = {
     ]
   },
   marketingTasks: [
-    { id: 'mkt-1', month: 'Agosto 2026', campaignName: 'Lanzamiento Reto 21 Días = ÍNTEGROS', driveLink: 'https://drive.google.com/...', strategy: 'Testimonios reales de atletas, rutina 06:00 AM y cobertura de CristoFit Camp' }
+    { id: 'mkt-1', month: 'Agosto 2026', campaignName: 'Lanzamiento Reto 21 Días = ÍNTEGROS', driveLink: 'https://drive.google.com/drive/folders/templefit-reto-21-dias', strategy: 'Testimonios reales de atletas, rutina 06:00 AM y cobertura de CristoFit Camp' }
   ],
   claimsTickets: [
     { id: 'tck-1', date: '2026-08-04', clientName: 'Valeria Condori', issue: 'Consulta sobre compatibilidad de colágeno hidrolizado con ayuno', status: 'pending', resolution: '' }
@@ -1190,7 +1190,7 @@ const DEFAULT_DB: CRMDatabase = {
     }
   ],
   monthlyBoard: {
-    month: 'Agosto 2026',
+    month: 'Septiembre 2026',
     verse: 'El espíritu da el diseño. El cuerpo es el templo. La mente crea y edifica vidas. (1 Corintios 6:19-20)',
     goals: [
       { area: 'Gimnasio & Reto 21 Días', targetBs: 45000 },
@@ -1224,16 +1224,9 @@ export function getCRMDatabase(): CRMDatabase {
       parsed.students = DEFAULT_DB.students;
       hasUpdated = true;
     }
-    if (!parsed.transactions || parsed.transactions.length < 20) {
+    if (!parsed.transactions || parsed.transactions.length === 0) {
       parsed.transactions = DEFAULT_DB.transactions;
       hasUpdated = true;
-    } else {
-      const hasSept2026 = parsed.transactions.some(t => t.date && t.date.startsWith('2026-09'));
-      if (!hasSept2026) {
-        const septTxs = DEFAULT_DB.transactions.filter(t => t.date && t.date.startsWith('2026-09'));
-        parsed.transactions = [...septTxs, ...parsed.transactions];
-        hasUpdated = true;
-      }
     }
     if (!parsed.inventory || parsed.inventory.length === 0) {
       parsed.inventory = DEFAULT_DB.inventory;

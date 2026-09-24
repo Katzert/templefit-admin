@@ -220,25 +220,19 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     setWorkoutLevel(selectedStudent.workoutLevel || "Intermedio");
     setCurrentRoutineExercises(selectedStudent.currentRoutineExercises || "1. Dominadas estrictas (4x8)\n2. Fondos en paralelas (4x10)\n3. Sentadilla búlgara (4x12)\n4. Cardio funcional 06:00 AM");
 
-    setCurrentDiet(selectedStudent.currentDiet || "Alimentación irregular, café sin desayuno y cenas altas en carbohidratos.");
-    setPrescribedDiet(selectedStudent.prescribedDiet || selectedStudent.nutritionPlan || "Desayuno con ElectroHidra + Bowl de Elías. Almuerzo anti-inflamatorio y cena ligera 19:30.");
+    setCurrentDiet(selectedStudent.currentDiet || "");
+    setPrescribedDiet(selectedStudent.prescribedDiet || selectedStudent.nutritionPlan || "");
     setAllergies(selectedStudent.allergiesOrRestrictions || "Ninguna");
-    setEatingDisordersOrIssues(selectedStudent.eatingDisordersOrIssues || "Sin trastornos diagnosticados; tendencia a picar por ansiedad.");
-    setNeuroticAndStressFactors(selectedStudent.neuroticAndStressFactors || "Tensión laboral por jornadas largas; insomnio ocasional.");
+    setEatingDisordersOrIssues(selectedStudent.eatingDisordersOrIssues || "");
+    setNeuroticAndStressFactors(selectedStudent.neuroticAndStressFactors || "");
 
-    setPurpose(selectedStudent.spiritualIntention || selectedStudent.physicalGoal || "Fortalecer cuerpo, mente y espíritu con disciplina diaria.");
-    setTraits(selectedStudent.physicalGoal || "Disciplinado, perseverante, enfocado en liderar su escuadrón.");
-    setMentorshipNotes(selectedStudent.mentorshipNotes || "Excelente compromiso en CristoFit Camp.");
+    setPurpose(selectedStudent.spiritualIntention || selectedStudent.physicalGoal || "");
+    setTraits(selectedStudent.physicalGoal || "");
+    setMentorshipNotes(selectedStudent.mentorshipNotes || "");
 
-    setAttendanceHistory(selectedStudent.attendanceHistory || [
-      { date: '2026-08-20', attended: true, notes: 'Sesión CristoFit Camp - 100%' },
-      { date: '2026-08-22', attended: true, notes: 'Reto 21 Días - Evaluación' },
-      { date: '2026-08-25', attended: true, notes: 'Calistenia y respiración' }
-    ]);
+    setAttendanceHistory(selectedStudent.attendanceHistory || []);
 
-    setAssessments(selectedStudent.assessments || [
-      { date: '2026-08-01', weightKg: selectedStudent.weightKg || 75, heightM: selectedStudent.heightM || 1.75, imc: 24.5, notes: 'Ingreso inicial' }
-    ]);
+    setAssessments(selectedStudent.assessments || []);
   }, [selectedStudent]);
 
   const handleSaveField = (field: string, newValue: any) => {
@@ -334,71 +328,146 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     setTimeout(() => setShowSavedToast(false), 2000);
   };
 
+  const handleSaveMultipleFields = (fields: Partial<Student>) => {
+    if (!selectedStudent) return;
+    const db = getCRMDatabase();
+    let updatedActiveStudent: Student | null = null;
+    const updated = (db.students || []).map(s => {
+      if (s.id === selectedStudent.id) {
+        const u: Student = { ...s, ...fields };
+        updatedActiveStudent = u;
+        return u;
+      }
+      return s;
+    });
+    db.students = updated;
+    saveCRMDatabase(db);
+
+    if (updatedActiveStudent) setSelectedStudent(updatedActiveStudent);
+    setAllStudents(updated);
+
+    if (fields.plan !== undefined) setPlan(fields.plan);
+    if (fields.serviceFeeBs !== undefined) setServiceFeeBs(fields.serviceFeeBs);
+    if (fields.billingCycle !== undefined) setBillingCycle(fields.billingCycle);
+    if (fields.paidServiceTitle !== undefined) setPaidServiceTitle(fields.paidServiceTitle);
+    if (fields.amountPaidBs !== undefined) setAmountPaidBs(fields.amountPaidBs);
+    if (fields.pendingBalanceBs !== undefined) setPendingBalanceBs(fields.pendingBalanceBs);
+    if (fields.paymentStatus !== undefined) setPaymentStatus(fields.paymentStatus);
+    if (fields.snackBarBalanceBs !== undefined) setSnackBarBalanceBs(fields.snackBarBalanceBs);
+
+    setShowSavedToast(true);
+    setTimeout(() => setShowSavedToast(false), 2000);
+  };
+
   const handleRecordFullPayment = () => {
     if (!selectedStudent) return;
-    const fee = serviceFeeBs || 200;
+    const currentPending = selectedStudent.pendingBalanceBs !== undefined ? selectedStudent.pendingBalanceBs : pendingBalanceBs;
+    if (currentPending <= 0 && paymentStatus === 'pagado') return;
+
+    const fee = selectedStudent.serviceFeeBs || serviceFeeBs || 200;
     const today = new Date().toISOString().split('T')[0];
-    const nextMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const cycle = selectedStudent.billingCycle || billingCycle || 'mensual';
+    const daysToAdd = cycle === 'trimestral' ? 90 : cycle === 'semestral' ? 180 : cycle === 'sesion' ? 1 : 30;
+    const nextDueDateCalc = new Date(Date.now() + daysToAdd * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
-    handleSaveField('amountPaidBs', fee);
-    handleSaveField('pendingBalanceBs', 0);
-    handleSaveField('paymentStatus', 'pagado');
-    handleSaveField('lastPaymentDate', today);
-    handleSaveField('nextDueDate', nextMonth);
-    handleSaveField('status', 'active');
-
-    // Also register in CRM financial ledger
     const db = getCRMDatabase();
+    let updatedActiveStudent: Student | null = null;
+    const updatedStudents = (db.students || []).map(s => {
+      if (s.id === selectedStudent.id) {
+        const updated: Student = {
+          ...s,
+          amountPaidBs: fee,
+          pendingBalanceBs: 0,
+          paymentStatus: 'pagado',
+          lastPaymentDate: today,
+          nextDueDate: nextDueDateCalc,
+          status: 'active'
+        };
+        updatedActiveStudent = updated;
+        return updated;
+      }
+      return s;
+    });
+
     const newTx = {
-      id: `tx-${Date.now()}`,
+      id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       date: today,
       type: 'income' as const,
       category: 'membership' as const,
       amount: fee,
       description: `Cobro cuota: ${plan} (${fee} Bs.) - ${name}`
     };
+
+    db.students = updatedStudents;
     db.transactions = [newTx, ...(db.transactions || [])];
     saveCRMDatabase(db);
+
+    if (updatedActiveStudent) setSelectedStudent(updatedActiveStudent);
+    setAllStudents(updatedStudents);
+    setAmountPaidBs(fee);
+    setPendingBalanceBs(0);
+    setPaymentStatus('pagado');
+    setLastPaymentDate(today);
+    setNextDueDate(nextDueDateCalc);
+    setStatus('active');
+
+    setShowSavedToast(true);
+    setTimeout(() => setShowSavedToast(false), 2000);
   };
 
-  const handleAddSnackCharge = (amount: number, concept: string = 'Consumo Snack Bar') => {
-    if (!selectedStudent || amount <= 0) return;
-    const today = new Date().toISOString().split('T')[0];
-    const newBalance = (snackBarBalanceBs || 0) + amount;
+  const handleAddSnackCharge = (amount: number, _concept: string = 'Consumo Snack Bar') => {
+    if (!selectedStudent || amount <= 0 || isNaN(amount)) return;
+    const currentBal = selectedStudent.snackBarBalanceBs !== undefined ? selectedStudent.snackBarBalanceBs : (snackBarBalanceBs || 0);
+    const newBalance = currentBal + amount;
+    // Registra consumo acumulando el saldo a pagar del atleta (cuenta corriente).
+    // No emite transacción de ingreso en caja hasta el cobro/pago efectivo para evitar duplicar ingresos.
     handleSaveField('snackBarBalanceBs', newBalance);
-
-    const db = getCRMDatabase();
-    const newTx = {
-      id: `tx-${Date.now()}`,
-      date: today,
-      type: 'income' as const,
-      category: 'snack' as const,
-      amount: amount,
-      description: `${concept} (+${amount} Bs.) - ${name}`
-    };
-    db.transactions = [newTx, ...(db.transactions || [])];
-    saveCRMDatabase(db);
   };
 
   const handleSnackPayment = (paymentAmount: number) => {
-    if (!selectedStudent || paymentAmount <= 0) return;
-    const today = new Date().toISOString().split('T')[0];
-    const currentBal = snackBarBalanceBs || 0;
-    const actualPayment = Math.min(paymentAmount, currentBal);
-    const newBalance = Math.max(0, currentBal - actualPayment);
-    handleSaveField('snackBarBalanceBs', newBalance);
+    if (!selectedStudent || paymentAmount <= 0 || isNaN(paymentAmount)) return;
+    const currentBal = selectedStudent.snackBarBalanceBs !== undefined ? selectedStudent.snackBarBalanceBs : (snackBarBalanceBs || 0);
+    if (currentBal <= 0) return;
 
+    const actualPayment = Math.min(paymentAmount, currentBal);
+    if (actualPayment <= 0) return;
+    const newBalance = Math.max(0, currentBal - actualPayment);
+    const today = new Date().toISOString().split('T')[0];
+
+    // Asiento contable de ingreso real en caja y actualización de saldo atómica
     const db = getCRMDatabase();
+    let updatedActiveStudent: Student | null = null;
+    const updatedStudents = (db.students || []).map(s => {
+      if (s.id === selectedStudent.id) {
+        const updated: Student = {
+          ...s,
+          snackBarBalanceBs: newBalance
+        };
+        updatedActiveStudent = updated;
+        return updated;
+      }
+      return s;
+    });
+
     const newTx = {
-      id: `tx-${Date.now()}`,
+      id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       date: today,
       type: 'income' as const,
       category: 'snack' as const,
       amount: actualPayment,
-      description: `Abono a cuenta Snack Bar (-${actualPayment} Bs.) - ${name}`
+      description: `Abono a cuenta Snack Bar (+${actualPayment} Bs.) - ${name}`
     };
+
+    db.students = updatedStudents;
     db.transactions = [newTx, ...(db.transactions || [])];
     saveCRMDatabase(db);
+
+    if (updatedActiveStudent) setSelectedStudent(updatedActiveStudent);
+    setAllStudents(updatedStudents);
+    setSnackBarBalanceBs(newBalance);
+
+    setShowSavedToast(true);
+    setTimeout(() => setShowSavedToast(false), 2000);
   };
 
   const handleAddAttendance = (customDate?: string, customNotes?: string) => {
@@ -679,29 +748,33 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               value={plan}
               onChange={(e) => {
                 const newPlan = e.target.value as any;
-                handleSaveField('plan', newPlan);
                 let fee = 200;
                 let cycle: any = 'mensual';
-                if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual') { fee = 200; cycle = 'mensual'; }
+                if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual' || newPlan === 'Plan Integral Mensual') { fee = 200; cycle = 'mensual'; }
                 else if (newPlan === 'Trimestral Atleta') { fee = 500; cycle = 'trimestral'; }
                 else if (newPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
                 else if (newPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
                 else if (newPlan === 'CristoFit Camp') { fee = 150; cycle = 'mensual'; }
-                else if (newPlan === 'Formación E.A.G.E.') { fee = 300; cycle = 'mensual'; }
+                else if (newPlan === 'Formación E.A.G.E.') { fee = 1200; cycle = 'trimestral'; }
                 else if (newPlan === 'Pase Diario') { fee = 25; cycle = 'sesion'; }
-                handleSaveField('serviceFeeBs', fee);
-                handleSaveField('billingCycle', cycle);
-                handleSaveField('paidServiceTitle', `${newPlan} (${fee} Bs.)`);
+
+                handleSaveMultipleFields({
+                  plan: newPlan,
+                  serviceFeeBs: fee,
+                  billingCycle: cycle,
+                  paidServiceTitle: `${newPlan} (${fee} Bs.)`
+                });
               }}
               className="w-full bg-transparent font-black text-xs md:text-sm text-temple-navy dark:text-white mt-1 focus:outline-none cursor-pointer"
             >
-              <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días (200 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs.)</option>
               <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual (200 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual (200 Bs.)</option>
               <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Trimestral Atleta (500 Bs. / 3 meses)</option>
               <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Semestral Atleta (950 Bs. / 6 meses)</option>
               <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 (450 Bs.)</option>
               <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp (150 Bs.)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. (300 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. (1.200 Bs.)</option>
               <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario (25 Bs.)</option>
             </select>
           </div>
@@ -714,10 +787,13 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                 value={String(amountPaidBs)}
                 onSave={(val) => {
                   const num = Number(val) || 0;
-                  handleSaveField('amountPaidBs', num);
-                  const rem = Math.max((serviceFeeBs || 200) - num, 0);
-                  handleSaveField('pendingBalanceBs', rem);
-                  handleSaveField('paymentStatus', rem === 0 ? 'pagado' : num > 0 ? 'parcial' : 'pendiente');
+                  const currentFee = serviceFeeBs || 200;
+                  const rem = Math.max(currentFee - num, 0);
+                  handleSaveMultipleFields({
+                    amountPaidBs: num,
+                    pendingBalanceBs: rem,
+                    paymentStatus: rem === 0 ? 'pagado' : num > 0 ? 'parcial' : 'pendiente'
+                  });
                 }}
                 className="text-base font-black text-emerald-600 dark:text-emerald-400 p-0"
                 placeholder="200"
@@ -799,13 +875,36 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-500">Plan de Membresía</p>
           <select
             value={plan}
-            onChange={(e) => handleSaveField('plan', e.target.value as any)}
+            onChange={(e) => {
+              const newPlan = e.target.value as any;
+              let fee = 200;
+              let cycle: any = 'mensual';
+              if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual' || newPlan === 'Plan Integral Mensual') { fee = 200; cycle = 'mensual'; }
+              else if (newPlan === 'Trimestral Atleta') { fee = 500; cycle = 'trimestral'; }
+              else if (newPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
+              else if (newPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
+              else if (newPlan === 'CristoFit Camp') { fee = 150; cycle = 'mensual'; }
+              else if (newPlan === 'Formación E.A.G.E.') { fee = 1200; cycle = 'trimestral'; }
+              else if (newPlan === 'Pase Diario') { fee = 25; cycle = 'sesion'; }
+
+              handleSaveMultipleFields({
+                plan: newPlan,
+                serviceFeeBs: fee,
+                billingCycle: cycle,
+                paidServiceTitle: `${newPlan} (${fee} Bs.)`
+              });
+            }}
             className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
           >
-            <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS</option>
-            <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual</option>
-            <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp</option>
-            <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1</option>
+            <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual (200 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual (200 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Trimestral Atleta (500 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Semestral Atleta (950 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 (450 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp (150 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. (1.200 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario (25 Bs.)</option>
           </select>
         </div>
 

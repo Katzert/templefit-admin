@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban, ShoppingBag, DollarSign, Download, CheckCircle2, Accessibility } from 'lucide-react';
+import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban, ShoppingBag, DollarSign, Download, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { GlobalSearch } from '../components/GlobalSearch';
 import { ThemeToggle } from '../components/ThemeToggle';
@@ -83,7 +83,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/6 dark:bg-black/60 dark:bg-black/80 backdrop-blur-md z-40 md:hidden"
+            className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-md z-40 md:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -229,18 +229,6 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
           
           <div className="flex items-center gap-1 shrink-0">
             <ThemeToggle />
-            <button
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.dispatchEvent(new CustomEvent('toggle-accessibility-widget'));
-                }
-              }}
-              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-amber-800 dark:hover:text-temple-gold transition relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold rounded-xl bg-black/5 dark:bg-white/5"
-              aria-label="Abrir opciones de accesibilidad"
-              title="Opciones de Accesibilidad (Alt + A)"
-            >
-              <Accessibility size={18} />
-            </button>
 
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
@@ -265,21 +253,6 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
           
           <div className="flex items-center gap-3">
             <ThemeToggle />
-
-            <button
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.dispatchEvent(new CustomEvent('toggle-accessibility-widget'));
-                }
-              }}
-              title="Opciones de Accesibilidad (Alt + A)"
-              aria-label="Abrir opciones de accesibilidad"
-              className="flex items-center gap-1.5 px-3 py-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-amber-800 dark:hover:text-temple-gold border border-black/10 dark:border-white/10 rounded-xl text-xs font-bold transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold"
-            >
-              <Accessibility size={15} className="text-amber-700 dark:text-temple-gold" />
-              <span className="hidden lg:inline">Accesibilidad</span>
-            </button>
-
 
             <button
               onClick={handleDownloadBackup}
