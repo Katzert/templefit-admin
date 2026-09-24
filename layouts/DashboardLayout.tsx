@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban, ShoppingBag, DollarSign, Download, CheckCircle2 } from 'lucide-react';
+import { Menu, X, Bell, LogOut, Globe, Activity, ExternalLink, Sparkles, User, Users, ClipboardList, Briefcase, FileText, BookOpen, Home, Image as ImageIcon, Database, ChefHat, PieChart, BarChart2 as Kanban, ShoppingBag, DollarSign, Download, CheckCircle2, RefreshCw } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { GlobalSearch } from '../components/GlobalSearch';
 import { ThemeToggle } from '../components/ThemeToggle';
-import { syncFromCloud, getCRMDatabase } from '../store';
+import { syncFromCloud, getCRMDatabase, forceResetCRMDatabase } from '../store';
 import type { ReactNode } from 'react';
 
 interface NavItem {
@@ -47,6 +47,22 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
   const [isSyncing, setIsSyncing] = useState(true);
 
   const [backupDownloaded, setBackupDownloaded] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+
+  const handleForceSync = async () => {
+    setIsResetting(true);
+    try {
+      await forceResetCRMDatabase();
+      try {
+        localStorage.removeItem('templefit_holistic_students_v5');
+        localStorage.removeItem('templefit_holistic_students_v6');
+      } catch (e) {}
+      window.location.reload();
+    } catch (e) {
+      console.error('Error forzando actualización:', e);
+      setIsResetting(false);
+    }
+  };
 
   const handleDownloadBackup = () => {
     try {
@@ -115,7 +131,10 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
               <h1 className="text-lg font-serif font-black tracking-wider uppercase text-slate-900 dark:text-white flex items-center gap-1">
                 TEMPLE<span className="text-amber-600 dark:text-temple-gold">FIT</span>
               </h1>
-              <p className="text-[9px] text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em] font-extrabold">Panel de Control</p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <p className="text-[9px] text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em] font-extrabold">Panel de Control</p>
+                <span className="text-[8px] font-mono px-1.5 py-0.2 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20">v2.4 (Auditado)</span>
+              </div>
             </div>
           </div>
           <button className="md:hidden text-amber-700 dark:text-temple-gold hover:text-slate-900 dark:hover:text-temple-gold dark:hover:text-white transition p-1" onClick={() => setSidebarOpen(false)} aria-label="Cerrar barra lateral">
@@ -228,6 +247,16 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
           </div>
           
           <div className="flex items-center gap-1 shrink-0">
+            <button
+              onClick={handleForceSync}
+              disabled={isResetting}
+              title="Sincronizar datos auditados (67 atletas)"
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-amber-800 dark:text-temple-gold bg-black/5 dark:bg-white/5 rounded-xl transition"
+              aria-label="Sincronizar datos auditados"
+            >
+              <RefreshCw size={16} className={isResetting ? "animate-spin" : ""} />
+            </button>
+
             <ThemeToggle />
 
             <button 
@@ -253,6 +282,16 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
           
           <div className="flex items-center gap-3">
             <ThemeToggle />
+
+            <button
+              onClick={handleForceSync}
+              disabled={isResetting}
+              title="Forzar actualización y sincronización inmediata de la cohorte auditada (67 atletas)"
+              className="flex items-center gap-2 px-3.5 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-800 dark:text-temple-gold border border-amber-500/30 rounded-xl text-xs font-bold transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-temple-gold disabled:opacity-50"
+            >
+              <RefreshCw size={14} className={isResetting ? "animate-spin" : ""} />
+              <span>{isResetting ? "Sincronizando..." : "Sincronizar (67 Atletas)"}</span>
+            </button>
 
             <button
               onClick={handleDownloadBackup}

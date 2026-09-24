@@ -4,7 +4,7 @@ import { CRMDatabase, Student } from './types';
 import { db as firestoreDb } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const STORAGE_KEY = 'templefit_holistic_students_v6';
+const STORAGE_KEY = 'templefit_holistic_students_v7';
 
 function createSeedStudent(
   id: string,
@@ -1206,7 +1206,7 @@ const DEFAULT_DB: CRMDatabase = {
 };
 
 export function getCRMDatabase(): CRMDatabase {
-  if (typeof window === 'undefined') return DEFAULT_DB;
+  if (typeof window === 'undefined') return JSON.parse(JSON.stringify(DEFAULT_DB));
   
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -1214,13 +1214,13 @@ export function getCRMDatabase(): CRMDatabase {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DB));
       } catch (e) {}
-      return DEFAULT_DB;
+      return JSON.parse(JSON.stringify(DEFAULT_DB));
     }
     const parsed = JSON.parse(saved) as CRMDatabase;
     
     // Auto-migration: ensure students has at least 65 athletes and coherent financials
     let hasUpdated = false;
-    if (!parsed.students || parsed.students.length === 0) {
+    if (!parsed.students || parsed.students.length < 65) {
       parsed.students = DEFAULT_DB.students;
       hasUpdated = true;
     }
@@ -1252,7 +1252,7 @@ export function getCRMDatabase(): CRMDatabase {
     return parsed;
   } catch (err) {
     console.error("Error al parsear CRMDatabase de localStorage:", err);
-    return DEFAULT_DB;
+    return JSON.parse(JSON.stringify(DEFAULT_DB));
   }
 }
 
@@ -1297,7 +1297,7 @@ export function saveCRMDatabase(db: CRMDatabase) {
 }
 
 export async function syncFromCloud(): Promise<CRMDatabase> {
-  if (typeof window === 'undefined') return DEFAULT_DB;
+  if (typeof window === 'undefined') return JSON.parse(JSON.stringify(DEFAULT_DB));
 
   // Sincronización ONLINE desde Firebase Firestore
   if (firestoreDb) {
@@ -1306,17 +1306,29 @@ export async function syncFromCloud(): Promise<CRMDatabase> {
       const snap = await getDoc(docRef);
       if (snap.exists()) {
         const cloudData = snap.data() as CRMDatabase;
-        // Solo aceptar si la cohorte está completa (al menos 65 atletas)
-        if (cloudData.students && cloudData.students.length > 0) {
+        // Solo aceptar de la nube si la cohorte está completa y auditada (al menos 65 atletas)
+        if (cloudData.students && cloudData.students.length >= 65) {
           try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudData));
           } catch (e) {}
           return cloudData;
         } else {
-          // Si Firebase tiene datos antiguos, actualizar la nube con la cohorte local completa
+          // Si Firebase tiene datos obsoletos o parciales (< 65 alumnos), forzar actualización con la cohorte local auditada
           const localDb = getCRMDatabase();
-          setDoc(docRef, localDb, { merge: true }).catch(() => {});
+          try {
+            await setDoc(docRef, localDb);
+          } catch (e) {
+            console.warn("Error sembrando cohorte completa a Firebase:", e);
+          }
+          return localDb;
         }
+      } else {
+        // Si el documento en Firebase aún no existe, sembrarlo con la cohorte auditada completa
+        const localDb = getCRMDatabase();
+        try {
+          await setDoc(docRef, localDb);
+        } catch (e) {}
+        return localDb;
       }
     } catch (err) {
       console.warn("Error consultando Firebase:", err);
@@ -1324,6 +1336,23 @@ export async function syncFromCloud(): Promise<CRMDatabase> {
   }
 
   return getCRMDatabase();
+}
+
+export async function forceResetCRMDatabase(): Promise<CRMDatabase> {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DB));
+    } catch (e) {}
+  }
+  if (firestoreDb) {
+    try {
+      const docRef = doc(firestoreDb, 'workspaces', 'templefit-main');
+      await setDoc(docRef, DEFAULT_DB);
+    } catch (e) {
+      console.warn("Error actualizando Firebase en reset forzado:", e);
+    }
+  }
+  return JSON.parse(JSON.stringify(DEFAULT_DB));
 }
 
 
