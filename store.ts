@@ -4,7 +4,7 @@ import { CRMDatabase, Student } from './types';
 import { db as firestoreDb } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const STORAGE_KEY = 'templefit_holistic_students_v5';
+const STORAGE_KEY = 'templefit_holistic_students_v6';
 
 function createSeedStudent(
   id: string,
