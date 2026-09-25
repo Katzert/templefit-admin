@@ -4,14 +4,14 @@
  */
 
 const FALLBACK_DATA = [
-    { Mes: 'Mayo', 'Total Ingresos': '12500', 'Total Gastos': '9200', 'Flujo Acumulado': '3300' },
-    { Mes: 'Junio', 'Total Ingresos': '14000', 'Total Gastos': '9200', 'Flujo Acumulado': '8100' },
-    { Mes: 'Julio', 'Total Ingresos': '18500', 'Total Gastos': '9500', 'Flujo Acumulado': '17100' },
-    { Mes: 'Agosto', 'Total Ingresos': '24000', 'Total Gastos': '9800', 'Flujo Acumulado': '31300' },
-    { Mes: 'Septiembre', 'Total Ingresos': '32000', 'Total Gastos': '10200', 'Flujo Acumulado': '53100' },
-    { Mes: 'Octubre', 'Total Ingresos': '45000', 'Total Gastos': '10500', 'Flujo Acumulado': '87600' },
-    { Mes: 'Noviembre', 'Total Ingresos': '58000', 'Total Gastos': '11000', 'Flujo Acumulado': '134600' },
-    { Mes: 'Diciembre', 'Total Ingresos': '84000', 'Total Gastos': '11500', 'Flujo Acumulado': '207100' }
+    { Mes: 'Mayo', 'Total Ingresos': '13200', 'Total Gastos': '8900', 'Flujo Acumulado': '3440' },
+    { Mes: 'Junio', 'Total Ingresos': '16600', 'Total Gastos': '9200', 'Flujo Acumulado': '9360' },
+    { Mes: 'Julio', 'Total Ingresos': '21500', 'Total Gastos': '10000', 'Flujo Acumulado': '18560' },
+    { Mes: 'Agosto', 'Total Ingresos': '27000', 'Total Gastos': '10850', 'Flujo Acumulado': '31480' },
+    { Mes: 'Septiembre', 'Total Ingresos': '32000', 'Total Gastos': '11600', 'Flujo Acumulado': '47800' },
+    { Mes: 'Octubre', 'Total Ingresos': '41000', 'Total Gastos': '13100', 'Flujo Acumulado': '70120' },
+    { Mes: 'Noviembre', 'Total Ingresos': '51500', 'Total Gastos': '14600', 'Flujo Acumulado': '99640' },
+    { Mes: 'Diciembre', 'Total Ingresos': '68000', 'Total Gastos': '17000', 'Flujo Acumulado': '140440' }
 ];
 
 const BRAND = {
@@ -47,7 +47,7 @@ function calculateScaling(months) {
     if (scaledProfitEl) scaledProfitEl.innerText = `${Math.round(avgProfit * months).toLocaleString()} Bs.`;
     
     const scaledAthletesEl = document.getElementById('scaledAthletes');
-    if (scaledAthletesEl) scaledAthletesEl.innerText = Math.round(65 * Math.sqrt(months)).toLocaleString();
+    if (scaledAthletesEl) scaledAthletesEl.innerText = Math.round(67 * Math.sqrt(months)).toLocaleString();
 
     document.querySelectorAll('[id^="phase-"]').forEach(c => {
         c.classList.remove('active', 'border-l-temple-gold');
@@ -79,7 +79,7 @@ function calculateInitialTotal() {
     const heroIncome = document.getElementById('heroIncome');
     const heroEff = document.getElementById('heroEfficiency');
     
-    if (heroAthletes) heroAthletes.innerText = "65"; // As specified by user
+    if (heroAthletes) heroAthletes.innerText = "67"; // 67 Atletas Auditados
     if (heroIncome) heroIncome.innerText = `${Math.round(parseVal(lastMonth['Total Ingresos'])).toLocaleString()} Bs.`;
     if (heroEff) heroEff.innerText = `+${Math.round(efficiency)}%`;
 
