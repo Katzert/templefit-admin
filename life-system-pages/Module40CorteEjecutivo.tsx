@@ -130,24 +130,24 @@ export function Module40CorteEjecutivo() {
     const retiroPaulo = Math.round(flujoNetoReal * 0.50);
     const reinversion = Math.round(flujoNetoReal * 0.50);
 
-    return `🏛️ *TEMPLEFIT - CORTE EJECUTIVO Y ANÁLISIS ECONÓMICO*\n` +
-      `📅 *Período:* ${monthName}\n` +
-      `👤 *Director General / Head Coach:* Paulo Gil Cuéllar\n` +
-      `👥 *Base de Atletas:* ${kpis.activeStudents} Atletas Activos Auditados\n\n` +
-      `💰 *ESTADO FINANCIERO Y FLUJO DE CAJA:*\n` +
-      `• *Total Ingresos Brutos:* Bs. ${totalInc.toLocaleString('es-BO')}\n` +
-      `• *Total Gastos Operativos:* Bs. ${totalExp.toLocaleString('es-BO')}\n` +
-      `• *Saldo Operativo:* Bs. ${saldoOperativo.toLocaleString('es-BO')}\n` +
-      `• *Fondo Seguro Empresa (20% Reserva):* Bs. ${seguroEmpresa.toLocaleString('es-BO')}\n` +
-      `• *FLUJO NETO REAL DISPONIBLE:* Bs. ${flujoNetoReal.toLocaleString('es-BO')}\n\n` +
-      `⚖️ *DISTRIBUCIÓN 50/50 (SOBRE FLUJO NETO):*\n` +
-      `• *50% Retiro Fundador (Paulo):* Bs. ${retiroPaulo.toLocaleString('es-BO')}\n` +
-      `• *50% Reinversión & Expansión:* Bs. ${reinversion.toLocaleString('es-BO')}\n\n` +
-      `🎯 *METAS DEL MES:*\n` +
-      `• Meta Presupuestaria Total: Bs. ${totalGoals.toLocaleString('es-BO')}\n` +
-      `• Ejecución: ${totalGoals > 0 ? Math.round((totalInc / totalGoals) * 100) : 0}%\n\n` +
-      `✨ _"El espíritu da el diseño. El cuerpo es el templo. La mente edifica."_\n` +
-      `📲 Panel CRM: https://katzert.github.io/templefit-admin/`;
+    return `*TEMPLEFIT - RESUMEN ECONÓMICO MENSUAL*\n` +
+      `*Período:* ${monthName}\n` +
+      `*Responsable:* Paulo Gil Cuéllar\n` +
+      `*Alumnos activos:* ${kpis.activeStudents}\n\n` +
+      `*Resumen financiero:*\n` +
+      `• Ingresos del mes: Bs. ${totalInc.toLocaleString('es-BO')}\n` +
+      `• Gastos operativos: Bs. ${totalExp.toLocaleString('es-BO')}\n` +
+      `• Saldo operativo: Bs. ${saldoOperativo.toLocaleString('es-BO')}\n` +
+      `• Reserva del gimnasio (20%): Bs. ${seguroEmpresa.toLocaleString('es-BO')}\n` +
+      `• Flujo neto disponible: Bs. ${flujoNetoReal.toLocaleString('es-BO')}\n\n` +
+      `*Distribución 50/50:*\n` +
+      `• Retiro Paulo (50%): Bs. ${retiroPaulo.toLocaleString('es-BO')}\n` +
+      `• Reinversión y mantenimiento (50%): Bs. ${reinversion.toLocaleString('es-BO')}\n\n` +
+      `*Presupuesto mensual:*\n` +
+      `• Meta fijada: Bs. ${totalGoals.toLocaleString('es-BO')}\n` +
+      `• Avance alcanzado: ${totalGoals > 0 ? Math.round((totalInc / totalGoals) * 100) : 0}%\n\n` +
+      `"El espíritu da el diseño. El cuerpo es el templo. La mente edifica."\n` +
+      `Panel administrativo: https://katzert.github.io/templefit-admin/`;
   };
 
   const handleShareExecutiveWhatsApp = () => {
@@ -207,7 +207,7 @@ export function Module40CorteEjecutivo() {
               <PieChart className="text-temple-gold" size={24} />
               Tablero de Control y Corte 50/50
             </h2>
-            <p className="text-sm text-slate-600 dark:text-gray-400 mt-1">Dashboard ejecutivo simétrico estandarizado • Flujo de caja, rentabilidad y corte 50/50.</p>
+            <p className="text-sm text-slate-600 dark:text-gray-400 mt-1">Resumen de ingresos, gastos, fondo de reserva y corte de utilidades 50/50.</p>
           </div>
           
           <div className="flex flex-wrap gap-2">
@@ -412,7 +412,7 @@ export function Module40CorteEjecutivo() {
                 </span>
               </div>
               <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">
-                Lectura ejecutiva mensual de Ingresos, Gastos, Reserva Empresa (20%), Flujo Neto Disponible y Corte 50/50.
+                Registro mensual de ingresos, gastos, reserva del 20%, saldo disponible y división 50/50.
               </p>
             </div>
           </div>
@@ -449,27 +449,27 @@ export function Module40CorteEjecutivo() {
           <div className="flex items-start gap-2.5">
             <ShieldCheck size={18} className="text-temple-gold shrink-0 mt-0.5" />
             <div>
-              <p className="font-bold text-temple-navy dark:text-white">Fondo Seguro Empresa (20%)</p>
+              <p className="font-bold text-temple-navy dark:text-white">Fondo de Reserva del Gimnasio (20%)</p>
               <p className="text-slate-600 dark:text-gray-400 text-[11px] leading-relaxed">
-                Se retiene automáticamente el 20% del Saldo Operativo como fondo de reserva anticrisis y blindaje patrimonial.
+                Se guarda el 20% del saldo operativo para imprevistos, compras de emergencia y mantenimiento del espacio.
               </p>
             </div>
           </div>
           <div className="flex items-start gap-2.5">
             <TrendingUp size={18} className="text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <p className="font-bold text-temple-navy dark:text-white">Flujo Neto Real (80%)</p>
+              <p className="font-bold text-temple-navy dark:text-white">Flujo Neto Disponible (80%)</p>
               <p className="text-slate-600 dark:text-gray-400 text-[11px] leading-relaxed">
-                Utilidad líquida efectiva disponible luego de separar la reserva de seguridad de la empresa.
+                Dinero disponible del mes después de separar la reserva del gimnasio.
               </p>
             </div>
           </div>
           <div className="flex items-start gap-2.5">
             <DollarSign size={18} className="text-blue-400 shrink-0 mt-0.5" />
             <div>
-              <p className="font-bold text-temple-navy dark:text-white">Liquidación 50/50</p>
+              <p className="font-bold text-temple-navy dark:text-white">División 50/50</p>
               <p className="text-slate-600 dark:text-gray-400 text-[11px] leading-relaxed">
-                50% retiro mensual Paulo Gil Cuéllar / 50% reinversión en equipamiento, marketing y expansión.
+                La mitad corresponde a Paulo y la otra mitad se reinvierte en materiales, mejoras y difusión.
               </p>
             </div>
           </div>
@@ -575,13 +575,13 @@ export function Module40CorteEjecutivo() {
       {/* Regla del Semáforo (SOP-03) */}
       <div className="bg-black/[0.03] dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-xl p-6 hover:border-black/20 dark:border-white/20 transition-colors">
         <h3 className="text-sm font-black text-temple-navy dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-          <Activity className="text-temple-gold" size={16} /> Regla del Semáforo (SOP-03)
+          <Activity className="text-temple-gold" size={16} /> Criterio de Acción Rápida (SOP-03)
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button className="flex flex-col items-center p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition cursor-pointer">
             <span className="text-2xl mb-2">🟢</span>
-            <span className="font-bold uppercase text-xs">Verde: Replicar</span>
-            <span className="text-[10px] text-emerald-400/70 text-center mt-2">No tocar lo que da fruto.</span>
+            <span className="font-bold uppercase text-xs">Verde: Mantener</span>
+            <span className="text-[10px] text-emerald-400/70 text-center mt-2">No tocar lo que funciona y da fruto.</span>
           </button>
           <button className="flex flex-col items-center p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition cursor-pointer">
             <span className="text-2xl mb-2">🟡</span>
@@ -590,8 +590,8 @@ export function Module40CorteEjecutivo() {
           </button>
           <button className="flex flex-col items-center p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition cursor-pointer">
             <span className="text-2xl mb-2">🔴</span>
-            <span className="font-bold uppercase text-xs">Rojo: Cortar Inmediato</span>
-            <span className="text-[10px] text-red-400/70 text-center mt-2">Falacia de costo hundido. Acción correctiva.</span>
+            <span className="font-bold uppercase text-xs">Rojo: Frenar a tiempo</span>
+            <span className="text-[10px] text-red-400/70 text-center mt-2">Si algo no rinde o genera pérdidas, suspenderlo sin dudar.</span>
           </button>
         </div>
       </div>
@@ -695,20 +695,20 @@ export function Module40CorteEjecutivo() {
               
               <div className="mt-6 bg-temple-gold/10 p-4 rounded-xl border border-temple-gold/20">
                 <h4 className="text-[10px] uppercase tracking-widest text-temple-gold font-bold mb-3 flex items-center gap-2">
-                  <BookOpen size={12} /> Inteligencia Ejecutiva
+                  <BookOpen size={12} /> Comparativa de Salud y Prevención
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <p className="text-xs text-slate-800 dark:text-white/60 mb-1">Costo SUS (Diálisis/Año)</p>
-                    <p className="text-sm font-bold text-red-400">111,228 Bs / paciente</p>
+                    <p className="text-sm font-bold text-red-400">111,228 Bs por paciente</p>
                   </div>
                   <div>
                     <p className="text-xs text-slate-800 dark:text-white/60 mb-1">Prevención TempleFit (Año)</p>
-                    <p className="text-sm font-bold text-emerald-400">1,200 - 2,400 Bs (1-2% del costo)</p>
+                    <p className="text-sm font-bold text-emerald-400">1,200 a 2,400 Bs (1-2% del costo médico)</p>
                   </div>
                   <div className="md:col-span-2">
-                    <p className="text-xs text-slate-800 dark:text-white/60 mb-1">Impacto Social y ROI</p>
-                    <p className="text-sm font-bold text-slate-800 dark:text-white">Por cada 1 Bs invertido en prevención, la sociedad ahorra de 3 a 5 Bs. El motor alimentario representa 57% del sustento del modelo.</p>
+                    <p className="text-xs text-slate-800 dark:text-white/60 mb-1">Impacto Real</p>
+                    <p className="text-sm font-bold text-slate-800 dark:text-white">Por cada 1 Bs invertido en salud física y buena nutrición, una persona previene hasta 5 Bs en tratamientos futuros. La alimentación sana aporta más de la mitad del sustento del gimnasio.</p>
                   </div>
                 </div>
               </div>
