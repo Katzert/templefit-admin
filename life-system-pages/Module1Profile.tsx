@@ -6,6 +6,7 @@ import { FieldLabel } from '../components/ui/field-label';
 import { useAuth } from '../context/AuthContext';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Student, AttendanceRecord, ProgressAssessment } from '../types';
+import { getBoliviaTodayISO, formatBs, addDaysBoliviaISO, getPlanDetails } from '../lib/boliviaFinance';
 import { 
   User, 
   Activity, 
@@ -148,14 +149,18 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   const [searchExerciseTerm, setSearchExerciseTerm] = useState<string>('');
 
   const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false);
-  const [attendanceDateInput, setAttendanceDateInput] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [attendanceDateInput, setAttendanceDateInput] = useState<string>(getBoliviaTodayISO());
   const [attendanceNotesInput, setAttendanceNotesInput] = useState<string>('Sesión de Entrenamiento CristoFit Camp (06:00 AM)');
   const [editingAttendanceIdx, setEditingAttendanceIdx] = useState<number | null>(null);
   const [editAttDate, setEditAttDate] = useState<string>('');
   const [editAttNotes, setEditAttNotes] = useState<string>('');
 
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [paymentAmountInput, setPaymentAmountInput] = useState<number>(0);
+  const [paymentMethodInput, setPaymentMethodInput] = useState<'qr' | 'efectivo' | 'transferencia'>('qr');
+
   useEffect(() => {
-    const isAnyModalOpen = isSnackModalOpen || isMuscleModalOpen || isAttendanceModalOpen;
+    const isAnyModalOpen = isSnackModalOpen || isMuscleModalOpen || isAttendanceModalOpen || isPaymentModalOpen;
     if (isAnyModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -164,7 +169,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isSnackModalOpen, isMuscleModalOpen, isAttendanceModalOpen]);
+  }, [isSnackModalOpen, isMuscleModalOpen, isAttendanceModalOpen, isPaymentModalOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -172,6 +177,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
         setIsSnackModalOpen(false);
         setIsMuscleModalOpen(false);
         setIsAttendanceModalOpen(false);
+        setIsPaymentModalOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -297,11 +303,31 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
         if (field === 'purpose') updated.spiritualIntention = String(newValue);
         if (field === 'mentorshipNotes') updated.mentorshipNotes = String(newValue);
         if (field === 'paidServiceTitle') updated.paidServiceTitle = String(newValue);
-        if (field === 'serviceFeeBs') updated.serviceFeeBs = Number(newValue);
+        if (field === 'serviceFeeBs') {
+          const newFee = Number(newValue) || 0;
+          updated.serviceFeeBs = newFee;
+          const paid = updated.amountPaidBs || 0;
+          updated.pendingBalanceBs = Math.max(0, newFee - paid);
+          updated.paymentStatus = updated.pendingBalanceBs === 0 ? 'pagado' : (paid > 0 ? 'parcial' : 'pendiente');
+        }
         if (field === 'billingCycle') updated.billingCycle = newValue;
         if (field === 'paymentStatus') updated.paymentStatus = newValue;
-        if (field === 'amountPaidBs') updated.amountPaidBs = Number(newValue);
-        if (field === 'pendingBalanceBs') updated.pendingBalanceBs = Number(newValue);
+        if (field === 'amountPaidBs') {
+          const fee = updated.serviceFeeBs || 200;
+          const rawPaid = Number(newValue) || 0;
+          const newPaid = Math.min(fee, Math.max(0, rawPaid));
+          updated.amountPaidBs = newPaid;
+          updated.pendingBalanceBs = Math.max(0, fee - newPaid);
+          updated.paymentStatus = updated.pendingBalanceBs === 0 ? 'pagado' : (newPaid > 0 ? 'parcial' : 'pendiente');
+        }
+        if (field === 'pendingBalanceBs') {
+          const fee = updated.serviceFeeBs || 200;
+          const rawPending = Number(newValue) || 0;
+          const safePending = Math.min(fee, Math.max(0, rawPending));
+          updated.pendingBalanceBs = safePending;
+          updated.amountPaidBs = Math.max(0, fee - safePending);
+          updated.paymentStatus = safePending === 0 ? 'pagado' : (updated.amountPaidBs > 0 ? 'parcial' : 'pendiente');
+        }
         if (field === 'lastPaymentDate') updated.lastPaymentDate = String(newValue);
         if (field === 'nextDueDate') updated.nextDueDate = String(newValue);
         if (field === 'snackBarBalanceBs') updated.snackBarBalanceBs = Number(newValue);
@@ -332,11 +358,31 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     if (field === 'birthDate') setBirthDate(newValue);
     if (field === 'isVipProfile') setIsVipProfile(newValue);
     if (field === 'paidServiceTitle') setPaidServiceTitle(newValue);
-    if (field === 'serviceFeeBs') setServiceFeeBs(Number(newValue));
+    if (field === 'serviceFeeBs') {
+      const numFee = Number(newValue) || 0;
+      setServiceFeeBs(numFee);
+      const rem = Math.max(0, numFee - amountPaidBs);
+      setPendingBalanceBs(rem);
+      setPaymentStatus(rem === 0 ? 'pagado' : (amountPaidBs > 0 ? 'parcial' : 'pendiente'));
+    }
     if (field === 'billingCycle') setBillingCycle(newValue);
     if (field === 'paymentStatus') setPaymentStatus(newValue);
-    if (field === 'amountPaidBs') setAmountPaidBs(Number(newValue));
-    if (field === 'pendingBalanceBs') setPendingBalanceBs(Number(newValue));
+    if (field === 'amountPaidBs') {
+      const rawPaid = Number(newValue) || 0;
+      const numPaid = Math.min(serviceFeeBs, Math.max(0, rawPaid));
+      setAmountPaidBs(numPaid);
+      const rem = Math.max(0, serviceFeeBs - numPaid);
+      setPendingBalanceBs(rem);
+      setPaymentStatus(rem === 0 ? 'pagado' : (numPaid > 0 ? 'parcial' : 'pendiente'));
+    }
+    if (field === 'pendingBalanceBs') {
+      const rawPending = Number(newValue) || 0;
+      const safePending = Math.min(serviceFeeBs, Math.max(0, rawPending));
+      setPendingBalanceBs(safePending);
+      const newPaid = Math.max(0, serviceFeeBs - safePending);
+      setAmountPaidBs(newPaid);
+      setPaymentStatus(safePending === 0 ? 'pagado' : (newPaid > 0 ? 'parcial' : 'pendiente'));
+    }
     if (field === 'lastPaymentDate') setLastPaymentDate(newValue);
     if (field === 'nextDueDate') setNextDueDate(newValue);
     if (field === 'snackBarBalanceBs') setSnackBarBalanceBs(Number(newValue));
@@ -390,16 +436,52 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     setTimeout(() => setShowSavedToast(false), 2000);
   };
 
-  const handleRecordFullPayment = () => {
+  const handleOpenPaymentModal = () => {
     if (!selectedStudent) return;
-    const currentPending = selectedStudent.pendingBalanceBs !== undefined ? selectedStudent.pendingBalanceBs : pendingBalanceBs;
-    if (currentPending <= 0 && paymentStatus === 'pagado') return;
+    const fee = selectedStudent.serviceFeeBs || serviceFeeBs || 200;
+    const currentPaid = selectedStudent.amountPaidBs !== undefined ? selectedStudent.amountPaidBs : amountPaidBs;
+    const currentPending = selectedStudent.pendingBalanceBs !== undefined 
+      ? selectedStudent.pendingBalanceBs 
+      : Math.max(0, fee - currentPaid);
+    
+    // Default to pending balance if > 0, otherwise full fee
+    setPaymentAmountInput(currentPending > 0 ? currentPending : fee);
+    setPaymentMethodInput('qr');
+    setIsPaymentModalOpen(true);
+  };
+
+  const handleExecutePayment = (amountToPay: number, method: 'qr' | 'efectivo' | 'transferencia') => {
+    if (!selectedStudent || amountToPay <= 0 || isNaN(amountToPay)) return;
 
     const fee = selectedStudent.serviceFeeBs || serviceFeeBs || 200;
-    const today = new Date().toISOString().split('T')[0];
+    const currentPaid = selectedStudent.amountPaidBs !== undefined ? selectedStudent.amountPaidBs : 0;
+    const currentPending = selectedStudent.pendingBalanceBs !== undefined 
+      ? selectedStudent.pendingBalanceBs 
+      : Math.max(0, fee - currentPaid);
+
+    // Limit payment to the actual remaining debt (if debt exists) or fee
+    const actualPayment = Math.min(amountToPay, currentPending > 0 ? currentPending : fee);
+    const newAmountPaid = currentPaid + actualPayment;
+    const newPending = Math.max(0, fee - newAmountPaid);
+    const newStatus = newPending === 0 ? 'pagado' : 'parcial';
+
+    const today = getBoliviaTodayISO();
     const cycle = selectedStudent.billingCycle || billingCycle || 'mensual';
-    const daysToAdd = cycle === 'trimestral' ? 90 : cycle === 'semestral' ? 180 : cycle === 'sesion' ? 1 : 30;
-    const nextDueDateCalc = new Date(Date.now() + daysToAdd * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const daysToAdd = cycle === 'quincenal' ? 15 : cycle === 'bimensual' ? 60 : cycle === 'trimestral' ? 90 : cycle === 'semestral' ? 180 : cycle === 'anual' ? 365 : cycle === 'sesion' ? 1 : 30;
+    const nextDueDateCalc = addDaysBoliviaISO(daysToAdd);
+
+    const vault = method === 'efectivo' ? 'cajaFisica' : 'banco';
+    const newTx: any = {
+      id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      date: today,
+      type: 'income',
+      category: 'membership',
+      amount: actualPayment,
+      paymentMethod: method,
+      vault: vault,
+      studentId: selectedStudent.id,
+      description: `Abono cuota (${method.toUpperCase()} / ${vault === 'banco' ? 'Banco' : 'Caja'}): ${plan} (+${actualPayment} Bs.) - ${name}`
+    };
 
     const db = getCRMDatabase();
     let updatedActiveStudent: Student | null = null;
@@ -407,11 +489,11 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       if (s.id === selectedStudent.id) {
         const updated: Student = {
           ...s,
-          amountPaidBs: fee,
-          pendingBalanceBs: 0,
-          paymentStatus: 'pagado',
+          amountPaidBs: newAmountPaid,
+          pendingBalanceBs: newPending,
+          paymentStatus: newStatus,
           lastPaymentDate: today,
-          nextDueDate: nextDueDateCalc,
+          nextDueDate: newPending === 0 ? nextDueDateCalc : (s.nextDueDate || nextDueDateCalc),
           status: 'active'
         };
         updatedActiveStudent = updated;
@@ -420,30 +502,26 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       return s;
     });
 
-    const newTx = {
-      id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-      date: today,
-      type: 'income' as const,
-      category: 'membership' as const,
-      amount: fee,
-      description: `Cobro cuota: ${plan} (${fee} Bs.) - ${name}`
-    };
-
     db.students = updatedStudents;
     db.transactions = [newTx, ...(db.transactions || [])];
     saveCRMDatabase(db);
 
     if (updatedActiveStudent) setSelectedStudent(updatedActiveStudent);
     setAllStudents(updatedStudents);
-    setAmountPaidBs(fee);
-    setPendingBalanceBs(0);
-    setPaymentStatus('pagado');
+    setAmountPaidBs(newAmountPaid);
+    setPendingBalanceBs(newPending);
+    setPaymentStatus(newStatus);
     setLastPaymentDate(today);
-    setNextDueDate(nextDueDateCalc);
+    if (newPending === 0) setNextDueDate(nextDueDateCalc);
     setStatus('active');
+    setIsPaymentModalOpen(false);
 
     setShowSavedToast(true);
     setTimeout(() => setShowSavedToast(false), 2000);
+  };
+
+  const handleRecordFullPayment = () => {
+    handleOpenPaymentModal();
   };
 
   const handleAddSnackCharge = (amount: number, _concept: string = 'Consumo Snack Bar') => {
@@ -455,7 +533,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     handleSaveField('snackBarBalanceBs', newBalance);
   };
 
-  const handleSnackPayment = (paymentAmount: number) => {
+  const handleSnackPayment = (paymentAmount: number, method: 'qr' | 'efectivo' | 'transferencia' = 'efectivo') => {
     if (!selectedStudent || paymentAmount <= 0 || isNaN(paymentAmount)) return;
     const currentBal = selectedStudent.snackBarBalanceBs !== undefined ? selectedStudent.snackBarBalanceBs : (snackBarBalanceBs || 0);
     if (currentBal <= 0) return;
@@ -463,9 +541,10 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     const actualPayment = Math.min(paymentAmount, currentBal);
     if (actualPayment <= 0) return;
     const newBalance = Math.max(0, currentBal - actualPayment);
-    const today = new Date().toISOString().split('T')[0];
+    const today = getBoliviaTodayISO();
+    const vault = method === 'efectivo' ? 'cajaFisica' : 'banco';
 
-    // Asiento contable de ingreso real en caja y actualización de saldo atómica
+    // Asiento contable de ingreso real en caja y actualizacion de saldo atomica
     const db = getCRMDatabase();
     let updatedActiveStudent: Student | null = null;
     const updatedStudents = (db.students || []).map(s => {
@@ -480,13 +559,16 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       return s;
     });
 
-    const newTx = {
+    const newTx: any = {
       id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       date: today,
-      type: 'income' as const,
-      category: 'snack' as const,
+      type: 'income',
+      category: 'snack',
       amount: actualPayment,
-      description: `Abono a cuenta Snack Bar (+${actualPayment} Bs.) - ${name}`
+      studentId: selectedStudent.id,
+      paymentMethod: method,
+      vault: vault,
+      description: `Abono a cuenta Snack Bar (${method.toUpperCase()} / ${vault === 'banco' ? 'Banco' : 'Caja'}): +${actualPayment} Bs. - ${name}`
     };
 
     db.students = updatedStudents;
@@ -502,7 +584,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   };
 
   const handleAddAttendance = (customDate?: string, customNotes?: string) => {
-    const sessionDate = customDate || new Date().toISOString().split('T')[0];
+    const sessionDate = customDate || getBoliviaTodayISO();
     const newRecord: AttendanceRecord = {
       date: sessionDate,
       attended: true,
@@ -528,7 +610,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   };
 
   const handleAddAssessment = () => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getBoliviaTodayISO();
     const newAssessment: ProgressAssessment = {
       date: today,
       weightKg,
@@ -694,7 +776,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             </div>
 
             {/* Persistent 1-Tap Attendance Button */}
-            {attendanceHistory.some(a => a.date === new Date().toISOString().split('T')[0] && a.attended) ? (
+            {attendanceHistory.some(a => a.date === getBoliviaTodayISO() && a.attended) ? (
               <span className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-extrabold uppercase">
                 <CheckCircle2 size={14} className="text-emerald-400" />
                 <span className="hidden sm:inline">Presente Hoy</span>
@@ -742,18 +824,23 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             {pendingBalanceBs > 0 ? (
               <button
                 type="button"
-                onClick={handleRecordFullPayment}
+                onClick={handleOpenPaymentModal}
                 className="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-1.5 shadow-md shadow-emerald-500/20"
-                title="Marcar pago total y registrar en caja"
+                title="Cobrar saldo pendiente o registrar abono de quincena"
               >
                 <CheckCircle2 size={14} />
-                <span>Cobrar Saldo (Bs. {pendingBalanceBs})</span>
+                <span>Cobrar / Abonar (Bs. {pendingBalanceBs} pendiente)</span>
               </button>
             ) : (
-              <span className="px-3 py-1.5 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 rounded-xl text-xs font-bold flex items-center gap-1.5 border border-emerald-500/30">
+              <button
+                type="button"
+                onClick={handleOpenPaymentModal}
+                className="px-3 py-1.5 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-700 dark:text-emerald-300 rounded-xl text-xs font-bold flex items-center gap-1.5 border border-emerald-500/30 transition"
+                title="Registrar nuevo cobro de cuota"
+              >
                 <CheckCircle2 size={14} className="text-emerald-500" />
-                <span>Membresía Cubierta</span>
-              </span>
+                <span>Membresía al Día (+ Cobro)</span>
+              </button>
             )}
 
             <button
@@ -779,21 +866,21 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               value={plan}
               onChange={(e) => {
                 const newPlan = e.target.value as any;
-                let fee = 200;
-                let cycle: any = 'mensual';
-                if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual') { fee = 200; cycle = 'mensual'; }
-                else if (newPlan === 'Bimensual Disciplina') { fee = 380; cycle = 'bimensual'; }
-                else if (newPlan === 'Trimestral Atleta') { fee = 500; cycle = 'trimestral'; }
-                else if (newPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
-                else if (newPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
-                else if (newPlan === 'CristoFit Camp') { fee = 150; cycle = 'mensual'; }
-                else if (newPlan === 'Formación E.A.G.E.') { fee = 1200; cycle = 'trimestral'; }
-                else if (newPlan === 'Pase Diario') { fee = 25; cycle = 'sesion'; }
+                const planConfig = getPlanDetails(newPlan);
+                const fee = planConfig.fee;
+                const cycle = planConfig.cycle;
+                const currentPaid = amountPaidBs || 0;
+                const cappedPaid = Math.min(fee, currentPaid);
+                const rem = Math.max(0, fee - cappedPaid);
+                const newPaymentStatus = rem === 0 ? 'pagado' : (cappedPaid > 0 ? 'parcial' : 'pendiente');
 
                 handleSaveMultipleFields({
                   plan: newPlan,
                   serviceFeeBs: fee,
                   billingCycle: cycle,
+                  amountPaidBs: cappedPaid,
+                  pendingBalanceBs: rem,
+                  paymentStatus: newPaymentStatus,
                   paidServiceTitle: `${newPlan} (${fee} Bs.)`
                 });
               }}
@@ -801,12 +888,15 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             >
               <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs. / mes)</option>
               <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual Estándar (200 Bs. / mes)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual (200 Bs. / mes)</option>
               <option className="bg-white dark:bg-[#121826]" value="Bimensual Disciplina">Plan Bimensual Disciplina (380 Bs. / 2 meses)</option>
               <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Plan Trimestral Atleta (500 Bs. / 3 meses)</option>
               <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Plan Semestral Élite (950 Bs. / 6 meses)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Anual Atleta">Plan Anual Atleta (1.800 Bs. / año)</option>
               <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 VIP (450 Bs. / mes)</option>
               <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp Sábados (150 Bs. / mes)</option>
               <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. Liderazgo (1.200 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Liderazgo & Ventas">Taller Liderazgo & Ventas (600 Bs. / 2 meses)</option>
               <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario Individual (25 Bs.)</option>
             </select>
           </div>
@@ -818,8 +908,9 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               <InlineEdit
                 value={String(amountPaidBs)}
                 onSave={(val) => {
-                  const num = Number(val) || 0;
                   const currentFee = serviceFeeBs || 200;
+                  const rawNum = Number(val) || 0;
+                  const num = Math.min(currentFee, Math.max(0, rawNum));
                   const rem = Math.max(currentFee - num, 0);
                   handleSaveMultipleFields({
                     amountPaidBs: num,
@@ -1431,7 +1522,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
 
                 <button
                   onClick={() => {
-                    setAttendanceDateInput(new Date().toISOString().split('T')[0]);
+                    setAttendanceDateInput(getBoliviaTodayISO());
                     setAttendanceNotesInput('Sesión de Entrenamiento CristoFit Camp (06:00 AM)');
                     setIsAttendanceModalOpen(true);
                   }}
@@ -2065,6 +2156,172 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   className="flex-1 py-3 rounded-xl bg-temple-gold text-black font-extrabold text-xs uppercase tracking-wider hover:bg-amber-400 transition shadow-lg"
                 >
                   Guardar Asistencia
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ========================================================================= */}
+      {/* MODAL 4: REGISTRO DE PAGO / ABONO DE MEMBRESÍA (BOLIVIA QR / EFECTIVO)    */}
+      {/* ========================================================================= */}
+      <AnimatePresence>
+        {isPaymentModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-lg w-full space-y-4 my-auto pb-8"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                    <Receipt size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-black uppercase text-base text-temple-navy dark:text-white">
+                      Registrar Cobro de Membresía
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-gray-400">Atleta: <strong className="text-temple-gold">{name}</strong></p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsPaymentModalOpen(false)}
+                  className="p-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-slate-500 transition"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Status Summary */}
+              <div className="grid grid-cols-3 gap-2 p-3 bg-slate-50 dark:bg-black/40 rounded-2xl border border-black/5 dark:border-white/5 text-center">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-gray-400 block">Cuota Plan</span>
+                  <span className="text-xs font-black text-slate-800 dark:text-white">Bs. {serviceFeeBs}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-gray-400 block">Abonado</span>
+                  <span className="text-xs font-black text-emerald-500">Bs. {amountPaidBs}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-gray-400 block">Pendiente</span>
+                  <span className={`text-xs font-black ${pendingBalanceBs > 0 ? 'text-red-500' : 'text-slate-400'}`}>
+                    Bs. {pendingBalanceBs}
+                  </span>
+                </div>
+              </div>
+
+              {/* Form Inputs */}
+              <div className="space-y-4">
+                <div>
+                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
+                    Monto a Cobrar (Bs.)
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      min={1}
+                      max={serviceFeeBs || 1000}
+                      value={paymentAmountInput}
+                      onChange={(e) => setPaymentAmountInput(Number(e.target.value))}
+                      className="flex-1 px-3 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 font-bold text-slate-900 dark:text-white text-base tabular-nums focus:outline-none focus:border-temple-gold"
+                    />
+                    {pendingBalanceBs > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setPaymentAmountInput(pendingBalanceBs)}
+                        className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 text-xs font-bold text-slate-700 dark:text-gray-300 transition"
+                      >
+                        Total (Bs. {pendingBalanceBs})
+                      </button>
+                    )}
+                    {pendingBalanceBs > 0 && Math.round(pendingBalanceBs / 2) > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setPaymentAmountInput(Math.round(pendingBalanceBs / 2))}
+                        className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 text-xs font-bold text-slate-700 dark:text-gray-300 transition"
+                      >
+                        1/2 Quincena
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
+                    Canal / Método de Pago (Santa Cruz, Bolivia)
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { id: 'qr', label: 'QR Simple', vault: 'Banco (BCP/Unión/BNB)', icon: '📱' },
+                      { id: 'efectivo', label: 'Efectivo', vault: 'Caja Física (Billetes)', icon: '💵' },
+                      { id: 'transferencia', label: 'Transferencia', vault: 'Banco Directo', icon: '🏦' }
+                    ].map((opt) => (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => setPaymentMethodInput(opt.id as any)}
+                        className={`p-3 rounded-2xl border text-left transition flex flex-col justify-between ${
+                          paymentMethodInput === opt.id
+                            ? 'border-temple-gold bg-temple-gold/15 dark:bg-temple-gold/20'
+                            : 'border-black/10 dark:border-white/10 bg-slate-50 dark:bg-black/20 hover:border-black/20'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-base">{opt.icon}</span>
+                          {paymentMethodInput === opt.id && (
+                            <CheckCircle2 size={14} className="text-temple-gold" />
+                          )}
+                        </div>
+                        <div className="mt-2">
+                          <span className="text-xs font-bold text-slate-900 dark:text-white block">{opt.label}</span>
+                          <span className="text-[9px] text-slate-500 dark:text-gray-400 block">{opt.vault}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Projection Box */}
+                <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-xs space-y-1">
+                  <div className="flex justify-between items-center text-emerald-800 dark:text-emerald-300 font-bold">
+                    <span>Abono a Registrar:</span>
+                    <span>Bs. {paymentAmountInput || 0}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-slate-600 dark:text-gray-400 text-[11px]">
+                    <span>Saldo pendiente tras abono:</span>
+                    <span className="font-bold">
+                      Bs. {Math.max(0, (pendingBalanceBs > 0 ? pendingBalanceBs : serviceFeeBs) - (paymentAmountInput || 0))}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-slate-600 dark:text-gray-400 text-[11px]">
+                    <span>Bóveda de ingreso contable:</span>
+                    <span className="font-bold text-temple-gold uppercase">
+                      {paymentMethodInput === 'efectivo' ? 'Caja Física (Parque)' : 'Banco (QR / Cuenta)'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsPaymentModalOpen(false)}
+                  className="flex-1 py-3 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-gray-400 hover:bg-black/10 transition"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  disabled={!paymentAmountInput || paymentAmountInput <= 0}
+                  onClick={() => handleExecutePayment(paymentAmountInput, paymentMethodInput)}
+                  className="flex-1 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-extrabold text-xs uppercase tracking-wider transition shadow-lg flex items-center justify-center gap-1.5"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Confirmar e Ingresar a Caja</span>
                 </button>
               </div>
             </motion.div>

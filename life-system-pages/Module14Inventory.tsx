@@ -39,6 +39,7 @@ export function Module14Inventory() {
       id: `inv-${Date.now()}`,
       name: 'Nuevo Artículo',
       category: 'suplementos',
+      origin: 'local',
       cost: 0,
       price: 0,
       stock: 0,
@@ -81,11 +82,13 @@ export function Module14Inventory() {
 
   const totalValue = items.reduce((acc, item) => acc + (item.price * item.stock), 0);
   const lowStockCount = items.filter(i => i.stock <= i.minStock).length;
+  const localResilienceCount = items.filter(i => i.origin === 'local').length;
+  const localResiliencePct = items.length > 0 ? Math.round((localResilienceCount / items.length) * 100) : 100;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Header Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <div>
             <p className="text-xs text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider mb-1">Valor Total Inventario</p>
@@ -95,6 +98,18 @@ export function Module14Inventory() {
             <Package size={24} />
           </div>
         </div>
+
+        <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
+          <div>
+            <p className="text-xs text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider mb-1">Resiliencia Local</p>
+            <p className="text-2xl font-black text-emerald-400">{localResiliencePct}%</p>
+            <p className="text-[10px] text-slate-500 dark:text-gray-400 mt-0.5">Producción boliviana libre de riesgo USD</p>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500">
+            <span className="text-lg">🇧🇴</span>
+          </div>
+        </div>
+
         <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <div>
             <p className="text-xs text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider mb-1">Stock Bajo / Crítico</p>
@@ -104,12 +119,13 @@ export function Module14Inventory() {
             <AlertCircle size={24} />
           </div>
         </div>
-        <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between md:col-start-3">
+
+        <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <button 
             onClick={addItem}
-            className="w-full h-full flex items-center justify-center gap-2 bg-temple-gold text-black rounded-xl font-bold uppercase tracking-widest hover:bg-amber-400 transition-all shadow-lg"
+            className="w-full h-full min-h-[56px] flex items-center justify-center gap-2 bg-temple-gold text-black rounded-xl font-bold uppercase tracking-widest hover:bg-amber-400 transition-all shadow-lg text-xs"
           >
-            <Plus size={20} /> Añadir Ítem
+            <Plus size={18} /> Añadir Ítem
           </button>
         </div>
       </div>
@@ -152,6 +168,7 @@ export function Module14Inventory() {
                 <th className="pb-3 pr-4 font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('category')}>
                   <div className="flex items-center gap-1.5">Categoría <ArrowUpDown size={12}/></div>
                 </th>
+                <th className="pb-3 pr-4 font-black">Origen / USD</th>
                 <th className="pb-3 pr-4 text-right font-black cursor-pointer hover:text-temple-gold dark:hover:text-white" onClick={() => handleSort('stock')}>
                   <div className="flex items-center justify-end gap-1.5">Stock Actual <ArrowUpDown size={12}/></div>
                 </th>
@@ -207,6 +224,16 @@ export function Module14Inventory() {
                             <option value="suplementos">Botica & Suplementos</option>
                             <option value="apparel">Textil & Ropa</option>
                             <option value="snack">Snack / Bebida</option>
+                          </select>
+                        </td>
+                        <td className="p-3">
+                          <select 
+                            value={editForm.origin || 'local'}
+                            onChange={e => setEditForm({...editForm, origin: e.target.value as any})}
+                            className="bg-slate-100 dark:bg-black/50 text-slate-900 dark:text-white px-2 py-1.5 rounded-xl border border-temple-gold/30 focus:outline-none text-xs font-bold w-full"
+                          >
+                            <option value="local">Local (Bs.)</option>
+                            <option value="importado">Importado (USD)</option>
                           </select>
                         </td>
                         <td className="p-3">
@@ -286,6 +313,17 @@ export function Module14Inventory() {
                           {item.category}
                         </span>
                       </td>
+                      <td className="py-4 pl-4">
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                          item.origin === 'importado'
+                            ? 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30'
+                            : item.origin === 'local'
+                            ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                            : 'bg-slate-500/20 text-slate-600 dark:text-slate-400 border border-slate-500/30'
+                        }`}>
+                          {item.origin === 'importado' ? 'Importado (USD)' : item.origin === 'local' ? 'Local (Bs.)' : 'Sin clasificar'}
+                        </span>
+                      </td>
                       <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
                         {item.stock}
                       </td>
@@ -329,7 +367,7 @@ export function Module14Inventory() {
             {/* Totales Consolidados (Footer Excel) */}
             <tfoot>
               <tr className="border-t border-black/10 dark:border-white/10 font-black text-temple-navy dark:text-white text-xs">
-                <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums" colSpan={2}>
+                <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums" colSpan={4}>
                   Totales ({filteredItems.length} ítems)
                 </td>
                 <td className="py-4 pl-4 text-right tabular-nums text-temple-navy dark:text-white">

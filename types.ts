@@ -28,7 +28,7 @@ export interface Student {
   // Servicio Contratado & Facturación / Cobranzas
   paidServiceTitle?: string; // Título visible del servicio contratado
   serviceFeeBs?: number; // Monto pactado del plan (ej. 200, 500, etc.)
-  billingCycle?: 'mensual' | 'trimestral' | 'semestral' | 'anual' | 'sesion';
+  billingCycle?: 'mensual' | 'quincenal' | 'bimensual' | 'trimestral' | 'semestral' | 'anual' | 'sesion';
   paymentStatus?: 'pagado' | 'pendiente' | 'parcial';
   amountPaidBs?: number; // Monto abonado a la fecha
   pendingBalanceBs?: number; // Saldo adeudado
@@ -83,6 +83,9 @@ export interface Transaction {
   category: 'membership' | 'snack' | 'merchandise' | 'medicine' | 'courses' | 'ads' | 'operations' | 'rent' | 'withdrawal';
   amount: number;
   description: string;
+  studentId?: string;
+  paymentMethod?: 'qr' | 'efectivo' | 'transferencia';
+  vault?: 'cajaFisica' | 'banco';
 }
 
 export interface DailyLog {
@@ -151,6 +154,9 @@ export interface InventoryItem {
   size?: 'S' | 'M' | 'L' | 'XL' | 'N/A' | string;
   color?: string;
   imageUrl?: string;
+  origin?: 'local' | 'importado';
+  isDollarIndexed?: boolean;
+  localIngredients?: string;
 }
 
 export interface CRMDatabase {

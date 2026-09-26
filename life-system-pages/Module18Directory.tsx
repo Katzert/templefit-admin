@@ -27,6 +27,7 @@ import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Student } from '../types';
 import { createWhatsAppLink } from '../lib/utils';
 import { exportToExcel, exportToCSV } from '../lib/excelExport';
+import { getBoliviaTodayISO, getPlanDetails, formatBs, addDaysBoliviaISO } from '../lib/boliviaFinance';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
@@ -53,7 +54,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
   }, [localStudents]);
 
   const handleBatchAttendance = (squadId: string) => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getBoliviaTodayISO();
     const db = getCRMDatabase();
     let count = 0;
     db.students = (db.students || []).map(s => {
@@ -78,6 +79,11 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
   const [isBroadcastModalOpen, setIsBroadcastModalOpen] = useState(false);
   const [selectedBroadcastSquad, setSelectedBroadcastSquad] = useState('Paz-Alfa');
   const [copiedBroadcastIdx, setCopiedBroadcastIdx] = useState<number | null>(null);
+
+  // Estados de cobro y realidad economica Santa Cruz
+  const [initialPaymentStatus, setInitialPaymentStatus] = useState<'pagado' | 'parcial' | 'pendiente'>('pagado');
+  const [initialAmountPaid, setInitialAmountPaid] = useState<number>(200);
+  const [initialPaymentMethod, setInitialPaymentMethod] = useState<'qr' | 'efectivo' | 'transferencia'>('qr');
 
   const [newAthlete, setNewAthlete] = useState<Partial<Student>>({
     name: '',
@@ -110,6 +116,9 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       'Telefono': s.phone,
       'Plan / Membresia': s.plan,
       'Estado': s.status === 'active' ? 'Activo' : s.status === 'expiring' ? 'Por Vencer' : 'Inactivo',
+      'Estado de Pago': s.paymentStatus === 'pagado' ? 'Pagado' : s.paymentStatus === 'parcial' ? 'Parcial' : 'Pendiente',
+      'Monto Abonado (Bs.)': s.amountPaidBs || 0,
+      'Saldo Pendiente (Bs.)': s.pendingBalanceBs || 0,
       'Escuadron': s.escuadronId || 'Sin asignar',
       'Fase': s.phase,
       'Fecha Renovacion': s.renewalDate || '',
@@ -118,8 +127,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       'Proposito / Intencion': s.spiritualIntention || '',
       'Nivel': s.workoutLevel || 'Principiante',
       'Peso (kg)': s.weightKg || '',
-      'Estatura (m)': s.heightM || '',
-      'Fecha Registro': s.enrolledDate || ''
+      'Estatura (m)': s.heightM || ''
     }));
     exportToExcel(data, `TempleFit_Directorio_Atletas_Auditado_67`, 'Atletas');
   };
@@ -131,6 +139,9 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       'Telefono': s.phone,
       'Plan / Membresia': s.plan,
       'Estado': s.status === 'active' ? 'Activo' : s.status === 'expiring' ? 'Por Vencer' : 'Inactivo',
+      'Estado de Pago': s.paymentStatus === 'pagado' ? 'Pagado' : s.paymentStatus === 'parcial' ? 'Parcial' : 'Pendiente',
+      'Monto Abonado (Bs.)': s.amountPaidBs || 0,
+      'Saldo Pendiente (Bs.)': s.pendingBalanceBs || 0,
       'Escuadron': s.escuadronId || 'Sin asignar',
       'Fase': s.phase,
       'Fecha Renovacion': s.renewalDate || '',
@@ -139,8 +150,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       'Proposito / Intencion': s.spiritualIntention || '',
       'Nivel': s.workoutLevel || 'Principiante',
       'Peso (kg)': s.weightKg || '',
-      'Estatura (m)': s.heightM || '',
-      'Fecha Registro': s.enrolledDate || ''
+      'Estatura (m)': s.heightM || ''
     }));
     exportToCSV(data, `TempleFit_Directorio_Atletas_Auditado_67`);
   };
@@ -162,27 +172,39 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
   const handleCreateStudent = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newAthlete.name) return;
+    if (!newAthlete.name || !newAthlete.name.trim()) return;
 
     const chosenPlan = (newAthlete.plan as any) || 'Reto 21 Días';
-    let fee = 200;
-    let cycle: 'mensual' | 'trimestral' | 'semestral' | 'sesion' = 'mensual';
-    if (chosenPlan === 'Reto 21 Días' || chosenPlan === 'Membresía Mensual' || chosenPlan === 'Plan Integral Mensual') { fee = 200; cycle = 'mensual'; }
-    else if (chosenPlan === 'Trimestral Atleta') { fee = 500; cycle = 'trimestral'; }
-    else if (chosenPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
-    else if (chosenPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
-    else if (chosenPlan === 'CristoFit Camp') { fee = 150; cycle = 'mensual'; }
-    else if (chosenPlan === 'Formación E.A.G.E.') { fee = 1200; cycle = 'trimestral'; }
-    else if (chosenPlan === 'Pase Diario') { fee = 25; cycle = 'sesion'; }
+    const planConfig = getPlanDetails(chosenPlan);
+    const fee = planConfig.fee;
+    const cycle = planConfig.cycle;
+    const daysToAdd = cycle === 'quincenal' ? 15 : planConfig.days;
 
-    const daysToAdd = cycle === 'trimestral' ? 90 : cycle === 'semestral' ? 180 : cycle === 'sesion' ? 1 : 30;
-    const today = new Date().toISOString().split('T')[0];
-    const nextDueDateCalc = new Date(Date.now() + daysToAdd * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-    const cleanEmail = newAthlete.email || `${newAthlete.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '.').replace(/\.+/g, '.')}@templefit.com`;
+    const today = getBoliviaTodayISO();
+    const nextDueDateCalc = addDaysBoliviaISO(daysToAdd);
+    const cleanEmail = newAthlete.email || `${newAthlete.name.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '.').replace(/\.+/g, '.')}@templefit.com`;
+
+    let amountPaid = fee;
+    let pendingBalance = 0;
+    let pStatus: 'pagado' | 'parcial' | 'pendiente' = 'pagado';
+
+    if (initialPaymentStatus === 'pagado') {
+      amountPaid = fee;
+      pendingBalance = 0;
+      pStatus = 'pagado';
+    } else if (initialPaymentStatus === 'parcial') {
+      amountPaid = Math.min(fee, Math.max(0, Number(initialAmountPaid) || 0));
+      pendingBalance = Math.max(0, fee - amountPaid);
+      pStatus = pendingBalance === 0 ? 'pagado' : 'parcial';
+    } else {
+      amountPaid = 0;
+      pendingBalance = fee;
+      pStatus = 'pendiente';
+    }
 
     const student: Student = {
-      id: `std-${Date.now()}`,
-      name: newAthlete.name,
+      id: `std-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      name: newAthlete.name.trim(),
       phone: newAthlete.phone || '+591',
       email: cleanEmail,
       instructorAssigned: newAthlete.instructorAssigned || 'Paulo Alberto Gil Cuellar (Head Coach)',
@@ -191,10 +213,10 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       serviceFeeBs: fee,
       paidServiceTitle: `${chosenPlan} (${fee} Bs.)`,
       billingCycle: cycle,
-      amountPaidBs: fee,
-      pendingBalanceBs: 0,
-      paymentStatus: 'pagado',
-      lastPaymentDate: today,
+      amountPaidBs: amountPaid,
+      pendingBalanceBs: pendingBalance,
+      paymentStatus: pStatus,
+      lastPaymentDate: amountPaid > 0 ? today : '',
       nextDueDate: nextDueDateCalc,
       snackBarBalanceBs: 0,
       startDate: today,
@@ -230,16 +252,21 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
     const db = getCRMDatabase();
     db.students = [student, ...(db.students || [])];
 
-    // Registrar asiento de cobro inicial en caja
-    const initialTx = {
-      id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-      date: today,
-      type: 'income' as const,
-      category: 'membership' as const,
-      amount: fee,
-      description: `Inscripción ${chosenPlan} (${fee} Bs.) - ${student.name}`
-    };
-    db.transactions = [initialTx, ...(db.transactions || [])];
+    // Registrar asiento de cobro real en caja solo si hubo dinero percibido
+    if (amountPaid > 0) {
+      const initialTx = {
+        id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        date: today,
+        type: 'income' as const,
+        category: 'membership' as const,
+        amount: amountPaid,
+        description: `Inscripción ${chosenPlan} (${amountPaid} Bs.) - ${student.name}`,
+        studentId: student.id,
+        paymentMethod: initialPaymentMethod,
+        vault: (initialPaymentMethod === 'efectivo' ? 'cajaFisica' : 'banco') as 'cajaFisica' | 'banco'
+      };
+      db.transactions = [initialTx, ...(db.transactions || [])];
+    }
 
     saveCRMDatabase(db);
     
@@ -652,18 +679,28 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">Plan de Membresía</label>
                     <select 
-                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:border-temple-gold/50 cursor-pointer"
                       value={newAthlete.plan}
-                      onChange={e => setNewAthlete({ ...newAthlete, plan: e.target.value as any })}
+                      onChange={e => {
+                        const nextPlan = e.target.value as any;
+                        setNewAthlete({ ...newAthlete, plan: nextPlan });
+                        const cfg = getPlanDetails(nextPlan);
+                        if (initialPaymentStatus === 'pagado') setInitialAmountPaid(cfg.fee);
+                        else if (initialPaymentStatus === 'parcial') setInitialAmountPaid(Math.round(cfg.fee / 2));
+                        else setInitialAmountPaid(0);
+                      }}
                     >
-                      <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs. / mes)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días (200 Bs. / mes)</option>
                       <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual Estándar (200 Bs. / mes)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual (200 Bs. / mes)</option>
                       <option className="bg-white dark:bg-[#121826]" value="Bimensual Disciplina">Plan Bimensual Disciplina (380 Bs. / 2 meses)</option>
                       <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Plan Trimestral Atleta (500 Bs. / 3 meses)</option>
                       <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Plan Semestral Élite (950 Bs. / 6 meses)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Anual Atleta">Plan Anual Atleta (1.800 Bs. / 12 meses)</option>
                       <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 VIP (450 Bs. / mes)</option>
                       <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp Sábados (150 Bs. / mes)</option>
                       <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. Liderazgo (1.200 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Liderazgo & Ventas">Liderazgo & Ventas (600 Bs.)</option>
                       <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario Individual (25 Bs.)</option>
                     </select>
                   </div>
@@ -677,6 +714,90 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       onChange={e => setNewAthlete({ ...newAthlete, weightKg: Number(e.target.value) })}
                     />
                   </div>
+                </div>
+
+                {/* Cobranza y Modalidad de Pago Santa Cruz */}
+                <div className="p-4 bg-slate-50 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-temple-gold">
+                      Condición de Cobro Inicial (Santa Cruz)
+                    </span>
+                    <span className="text-[10px] text-slate-500 dark:text-gray-400 font-bold">
+                      Tarifa: Bs. {getPlanDetails(newAthlete.plan || 'Reto 21 Días').fee.toLocaleString('es-BO')}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { id: 'pagado', label: '100% Pagado', desc: 'Cobro completo' },
+                      { id: 'parcial', label: 'Abono Quincena', desc: 'Pago parcial' },
+                      { id: 'pendiente', label: 'Pendiente', desc: 'Paga después' },
+                    ].map(opt => (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => {
+                          setInitialPaymentStatus(opt.id as any);
+                          const fee = getPlanDetails(newAthlete.plan || 'Reto 21 Días').fee;
+                          if (opt.id === 'pagado') setInitialAmountPaid(fee);
+                          else if (opt.id === 'parcial') setInitialAmountPaid(Math.round(fee / 2));
+                          else setInitialAmountPaid(0);
+                        }}
+                        className={`p-2.5 rounded-xl border text-center transition-all ${
+                          initialPaymentStatus === opt.id
+                            ? 'bg-temple-gold text-black font-black border-temple-gold shadow-md'
+                            : 'bg-white dark:bg-white/5 text-slate-600 dark:text-gray-400 border-black/10 dark:border-white/10 hover:border-temple-gold/40'
+                        }`}
+                      >
+                        <p className="text-xs font-black leading-tight">{opt.label}</p>
+                        <p className="text-[9px] opacity-75 mt-0.5">{opt.desc}</p>
+                      </button>
+                    ))}
+                  </div>
+
+                  {initialPaymentStatus !== 'pendiente' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">
+                          Monto Cobrado Hoy (Bs.)
+                        </label>
+                        <input 
+                          type="number"
+                          min="1"
+                          max={getPlanDetails(newAthlete.plan || 'Reto 21 Días').fee}
+                          value={initialAmountPaid}
+                          onChange={e => setInitialAmountPaid(Number(e.target.value))}
+                          className="w-full px-3 py-2 bg-white dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs font-black focus:outline-none focus:border-temple-gold"
+                        />
+                        {initialPaymentStatus === 'parcial' && (
+                          <p className="text-[10px] text-amber-500 font-bold mt-1">
+                            Saldo adeudado: Bs. {Math.max(0, getPlanDetails(newAthlete.plan || 'Reto 21 Días').fee - (Number(initialAmountPaid) || 0)).toLocaleString('es-BO')}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-gray-400 mb-1">
+                          Canal de Cobro
+                        </label>
+                        <select
+                          value={initialPaymentMethod}
+                          onChange={e => setInitialPaymentMethod(e.target.value as any)}
+                          className="w-full px-3 py-2 bg-white dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-temple-gold cursor-pointer"
+                        >
+                          <option value="qr">QR Simple (Banco / Interbancario)</option>
+                          <option value="efectivo">Efectivo (Caja Física Parque)</option>
+                          <option value="transferencia">Transferencia Bancaria Directa</option>
+                        </select>
+                      </div>
+                    </div>
+                  )}
+
+                  {initialPaymentStatus === 'pendiente' && (
+                    <p className="text-[11px] text-amber-500 dark:text-amber-400 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20 font-medium">
+                      Principio de caja: No se registrará ingreso contable en el libro diario hasta que el atleta abone su cuota.
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -829,7 +950,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
               <div className="space-y-3 max-h-[60vh] overflow-y-auto">
                 {squadsList.map(squad => {
                   const squadAthletes = localStudents.filter(s => (s.escuadronId || 'Paz-Alfa') === squad && s.status === 'active');
-                  const today = new Date().toISOString().split('T')[0];
+                  const today = getBoliviaTodayISO();
                   const alreadyMarked = squadAthletes.filter(s => (s.attendanceHistory || []).some(a => a.date === today && a.attended)).length;
 
                   return (

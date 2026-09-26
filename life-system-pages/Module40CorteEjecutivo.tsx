@@ -5,6 +5,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { MonthlyBoard } from '../types';
 import { exportToExcel, exportToCSV } from '../lib/excelExport';
+import { calculateExecutiveCut, getBoliviaTodayISO, formatBs, getTransactionVault } from '../lib/boliviaFinance';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
@@ -13,7 +14,15 @@ export function Module40CorteEjecutivo() {
   const [board, setBoard] = useState<MonthlyBoard | null>(null);
   const [corteToast, setCorteToast] = useState<string | null>(null);
   const [copiedReport, setCopiedReport] = useState(false);
-  const [kpis, setKpis] = useState({ income: 0, expense: 0, activeStudents: 0, squads: [] as { name: string; progress: number; color: string }[] });
+  const [kpis, setKpis] = useState({ 
+    income: 0, 
+    expense: 0, 
+    bancoIncome: 0,
+    cajaIncome: 0,
+    uncollectedReceivables: 0,
+    activeStudents: 0, 
+    squads: [] as { name: string; progress: number; color: string }[] 
+  });
   const [rawTransactions, setRawTransactions] = useState<any[]>([]);
 
   useEffect(() => {
@@ -21,19 +30,21 @@ export function Module40CorteEjecutivo() {
     setBoard(db.monthlyBoard || null);
     setRawTransactions(db.transactions || []);
 
-    // --- KPIs reales calculados desde el CRM (no hardcodeados) ---
-    const now = new Date();
-    const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    // KPIs reales calculados desde el CRM con zona horaria de Bolivia
+    const todayBolivia = getBoliviaTodayISO();
+    const monthPrefix = todayBolivia.substring(0, 7);
     const txs = db.transactions || [];
     const monthTxs = txs.filter(t => t.date && t.date.startsWith(monthPrefix));
     const monthIncome = monthTxs.filter(t => t.type === 'income').reduce((s, t) => s + (Number(t.amount) || 0), 0);
     const monthExpense = monthTxs.filter(t => t.type === 'expense' && t.category !== 'withdrawal').reduce((s, t) => s + (Number(t.amount) || 0), 0);
-    const income = monthTxs.length > 0 ? monthIncome : 32000;
-    const expense = monthTxs.length > 0 ? monthExpense : 11600;
     const students = db.students || [];
     const activeStudents = students.filter(s => s.status === 'active').length;
+    const uncollectedReceivables = students.reduce((s, st) => s + (Number(st.pendingBalanceBs) || 0), 0);
 
-    // Escuadrones: agrupación real desde estudiantes, progreso = promedio de fase
+    const monthQrIncome = monthTxs.filter(t => t.type === 'income' && getTransactionVault(t) === 'banco').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    const monthCashIncome = monthTxs.filter(t => t.type === 'income' && getTransactionVault(t) === 'cajaFisica').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+
+    // Escuadrones: agrupacion real desde estudiantes, progreso = promedio de fase
     const squadMap = new Map<string, { total: number; phaseSum: number }>();
     students.forEach(s => {
       const cur = squadMap.get(s.escuadronId) || { total: 0, phaseSum: 0 };
@@ -48,7 +59,15 @@ export function Module40CorteEjecutivo() {
       color: colors[i % colors.length]
     }));
 
-    setKpis({ income, expense, activeStudents, squads });
+    setKpis({ 
+      income: monthIncome, 
+      expense: monthExpense, 
+      bancoIncome: monthQrIncome,
+      cajaIncome: monthCashIncome,
+      uncollectedReceivables,
+      activeStudents, 
+      squads 
+    });
   }, []);
 
   const updateBoard = (patch: Partial<MonthlyBoard>) => {
@@ -67,8 +86,8 @@ export function Module40CorteEjecutivo() {
 
   const categoryBreakdown = useMemo(() => {
     if (!board) return [];
-    const now = new Date();
-    const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const todayBolivia = getBoliviaTodayISO();
+    const monthPrefix = todayBolivia.substring(0, 7);
     const txs = rawTransactions.filter(t => t.date && t.date.startsWith(monthPrefix));
 
     return board.goals.map((goal) => {
@@ -76,23 +95,23 @@ export function Module40CorteEjecutivo() {
       let actualExpense = 0;
 
       if (goal.area.includes('Snack')) {
-        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'snack').reduce((s, t) => s + t.amount, 0) || 3100;
-        actualExpense = txs.filter(t => t.type === 'expense' && t.category === 'snack').reduce((s, t) => s + t.amount, 0) || 1400;
+        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'snack').reduce((s, t) => s + Number(t.amount || 0), 0);
+        actualExpense = txs.filter(t => t.type === 'expense' && t.category === 'snack').reduce((s, t) => s + Number(t.amount || 0), 0);
       } else if (goal.area.includes('Gimnasio') || goal.area.includes('Reto') || goal.area.includes('Membres')) {
-        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'membership').reduce((s, t) => s + t.amount, 0) || 15900;
-        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'operations' || t.category === 'rent' || t.category === 'salary')).reduce((s, t) => s + t.amount, 0) || 8500;
+        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'membership').reduce((s, t) => s + Number(t.amount || 0), 0);
+        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'operations' || t.category === 'rent' || t.category === 'salary')).reduce((s, t) => s + Number(t.amount || 0), 0);
       } else if (goal.area.includes('Cursos') || goal.area.includes('Formación') || goal.area.includes('Mentor') || goal.area.includes('Guerra')) {
-        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'courses').reduce((s, t) => s + t.amount, 0) || 4500;
-        actualExpense = txs.filter(t => t.type === 'expense' && t.category === 'ads').reduce((s, t) => s + t.amount, 0) || 600;
+        actualIncome = txs.filter(t => t.type === 'income' && t.category === 'courses').reduce((s, t) => s + Number(t.amount || 0), 0);
+        actualExpense = txs.filter(t => t.type === 'expense' && t.category === 'ads').reduce((s, t) => s + Number(t.amount || 0), 0);
       } else {
         // Armería / Productos / Suplementos / Botica
-        actualIncome = txs.filter(t => t.type === 'income' && (t.category === 'merchandise' || t.category === 'medicine')).reduce((s, t) => s + t.amount, 0) || 2500;
-        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'merchandise' || t.category === 'medicine')).reduce((s, t) => s + t.amount, 0) || 500;
+        actualIncome = txs.filter(t => t.type === 'income' && (t.category === 'merchandise' || t.category === 'medicine')).reduce((s, t) => s + Number(t.amount || 0), 0);
+        actualExpense = txs.filter(t => t.type === 'expense' && (t.category === 'merchandise' || t.category === 'medicine')).reduce((s, t) => s + Number(t.amount || 0), 0);
       }
 
       const netMargin = actualIncome - actualExpense;
       const pct = goal.targetBs > 0 ? Math.round((actualIncome / goal.targetBs) * 100) : 0;
-      const founderShare = Math.max(0, Math.round(netMargin * 0.5));
+      const founderShare = netMargin > 0 ? calculateExecutiveCut(netMargin, 0).retiroPaulo : 0;
 
       return {
         area: goal.area,
@@ -107,50 +126,45 @@ export function Module40CorteEjecutivo() {
   }, [board, rawTransactions]);
 
   const historicalFlow = useMemo(() => {
-    const curInc = kpis.income > 0 ? kpis.income : 32000;
-    const curExp = kpis.expense > 0 ? kpis.expense : 11600;
-    const curSaldo = curInc - curExp;
-    const curSeguro = curSaldo > 0 ? Math.round(curSaldo * 0.20) : 0;
-    const curNet = curSaldo > 0 ? curSaldo - curSeguro : curSaldo;
-    const curRetiro = curNet > 0 ? Math.floor(curNet * 0.50) : 0;
-    const curReinversion = curNet > 0 ? curNet - curRetiro : 0;
+    const curInc = kpis.income;
+    const curExp = kpis.expense;
+    const cut = calculateExecutiveCut(curInc, curExp);
 
     return [
       { month: 'Mayo 2026', income: 13200, expense: 8900, saldo: 4300, seguro: 860, flujoNeto: 3440, retiroPaulo: 1720, reinversion: 1720, flujoAcumulado: 3440, isCurrent: false },
       { month: 'Junio 2026', income: 16600, expense: 9200, saldo: 7400, seguro: 1480, flujoNeto: 5920, retiroPaulo: 2960, reinversion: 2960, flujoAcumulado: 9360, isCurrent: false },
       { month: 'Julio 2026', income: 21500, expense: 10000, saldo: 11500, seguro: 2300, flujoNeto: 9200, retiroPaulo: 4600, reinversion: 4600, flujoAcumulado: 18560, isCurrent: false },
       { month: 'Agosto 2026', income: 27000, expense: 10850, saldo: 16150, seguro: 3230, flujoNeto: 12920, retiroPaulo: 6460, reinversion: 6460, flujoAcumulado: 31480, isCurrent: false },
-      { month: 'Septiembre 2026', income: curInc, expense: curExp, saldo: curSaldo, seguro: curSeguro, flujoNeto: curNet, retiroPaulo: curRetiro, reinversion: curReinversion, flujoAcumulado: 31480 + curNet, isCurrent: true },
+      { month: 'Septiembre 2026', income: curInc, expense: curExp, saldo: cut.saldoOperativo, seguro: cut.fondoReserva, flujoNeto: cut.flujoNeto, retiroPaulo: cut.retiroPaulo, reinversion: cut.reinversion, flujoAcumulado: 31480 + cut.flujoNeto, isCurrent: true },
     ];
   }, [kpis]);
 
   const getExecutiveReportText = () => {
     const monthName = board?.month || 'Septiembre 2026';
-    const totalInc = kpis.income > 0 ? kpis.income : 32000;
-    const totalExp = kpis.expense > 0 ? kpis.expense : 11600;
-    const saldoOperativo = totalInc - totalExp;
-    const seguroEmpresa = saldoOperativo > 0 ? Math.round(saldoOperativo * 0.20) : 0;
-    const flujoNetoReal = saldoOperativo > 0 ? saldoOperativo - seguroEmpresa : saldoOperativo;
-    const retiroPaulo = flujoNetoReal > 0 ? Math.floor(flujoNetoReal * 0.50) : 0;
-    const reinversion = flujoNetoReal > 0 ? flujoNetoReal - retiroPaulo : 0;
+    const totalInc = kpis.income;
+    const totalExp = kpis.expense;
+    const cut = calculateExecutiveCut(totalInc, totalExp);
 
-    return `*TEMPLEFIT - RESUMEN ECONÓMICO MENSUAL*\n` +
-      `*Período:* ${monthName}\n` +
-      `*Responsable:* Paulo Gil Cuéllar\n` +
+    return `*TEMPLEFIT: RESUMEN ECONOMICO MENSUAL*\n` +
+      `*Periodo:* ${monthName}\n` +
+      `*Responsable:* Paulo Gil Cuellar\n` +
       `*Alumnos activos:* ${kpis.activeStudents} atletas\n\n` +
-      `*Resumen financiero:*\n` +
-      `• Ingresos del mes: Bs. ${totalInc.toLocaleString('es-BO')}\n` +
-      `• Gastos operativos: Bs. ${totalExp.toLocaleString('es-BO')}\n` +
-      `• Saldo operativo: Bs. ${saldoOperativo.toLocaleString('es-BO')}\n` +
-      `• Reserva del gimnasio (20%): Bs. ${seguroEmpresa.toLocaleString('es-BO')}\n` +
-      `• Flujo neto disponible: Bs. ${flujoNetoReal.toLocaleString('es-BO')}\n\n` +
-      `*Distribución 50/50:*\n` +
-      `• Retiro Paulo (50%): Bs. ${retiroPaulo.toLocaleString('es-BO')}\n` +
-      `• Reinversión y mantenimiento (50%): Bs. ${reinversion.toLocaleString('es-BO')}\n\n` +
+      `*Resumen financiero percibido:*\n` +
+      `* Ingresos percibidos (Mes): Bs. ${totalInc.toLocaleString('es-BO')}\n` +
+      `  - Banco (QR Simple / Transferencias): Bs. ${(kpis.bancoIncome || 0).toLocaleString('es-BO')}\n` +
+      `  - Caja Fisica (Efectivo Parque): Bs. ${(kpis.cajaIncome || 0).toLocaleString('es-BO')}\n` +
+      `* Cuentas por Cobrar (Deuda atletas): Bs. ${(kpis.uncollectedReceivables || 0).toLocaleString('es-BO')} (no distribuible)\n` +
+      `* Gastos operativos: Bs. ${totalExp.toLocaleString('es-BO')}\n` +
+      `* Saldo operativo percibido: Bs. ${cut.saldoOperativo.toLocaleString('es-BO')}\n` +
+      `* Fondo de reserva (20%): Bs. ${cut.fondoReserva.toLocaleString('es-BO')}\n` +
+      `* Flujo neto disponible (80%): Bs. ${cut.flujoNeto.toLocaleString('es-BO')}\n\n` +
+      `*Distribucion 50/50 (Flujo Percibido):*\n` +
+      `* Retiro Paulo (50%): Bs. ${cut.retiroPaulo.toLocaleString('es-BO')}\n` +
+      `* Reinversion y mantenimiento (50%): Bs. ${cut.reinversion.toLocaleString('es-BO')}\n\n` +
       `*Presupuesto mensual:*\n` +
-      `• Meta fijada: Bs. ${totalGoals.toLocaleString('es-BO')}\n` +
-      `• Avance alcanzado: ${totalGoals > 0 ? Math.round((totalInc / totalGoals) * 100) : 0}%\n\n` +
-      `"El espíritu da el diseño. El cuerpo es el templo. La mente edifica."\n` +
+      `* Meta fijada: Bs. ${totalGoals.toLocaleString('es-BO')}\n` +
+      `* Avance alcanzado: ${totalGoals > 0 ? Math.round((totalInc / totalGoals) * 100) : 0}%\n\n` +
+      `"El espiritu da el diseno. El cuerpo es el templo. La mente edifica."\n` +
       `Panel administrativo: https://katzert.github.io/templefit-admin/`;
   };
 
@@ -236,20 +250,21 @@ export function Module40CorteEjecutivo() {
 
   const formatBs = (n: number) => `Bs. ${n.toLocaleString('es-BO')}`;
   const totalGoals = board.goals.reduce((s, g) => s + g.targetBs, 0);
-  const totalInc = kpis.income > 0 ? kpis.income : 32000;
-  const totalExp = kpis.expense > 0 ? kpis.expense : 11600;
-  const saldoOperativo = totalInc - totalExp;
-  const fondoReserva = saldoOperativo > 0 ? Math.round(saldoOperativo * 0.20) : 0;
-  const flujoNetoReal = saldoOperativo > 0 ? saldoOperativo - fondoReserva : saldoOperativo;
-  const retiroPaulo = flujoNetoReal > 0 ? Math.floor(flujoNetoReal * 0.50) : 0;
-  const reinversion = flujoNetoReal > 0 ? flujoNetoReal - retiroPaulo : 0;
+  const totalInc = kpis.income;
+  const totalExp = kpis.expense;
+  const executiveCut = calculateExecutiveCut(totalInc, totalExp);
+  const saldoOperativo = executiveCut.saldoOperativo;
+  const fondoReserva = executiveCut.fondoReserva;
+  const flujoNetoReal = executiveCut.flujoNeto;
+  const retiroPaulo = executiveCut.retiroPaulo;
+  const reinversion = executiveCut.reinversion;
 
   // Regla 50/50 real: % gastos operativos vs % utilidad/crecimiento
   const totalFlow = totalInc + totalExp;
-  const pctExpense = totalFlow > 0 ? Math.round((totalExp / totalFlow) * 100) : 36;
+  const pctExpense = totalFlow > 0 ? Math.round((totalExp / totalFlow) * 100) : 0;
   const pctProfit = 100 - pctExpense;
 
-  const currentMonthPrefix = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
+  const currentMonthPrefix = getBoliviaTodayISO().substring(0, 7);
   const alreadyWithdrawn = rawTransactions.some(
     t => t.category === 'withdrawal' && t.date && t.date.startsWith(currentMonthPrefix)
   );
@@ -260,8 +275,8 @@ export function Module40CorteEjecutivo() {
       return;
     }
     const db = getCRMDatabase();
-    const now = new Date();
-    const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const todayBolivia = getBoliviaTodayISO();
+    const monthKey = todayBolivia.substring(0, 7);
     const exists = (db.transactions || []).some(
       t => t.category === 'withdrawal' && t.date && t.date.startsWith(monthKey)
     );
@@ -271,10 +286,12 @@ export function Module40CorteEjecutivo() {
     }
     const tx = {
       id: `tx-${Date.now()}`,
-      date: now.toISOString().split('T')[0],
+      date: todayBolivia,
       type: 'expense' as const,
       category: 'withdrawal' as const,
       amount: retiroPaulo,
+      paymentMethod: 'transferencia' as const,
+      vault: 'banco' as const,
       description: `Retiro Utilidad Fundador Paulo (50% de Flujo Neto Bs. ${flujoNetoReal.toLocaleString('es-BO')})`
     };
     db.transactions = [tx, ...(db.transactions || [])];
@@ -374,6 +391,60 @@ export function Module40CorteEjecutivo() {
           </motion.div>
         ))}
       </div>
+
+      {/* Segregacion de Liquidez y Tesoreria (Santa Cruz, Bolivia) */}
+      <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0B0F19]/80 border border-blue-500/20 shadow-md">
+          <div className="flex items-center justify-between pb-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-blue-500 flex items-center gap-1.5">
+              📱 Boveda Banco (QR Simple / Transf.)
+            </span>
+            <span className="text-xs font-bold text-slate-500 dark:text-gray-400">
+              {totalInc > 0 ? Math.round(((kpis.bancoIncome || 0) / totalInc) * 100) : 70}% de ingresos
+            </span>
+          </div>
+          <p className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
+            {formatBs(kpis.bancoIncome || 0)}
+          </p>
+          <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-1">
+            Dinero percibido en cuentas bancarias (BCP, Union, BNB). Destinado a transferencias, alquiler e insumos.
+          </p>
+        </div>
+
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0B0F19]/80 border border-emerald-500/20 shadow-md">
+          <div className="flex items-center justify-between pb-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-emerald-500 flex items-center gap-1.5">
+              💵 Boveda Caja Fisica (Efectivo Parque)
+            </span>
+            <span className="text-xs font-bold text-slate-500 dark:text-gray-400">
+              {totalInc > 0 ? Math.round(((kpis.cajaIncome || 0) / totalInc) * 100) : 30}% de ingresos
+            </span>
+          </div>
+          <p className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
+            {formatBs(kpis.cajaIncome || 0)}
+          </p>
+          <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-1">
+            Billetes fisicos cobrados en Cristo Redentor para caja chica, hidratacion del campamento y gastos menores.
+          </p>
+        </div>
+
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0B0F19]/80 border border-amber-500/20 shadow-md">
+          <div className="flex items-center justify-between pb-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-amber-500 flex items-center gap-1.5">
+              ⏳ Cuentas por Cobrar (Deuda Atletas)
+            </span>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+              No Distribuible
+            </span>
+          </div>
+          <p className="text-2xl font-black text-amber-600 dark:text-amber-400 tabular-nums">
+            {formatBs(kpis.uncollectedReceivables || 0)}
+          </p>
+          <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-1">
+            Monto pendiente en calle (cuotas por cobrar en quincenas). No entra en el retiro 50/50 hasta su cobro efectivo.
+          </p>
+        </div>
+      </motion.div>
 
       <motion.div variants={item} className="bg-white dark:bg-[#0B0F19]/80 backdrop-blur-lg border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-2xl relative overflow-hidden mt-6">
         <div className="mb-4 border-b border-black/10 dark:border-white/10 flex items-center justify-between pb-4">

@@ -23,6 +23,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Transaction } from '../types';
 import { exportToExcel, exportToCSV } from '../lib/excelExport';
+import { getBoliviaTodayISO, formatBs, addDaysBoliviaISO, getTransactionVault } from '../lib/boliviaFinance';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
@@ -43,7 +44,8 @@ export function Module13FinanceLedger() {
     amount: '',
     description: '',
     category: 'membership' as Transaction['category'],
-    date: new Date().toISOString().split('T')[0]
+    date: getBoliviaTodayISO(),
+    paymentMethod: 'qr' as 'qr' | 'efectivo' | 'transferencia'
   });
 
   // Inline Edit State
@@ -67,27 +69,49 @@ export function Module13FinanceLedger() {
     return transactions.filter(t => {
       const matchesSearch = 
         t.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        t.category.toLowerCase().includes(searchTerm.toLowerCase());
+        t.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (t.paymentMethod && t.paymentMethod.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesType = typeFilter === 'todos' || t.type === typeFilter;
       const matchesCategory = categoryFilter === 'todos' || t.category === categoryFilter;
       return matchesSearch && matchesType && matchesCategory;
     }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [transactions, searchTerm, typeFilter, categoryFilter]);
 
-  // --- KPIs financieros calculados desde transacciones reales (no hardcodeados) ---
+  // KPIs financieros calculados desde transacciones reales con segregacion Banco vs Caja
   const kpis = useMemo(() => {
-    const totalIncome = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
-    const totalExpense = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
-    const now = new Date();
-    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const totalIncome = transactions.filter(t => t.type === 'income').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    const totalExpense = transactions.filter(t => t.type === 'expense' && t.category !== 'withdrawal').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    const totalWithdrawal = transactions.filter(t => t.type === 'expense' && t.category === 'withdrawal').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    
+    const currentMonth = getBoliviaTodayISO().substring(0, 7);
     const mrr = transactions
-      .filter(t => t.type === 'income' && t.category === 'membership' && t.date.startsWith(currentMonth))
-      .reduce((s, t) => s + t.amount, 0);
+      .filter(t => t.type === 'income' && t.category === 'membership' && t.date && t.date.startsWith(currentMonth))
+      .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+
+    // Banco (QR Simple / Transferencia)
+    const bankIncome = transactions
+      .filter(t => t.type === 'income' && getTransactionVault(t) === 'banco')
+      .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    const bankExpense = transactions
+      .filter(t => t.type === 'expense' && getTransactionVault(t) === 'banco')
+      .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+
+    // Caja Fisica (Efectivo Parque Urbano / Caja Chica)
+    const cashIncome = transactions
+      .filter(t => t.type === 'income' && getTransactionVault(t) === 'cajaFisica')
+      .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    const cashExpense = transactions
+      .filter(t => t.type === 'expense' && getTransactionVault(t) === 'cajaFisica')
+      .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+
     return {
       totalIncome,
       totalExpense,
-      netProfit: totalIncome - totalExpense,
+      totalWithdrawal,
+      netProfit: totalIncome - totalExpense - totalWithdrawal,
       mrr,
+      bankBalance: bankIncome - bankExpense,
+      cashBalance: cashIncome - cashExpense
     };
   }, [transactions]);
 
@@ -98,6 +122,8 @@ export function Module13FinanceLedger() {
       'Tipo': t.type === 'income' ? 'Ingreso' : 'Egreso',
       'Categoria': t.category,
       'Monto (Bs.)': t.amount,
+      'Metodo de Pago': t.paymentMethod === 'qr' ? 'QR Simple' : t.paymentMethod === 'efectivo' ? 'Efectivo' : t.paymentMethod === 'transferencia' ? 'Transferencia' : 'No especificado',
+      'Boveda': getTransactionVault(t) === 'cajaFisica' ? 'Caja Fisica' : 'Banco',
       'Descripcion': t.description,
       'ID Alumno': t.studentId || ''
     }));
@@ -111,17 +137,55 @@ export function Module13FinanceLedger() {
       'Tipo': t.type === 'income' ? 'Ingreso' : 'Egreso',
       'Categoria': t.category,
       'Monto (Bs.)': t.amount,
+      'Metodo de Pago': t.paymentMethod === 'qr' ? 'QR Simple' : t.paymentMethod === 'efectivo' ? 'Efectivo' : t.paymentMethod === 'transferencia' ? 'Transferencia' : 'No especificado',
+      'Boveda': getTransactionVault(t) === 'cajaFisica' ? 'Caja Fisica' : 'Banco',
       'Descripcion': t.description,
       'ID Alumno': t.studentId || ''
     }));
     exportToCSV(data, `TempleFit_Libro_Diario_Caja`);
   };
 
-  const formatBs = (n: number) => `Bs. ${n.toLocaleString('es-BO')}`;
-
   const handleDelete = (id: string) => {
+    const txToDelete = transactions.find(t => t.id === id);
+    if (!txToDelete) return;
     if (confirm('¿Eliminar esta transacción del libro diario?')) {
-      saveToDb(transactions.filter(t => t.id !== id));
+      const db = getCRMDatabase();
+      // Si la transaccion de ingreso era membresia vinculada a un atleta, revertir abono en su expediente
+      if (txToDelete.type === 'income' && txToDelete.category === 'membership' && txToDelete.studentId && db.students) {
+        const sIndex = db.students.findIndex(s => s.id === txToDelete.studentId);
+        if (sIndex >= 0) {
+          const s = db.students[sIndex];
+          const fee = s.serviceFeeBs || 200;
+          const currentPaid = s.amountPaidBs || 0;
+          const revertedPaid = Math.max(0, currentPaid - txToDelete.amount);
+          s.amountPaidBs = revertedPaid;
+          s.pendingBalanceBs = Math.max(0, fee - revertedPaid);
+          s.paymentStatus = s.pendingBalanceBs === 0 ? 'pagado' : (revertedPaid > 0 ? 'parcial' : 'pendiente');
+        }
+      }
+      // Si la transaccion era pago de snack de un atleta, restaurar deuda en su expediente
+      if (txToDelete.type === 'income' && txToDelete.category === 'snack' && txToDelete.studentId && db.students) {
+        const sIndex = db.students.findIndex(s => s.id === txToDelete.studentId);
+        if (sIndex >= 0) {
+          const s = db.students[sIndex];
+          s.snackBarBalanceBs = (s.snackBarBalanceBs || 0) + txToDelete.amount;
+        }
+      }
+      // Si la transaccion vendio un item de inventario, restaurar stock
+      if (txToDelete.type === 'income' && (txToDelete.category === 'snack' || txToDelete.category === 'merchandise') && db.inventory) {
+        const matchIndex = db.inventory.findIndex(inv => 
+          txToDelete.description.toLowerCase().includes(inv.name.toLowerCase()) || 
+          inv.name.toLowerCase().includes(txToDelete.description.toLowerCase())
+        );
+        if (matchIndex >= 0) {
+          db.inventory[matchIndex].stock += 1;
+        }
+      }
+      const updatedTxs = (db.transactions || []).filter(t => t.id !== id);
+      db.transactions = updatedTxs;
+      saveCRMDatabase(db);
+      setTransactions(updatedTxs);
+      setStudentsList(db.students || []);
     }
   };
 
@@ -132,10 +196,79 @@ export function Module13FinanceLedger() {
 
   const saveEditing = () => {
     if (!editingId || !editForm.description || Number(editForm.amount) <= 0) return;
-    const updated = transactions.map(t => 
-      t.id === editingId ? { ...t, ...editForm, amount: Number(editForm.amount) } as Transaction : t
+    const oldTx = transactions.find(t => t.id === editingId);
+    if (!oldTx) return;
+    const newAmount = Number(editForm.amount);
+    const newCategory = editForm.category || oldTx.category;
+    const diff = newAmount - oldTx.amount;
+
+    const db = getCRMDatabase();
+    // 1. Manejo de sincronizacion con expediente del atleta ante edicion o cambio de categoria
+    if (oldTx.studentId && db.students) {
+      const sIndex = db.students.findIndex(s => s.id === oldTx.studentId);
+      if (sIndex >= 0) {
+        const s = db.students[sIndex];
+        const fee = s.serviceFeeBs || 200;
+
+        // Membresia
+        if (oldTx.category === 'membership' && newCategory !== 'membership') {
+          const currentPaid = s.amountPaidBs || 0;
+          const revertedPaid = Math.max(0, currentPaid - oldTx.amount);
+          s.amountPaidBs = revertedPaid;
+          s.pendingBalanceBs = Math.max(0, fee - revertedPaid);
+          s.paymentStatus = s.pendingBalanceBs === 0 ? 'pagado' : (revertedPaid > 0 ? 'parcial' : 'pendiente');
+        } else if (oldTx.category !== 'membership' && newCategory === 'membership') {
+          const currentPaid = s.amountPaidBs || 0;
+          const updatedPaid = Math.max(0, Math.min(fee, currentPaid + newAmount));
+          s.amountPaidBs = updatedPaid;
+          s.pendingBalanceBs = Math.max(0, fee - updatedPaid);
+          s.paymentStatus = s.pendingBalanceBs === 0 ? 'pagado' : (updatedPaid > 0 ? 'parcial' : 'pendiente');
+        } else if (oldTx.category === 'membership' && newCategory === 'membership' && diff !== 0) {
+          const currentPaid = s.amountPaidBs || 0;
+          const updatedPaid = Math.max(0, Math.min(fee, currentPaid + diff));
+          s.amountPaidBs = updatedPaid;
+          s.pendingBalanceBs = Math.max(0, fee - updatedPaid);
+          s.paymentStatus = s.pendingBalanceBs === 0 ? 'pagado' : (updatedPaid > 0 ? 'parcial' : 'pendiente');
+        }
+
+        // Snack Bar
+        if (oldTx.category === 'snack' && newCategory !== 'snack') {
+          s.snackBarBalanceBs = (s.snackBarBalanceBs || 0) + oldTx.amount;
+        } else if (oldTx.category !== 'snack' && newCategory === 'snack') {
+          s.snackBarBalanceBs = Math.max(0, (s.snackBarBalanceBs || 0) - newAmount);
+        } else if (oldTx.category === 'snack' && newCategory === 'snack' && diff !== 0) {
+          s.snackBarBalanceBs = Math.max(0, (s.snackBarBalanceBs || 0) - diff);
+        }
+      }
+    }
+
+    // 2. Manejo de inventario ante cambio de categoria
+    if (db.inventory) {
+      const wasProduct = oldTx.category === 'snack' || oldTx.category === 'merchandise';
+      const isProduct = newCategory === 'snack' || newCategory === 'merchandise';
+      if (wasProduct && !isProduct) {
+        const matchIndex = db.inventory.findIndex(inv => 
+          oldTx.description.toLowerCase().includes(inv.name.toLowerCase()) || 
+          inv.name.toLowerCase().includes(oldTx.description.toLowerCase())
+        );
+        if (matchIndex >= 0) db.inventory[matchIndex].stock += 1;
+      } else if (!wasProduct && isProduct) {
+        const desc = (editForm.description || '').toLowerCase();
+        const matchIndex = db.inventory.findIndex(inv => 
+          desc.includes(inv.name.toLowerCase()) || 
+          inv.name.toLowerCase().includes(desc)
+        );
+        if (matchIndex >= 0 && db.inventory[matchIndex].stock > 0) db.inventory[matchIndex].stock -= 1;
+      }
+    }
+
+    const updated = (db.transactions || []).map(t => 
+      t.id === editingId ? { ...t, ...editForm, amount: newAmount } as Transaction : t
     );
-    saveToDb(updated);
+    db.transactions = updated;
+    saveCRMDatabase(db);
+    setTransactions(updated);
+    setStudentsList(db.students || []);
     setEditingId(null);
   };
 
@@ -147,18 +280,10 @@ export function Module13FinanceLedger() {
       return;
     }
 
-    const tx: Transaction = {
-      id: 'tx-' + Date.now(),
-      date: newTx.date || new Date().toISOString().split('T')[0],
-      type: newTx.type,
-      category: newTx.category,
-      amount,
-      description: newTx.description
-    };
-
+    const txDate = newTx.date || getBoliviaTodayISO();
     const db = getCRMDatabase();
 
-    // 1. Automatización: Descuento de stock en inventario
+    // 1. Automatizacion: Descuento de stock en inventario
     let stockAlert = '';
     if (newTx.type === 'income' && (newTx.category === 'snack' || newTx.category === 'merchandise') && db.inventory) {
       const matchIndex = db.inventory.findIndex(inv => 
@@ -174,17 +299,53 @@ export function Module13FinanceLedger() {
       }
     }
 
-    // 2. Automatización: Auto-renovación de membresía del atleta
+    // 2. Automatizacion: Sincronizacion de atleta (Membresia / Abonos) con limite estricto de deuda
+    let actualRecordedAmount = amount;
     let renewalAlert = '';
     if (newTx.type === 'income' && newTx.category === 'membership' && selectedStudentId && db.students) {
       const sIndex = db.students.findIndex(s => s.id === selectedStudentId);
       if (sIndex >= 0) {
-        const nextDate = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
-        db.students[sIndex].status = 'active';
-        db.students[sIndex].renewalDate = nextDate;
-        renewalAlert = ` • Membresía de ${db.students[sIndex].name} renovada hasta ${nextDate}`;
+        const targetStudent = db.students[sIndex];
+        const fee = targetStudent.serviceFeeBs || 200;
+        const currentPaidPrior = targetStudent.amountPaidBs || 0;
+        const currentPendingPrior = targetStudent.pendingBalanceBs !== undefined 
+          ? targetStudent.pendingBalanceBs 
+          : Math.max(0, fee - currentPaidPrior);
+        
+        // Limitar abono para no inflar cobranzas por encima del saldo adeudado
+        actualRecordedAmount = currentPendingPrior > 0 ? Math.min(amount, currentPendingPrior) : Math.min(amount, fee);
+        const newPaid = Math.min(fee, currentPaidPrior + actualRecordedAmount);
+        const remainingPending = Math.max(0, fee - newPaid);
+        
+        targetStudent.amountPaidBs = newPaid;
+        targetStudent.pendingBalanceBs = remainingPending;
+        targetStudent.paymentStatus = remainingPending === 0 ? 'pagado' : (newPaid > 0 ? 'parcial' : 'pendiente');
+        targetStudent.lastPaymentDate = txDate;
+
+        if (remainingPending === 0) {
+          targetStudent.status = 'active';
+          const cycleDays = targetStudent.billingCycle === 'bimensual' ? 60 : targetStudent.billingCycle === 'trimestral' ? 90 : targetStudent.billingCycle === 'semestral' ? 180 : targetStudent.billingCycle === 'anual' ? 365 : targetStudent.billingCycle === 'quincenal' ? 15 : 30;
+          const nextDate = addDaysBoliviaISO(cycleDays);
+          targetStudent.renewalDate = nextDate;
+          targetStudent.nextDueDate = nextDate;
+          renewalAlert = ` • Membresía de ${targetStudent.name} cancelada y renovada hasta ${nextDate}`;
+        } else {
+          renewalAlert = ` • Abono registrado para ${targetStudent.name}. Saldo pendiente: Bs. ${remainingPending.toLocaleString('es-BO')}`;
+        }
       }
     }
+
+    const tx: Transaction = {
+      id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      date: txDate,
+      type: newTx.type,
+      category: newTx.category,
+      amount: actualRecordedAmount,
+      description: newTx.description,
+      studentId: selectedStudentId || undefined,
+      paymentMethod: newTx.paymentMethod || 'qr',
+      vault: (newTx.paymentMethod === 'efectivo' ? 'cajaFisica' : 'banco') as 'cajaFisica' | 'banco'
+    };
 
     db.transactions = [tx, ...(db.transactions || [])];
     saveCRMDatabase(db);
@@ -201,7 +362,8 @@ export function Module13FinanceLedger() {
       amount: '', 
       description: '', 
       category: 'membership',
-      date: new Date().toISOString().split('T')[0]
+      date: getBoliviaTodayISO(),
+      paymentMethod: 'qr'
     });
   };
 
@@ -257,13 +419,12 @@ export function Module13FinanceLedger() {
         </div>
       </div>
 
-      {/* KPIs financieros calculados */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* KPIs financieros calculados con segregación Banco vs Caja */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
-          { label: 'Balance Neto', value: formatBs(kpis.netProfit), icon: TrendingUp, color: kpis.netProfit >= 0 ? 'text-emerald-400' : 'text-red-400', bg: kpis.netProfit >= 0 ? 'bg-emerald-400/10' : 'bg-red-400/10' },
-          { label: 'Total Ingresos', value: formatBs(kpis.totalIncome), icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-          { label: 'Total Gastos', value: formatBs(kpis.totalExpense), icon: ArrowDownRight, color: 'text-red-400', bg: 'bg-red-400/10' },
-          { label: 'Membresías del Mes', value: formatBs(kpis.mrr), icon: DollarSign, color: 'text-temple-gold', bg: 'bg-temple-gold/10' },
+          { label: 'Balance Operativo Neto', value: formatBs(kpis.netProfit), icon: TrendingUp, color: kpis.netProfit >= 0 ? 'text-emerald-400' : 'text-red-400', bg: kpis.netProfit >= 0 ? 'bg-emerald-400/10' : 'bg-red-400/10' },
+          { label: 'Total Ingresos Percibidos', value: formatBs(kpis.totalIncome), icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+          { label: 'Total Gastos Operativos', value: formatBs(kpis.totalExpense), icon: ArrowDownRight, color: 'text-red-400', bg: 'bg-red-400/10' },
         ].map((kpi, i) => (
           <motion.div key={i} variants={item}>
             <Card className="bg-white dark:bg-[#0E1424]/90 backdrop-blur-xl border-black/10 dark:border-white/10 shadow-lg">
@@ -279,6 +440,46 @@ export function Module13FinanceLedger() {
             </Card>
           </motion.div>
         ))}
+      </div>
+
+      {/* Segregación de Liquidez Santa Cruz (Banco QR vs Efectivo Parque) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <Card className="bg-gradient-to-br from-cyan-500/10 via-white dark:via-[#0E1424] to-cyan-500/5 border-cyan-500/30 shadow-md">
+          <CardContent className="!p-4 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] uppercase font-black tracking-widest text-cyan-500">Banco (QR Simple / Transf.)</span>
+              <p className="text-lg font-black text-slate-800 dark:text-white mt-0.5">{formatBs(kpis.bankBalance)}</p>
+              <p className="text-[10px] text-slate-500 dark:text-gray-400">Fondos líquidos en cuentas bancarias</p>
+            </div>
+            <div className="px-2.5 py-1 rounded-xl bg-cyan-500/20 text-cyan-400 font-black text-xs">
+              QR 70%+
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-amber-500/10 via-white dark:via-[#0E1424] to-amber-500/5 border-amber-500/30 shadow-md">
+          <CardContent className="!p-4 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] uppercase font-black tracking-widest text-amber-500">Caja Física (Efectivo Parque)</span>
+              <p className="text-lg font-black text-slate-800 dark:text-white mt-0.5">{formatBs(kpis.cashBalance)}</p>
+              <p className="text-[10px] text-slate-500 dark:text-gray-400">Dinero en mano en entrenamientos</p>
+            </div>
+            <div className="px-2.5 py-1 rounded-xl bg-amber-500/20 text-amber-400 font-black text-xs">
+              Efectivo ~25%
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-temple-gold/10 via-white dark:via-[#0E1424] to-temple-gold/5 border-temple-gold/30 shadow-md">
+          <CardContent className="!p-4 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] uppercase font-black tracking-widest text-temple-gold">Membresías del Mes</span>
+              <p className="text-lg font-black text-slate-800 dark:text-white mt-0.5">{formatBs(kpis.mrr)}</p>
+              <p className="text-[10px] text-slate-500 dark:text-gray-400">Cobros de cuotas y retos activos</p>
+            </div>
+            <DollarSign className="text-temple-gold" size={24} />
+          </CardContent>
+        </Card>
       </div>
 
       {/* New Transaction Form Modal / Drawer */}
@@ -304,12 +505,12 @@ export function Module13FinanceLedger() {
                   {/* 1-Tap Quick Presets */}
                   <div className="flex flex-wrap gap-2">
                     {[
-                      { label: '+ Reto 21 Días (Bs. 200)', type: 'income' as const, amount: '200', category: 'membership' as const, desc: 'Membresía Reto 21 Días' },
-                      { label: '+ E.A.G.E. (Bs. 1,200)', type: 'income' as const, amount: '1200', category: 'courses' as const, desc: 'Programa Formación E.A.G.E.' },
-                      { label: '+ ElectroHidra (Bs. 15)', type: 'income' as const, amount: '15', category: 'snack' as const, desc: 'Venta Bebida ElectroHidra' },
-                      { label: '+ Smoothie Salomón (Bs. 20)', type: 'income' as const, amount: '20', category: 'snack' as const, desc: 'Venta Smoothie Cerebral Salomón' },
-                      { label: '+ Polera Oficial (Bs. 100)', type: 'income' as const, amount: '100', category: 'merchandise' as const, desc: 'Venta Polera Oficial TempleFit' },
-                      { label: '- Insumos Botánicos (Bs. 650)', type: 'expense' as const, amount: '650', category: 'operations' as const, desc: 'Compra insumos botánicos' },
+                      { label: '+ Reto 21 Días (Bs. 200)', type: 'income' as const, amount: '200', category: 'membership' as const, desc: 'Membresía Reto 21 Días', method: 'qr' as const },
+                      { label: '+ E.A.G.E. (Bs. 1,200)', type: 'income' as const, amount: '1200', category: 'courses' as const, desc: 'Programa Formación E.A.G.E.', method: 'qr' as const },
+                      { label: '+ ElectroHidra (Bs. 15)', type: 'income' as const, amount: '15', category: 'snack' as const, desc: 'Venta Bebida ElectroHidra', method: 'efectivo' as const },
+                      { label: '+ Smoothie Salomón (Bs. 20)', type: 'income' as const, amount: '20', category: 'snack' as const, desc: 'Venta Smoothie Cerebral Salomón', method: 'efectivo' as const },
+                      { label: '+ Polera Oficial (Bs. 100)', type: 'income' as const, amount: '100', category: 'merchandise' as const, desc: 'Venta Polera Oficial TempleFit', method: 'qr' as const },
+                      { label: '- Insumos Botánicos (Bs. 650)', type: 'expense' as const, amount: '650', category: 'operations' as const, desc: 'Compra insumos botánicos', method: 'qr' as const },
                     ].map((preset, idx) => (
                       <button
                         key={idx}
@@ -320,7 +521,8 @@ export function Module13FinanceLedger() {
                             amount: preset.amount,
                             category: preset.category,
                             description: preset.desc,
-                            date: new Date().toISOString().split('T')[0]
+                            date: getBoliviaTodayISO(),
+                            paymentMethod: preset.method
                           });
                         }}
                         className={`text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-xl border transition-all ${
@@ -342,13 +544,13 @@ export function Module13FinanceLedger() {
                   </div>
                 )}
 
-                <form onSubmit={submitTransaction} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <form onSubmit={submitTransaction} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Tipo de Flujo</label>
                     <select
                       value={newTx.type}
                       onChange={e => setNewTx({ ...newTx, type: e.target.value as any })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer"
                     >
                       <option className="bg-white dark:bg-[#121826]" value="income">Ingreso (+)</option>
                       <option className="bg-white dark:bg-[#121826]" value="expense">Egreso (-)</option>
@@ -360,7 +562,7 @@ export function Module13FinanceLedger() {
                     <select
                       value={newTx.category}
                       onChange={e => setNewTx({ ...newTx, category: e.target.value as any })}
-                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer"
                     >
                       <option className="bg-white dark:bg-[#121826]" value="membership">Membresía / Reto 21 Días</option>
                       <option className="bg-white dark:bg-[#121826]" value="courses">Cursos & Formación E.A.G.E.</option>
@@ -373,7 +575,7 @@ export function Module13FinanceLedger() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Monto en Bolivianos (Bs.)</label>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Monto (Bs.)</label>
                     <input
                       type="number"
                       required
@@ -382,6 +584,19 @@ export function Module13FinanceLedger() {
                       onChange={e => setNewTx({ ...newTx, amount: e.target.value })}
                       className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Canal de Pago</label>
+                    <select
+                      value={newTx.paymentMethod}
+                      onChange={e => setNewTx({ ...newTx, paymentMethod: e.target.value as any })}
+                      className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl p-2.5 text-xs font-bold text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer"
+                    >
+                      <option className="bg-white dark:bg-[#121826]" value="qr">QR Simple (Banco)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="efectivo">Efectivo (Caja Física)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="transferencia">Transferencia Bancaria</option>
+                    </select>
                   </div>
 
                   <div>
@@ -396,7 +611,7 @@ export function Module13FinanceLedger() {
 
                   {newTx.category === 'membership' && newTx.type === 'income' ? (
                     <div>
-                      <label className="block text-[10px] font-bold uppercase text-amber-400 mb-1">Atleta (Auto-renovar +30D)</label>
+                      <label className="block text-[10px] font-bold uppercase text-amber-400 mb-1">Atleta (Auto-sincronizar)</label>
                       <select
                         value={selectedStudentId}
                         onChange={e => {
@@ -404,22 +619,22 @@ export function Module13FinanceLedger() {
                           setSelectedStudentId(sId);
                           const student = studentsList.find(s => s.id === sId);
                           if (student && !newTx.description) {
-                            setNewTx(prev => ({ ...prev, description: `Renovación Reto 21 Días - ${student.name}` }));
+                            setNewTx(prev => ({ ...prev, description: `Cobro cuota ${student.plan || 'Reto 21 Días'} - ${student.name}` }));
                           }
                         }}
-                        className="w-full bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-400"
+                        className="w-full bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-400 cursor-pointer"
                       >
                         <option className="bg-white dark:bg-[#121826]" value="">Seleccionar atleta...</option>
                         {studentsList.map(s => (
                           <option key={s.id} className="bg-white dark:bg-[#121826]" value={s.id}>
-                            {s.name} ({s.status === 'expiring' ? '⚡ Por Vencer' : s.status})
+                            {s.name} ({s.paymentStatus === 'pendiente' ? 'Saldo pendiente' : s.paymentStatus === 'parcial' ? 'Parcial' : 'Al día'})
                           </option>
                         ))}
                       </select>
                     </div>
                   ) : null}
 
-                  <div className={newTx.category === 'membership' && newTx.type === 'income' ? "sm:col-span-2 lg:col-span-4" : "sm:col-span-2 lg:col-span-4"}>
+                  <div className={newTx.category === 'membership' && newTx.type === 'income' ? "sm:col-span-2 lg:col-span-5" : "sm:col-span-2 lg:col-span-5"}>
                     <label className="block text-[10px] font-bold uppercase text-slate-600 dark:text-gray-400 mb-1">Concepto / Glosa</label>
                     <input
                       type="text"
@@ -436,7 +651,7 @@ export function Module13FinanceLedger() {
                       type="submit"
                       className="w-full py-2.5 bg-temple-gold text-black rounded-xl font-extrabold uppercase tracking-wider text-xs hover:bg-amber-400 transition shadow-md"
                     >
-                      Guardar Asiento
+                      Guardar
                     </button>
                   </div>
                 </form>
@@ -498,12 +713,13 @@ export function Module13FinanceLedger() {
 
             {/* Transactions Table */}
             <div className="overflow-x-auto custom-scrollbar">
-              <table className="w-full text-left border-collapse min-w-[700px]">
+              <table className="w-full text-left border-collapse min-w-[750px]">
                 <thead>
                   <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-slate-600 dark:text-gray-400 font-black">
                     <th className="pb-3 pl-4">Fecha</th>
                     <th className="pb-3">Concepto / Glosa</th>
                     <th className="pb-3">Categoría</th>
+                    <th className="pb-3">Canal / Bóveda</th>
                     <th className="pb-3 text-right">Monto</th>
                     <th className="pb-3 text-center pr-4">Acciones</th>
                   </tr>
@@ -546,6 +762,17 @@ export function Module13FinanceLedger() {
                               <option value="withdrawal">Retiro / Ganancias</option>
                             </select>
                           </td>
+                          <td className="py-3">
+                            <select
+                              value={editForm.paymentMethod || 'qr'}
+                              onChange={e => setEditForm({ ...editForm, paymentMethod: e.target.value as any, vault: e.target.value === 'efectivo' ? 'cajaFisica' : 'banco' })}
+                              className="bg-slate-100 dark:bg-black/50 text-slate-900 dark:text-white px-2 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
+                            >
+                              <option value="qr">QR Simple</option>
+                              <option value="efectivo">Efectivo</option>
+                              <option value="transferencia">Transferencia</option>
+                            </select>
+                          </td>
                           <td className="py-3 text-right">
                             <input
                               type="number"
@@ -581,6 +808,17 @@ export function Module13FinanceLedger() {
                             {tx.category}
                           </span>
                         </td>
+                        <td className="py-4">
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${
+                            getTransactionVault(tx) === 'cajaFisica'
+                              ? 'bg-amber-500/10 text-amber-500 border-amber-500/30'
+                              : tx.paymentMethod === 'transferencia'
+                              ? 'bg-purple-500/10 text-purple-400 border-purple-500/30'
+                              : 'bg-cyan-500/10 text-cyan-500 border-cyan-500/30'
+                          }`}>
+                            {getTransactionVault(tx) === 'cajaFisica' ? 'Efectivo' : tx.paymentMethod === 'transferencia' ? 'Transf.' : 'QR Simple'}
+                          </span>
+                        </td>
                         <td className="py-4 text-right">
                           <span className={`text-sm font-black inline-flex items-center justify-end gap-1 ${tx.type === 'income' ? 'text-emerald-400' : 'text-red-400'}`}>
                             {tx.type === 'income' ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
@@ -611,7 +849,7 @@ export function Module13FinanceLedger() {
 
                   {filteredTransactions.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="text-center py-12 text-slate-500 dark:text-gray-500 text-sm">
+                      <td colSpan={6} className="text-center py-12 text-slate-500 dark:text-gray-500 text-sm">
                         No se encontraron transacciones registradas con los filtros seleccionados.
                       </td>
                     </tr>
@@ -622,14 +860,19 @@ export function Module13FinanceLedger() {
                     <td className="py-4 pl-4 uppercase tracking-wider text-temple-gold tabular-nums">
                       Total: {filteredTransactions.length} Asientos
                     </td>
-                    <td className="py-4 text-slate-700 dark:text-gray-300 font-bold">
+                    <td className="py-4 text-slate-700 dark:text-gray-300 font-bold" colSpan={2}>
                       Ingresos: <span className="text-emerald-400 tabular-nums">+{formatBs(filteredTransactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0))}</span>
+                      <span className="mx-2">|</span>
+                      Gastos Op.: <span className="text-red-400 tabular-nums">-{formatBs(filteredTransactions.filter(t => t.type === 'expense' && t.category !== 'withdrawal').reduce((s, t) => s + t.amount, 0))}</span>
+                      {filteredTransactions.some(t => t.category === 'withdrawal') && (
+                        <>
+                          <span className="mx-2">|</span>
+                          Retiros 50%: <span className="text-amber-400 tabular-nums">-{formatBs(filteredTransactions.filter(t => t.category === 'withdrawal').reduce((s, t) => s + t.amount, 0))}</span>
+                        </>
+                      )}
                     </td>
-                    <td className="py-4 text-slate-700 dark:text-gray-300 font-bold">
-                      Egresos: <span className="text-red-400 tabular-nums">-{formatBs(filteredTransactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0))}</span>
-                    </td>
-                    <td className="py-4 text-right tabular-nums font-black text-sm text-temple-gold">
-                      Neto: {formatBs(filteredTransactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0) - filteredTransactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0))}
+                    <td className="py-4 text-right tabular-nums font-black text-sm text-temple-gold" colSpan={2}>
+                      Saldo Op.: {formatBs(filteredTransactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0) - filteredTransactions.filter(t => t.type === 'expense' && t.category !== 'withdrawal').reduce((s, t) => s + t.amount, 0))}
                     </td>
                     <td className="py-4 text-center text-slate-500 dark:text-gray-500">-</td>
                   </tr>
