@@ -154,6 +154,30 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   const [editAttDate, setEditAttDate] = useState<string>('');
   const [editAttNotes, setEditAttNotes] = useState<string>('');
 
+  useEffect(() => {
+    const isAnyModalOpen = isSnackModalOpen || isMuscleModalOpen || isAttendanceModalOpen;
+    if (isAnyModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isSnackModalOpen, isMuscleModalOpen, isAttendanceModalOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsSnackModalOpen(false);
+        setIsMuscleModalOpen(false);
+        setIsAttendanceModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Calculate age from birthDate
   const age = useMemo(() => {
     if (!birthDate) return 30;
@@ -1597,7 +1621,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       {/* ========================================================================= */}
       <AnimatePresence>
         {isSnackModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1815,7 +1839,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       {/* ========================================================================= */}
       <AnimatePresence>
         {isMuscleModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1963,7 +1987,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       {/* ========================================================================= */}
       <AnimatePresence>
         {isAttendanceModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}

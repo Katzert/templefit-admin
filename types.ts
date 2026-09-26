@@ -80,7 +80,7 @@ export interface Transaction {
   id: string;
   date: string;
   type: 'income' | 'expense';
-  category: 'membership' | 'snack' | 'merchandise' | 'medicine' | 'courses' | 'ads' | 'operations' | 'rent';
+  category: 'membership' | 'snack' | 'merchandise' | 'medicine' | 'courses' | 'ads' | 'operations' | 'rent' | 'withdrawal';
   amount: number;
   description: string;
 }

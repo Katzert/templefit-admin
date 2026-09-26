@@ -449,7 +449,7 @@ export function Module2DailyLog() {
             <motion.div variants={item} className="bg-white dark:bg-[#0B0F19]/90 border border-temple-gold/30 rounded-2xl p-5 shadow-lg backdrop-blur-md">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-temple-gold/20 text-temple-gold flex items-center justify-center shrink-0 border border-temple-gold/30">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-temple-gold flex items-center justify-center shrink-0 border border-amber-500/30">
                     <Clock size={20} />
                   </div>
                   <div>
@@ -462,7 +462,7 @@ export function Module2DailyLog() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg bg-temple-gold/15 text-temple-gold border border-temple-gold/30">
+                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-800 dark:text-temple-gold border border-amber-500/30">
                     Bitácora en Línea
                   </span>
                 </div>
@@ -596,7 +596,7 @@ export function Module2DailyLog() {
                         value={primaryVictory}
                         onChange={(e) => setPrimaryVictory(e.target.value)}
                         placeholder="¿Qué hizo bien hoy? Una frase de elogio directo..."
-                        className="w-full bg-transparent text-slate-900 dark:text-white text-lg font-medium focus:outline-none resize-none placeholder-slate-400 dark:placeholder-white/20 min-h-[60px]"
+                        className="w-full bg-transparent text-slate-900 dark:text-white text-lg font-medium focus:outline-none resize-none placeholder-slate-500 dark:placeholder-gray-400 min-h-[60px]"
                         rows={2}
                       />
                     </div>
@@ -615,7 +615,7 @@ export function Module2DailyLog() {
                         value={primaryAdjustment}
                         onChange={(e) => setPrimaryAdjustment(e.target.value)}
                         placeholder="El ajuste o punto que necesita mejorar..."
-                        className="w-full bg-transparent text-slate-900 dark:text-white text-lg font-medium focus:outline-none resize-none placeholder-slate-400 dark:placeholder-white/20 min-h-[60px]"
+                        className="w-full bg-transparent text-slate-900 dark:text-white text-lg font-medium focus:outline-none resize-none placeholder-slate-500 dark:placeholder-gray-400 min-h-[60px]"
                         rows={2}
                       />
                     </div>

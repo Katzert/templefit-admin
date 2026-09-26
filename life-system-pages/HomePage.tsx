@@ -291,7 +291,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             icon: <Users size={22} />, 
             label: 'Atletas Activos', 
             value: `${activeStudents}`, 
-            sub: `/ ${totalStudents} alumnos registrados (67 escuadrones + 1 VIP)`, 
+            sub: `/ ${totalStudents} atletas registrados en total`, 
             color: 'text-temple-gold',
             bg: 'from-amber-500/10 to-transparent'
           },

@@ -25,8 +25,11 @@ export function Module40CorteEjecutivo() {
     const now = new Date();
     const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
     const txs = db.transactions || [];
-    let income = txs.filter(t => t.type === 'income' && t.date.startsWith(monthPrefix)).reduce((s, t) => s + t.amount, 0);
-    let expense = txs.filter(t => t.type === 'expense' && t.date.startsWith(monthPrefix)).reduce((s, t) => s + t.amount, 0);
+    const monthTxs = txs.filter(t => t.date && t.date.startsWith(monthPrefix));
+    const monthIncome = monthTxs.filter(t => t.type === 'income').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    const monthExpense = monthTxs.filter(t => t.type === 'expense' && t.category !== 'withdrawal').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+    const income = monthTxs.length > 0 ? monthIncome : 32000;
+    const expense = monthTxs.length > 0 ? monthExpense : 11600;
     const students = db.students || [];
     const activeStudents = students.filter(s => s.status === 'active').length;
 
@@ -104,13 +107,13 @@ export function Module40CorteEjecutivo() {
   }, [board, rawTransactions]);
 
   const historicalFlow = useMemo(() => {
-    const curInc = kpis.income >= 5000 ? kpis.income : 32000;
-    const curExp = kpis.expense >= 2000 ? kpis.expense : 11600;
+    const curInc = kpis.income > 0 ? kpis.income : 32000;
+    const curExp = kpis.expense > 0 ? kpis.expense : 11600;
     const curSaldo = curInc - curExp;
-    const curSeguro = Math.round(curSaldo * 0.20);
-    const curNet = curSaldo - curSeguro;
-    const curRetiro = Math.round(curNet * 0.50);
-    const curReinversion = Math.round(curNet * 0.50);
+    const curSeguro = curSaldo > 0 ? Math.round(curSaldo * 0.20) : 0;
+    const curNet = curSaldo > 0 ? curSaldo - curSeguro : curSaldo;
+    const curRetiro = curNet > 0 ? Math.floor(curNet * 0.50) : 0;
+    const curReinversion = curNet > 0 ? curNet - curRetiro : 0;
 
     return [
       { month: 'Mayo 2026', income: 13200, expense: 8900, saldo: 4300, seguro: 860, flujoNeto: 3440, retiroPaulo: 1720, reinversion: 1720, flujoAcumulado: 3440, isCurrent: false },
@@ -123,13 +126,13 @@ export function Module40CorteEjecutivo() {
 
   const getExecutiveReportText = () => {
     const monthName = board?.month || 'Septiembre 2026';
-    const totalInc = kpis.income >= 5000 ? kpis.income : 32000;
-    const totalExp = kpis.expense >= 2000 ? kpis.expense : 11600;
+    const totalInc = kpis.income > 0 ? kpis.income : 32000;
+    const totalExp = kpis.expense > 0 ? kpis.expense : 11600;
     const saldoOperativo = totalInc - totalExp;
-    const seguroEmpresa = Math.round(saldoOperativo > 0 ? saldoOperativo * 0.20 : 0);
-    const flujoNetoReal = Math.round(saldoOperativo > 0 ? saldoOperativo * 0.80 : 0);
-    const retiroPaulo = Math.round(flujoNetoReal * 0.50);
-    const reinversion = Math.round(flujoNetoReal * 0.50);
+    const seguroEmpresa = saldoOperativo > 0 ? Math.round(saldoOperativo * 0.20) : 0;
+    const flujoNetoReal = saldoOperativo > 0 ? saldoOperativo - seguroEmpresa : saldoOperativo;
+    const retiroPaulo = flujoNetoReal > 0 ? Math.floor(flujoNetoReal * 0.50) : 0;
+    const reinversion = flujoNetoReal > 0 ? flujoNetoReal - retiroPaulo : 0;
 
     return `*TEMPLEFIT - RESUMEN ECONÓMICO MENSUAL*\n` +
       `*Período:* ${monthName}\n` +
@@ -233,18 +236,23 @@ export function Module40CorteEjecutivo() {
 
   const formatBs = (n: number) => `Bs. ${n.toLocaleString('es-BO')}`;
   const totalGoals = board.goals.reduce((s, g) => s + g.targetBs, 0);
-  const totalInc = kpis.income >= 5000 ? kpis.income : 32000;
-  const totalExp = kpis.expense >= 2000 ? kpis.expense : 11600;
+  const totalInc = kpis.income > 0 ? kpis.income : 32000;
+  const totalExp = kpis.expense > 0 ? kpis.expense : 11600;
   const saldoOperativo = totalInc - totalExp;
-  const fondoReserva = Math.round(saldoOperativo * 0.20);
-  const flujoNetoReal = saldoOperativo - fondoReserva;
-  const retiroPaulo = Math.round(flujoNetoReal * 0.50);
-  const reinversion = Math.round(flujoNetoReal * 0.50);
+  const fondoReserva = saldoOperativo > 0 ? Math.round(saldoOperativo * 0.20) : 0;
+  const flujoNetoReal = saldoOperativo > 0 ? saldoOperativo - fondoReserva : saldoOperativo;
+  const retiroPaulo = flujoNetoReal > 0 ? Math.floor(flujoNetoReal * 0.50) : 0;
+  const reinversion = flujoNetoReal > 0 ? flujoNetoReal - retiroPaulo : 0;
 
   // Regla 50/50 real: % gastos operativos vs % utilidad/crecimiento
   const totalFlow = totalInc + totalExp;
   const pctExpense = totalFlow > 0 ? Math.round((totalExp / totalFlow) * 100) : 36;
   const pctProfit = 100 - pctExpense;
+
+  const currentMonthPrefix = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
+  const alreadyWithdrawn = rawTransactions.some(
+    t => t.category === 'withdrawal' && t.date && t.date.startsWith(currentMonthPrefix)
+  );
 
   const handleRegisterWithdrawal = () => {
     if (flujoNetoReal <= 0) {
@@ -252,17 +260,27 @@ export function Module40CorteEjecutivo() {
       return;
     }
     const db = getCRMDatabase();
+    const now = new Date();
+    const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const exists = (db.transactions || []).some(
+      t => t.category === 'withdrawal' && t.date && t.date.startsWith(monthKey)
+    );
+    if (exists) {
+      alert(`Ya se registro un retiro de utilidades para el periodo ${monthKey}.`);
+      return;
+    }
     const tx = {
       id: `tx-${Date.now()}`,
-      date: new Date().toISOString().split('T')[0],
+      date: now.toISOString().split('T')[0],
       type: 'expense' as const,
-      category: 'operations' as const,
+      category: 'withdrawal' as const,
       amount: retiroPaulo,
       description: `Retiro Utilidad Fundador Paulo (50% de Flujo Neto Bs. ${flujoNetoReal.toLocaleString('es-BO')})`
     };
     db.transactions = [tx, ...(db.transactions || [])];
     saveCRMDatabase(db);
-    setCorteToast(`¡Asiento contable registrado! Retiro de Bs. ${retiroPaulo.toLocaleString('es-BO')} añadido al Libro Diario.`);
+    setRawTransactions(db.transactions);
+    setCorteToast(`¡Asiento contable registrado! Retiro de Bs. ${retiroPaulo.toLocaleString('es-BO')} anadido al Libro Diario como distribucion de utilidades.`);
     setTimeout(() => setCorteToast(null), 4000);
   };
 
@@ -466,6 +484,29 @@ export function Module40CorteEjecutivo() {
             <div className="px-3.5 py-2 rounded-xl bg-temple-gold/10 text-temple-gold border border-temple-gold/30">
               50% Retiro Sugerido Fundador: <span className="font-black tabular-nums">Bs. {retiroPaulo.toLocaleString('es-BO')}</span>
             </div>
+            <button
+              onClick={handleRegisterWithdrawal}
+              disabled={alreadyWithdrawn || flujoNetoReal <= 0}
+              className={`px-3.5 py-2 rounded-xl text-xs font-black transition border flex items-center gap-1.5 ${
+                alreadyWithdrawn
+                  ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 cursor-not-allowed'
+                  : flujoNetoReal <= 0
+                  ? 'bg-black/5 dark:bg-white/5 text-gray-400 border-black/10 dark:border-white/10 cursor-not-allowed'
+                  : 'bg-temple-gold hover:bg-amber-400 text-black border-temple-gold shadow'
+              }`}
+            >
+              {alreadyWithdrawn ? (
+                <>
+                  <CheckCircle2 size={13} />
+                  <span>Retiro Registrado</span>
+                </>
+              ) : (
+                <>
+                  <DollarSign size={13} />
+                  <span>Registrar Retiro Paulo</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       </motion.div>
