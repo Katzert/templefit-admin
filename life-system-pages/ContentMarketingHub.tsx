@@ -58,13 +58,14 @@ export function ContentMarketingHub() {
   });
 
   const filteredPosts = useMemo(() => {
+    const term = (searchTerm || '').toLowerCase();
     return posts.filter(post => {
       const matchesMonth = post.monthIndex === selectedMonth;
       const matchesPillar = pillarFilter === 'all' || post.pillar === pillarFilter;
       const matchesSearch = 
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.hookAndStory.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.callToAction.toLowerCase().includes(searchTerm.toLowerCase());
+        (post.title || '').toLowerCase().includes(term) ||
+        (post.hookAndStory || '').toLowerCase().includes(term) ||
+        (post.callToAction || '').toLowerCase().includes(term);
 
       return matchesMonth && matchesPillar && matchesSearch;
     });
@@ -114,12 +115,12 @@ export function ContentMarketingHub() {
     });
   };
 
-  const resourceFolders = [
-    { name: 'Guiones & Copies para Redes', count: '12 publicaciones', icon: <FileText size={20} className="text-amber-400" />, pillar: 'Storytelling & Testimonios' },
-    { name: 'Fotos & Contenido CristoFit', count: 'Banco de medios', icon: <ImageIcon size={20} className="text-emerald-400" />, pillar: 'CristoFit Camp' },
-    { name: 'Menú & Recetario Snack Bar', count: '8 Recetas activas', icon: <Sparkles size={20} className="text-blue-400" />, pillar: 'Consumo Consciente & Snack' },
-    { name: 'Planes de Entrenamiento', count: 'Fuerza & Calistenia', icon: <Crown size={20} className="text-temple-gold" />, pillar: 'Planes de Entrenamiento' },
-  ];
+  const resourceFolders = useMemo(() => [
+    { name: 'Guiones & Copies para Redes', count: `${posts.filter(p => p.pillar === 'Storytelling & Testimonios').length} guiones`, icon: <FileText size={20} className="text-amber-400" />, pillar: 'Storytelling & Testimonios' },
+    { name: 'Fotos & Contenido CristoFit', count: `${posts.filter(p => p.pillar === 'CristoFit Camp').length} publicaciones`, icon: <ImageIcon size={20} className="text-emerald-400" />, pillar: 'CristoFit Camp' },
+    { name: 'Menú & Recetario Snack Bar', count: `${posts.filter(p => p.pillar === 'Consumo Consciente & Snack').length} recetas/tips`, icon: <Sparkles size={20} className="text-blue-400" />, pillar: 'Consumo Consciente & Snack' },
+    { name: 'Planes de Entrenamiento', count: `${posts.filter(p => p.pillar === 'Planes de Entrenamiento').length} rutinas activas`, icon: <Crown size={20} className="text-temple-gold" />, pillar: 'Planes de Entrenamiento' },
+  ], [posts]);
 
   const handleFolderClick = (pillar: string) => {
     if (pillarFilter === pillar) {

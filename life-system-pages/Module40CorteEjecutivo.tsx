@@ -172,7 +172,7 @@ export function Module40CorteEjecutivo() {
       'Ingreso Real (Bs.)': r.actualIncome,
       'Gasto Operativo (Bs.)': r.actualExpense,
       'Margen Neto (Bs.)': r.netMargin,
-      '% Cumplimiento': `${r.pct}%`
+      'Cumplimiento (%)': r.pct
     }));
     exportToExcel(data, `TempleFit_Matriz_Rendimiento_${board?.month || '2026'}`, 'Rendimiento');
   };
@@ -215,6 +215,17 @@ export function Module40CorteEjecutivo() {
       'Reinversion 50% (Bs.)': r.reinversion,
       'Flujo Acumulado (Bs.)': r.flujoAcumulado,
     }));
+    data.push({
+      'Mes / Periodo': 'TOTALES / POSICION NETA',
+      'Ingresos Brutos (Bs.)': historicalFlow.reduce((s, r) => s + r.income, 0),
+      'Gastos Operativos (Bs.)': historicalFlow.reduce((s, r) => s + r.expense, 0),
+      'Saldo Operativo (Bs.)': historicalFlow.reduce((s, r) => s + r.saldo, 0),
+      'Seguro Empresa 20% (Bs.)': historicalFlow.reduce((s, r) => s + r.seguro, 0),
+      'Flujo Neto 80% (Bs.)': historicalFlow.reduce((s, r) => s + r.flujoNeto, 0),
+      'Retiro Paulo 50% (Bs.)': historicalFlow.reduce((s, r) => s + r.retiroPaulo, 0),
+      'Reinversion 50% (Bs.)': historicalFlow.reduce((s, r) => s + r.reinversion, 0),
+      'Flujo Acumulado (Bs.)': historicalFlow[historicalFlow.length - 1]?.flujoAcumulado || 0,
+    });
     exportToCSV(data, `TempleFit_Flujo_Neto_Reserva_2026`);
   };
 

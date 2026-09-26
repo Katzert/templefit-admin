@@ -1400,9 +1400,16 @@ export function getCRMDatabase(): CRMDatabase {
       parsed.monthlyBoard = DEFAULT_DB.monthlyBoard;
       hasUpdated = true;
     }
-    if (!parsed.contentPosts || parsed.contentPosts.length < 15) {
-      parsed.contentPosts = DEFAULT_DB.contentPosts;
+    if (!parsed.contentPosts || !Array.isArray(parsed.contentPosts)) {
+      parsed.contentPosts = JSON.parse(JSON.stringify(DEFAULT_DB.contentPosts || []));
       hasUpdated = true;
+    } else {
+      const existingIds = new Set(parsed.contentPosts.map((p: any) => p.id));
+      const missingDefaults = (DEFAULT_DB.contentPosts || []).filter(p => !existingIds.has(p.id));
+      if (missingDefaults.length > 0) {
+        parsed.contentPosts = [...parsed.contentPosts, ...JSON.parse(JSON.stringify(missingDefaults))];
+        hasUpdated = true;
+      }
     }
     if (hasUpdated) {
       try {

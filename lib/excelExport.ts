@@ -1,85 +1,81 @@
-import * as XLSX from 'xlsx';
-
 export interface SheetData {
   sheetName: string;
   data: Record<string, any>[];
 }
 
 /**
- * Exporta un conjunto de datos tabular a un archivo de Excel nativo (.xlsx)
+ * Sanea el nombre de la hoja segun reglas estrictas de Excel
  */
-export function exportToExcel(data: Record<string, any>[], fileName: string, sheetName: string = 'Datos') {
-  if (!data || data.length === 0) {
-    alert('No hay datos disponibles para exportar.');
-    return;
-  }
-
-  const ws = XLSX.utils.json_to_sheet(data);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, sheetName.substring(0, 31)); // Excel max sheet name 31 chars
-
-  // Ajuste automático de ancho de columnas
-  const colWidths = Object.keys(data[0] || {}).map(key => {
-    const maxValLen = Math.max(
-      key.length,
-      ...data.map(row => String(row[key] ?? '').length)
-    );
-    return { wch: Math.min(Math.max(maxValLen + 2, 10), 50) };
-  });
-  ws['!cols'] = colWidths;
-
-  const cleanFileName = fileName.endsWith('.xlsx') ? fileName : `${fileName}.xlsx`;
-  XLSX.writeFile(wb, cleanFileName);
+function sanitizeSheetName(name: string): string {
+  return name.replace(/[:\\/?*\[\]]/g, '').trim().substring(0, 31) || 'Datos';
 }
 
 /**
- * Exporta múltiples hojas en un solo libro de Excel (.xlsx)
+ * Exporta un conjunto de datos tabular a un archivo de Excel nativo (.xlsx) con carga dinamica
  */
-export function exportWorkbookToExcel(sheets: SheetData[], fileName: string) {
-  if (!sheets || sheets.length === 0) {
-    alert('No hay hojas disponibles para exportar.');
+export async function exportToExcel(data: Record<string, any>[], fileName: string, sheetName: string = 'Datos') {
+  if (typeof window === 'undefined') return;
+  if (!data || data.length === 0) {
+    console.warn('No hay datos disponibles para exportar.');
     return;
   }
 
-  const wb = XLSX.utils.book_new();
+  try {
+    const XLSX = await import('xlsx');
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    const cleanSheetName = sanitizeSheetName(sheetName);
+    XLSX.utils.book_append_sheet(wb, ws, cleanSheetName);
 
-  sheets.forEach(({ sheetName, data }) => {
-    if (data && data.length > 0) {
-      const ws = XLSX.utils.json_to_sheet(data);
-      const colWidths = Object.keys(data[0] || {}).map(key => {
-        const maxValLen = Math.max(
-          key.length,
-          ...data.map(row => String(row[key] ?? '').length)
-        );
-        return { wch: Math.min(Math.max(maxValLen + 2, 10), 50) };
-      });
-      ws['!cols'] = colWidths;
-      XLSX.utils.book_append_sheet(wb, ws, sheetName.substring(0, 31));
-    }
-  });
+    // Ajuste automatico de ancho de columnas
+    const colWidths = Object.keys(data[0] || {}).map(key => {
+      const maxValLen = Math.max(
+        key.length,
+        ...data.slice(0, 100).map(row => String(row[key] ?? '').length)
+      );
+      return { wch: Math.min(Math.max(maxValLen + 2, 10), 45) };
+    });
+    ws['!cols'] = colWidths;
 
-  const cleanFileName = fileName.endsWith('.xlsx') ? fileName : `${fileName}.xlsx`;
-  XLSX.writeFile(wb, cleanFileName);
+    const safeFileName = fileName.replace(/[/\\?%*:|"<>]/g, '_').trim();
+    const cleanFileName = safeFileName.endsWith('.xlsx') ? safeFileName : `${safeFileName}.xlsx`;
+    XLSX.writeFile(wb, cleanFileName);
+  } catch (err) {
+    console.error('Error al generar archivo Excel (.xlsx):', err);
+  }
 }
 
 /**
- * Exporta datos a CSV con BOM UTF-8 para compatibilidad directa con Excel en español
+ * Exporta datos a CSV con BOM UTF-8 y retraso de limpieza de Blob URL para compatibilidad movil
  */
-export function exportToCSV(data: Record<string, any>[], fileName: string) {
+export async function exportToCSV(data: Record<string, any>[], fileName: string) {
+  if (typeof window === 'undefined') return;
   if (!data || data.length === 0) {
-    alert('No hay datos disponibles para exportar.');
+    console.warn('No hay datos disponibles para exportar.');
     return;
   }
 
-  const ws = XLSX.utils.json_to_sheet(data);
-  const csv = XLSX.utils.sheet_to_csv(ws, { FS: ';' }); // Usar ';' como separador decimal/columna estándar en Excel español/latino
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.setAttribute('href', url);
-  link.setAttribute('download', fileName.endsWith('.csv') ? fileName : `${fileName}.csv`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  try {
+    const XLSX = await import('xlsx');
+    const ws = XLSX.utils.json_to_sheet(data);
+    const csv = XLSX.utils.sheet_to_csv(ws, { FS: ';' });
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const safeFileName = fileName.replace(/[/\\?%*:|"<>]/g, '_').trim();
+    link.setAttribute('href', url);
+    link.setAttribute('download', safeFileName.endsWith('.csv') ? safeFileName : `${safeFileName}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Limpieza segura del Blob URL retrasada para iOS Safari y navegadores moviles
+    setTimeout(() => {
+      try {
+        URL.revokeObjectURL(url);
+      } catch (e) {}
+    }, 2000);
+  } catch (err) {
+    console.error('Error al generar archivo CSV:', err);
+  }
 }
