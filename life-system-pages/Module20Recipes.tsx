@@ -341,9 +341,9 @@ export function Module20Recipes() {
                   <th className="pb-3 pr-4 font-black text-center">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {filteredRecipes.map((recipe) => (
-                  <tr key={recipe.id} className="hover:bg-black/5 dark:bg-white/5 transition-colors group">
+                  <tr key={recipe.id} className="hover:bg-black/[0.03] dark:hover:bg-white/5 transition-colors group">
                     <td className="py-4 pl-4 font-bold text-temple-navy dark:text-white group-hover:text-temple-gold transition-colors">
                       <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-lg overflow-hidden bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 shrink-0 flex items-center justify-center">
@@ -380,7 +380,7 @@ export function Module20Recipes() {
                       {recipe.macros?.carbs || 0}g
                     </td>
                     <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-gold">
-                      Bs. {recipe.suggestedPrice || 25}
+                      Bs. {(recipe.suggestedPrice || 25).toLocaleString('es-BO')}
                     </td>
                     <td className="py-4 pl-4 text-center">
                       <div className="flex items-center justify-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
@@ -409,7 +409,7 @@ export function Module20Recipes() {
                     {filteredRecipes.length > 0 ? (filteredRecipes.reduce((sum, r) => sum + (r.macros?.carbs || 0), 0) / filteredRecipes.length).toFixed(1) : 0}g
                   </td>
                   <td className="py-4 pl-4 text-right tabular-nums text-temple-gold text-sm font-black">
-                    Bs. {filteredRecipes.length > 0 ? Math.round(filteredRecipes.reduce((sum, r) => sum + (r.suggestedPrice || 25), 0) / filteredRecipes.length) : 0}
+                    Bs. {filteredRecipes.length > 0 ? Math.round(filteredRecipes.reduce((sum, r) => sum + (r.suggestedPrice || 25), 0) / filteredRecipes.length).toLocaleString('es-BO') : 0}
                   </td>
                   <td className="py-4 pl-4 text-center">-</td>
                 </tr>

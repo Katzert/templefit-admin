@@ -190,7 +190,7 @@ export function Module19SOPs() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {sopsList.map((sop) => (
                 <Card key={sop.id} className="bg-white dark:bg-[#0E1424] border-black/10 dark:border-white/10 shadow-xl overflow-hidden hover:border-temple-gold/30 transition-all group">
-                  <div className="bg-gradient-to-r from-black/60 to-transparent p-5 border-b border-black/5 dark:border-white/5 flex justify-between items-center">
+                  <div className="bg-gradient-to-r from-temple-gold/10 via-amber-500/5 to-transparent p-5 border-b border-black/10 dark:border-white/10 flex justify-between items-center">
                     <input 
                       value={sop.title} 
                       onChange={e => updateSop(sop.id, 'title', e.target.value)}
@@ -208,10 +208,10 @@ export function Module19SOPs() {
                   </div>
                   
                   <CardContent className="p-0">
-                    <div className="flex flex-col divide-y divide-white/5">
+                    <div className="flex flex-col divide-y divide-black/5 dark:divide-white/5">
                       {/* Step 1 */}
-                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">1</div>
+                      <div className="flex items-start p-5 gap-4 group/step hover:bg-black/[0.03] dark:hover:bg-white/[0.02] transition">
+                        <div className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 text-slate-700 dark:text-gray-400 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">1</div>
                         <textarea
                           value={sop.step1 || ''}
                           onChange={e => updateSop(sop.id, 'step1', e.target.value)}
@@ -220,8 +220,8 @@ export function Module19SOPs() {
                         />
                       </div>
                       {/* Step 2 */}
-                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">2</div>
+                      <div className="flex items-start p-5 gap-4 group/step hover:bg-black/[0.03] dark:hover:bg-white/[0.02] transition">
+                        <div className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 text-slate-700 dark:text-gray-400 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">2</div>
                         <textarea
                           value={sop.step2 || ''}
                           onChange={e => updateSop(sop.id, 'step2', e.target.value)}
@@ -230,8 +230,8 @@ export function Module19SOPs() {
                         />
                       </div>
                       {/* Step 3 */}
-                      <div className="flex items-start p-5 gap-4 group/step hover:bg-white dark:bg-black/[0.02] dark:bg-white/[0.02] transition">
-                        <div className="w-8 h-8 rounded-full bg-white dark:bg-white/5 text-slate-500 dark:text-gray-500 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">3</div>
+                      <div className="flex items-start p-5 gap-4 group/step hover:bg-black/[0.03] dark:hover:bg-white/[0.02] transition">
+                        <div className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 text-slate-700 dark:text-gray-400 font-black flex items-center justify-center flex-shrink-0 group-hover/step:bg-temple-gold/20 group-hover/step:text-temple-gold transition">3</div>
                         <textarea
                           value={sop.step3 || ''}
                           onChange={e => updateSop(sop.id, 'step3', e.target.value)}
@@ -270,13 +270,13 @@ export function Module19SOPs() {
               {marketingTasks.map((task) => (
                 <div key={task.id} className="relative group rounded-3xl overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-[#0a1128] dark:to-black text-temple-navy dark:text-white border border-black/10 dark:border-white/10 shadow-2xl hover:border-blue-500/40 hover:shadow-blue-900/20 transition-all duration-300 flex flex-col">
                   {/* Banner superior */}
-                  <div className="min-h-[160px] h-auto bg-gradient-to-t from-black/80 to-blue-900/20 relative p-6 flex flex-col justify-between">
+                  <div className="min-h-[160px] h-auto bg-gradient-to-br from-blue-500/15 via-blue-600/10 to-indigo-600/10 dark:from-black/80 dark:to-blue-900/20 relative p-6 flex flex-col justify-between">
                     <div className="flex justify-between items-start relative z-20">
                       <div className="bg-blue-500/20 backdrop-blur-md px-3 py-1.5 rounded-lg border border-blue-500/30">
                         <input 
                           value={task.month} 
                           onChange={e => updateMarketingTask(task.id, 'month', e.target.value)}
-                          className="bg-transparent text-blue-400 font-black uppercase tracking-widest text-[10px] focus:outline-none w-28"
+                          className="bg-transparent text-blue-500 dark:text-blue-400 font-black uppercase tracking-widest text-[10px] focus:outline-none w-28"
                           placeholder="Mes / Fase"
                         />
                       </div>
@@ -294,7 +294,7 @@ export function Module19SOPs() {
                     <textarea 
                       value={task.campaignName} 
                       onChange={e => updateMarketingTask(task.id, 'campaignName', e.target.value)}
-                      className="bg-transparent text-slate-900 dark:text-white font-black text-3xl md:text-4xl focus:outline-none w-full relative z-10 leading-[1.1] placeholder-white/20 resize-none overflow-hidden mt-4"
+                      className="bg-transparent text-slate-900 dark:text-white font-black text-3xl md:text-4xl focus:outline-none w-full relative z-10 leading-[1.1] placeholder-slate-400 dark:placeholder-white/20 resize-none overflow-hidden mt-4"
                       rows={2}
                       placeholder="ESCRIBE TU TITULAR..."
                     />
@@ -343,14 +343,14 @@ export function Module19SOPs() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <AnimatePresence>
                   {pendingClaims.map((ticket) => (
-                    <motion.div key={ticket.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9, x: -100 }} className="bg-gradient-to-r from-red-900/30 to-[#FBF9F5] dark:to-[#0a1128] border-l-4 border-l-red-500 border border-black/10 dark:border-white/10 rounded-2xl p-6 flex flex-col shadow-2xl relative overflow-hidden group">
+                    <motion.div key={ticket.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9, x: -100 }} className="bg-gradient-to-r from-red-50 to-white dark:from-red-950/40 dark:to-[#0a1128] border-l-4 border-l-red-500 border border-black/10 dark:border-white/10 rounded-2xl p-6 flex flex-col shadow-xl relative overflow-hidden group">
                       <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                         <AlertOctagon size={100} className="text-red-500" />
                       </div>
                       
                       <div className="relative z-10 flex flex-col flex-1 gap-4">
                         <div className="flex justify-between items-start">
-                          <span className="text-[10px] bg-red-500/20 text-red-400 px-2.5 py-1 rounded-full font-black uppercase tracking-widest">{ticket.date}</span>
+                          <span className="text-[10px] bg-red-500/20 text-red-500 dark:text-red-400 px-2.5 py-1 rounded-full font-black uppercase tracking-widest">{ticket.date}</span>
                           <button onClick={() => deleteItem('claims', ticket.id)} className="text-gray-600 hover:text-red-400 transition" title="Eliminar Reclamo">
                             <Plus size={18} className="rotate-45" />
                           </button>
@@ -364,7 +364,7 @@ export function Module19SOPs() {
                               const updated = claimsTickets.map(t => t.id === ticket.id ? { ...t, clientName: e.target.value } : t);
                               saveToDb(undefined, undefined, updated);
                             }}
-                            className="bg-transparent text-slate-900 dark:text-white font-black text-xl focus:outline-none w-full border-b border-transparent focus:border-red-500/50 pb-1 placeholder-white/20"
+                            className="bg-transparent text-slate-900 dark:text-white font-black text-xl focus:outline-none w-full border-b border-transparent focus:border-red-500/50 pb-1 placeholder-slate-400 dark:placeholder-white/20"
                             placeholder="Nombre..."
                           />
                         </div>

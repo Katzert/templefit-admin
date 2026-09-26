@@ -181,16 +181,23 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   // Calculate age from birthDate
   const age = useMemo(() => {
     if (!birthDate) return 30;
-    const diffMs = Date.now() - new Date(birthDate).getTime();
+    const birthTime = new Date(birthDate).getTime();
+    if (isNaN(birthTime)) return 30;
+    const diffMs = Date.now() - birthTime;
+    if (diffMs <= 0) return 30;
     const ageDt = new Date(diffMs);
-    return Math.abs(ageDt.getUTCFullYear() - 1970);
+    const calculated = Math.abs(ageDt.getUTCFullYear() - 1970);
+    return isNaN(calculated) || calculated <= 0 ? 30 : calculated;
   }, [birthDate]);
 
   // Dynamic IMC calculation
   const imc = useMemo(() => {
-    const h = heightM > 3 ? heightM / 100 : (heightM || 1.75); // normalize cm to meters if needed
+    const rawH = Number(heightM);
+    const h = rawH > 3 ? rawH / 100 : (rawH || 1.75); // normalize cm to meters if needed
+    const w = Number(weightKg) || 70;
     if (!h || h <= 0) return 22.0;
-    const calc = weightKg / (h * h);
+    const calc = w / (h * h);
+    if (!isFinite(calc) || isNaN(calc) || calc <= 0) return 22.0;
     return Number(calc.toFixed(1));
   }, [weightKg, heightM]);
 

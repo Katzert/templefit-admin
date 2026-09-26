@@ -547,7 +547,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
       {/* Modal Añadir Atleta */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="athlete-modal-title">
+          <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8" role="dialog" aria-modal="true" aria-labelledby="athlete-modal-title">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -723,7 +723,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
         {/* Modal de Retención Rápida por WhatsApp */}
         {isRetentionModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -800,7 +800,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
         {/* Modal de Pase de Lista Grupal */}
         {isBatchModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -873,7 +873,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
 
         {/* MODAL DE COMUNICADO WHATSAPP POR ESCUADRÓN (ANTI-BURNOUT) */}
         {isBroadcastModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white dark:bg-black/8 dark:bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8">
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -890,7 +890,7 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       Comunicados Rápidos de WhatsApp
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-gray-400">
-                      Copia mensajes pre-diseñados en 1 toque para enviar al grupo del escuadrón.
+                      Copia mensajes directos en 1 toque para enviar al grupo del escuadrón.
                     </p>
                   </div>
                 </div>
@@ -920,16 +920,16 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
               <div className="space-y-3 max-h-[50vh] overflow-y-auto">
                 {[
                   {
-                    title: '🌅 Convocatoria Entrenamiento Mañana (06:00 AM)',
-                    body: `¡Familia de Escuadrón ${selectedBroadcastSquad}! 🌅\n\nMañana nos vemos a las 06:00 AM puntuales en el Parque Urbano para nuestra sesión de CristoFit Camp. Recuerden traer su hidratación con ElectroHidra y su toalla.\n\n"Todo lo puedo en Cristo que me fortalece." ¡A darle con todo! 🔥`
+                    title: 'Convocatoria Entrenamiento Mañana (06:00 AM)',
+                    body: `¡Familia de Escuadrón ${selectedBroadcastSquad}!\n\nMañana nos vemos a las 06:00 AM puntuales en el Parque Urbano para nuestra sesión de CristoFit Camp. Recuerden traer su hidratación con ElectroHidra y su toalla.\n\n"Todo lo puedo en Cristo que me fortalece." ¡A dar el máximo!`
                   },
                   {
-                    title: '🔥 Recordatorio de Hidratación & Cierre de Radar',
-                    body: `¡Atletas de ${selectedBroadcastSquad}! 💧\n\nNo olviden registrar su radar de hábitos diario antes de las 21:00 (sueño 7h, hidratación 3L y devocional). La disciplina en lo secreto se refleja en la fuerza del cuerpo.\n\n¡Cuentan con mi apoyo! - Coach Paulo 🛡️`
+                    title: 'Recordatorio de Hidratación y Cierre de Radar',
+                    body: `¡Atletas de ${selectedBroadcastSquad}!\n\nNo olviden registrar su radar de hábitos diario antes de las 21:00 (sueño 7h, hidratación 3L y devocional). La constancia en lo cotidiano forja la fuerza del cuerpo.\n\nCuentan con mi apoyo. Coach Paulo`
                   },
                   {
-                    title: '👑 Mentoría Grupal Semanal (30 Min)',
-                    body: `¡Atención Escuadrón ${selectedBroadcastSquad}! 👑\n\nHoy tenemos nuestra Mentoría Grupal de 30 minutos enfocada en Liderazgo, Rendimiento y Nutrición Anti-inflamatoria. Conéctense a las 20:00 con libreta en mano.\n\n¡Nos vemos pronto!`
+                    title: 'Mentoría Grupal Semanal (30 min)',
+                    body: `¡Atención Escuadrón ${selectedBroadcastSquad}!\n\nHoy tenemos nuestra Mentoría Grupal de 30 minutos enfocada en Liderazgo, Rendimiento y Nutrición Anti-inflamatoria. Conéctense a las 20:00 con libreta en mano.\n\n¡Nos vemos pronto!`
                   }
                 ].map((tpl, idx) => (
                   <div key={idx} className="p-4 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-2xl space-y-2.5">

@@ -300,7 +300,7 @@ export function ContentMarketingHub() {
                 <div className="space-y-3">
                   <div className="p-3.5 bg-black/[0.03] dark:bg-black/40 rounded-xl border border-black/5 dark:border-white/5 text-xs text-slate-700 dark:text-gray-300 leading-relaxed">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-500 block mb-1">
-                      📖 Gancho & Storytelling:
+                      Gancho & Storytelling:
                     </span>
                     {post.hookAndStory}
                   </div>
@@ -308,7 +308,7 @@ export function ContentMarketingHub() {
                   {post.callToAction && (
                     <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-xs text-emerald-400">
                       <span className="text-[10px] font-black uppercase tracking-wider block mb-1">
-                        🎯 Llamada a la Acción (CTA):
+                        Llamada a la Acción (CTA):
                       </span>
                       {post.callToAction}
                     </div>
@@ -357,14 +357,14 @@ export function ContentMarketingHub() {
       {/* Modal: Nueva Publicación */}
       {isModalOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/80 backdrop-blur-md"
+          className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8"
           role="dialog"
           aria-modal="true"
           aria-labelledby="hub-modal-title"
           onClick={() => setIsModalOpen(false)}
         >
           <div 
-            className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl"
+            className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar my-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
@@ -400,7 +400,7 @@ export function ContentMarketingHub() {
                   <select
                     value={newPost.dayOfWeek}
                     onChange={(e) => setNewPost({ ...newPost, dayOfWeek: e.target.value as any })}
-                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
+                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold"
                   >
                     <option value="Lunes" className="bg-white dark:bg-[#121826]">Lunes</option>
                     <option value="Martes" className="bg-white dark:bg-[#121826]">Martes</option>
@@ -418,7 +418,7 @@ export function ContentMarketingHub() {
                 <select
                   value={newPost.pillar}
                   onChange={(e) => setNewPost({ ...newPost, pillar: e.target.value as any })}
-                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
+                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold"
                 >
                   <option value="Storytelling & Testimonios" className="bg-white dark:bg-[#121826]">Storytelling & Testimonios</option>
                   <option value="Planes de Entrenamiento" className="bg-white dark:bg-[#121826]">Planes de Entrenamiento (Fuerza & Calistenia)</option>
@@ -437,7 +437,7 @@ export function ContentMarketingHub() {
                   placeholder="Ej. Por qué entrenar a las 06:00 AM te cambia la vida..."
                   value={newPost.title}
                   onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
+                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white"
                 />
               </div>
 
@@ -449,7 +449,7 @@ export function ContentMarketingHub() {
                   placeholder="Escribe el texto principal, anécdota o reflexión que conectarás..."
                   value={newPost.hookAndStory}
                   onChange={(e) => setNewPost({ ...newPost, hookAndStory: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
+                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white"
                 />
               </div>
 
@@ -460,7 +460,7 @@ export function ContentMarketingHub() {
                   placeholder="Ej. Comenta RETO21 o envía un DM para unirte..."
                   value={newPost.callToAction}
                   onChange={(e) => setNewPost({ ...newPost, callToAction: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
+                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white"
                 />
               </div>
 
@@ -471,7 +471,7 @@ export function ContentMarketingHub() {
                   placeholder="https://drive.google.com/..."
                   value={newPost.driveDocLink}
                   onChange={(e) => setNewPost({ ...newPost, driveDocLink: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white"
+                  className="w-full px-3.5 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-slate-900 dark:text-white"
                 />
               </div>
 

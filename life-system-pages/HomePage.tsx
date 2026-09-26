@@ -24,7 +24,12 @@ import {
   Sparkles,
   Check,
   Copy,
-  AlertTriangle
+  AlertTriangle,
+  Shield,
+  Target,
+  BookOpen,
+  Utensils,
+  ShoppingBag
 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -298,7 +303,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
           { 
             icon: <TrendingUp size={22} />, 
             label: 'Ingresos del Mes', 
-            value: `Bs. ${monthIncome.toLocaleString()}`, 
+            value: `Bs. ${monthIncome.toLocaleString('es-BO')}`, 
             sub: 'Caja registrada', 
             color: 'text-emerald-400',
             bg: 'from-emerald-500/10 to-transparent'
@@ -564,26 +569,76 @@ export function HomePage({ onNavigate }: HomePageProps) {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
-                  { title: 'Directorio de Atletas', desc: 'Fichas y datos de alumnos', emoji: '👥', tab: 'directory' },
-                  { title: 'Fases F1 a F3', desc: 'Progreso y etapas de atletas', emoji: '🛡️', tab: 'sales-pipeline' },
-                  { title: 'Prospectos y Leads', desc: 'Contactos y nuevas pruebas', emoji: '🎯', tab: 'leads-pipeline' },
-                  { title: 'Finanzas & Caja Central', desc: 'Diario, semanal, mensual, anual y corte 50/50', emoji: '💰', tab: 'finance' },
-                  { title: 'Guías y SOPs', desc: 'Protocolos de atención y camp', emoji: '🧠', tab: 'sops' },
-                  { title: 'Mi Registro Diario', desc: 'Hábitos y calendario del mes', emoji: '☀️', tab: 'daily' },
-                  { title: 'Recetario Nutricional', desc: 'Bebidas y snacks saludables', emoji: '🍵', tab: 'recipes' },
-                  { title: 'Armería & Snack Bar', desc: 'Control de suplementos y consumos', emoji: '🥤', tab: 'armeria' },
+                  { 
+                    title: 'Directorio de Atletas', 
+                    desc: 'Fichas y datos de alumnos', 
+                    icon: <Users size={18} className="text-amber-500 dark:text-amber-400" />, 
+                    iconBg: 'bg-amber-500/10 border-amber-500/20',
+                    tab: 'directory' 
+                  },
+                  { 
+                    title: 'Fases F1 a F3', 
+                    desc: 'Progreso y etapas de atletas', 
+                    icon: <Shield size={18} className="text-blue-500 dark:text-blue-400" />, 
+                    iconBg: 'bg-blue-500/10 border-blue-500/20',
+                    tab: 'sales-pipeline' 
+                  },
+                  { 
+                    title: 'Prospectos y Leads', 
+                    desc: 'Contactos y nuevas pruebas', 
+                    icon: <Target size={18} className="text-emerald-500 dark:text-emerald-400" />, 
+                    iconBg: 'bg-emerald-500/10 border-emerald-500/20',
+                    tab: 'leads-pipeline' 
+                  },
+                  { 
+                    title: 'Finanzas & Caja Central', 
+                    desc: 'Diario, semanal, mensual y 50/50', 
+                    icon: <DollarSign size={18} className="text-temple-gold" />, 
+                    iconBg: 'bg-temple-gold/10 border-temple-gold/20',
+                    tab: 'finance' 
+                  },
+                  { 
+                    title: 'Guías y SOPs', 
+                    desc: 'Protocolos de atención y camp', 
+                    icon: <BookOpen size={18} className="text-purple-500 dark:text-purple-400" />, 
+                    iconBg: 'bg-purple-500/10 border-purple-500/20',
+                    tab: 'sops' 
+                  },
+                  { 
+                    title: 'Mi Registro Diario', 
+                    desc: 'Hábitos y calendario del mes', 
+                    icon: <Calendar size={18} className="text-cyan-500 dark:text-cyan-400" />, 
+                    iconBg: 'bg-cyan-500/10 border-cyan-500/20',
+                    tab: 'daily' 
+                  },
+                  { 
+                    title: 'Recetario Nutricional', 
+                    desc: 'Bebidas y snacks saludables', 
+                    icon: <Utensils size={18} className="text-emerald-500 dark:text-emerald-400" />, 
+                    iconBg: 'bg-emerald-500/10 border-emerald-500/20',
+                    tab: 'recipes' 
+                  },
+                  { 
+                    title: 'Armería & Snack Bar', 
+                    desc: 'Control de suplementos y stock', 
+                    icon: <ShoppingBag size={18} className="text-rose-500 dark:text-rose-400" />, 
+                    iconBg: 'bg-rose-500/10 border-rose-500/20',
+                    tab: 'armeria' 
+                  },
                 ].map((action, i) => (
                   <div
                     key={i}
                     onClick={() => onNavigate?.(action.tab)}
-                    className="flex items-center gap-4 p-4 bg-slate-100 dark:bg-black/50 hover:bg-black/8 dark:bg-black/80 rounded-2xl border border-black/5 dark:border-white/5 hover:border-temple-gold/40 transition-all cursor-pointer group shadow-md"
+                    className="flex items-center gap-3.5 p-3.5 bg-slate-50 dark:bg-black/40 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl border border-black/5 dark:border-white/5 hover:border-temple-gold/40 transition-all cursor-pointer group shadow-sm"
                   >
-                    <span className="text-2xl p-2 rounded-xl bg-black/5 dark:bg-white/5 group-hover:scale-110 transition-transform">{action.emoji}</span>
+                    <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform ${action.iconBg}`}>
+                      {action.icon}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-temple-gold transition truncate">{action.title}</p>
                       <p className="text-xs text-slate-500 dark:text-gray-500 truncate">{action.desc}</p>
                     </div>
-                    <ArrowRight size={14} className="text-gray-600 group-hover:text-temple-gold group-hover:translate-x-1 transition-all" />
+                    <ArrowRight size={14} className="text-gray-400 group-hover:text-temple-gold group-hover:translate-x-1 transition-all shrink-0" />
                   </div>
                 ))}
               </div>

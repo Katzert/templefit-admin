@@ -88,6 +88,8 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
     }
   ];
 
+  const squadCount = new Set(students.map(s => s.escuadronId || 'Paz-Alfa')).size;
+
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-12 font-sans flex flex-col min-h-[calc(100vh-140px)]">
       {/* Header Banner */}
@@ -97,7 +99,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
             <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
               Metodología de 3 Fases
             </span>
-            <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">25 Escuadrones de 12 Atletas</span>
+            <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">{students.length} Atletas en {squadCount} Escuadrones</span>
           </div>
           <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
             <Kanban className="text-temple-gold" size={26} />
@@ -138,7 +140,7 @@ export function Module30SalesPipeline({ onNavigate }: Module30SalesPipelineProps
                 {stage.items.map(student => (
                   <div 
                     key={student.id} 
-                    className="bg-slate-100 dark:bg-black/50 hover:bg-black/8 dark:bg-black/80 border border-black/10 dark:border-white/10 hover:border-temple-gold/40 p-4 rounded-2xl transition-all shadow-md group"
+                    className="bg-slate-50 dark:bg-black/40 hover:bg-black/5 dark:hover:bg-white/5 border border-black/10 dark:border-white/10 hover:border-temple-gold/40 p-4 rounded-2xl transition-all shadow-md group"
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div>

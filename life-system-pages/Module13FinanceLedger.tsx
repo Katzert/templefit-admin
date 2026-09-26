@@ -490,6 +490,7 @@ export function Module13FinanceLedger() {
                     <option className="bg-white dark:bg-[#0E1424]" value="merchandise">Indumentaria</option>
                     <option className="bg-white dark:bg-[#0E1424]" value="operations">Operaciones</option>
                     <option className="bg-white dark:bg-[#0E1424]" value="rent">Alquiler</option>
+                    <option className="bg-white dark:bg-[#0E1424]" value="withdrawal">Retiros de Utilidades</option>
                   </select>
                 </div>
               </div>
@@ -507,7 +508,7 @@ export function Module13FinanceLedger() {
                     <th className="pb-3 text-center pr-4">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-black/5 dark:divide-white/5">
                   {filteredTransactions.map((tx) => {
                     const isEditing = editingId === tx.id;
 
@@ -519,7 +520,7 @@ export function Module13FinanceLedger() {
                               type="date"
                               value={editForm.date}
                               onChange={e => setEditForm({ ...editForm, date: e.target.value })}
-                              className="bg-slate-100 dark:bg-black/50 text-white px-2.5 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
+                              className="bg-slate-100 dark:bg-black/50 text-slate-900 dark:text-white px-2.5 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
                             />
                           </td>
                           <td className="py-3">
@@ -527,14 +528,14 @@ export function Module13FinanceLedger() {
                               type="text"
                               value={editForm.description}
                               onChange={e => setEditForm({ ...editForm, description: e.target.value })}
-                              className="w-full bg-slate-100 dark:bg-black/50 text-white px-2.5 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
+                              className="w-full bg-slate-100 dark:bg-black/50 text-slate-900 dark:text-white px-2.5 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
                             />
                           </td>
                           <td className="py-3">
                             <select
                               value={editForm.category}
                               onChange={e => setEditForm({ ...editForm, category: e.target.value as any })}
-                              className="bg-slate-100 dark:bg-black/50 text-white px-2 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
+                              className="bg-slate-100 dark:bg-black/50 text-slate-900 dark:text-white px-2 py-1.5 rounded-lg border border-temple-gold/40 text-xs focus:outline-none"
                             >
                               <option value="membership">Membresía</option>
                               <option value="courses">Cursos</option>
@@ -542,6 +543,7 @@ export function Module13FinanceLedger() {
                               <option value="merchandise">Indumentaria</option>
                               <option value="operations">Operaciones</option>
                               <option value="rent">Alquiler</option>
+                              <option value="withdrawal">Retiro / Ganancias</option>
                             </select>
                           </td>
                           <td className="py-3 text-right">
@@ -567,7 +569,7 @@ export function Module13FinanceLedger() {
                     }
 
                     return (
-                      <tr key={tx.id} className="hover:bg-black/5 dark:bg-white/5 transition group">
+                      <tr key={tx.id} className="hover:bg-black/[0.03] dark:hover:bg-white/5 transition group">
                         <td className="py-4 pl-4">
                           <span className="text-xs tabular-nums font-bold text-slate-700 dark:text-gray-300">{tx.date}</span>
                         </td>

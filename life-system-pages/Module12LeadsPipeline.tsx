@@ -449,7 +449,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                       {filteredLeads.filter(l => l.status === 'enrolled').length} Inscritos ({filteredLeads.length > 0 ? Math.round((filteredLeads.filter(l => l.status === 'enrolled').length / filteredLeads.length) * 100) : 0}% Conv.)
                     </td>
                     <td className="py-4 tabular-nums text-temple-gold font-bold">
-                      Reto 21D: Bs. {(filteredLeads.filter(l => l.status === 'enrolled').length * 200).toLocaleString()}
+                      Reto 21D: Bs. {(filteredLeads.filter(l => l.status === 'enrolled').length * 200).toLocaleString('es-BO')}
                     </td>
                     <td className="py-4 pr-4 text-right text-slate-600 dark:text-gray-400 text-[10px] uppercase font-bold">
                       Control F1 a F3
@@ -466,7 +466,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
       <AnimatePresence>
         {isModalOpen && (
           <div 
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto overscroll-contain py-6 sm:py-8"
             role="dialog"
             aria-modal="true"
             aria-labelledby="lead-modal-title"
@@ -476,7 +476,7 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white dark:bg-[#121826] border border-temple-gold/40 rounded-3xl w-full max-w-md p-6 md:p-8 shadow-2xl"
+              className="bg-white dark:bg-[#121826] border border-temple-gold/40 rounded-3xl w-full max-w-md p-6 md:p-8 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar my-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4 mb-6">

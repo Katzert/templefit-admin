@@ -89,7 +89,7 @@ export function Module14Inventory() {
         <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl flex items-center justify-between">
           <div>
             <p className="text-xs text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider mb-1">Valor Total Inventario</p>
-            <p className="text-2xl font-black text-slate-800 dark:text-white">Bs. {totalValue.toLocaleString()}</p>
+            <p className="text-2xl font-black text-slate-800 dark:text-white">Bs. {totalValue.toLocaleString('es-BO')}</p>
           </div>
           <div className="w-12 h-12 rounded-full bg-temple-gold/20 flex items-center justify-center text-temple-gold">
             <Package size={24} />
@@ -237,7 +237,7 @@ export function Module14Inventory() {
                           Bs. {((editForm.price || 0) - (editForm.cost || 0)).toFixed(0)}
                         </td>
                         <td className="p-3 text-right tabular-nums text-temple-gold font-bold text-xs">
-                          Bs. {((editForm.price || 0) * (editForm.stock || 0)).toLocaleString()}
+                          Bs. {((editForm.price || 0) * (editForm.stock || 0)).toLocaleString('es-BO')}
                         </td>
                         <td className="p-3 text-center">
                           <span className="text-[10px] text-amber-400 uppercase font-black">Editando</span>
@@ -302,7 +302,7 @@ export function Module14Inventory() {
                         +Bs. {unitMargin}
                       </td>
                       <td className="py-4 pl-4 text-right tabular-nums font-black text-temple-navy dark:text-white">
-                        Bs. {totalStockValue.toLocaleString()}
+                        Bs. {totalStockValue.toLocaleString('es-BO')}
                       </td>
                       <td className="py-4 pl-4 text-center whitespace-nowrap">
                         {isLowStock ? (
@@ -337,14 +337,14 @@ export function Module14Inventory() {
                 </td>
                 <td className="py-4 pl-4 text-right tabular-nums text-slate-500 dark:text-gray-500">-</td>
                 <td className="py-4 pl-4 text-right tabular-nums text-slate-700 dark:text-gray-300">
-                  Bs. {filteredItems.reduce((sum, i) => sum + ((i.cost || 0) * i.stock), 0).toLocaleString()}
+                  Bs. {filteredItems.reduce((sum, i) => sum + ((i.cost || 0) * i.stock), 0).toLocaleString('es-BO')}
                 </td>
                 <td className="py-4 pl-4 text-right tabular-nums text-slate-500 dark:text-gray-500">-</td>
                 <td className="py-4 pl-4 text-right tabular-nums text-emerald-400 font-bold">
-                  +Bs. {(filteredItems.reduce((sum, i) => sum + (i.price * i.stock), 0) - filteredItems.reduce((sum, i) => sum + ((i.cost || 0) * i.stock), 0)).toLocaleString()}
+                  +Bs. {(filteredItems.reduce((sum, i) => sum + (i.price * i.stock), 0) - filteredItems.reduce((sum, i) => sum + ((i.cost || 0) * i.stock), 0)).toLocaleString('es-BO')}
                 </td>
                 <td className="py-4 pl-4 text-right tabular-nums text-temple-gold text-sm font-black">
-                  Bs. {filteredItems.reduce((sum, i) => sum + (i.price * i.stock), 0).toLocaleString()}
+                  Bs. {filteredItems.reduce((sum, i) => sum + (i.price * i.stock), 0).toLocaleString('es-BO')}
                 </td>
                 <td className="py-4 pl-4 text-center tabular-nums text-[10px] text-emerald-400 uppercase font-black">
                   Auditado
