@@ -115,14 +115,22 @@ export function ContentMarketingHub() {
   };
 
   const resourceFolders = [
-    { name: 'Guiones & Copies para Redes', count: '12 publicaciones', icon: <FileText size={20} className="text-amber-400" /> },
-    { name: 'Fotos & Contenido CristoFit', count: 'Banco de medios', icon: <ImageIcon size={20} className="text-emerald-400" /> },
-    { name: 'Menú & Recetario Snack Bar', count: '8 Recetas activas', icon: <Sparkles size={20} className="text-blue-400" /> },
-    { name: 'Planes de Entrenamiento', count: 'Fuerza & Calistenia', icon: <Crown size={20} className="text-temple-gold" /> },
+    { name: 'Guiones & Copies para Redes', count: '12 publicaciones', icon: <FileText size={20} className="text-amber-400" />, pillar: 'Storytelling & Testimonios' },
+    { name: 'Fotos & Contenido CristoFit', count: 'Banco de medios', icon: <ImageIcon size={20} className="text-emerald-400" />, pillar: 'CristoFit Camp' },
+    { name: 'Menú & Recetario Snack Bar', count: '8 Recetas activas', icon: <Sparkles size={20} className="text-blue-400" />, pillar: 'Consumo Consciente & Snack' },
+    { name: 'Planes de Entrenamiento', count: 'Fuerza & Calistenia', icon: <Crown size={20} className="text-temple-gold" />, pillar: 'Planes de Entrenamiento' },
   ];
 
+  const handleFolderClick = (pillar: string) => {
+    if (pillarFilter === pillar) {
+      setPillarFilter('all');
+    } else {
+      setPillarFilter(pillar);
+    }
+  };
+
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-16 font-sans max-w-7xl mx-auto">
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 pb-28 md:pb-16 font-sans max-w-7xl mx-auto">
       
       {/* Header Banner */}
       <motion.div variants={item} className="bg-white dark:bg-gradient-to-r dark:from-[#0E1424] dark:via-[#0B0F19] dark:to-black text-temple-navy dark:text-white p-6 md:p-8 rounded-3xl border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
@@ -154,66 +162,81 @@ export function ContentMarketingHub() {
         </div>
       </motion.div>
 
-      {/* Resource Folders Grid */}
+      {/* Resource Folders Grid (Clickable) */}
       <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {resourceFolders.map((folder, idx) => (
-          <div
-            key={idx}
-            className="p-4 bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 rounded-2xl flex items-center justify-between shadow-lg"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-white dark:bg-white/5">
-                {folder.icon}
+        {resourceFolders.map((folder, idx) => {
+          const isActive = pillarFilter === folder.pillar;
+          return (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => handleFolderClick(folder.pillar)}
+              className={`p-4 rounded-2xl flex items-center justify-between shadow-lg text-left transition-all ${
+                isActive
+                  ? 'bg-amber-500/10 dark:bg-temple-gold/15 border-2 border-temple-gold ring-2 ring-temple-gold/30'
+                  : 'bg-white dark:bg-[#0E1424]/90 border border-black/10 dark:border-white/10 hover:border-temple-gold/50'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`p-2.5 rounded-xl ${isActive ? 'bg-temple-gold/20' : 'bg-black/5 dark:bg-white/5'}`}>
+                  {folder.icon}
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-temple-navy dark:text-white line-clamp-1">{folder.name}</h4>
+                  <p className="text-[10px] text-slate-500 dark:text-gray-400 font-medium">{folder.count}</p>
+                </div>
               </div>
-              <div>
-                <h4 className="text-xs font-bold text-temple-navy dark:text-white line-clamp-1">{folder.name}</h4>
-                <p className="text-[10px] text-slate-500 dark:text-gray-500 font-medium">{folder.count}</p>
-              </div>
-            </div>
-          </div>
-        ))}
+              {isActive && (
+                <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-temple-gold text-black">
+                  Activo
+                </span>
+              )}
+            </button>
+          );
+        })}
       </motion.div>
 
       {/* Month Tabs & Controls */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-black/60 p-3 rounded-2xl border border-black/10 dark:border-white/10">
-            {/* Month Selector */}
-            <div className="flex items-center gap-2 w-full md:w-auto">
-              {[
-                { index: 1, label: 'Mes 1: Lanzamiento & Hábitos' },
-                { index: 2, label: 'Mes 2: Reto 21D & Nutrición' },
-                { index: 3, label: 'Mes 3: CristoFit Camp & VIP' },
-              ].map(m => (
-                <button
-                  key={m.index}
-                  onClick={() => setSelectedMonth(m.index as any)}
-                  className={`flex-1 md:flex-none px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
-                    selectedMonth === m.index
-                      ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20 font-extrabold'
-                      : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
-                  }`}
-                >
-                  {m.label}
-                </button>
-              ))}
-            </div>
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-black/60 p-3 rounded-2xl border border-black/10 dark:border-white/10">
+        {/* Month Selector */}
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          {[
+            { index: 1, label: 'Mes 1: Lanzamiento & Hábitos' },
+            { index: 2, label: 'Mes 2: Reto 21D & Nutrición' },
+            { index: 3, label: 'Mes 3: CristoFit Camp & VIP' },
+          ].map(m => (
+            <button
+              key={m.index}
+              onClick={() => setSelectedMonth(m.index as any)}
+              className={`flex-1 md:flex-none px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
+                selectedMonth === m.index
+                  ? 'bg-temple-gold text-black shadow-lg shadow-temple-gold/20 font-extrabold'
+                  : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white hover:bg-black/5 dark:bg-white/5'
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
 
-            {/* Search */}
-            <div className="relative w-full md:w-72">
-              <Search className="absolute left-3.5 top-2.5 text-slate-600 dark:text-gray-400" size={15} />
-              <input
-                type="text"
-                placeholder="Buscar por tema o guion..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl text-xs text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold"
-              />
-            </div>
-          </div>
+        {/* Search */}
+        <div className="relative w-full md:w-72">
+          <Search className="absolute left-3.5 top-2.5 text-slate-600 dark:text-gray-400" size={15} />
+          <input
+            type="text"
+            placeholder="Buscar por tema o guion..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl text-xs text-temple-navy dark:text-white placeholder-gray-500 focus:outline-none focus:border-temple-gold"
+          />
+        </div>
+      </div>
 
       {/* Pillar Filter Pills */}
       <div className="flex flex-wrap gap-2">
         {[
           { id: 'all', label: 'Todos' },
+          { id: 'Planes de Entrenamiento', label: 'Planes de Entrenamiento' },
           { id: 'CristoFit Camp', label: 'CristoFit Camp' },
           { id: 'Hábitos 3 Áreas', label: 'Hábitos 3 Áreas' },
           { id: 'Consumo Consciente & Snack', label: 'Snack Bar' },
@@ -225,7 +248,7 @@ export function ContentMarketingHub() {
             onClick={() => setPillarFilter(p.id)}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
               pillarFilter === p.id
-                ? 'bg-white/20 text-white border border-white/30'
+                ? 'bg-temple-gold text-black border border-temple-gold shadow font-black'
                 : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white border border-transparent'
             }`}
           >
@@ -397,6 +420,7 @@ export function ContentMarketingHub() {
                   className="w-full px-3 py-2 bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl text-white font-bold"
                 >
                   <option value="Storytelling & Testimonios" className="bg-white dark:bg-[#121826]">Storytelling & Testimonios</option>
+                  <option value="Planes de Entrenamiento" className="bg-white dark:bg-[#121826]">Planes de Entrenamiento (Fuerza & Calistenia)</option>
                   <option value="Hábitos 3 Áreas" className="bg-white dark:bg-[#121826]">Hábitos 3 Áreas (Cuerpo, Mente, Espíritu)</option>
                   <option value="CristoFit Camp" className="bg-white dark:bg-[#121826]">CristoFit Camp & Actividades</option>
                   <option value="Consumo Consciente & Snack" className="bg-white dark:bg-[#121826]">Consumo Consciente & Snack Bar</option>

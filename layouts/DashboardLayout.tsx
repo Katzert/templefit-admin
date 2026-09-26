@@ -360,7 +360,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         </header>
 
         {/* Page Content Area */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 relative z-10 pb-20">
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 relative z-10 pb-28 md:pb-20">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -376,10 +376,10 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         </div>
 
         {/* Quick Action Floating Speed-Dial */}
-        <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2 pointer-events-none">
           <AnimatePresence>
             {showNotifications === false && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 pointer-events-auto">
                 <button
                   onClick={() => setActiveTab('finance')}
                   className="min-h-[44px] px-3.5 py-2 rounded-xl bg-white/90 dark:bg-[#121826]/90 border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-lg hover:bg-emerald-600 hover:text-temple-gold dark:hover:text-white transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"

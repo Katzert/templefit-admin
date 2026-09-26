@@ -181,7 +181,7 @@ export interface ContentPost {
   id: string;
   monthIndex: 1 | 2 | 3; // Mes 1, Mes 2, Mes 3 (Replicable a 90 días)
   dayOfWeek: 'Lunes' | 'Martes' | 'Miércoles' | 'Jueves' | 'Viernes' | 'Sábado' | 'Domingo';
-  pillar: 'CristoFit Camp' | 'Hábitos 3 Áreas' | 'Consumo Consciente & Snack' | 'Storytelling & Testimonios' | 'Llamadas a la Acción (CTA)' | 'Lives & Retos';
+  pillar: 'CristoFit Camp' | 'Hábitos 3 Áreas' | 'Consumo Consciente & Snack' | 'Storytelling & Testimonios' | 'Llamadas a la Acción (CTA)' | 'Lives & Retos' | 'Planes de Entrenamiento';
   title: string;
   hookAndStory: string;
   callToAction: string;

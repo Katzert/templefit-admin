@@ -4,6 +4,7 @@ import { PieChart, TrendingUp, Users, DollarSign, Activity, Save, BookOpen, Tabl
 import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { MonthlyBoard } from '../types';
+import { exportToExcel, exportToCSV } from '../lib/excelExport';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
@@ -164,6 +165,59 @@ export function Module40CorteEjecutivo() {
     }
   };
 
+  const handleExportCategoryBreakdown = () => {
+    const data = categoryBreakdown.map(r => ({
+      'Area / Concepto': r.area,
+      'Meta Presupuesto (Bs.)': r.target,
+      'Ingreso Real (Bs.)': r.actualIncome,
+      'Gasto Operativo (Bs.)': r.actualExpense,
+      'Margen Neto (Bs.)': r.netMargin,
+      '% Cumplimiento': `${r.pct}%`
+    }));
+    exportToExcel(data, `TempleFit_Matriz_Rendimiento_${board?.month || '2026'}`, 'Rendimiento');
+  };
+
+  const handleExportHistoricalFlowExcel = () => {
+    const data: Record<string, any>[] = historicalFlow.map(r => ({
+      'Mes / Periodo': r.month + (r.isCurrent ? ' (En Curso)' : ''),
+      'Ingresos Brutos (Bs.)': r.income,
+      'Gastos Operativos (Bs.)': r.expense,
+      'Saldo Operativo (Bs.)': r.saldo,
+      'Seguro Empresa 20% (Bs.)': r.seguro,
+      'Flujo Neto 80% (Bs.)': r.flujoNeto,
+      'Retiro Paulo 50% (Bs.)': r.retiroPaulo,
+      'Reinversion 50% (Bs.)': r.reinversion,
+      'Flujo Acumulado (Bs.)': r.flujoAcumulado,
+    }));
+    data.push({
+      'Mes / Periodo': 'TOTALES / POSICION NETA',
+      'Ingresos Brutos (Bs.)': historicalFlow.reduce((s, r) => s + r.income, 0),
+      'Gastos Operativos (Bs.)': historicalFlow.reduce((s, r) => s + r.expense, 0),
+      'Saldo Operativo (Bs.)': historicalFlow.reduce((s, r) => s + r.saldo, 0),
+      'Seguro Empresa 20% (Bs.)': historicalFlow.reduce((s, r) => s + r.seguro, 0),
+      'Flujo Neto 80% (Bs.)': historicalFlow.reduce((s, r) => s + r.flujoNeto, 0),
+      'Retiro Paulo 50% (Bs.)': historicalFlow.reduce((s, r) => s + r.retiroPaulo, 0),
+      'Reinversion 50% (Bs.)': historicalFlow.reduce((s, r) => s + r.reinversion, 0),
+      'Flujo Acumulado (Bs.)': historicalFlow[historicalFlow.length - 1]?.flujoAcumulado || 0,
+    });
+    exportToExcel(data, `TempleFit_Flujo_Neto_Reserva_2026`, 'Flujo_Neto_Reserva');
+  };
+
+  const handleExportHistoricalFlowCSV = () => {
+    const data: Record<string, any>[] = historicalFlow.map(r => ({
+      'Mes / Periodo': r.month + (r.isCurrent ? ' (En Curso)' : ''),
+      'Ingresos Brutos (Bs.)': r.income,
+      'Gastos Operativos (Bs.)': r.expense,
+      'Saldo Operativo (Bs.)': r.saldo,
+      'Seguro Empresa 20% (Bs.)': r.seguro,
+      'Flujo Neto 80% (Bs.)': r.flujoNeto,
+      'Retiro Paulo 50% (Bs.)': r.retiroPaulo,
+      'Reinversion 50% (Bs.)': r.reinversion,
+      'Flujo Acumulado (Bs.)': r.flujoAcumulado,
+    }));
+    exportToCSV(data, `TempleFit_Flujo_Neto_Reserva_2026`);
+  };
+
   if (!board) return null;
 
   const formatBs = (n: number) => `Bs. ${n.toLocaleString('es-BO')}`;
@@ -297,7 +351,11 @@ export function Module40CorteEjecutivo() {
               <p className="text-[10px] text-slate-600 dark:text-gray-400">Desglose analítico de unidades de negocio</p>
             </div>
           </div>
-          <button className="flex items-center gap-1.5 px-3 py-1.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-lg text-[10px] uppercase font-bold text-slate-700 dark:text-gray-300 hover:text-temple-gold dark:hover:text-white hover:bg-black/10 dark:bg-white/10 transition">
+          <button
+            onClick={handleExportCategoryBreakdown}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-lg text-[10px] uppercase font-bold text-slate-700 dark:text-gray-300 hover:text-temple-gold dark:hover:text-white hover:bg-black/10 dark:bg-white/10 transition"
+            title="Descargar matriz de rendimiento en archivo Excel"
+          >
             <Download size={14} />
             Exportar XLS
           </button>
@@ -419,6 +477,22 @@ export function Module40CorteEjecutivo() {
 
           <div className="flex items-center gap-2 flex-wrap">
             <button
+              onClick={handleExportHistoricalFlowExcel}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-temple-gold hover:bg-amber-400 text-black rounded-xl text-xs font-black transition shadow"
+              title="Descargar archivo Excel con celdas y columnas completas"
+            >
+              <Download size={14} />
+              <span>Exportar Excel (.xlsx)</span>
+            </button>
+            <button
+              onClick={handleExportHistoricalFlowCSV}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-slate-800 dark:text-white border border-black/10 dark:border-white/10 rounded-xl text-xs font-bold transition"
+              title="Descargar archivo CSV compatible con hojas de cálculo"
+            >
+              <Download size={14} />
+              <span>Descargar CSV</span>
+            </button>
+            <button
               onClick={handleShareExecutiveWhatsApp}
               className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow"
             >
@@ -475,8 +549,13 @@ export function Module40CorteEjecutivo() {
           </div>
         </div>
 
+        {/* Indicador de desplazamiento horizontal en pantallas moviles */}
+        <div className="flex items-center justify-between text-[11px] text-amber-700 dark:text-temple-gold font-bold mb-3 md:hidden bg-amber-500/10 px-3 py-2 rounded-xl border border-amber-500/20">
+          <span>👉 Desliza la tabla horizontalmente para ver todas las columnas</span>
+        </div>
+
         {/* Tabla */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto -mx-2 sm:mx-0">
           <table className="min-w-[850px] w-full text-left border-collapse text-xs">
             <thead>
               <tr className="border-b border-black/10 dark:border-white/10 uppercase tracking-wider text-[10px] text-slate-500 dark:text-gray-400 font-black">

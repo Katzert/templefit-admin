@@ -16,11 +16,13 @@ import {
   Check, 
   CheckCircle2,
   TrendingUp, 
-  Calendar 
+  Calendar,
+  Download
 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Transaction } from '../types';
+import { exportToExcel, exportToCSV } from '../lib/excelExport';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
@@ -88,6 +90,32 @@ export function Module13FinanceLedger() {
       mrr,
     };
   }, [transactions]);
+
+  const handleExportTransactionsExcel = () => {
+    const data = filteredTransactions.map(t => ({
+      'ID': t.id,
+      'Fecha': t.date,
+      'Tipo': t.type === 'income' ? 'Ingreso' : 'Egreso',
+      'Categoria': t.category,
+      'Monto (Bs.)': t.amount,
+      'Descripcion': t.description,
+      'ID Alumno': t.studentId || ''
+    }));
+    exportToExcel(data, `TempleFit_Libro_Diario_Caja`, 'Transacciones');
+  };
+
+  const handleExportTransactionsCSV = () => {
+    const data = filteredTransactions.map(t => ({
+      'ID': t.id,
+      'Fecha': t.date,
+      'Tipo': t.type === 'income' ? 'Ingreso' : 'Egreso',
+      'Categoria': t.category,
+      'Monto (Bs.)': t.amount,
+      'Descripcion': t.description,
+      'ID Alumno': t.studentId || ''
+    }));
+    exportToCSV(data, `TempleFit_Libro_Diario_Caja`);
+  };
 
   const formatBs = (n: number) => `Bs. ${n.toLocaleString('es-BO')}`;
 
@@ -201,13 +229,31 @@ export function Module13FinanceLedger() {
             </p>
           </div>
           
-          <button 
-            onClick={() => setIsAdding(!isAdding)} 
-            className="flex items-center gap-2 px-5 py-3 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max"
-          >
-            {isAdding ? <X size={18} /> : <Plus size={18} />}
-            <span>{isAdding ? 'Cerrar Formulario' : 'Nuevo Registro'}</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={handleExportTransactionsExcel}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-slate-800 dark:text-white border border-black/10 dark:border-white/10 rounded-xl font-bold uppercase tracking-wider text-xs transition"
+              title="Descargar libro diario en formato Excel (.xlsx)"
+            >
+              <Download size={15} />
+              <span>Exportar Excel</span>
+            </button>
+            <button
+              onClick={handleExportTransactionsCSV}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-slate-800 dark:text-white border border-black/10 dark:border-white/10 rounded-xl font-bold uppercase tracking-wider text-xs transition"
+              title="Descargar libro diario en formato CSV"
+            >
+              <Download size={15} />
+              <span>CSV</span>
+            </button>
+            <button 
+              onClick={() => setIsAdding(!isAdding)} 
+              className="flex items-center gap-2 px-5 py-2.5 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max"
+            >
+              {isAdding ? <X size={18} /> : <Plus size={18} />}
+              <span>{isAdding ? 'Cerrar' : 'Nuevo Registro'}</span>
+            </button>
+          </div>
         </div>
       </div>
 

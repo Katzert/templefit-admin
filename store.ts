@@ -896,6 +896,162 @@ const DEFAULT_DB: CRMDatabase = {
       driveDocLink: 'https://docs.google.com/document/d/templefit-vip-antonio-eid',
       status: 'draft',
       targetAudience: 'Antonio Eid / Atletas VIP'
+    },
+    {
+      id: 'post-6',
+      monthIndex: 1,
+      dayOfWeek: 'Jueves',
+      pillar: 'Planes de Entrenamiento',
+      title: 'Plan de Fuerza Mes 1: Fundamentos de Calistenia y Postura',
+      hookAndStory: 'Dominar el peso corporal es el primer paso antes de cargar peso externo. Progresión táctica de flexiones, fondos en paralelas y hollow body.',
+      callToAction: 'Descarga la rutina base y ejecútala en tu próxima sesión de escuadrón.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-calistenia-mes-1',
+      status: 'scheduled',
+      targetAudience: 'Atletas Nivel 1 y Escuadrones'
+    },
+    {
+      id: 'post-201',
+      monthIndex: 2,
+      dayOfWeek: 'Lunes',
+      pillar: 'Storytelling & Testimonios',
+      title: 'Reto 21 Días: Cómo reprogramar tu cuerpo en 3 semanas',
+      hookAndStory: 'La motivación dura 3 días; el carácter dura toda la vida. Atletas que llegaron sin poder hacer una dominada hoy lideran su escuadrón.',
+      callToAction: 'Inscríbete al nuevo ciclo del Reto 21 Días antes del cierre de cupos.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-reto21-guion',
+      status: 'scheduled',
+      targetAudience: 'Comunidad General & Nuevos Atletas'
+    },
+    {
+      id: 'post-202',
+      monthIndex: 2,
+      dayOfWeek: 'Miércoles',
+      pillar: 'Consumo Consciente & Snack',
+      title: 'Nutrición y Desinflamación: Menú Regenerativo de 7 Días',
+      hookAndStory: 'El rendimiento físico depende de la asimilación digestiva. Eliminamos procesados y priorizamos caldos minerales y proteína limpia.',
+      callToAction: 'Pide tu asesoría nutricional y prueba las opciones del Snack Bar.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-recetario-mes-2',
+      status: 'scheduled',
+      targetAudience: 'Atletas Activos'
+    },
+    {
+      id: 'post-203',
+      monthIndex: 2,
+      dayOfWeek: 'Jueves',
+      pillar: 'Planes de Entrenamiento',
+      title: 'Plan de Fuerza Mes 2: Progresión de Dominadas, Fondos y Core',
+      hookAndStory: 'Aumentamos el volumen de trabajo y la densidad de entrenamiento. Control excéntrico en barra fija y estabilidad escapular.',
+      callToAction: 'Revisa tu bitácora de repeticiones y sube de nivel este mes.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-calistenia-mes-2',
+      status: 'scheduled',
+      targetAudience: 'Escuadrones Intermedios'
+    },
+    {
+      id: 'post-204',
+      monthIndex: 2,
+      dayOfWeek: 'Sábado',
+      pillar: 'CristoFit Camp',
+      title: 'CristoFit Camp: Trabajo en Equipo y Resistencia Aeróbica',
+      hookAndStory: 'El sábado a las 06:00 AM no se negocia. Corremos, empujamos y servimos juntos bajo el lema Palabra y Pan.',
+      callToAction: 'Confirma tu asistencia con tu líder de escuadrón.',
+      driveDocLink: 'https://drive.google.com/drive/folders/templefit-camp-mes2',
+      status: 'scheduled',
+      targetAudience: 'Comunidad CristoFit'
+    },
+    {
+      id: 'post-205',
+      monthIndex: 2,
+      dayOfWeek: 'Martes',
+      pillar: 'Hábitos 3 Áreas',
+      title: 'La Regla Matutina: Oración, Respiración Buteyko y Movilidad',
+      hookAndStory: 'Cómo los primeros 20 minutos de tu día definen tu energía hormonal y enfoque mental para las siguientes 16 horas.',
+      callToAction: 'Guarda esta secuencia y ejecútala antes de mirar el teléfono.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-protocolo-matutino',
+      status: 'scheduled',
+      targetAudience: 'Atletas de Todos los Niveles'
+    },
+    {
+      id: 'post-206',
+      monthIndex: 2,
+      dayOfWeek: 'Viernes',
+      pillar: 'Lives & Retos',
+      title: 'Sesión VIP: Regulación de Cortisol y Rendimiento Empresarial',
+      hookAndStory: 'Estrategias fisiológicas de entrenamiento y ayuno aplicadas a ejecutivos con alta demanda mental y poco tiempo disponible.',
+      callToAction: 'Sesión privada en vivo para miembros del coaching 1 a 1.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-vip-sesion-2',
+      status: 'draft',
+      targetAudience: 'Antonio Eid / Atletas VIP'
+    },
+    {
+      id: 'post-301',
+      monthIndex: 3,
+      dayOfWeek: 'Lunes',
+      pillar: 'Storytelling & Testimonios',
+      title: 'Testimonio de Superación: Fortaleza Mental y Salud Integral',
+      hookAndStory: 'Tres meses de disciplina transforman no solo el físico, sino la paz del hogar y el liderazgo personal. Casos reales del gimnasio.',
+      callToAction: 'Comparte tu testimonio o agenda tu evaluación trimestral con Paulo.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-testimonios-mes-3',
+      status: 'scheduled',
+      targetAudience: 'Comunidad General'
+    },
+    {
+      id: 'post-302',
+      monthIndex: 3,
+      dayOfWeek: 'Miércoles',
+      pillar: 'Planes de Entrenamiento',
+      title: 'Plan de Fuerza Mes 3: Calistenia Avanzada y Tensión Total',
+      hookAndStory: 'Entrenamiento de fuerza relativa: transiciones de muscle-up, fondos lastrados, pistol squats y equilibrio en pino.',
+      callToAction: 'Consulta los requisitos técnicos antes de intentar la progresión.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-calistenia-mes-3',
+      status: 'scheduled',
+      targetAudience: 'Atletas Avanzados y Escuadrón Alfa'
+    },
+    {
+      id: 'post-303',
+      monthIndex: 3,
+      dayOfWeek: 'Jueves',
+      pillar: 'Consumo Consciente & Snack',
+      title: 'Electrolitos Puros y Bebida Recuperadora Post-Entreno',
+      hookAndStory: 'La verdadera recuperación celular no viene de bebidas azucaradas, sino de magnesio, sodio marino y agua de coco natural.',
+      callToAction: 'Disponible en el Snack Bar en cada sesión matutina.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-recetas-electrolitos',
+      status: 'scheduled',
+      targetAudience: 'Comunidad del Gimnasio'
+    },
+    {
+      id: 'post-304',
+      monthIndex: 3,
+      dayOfWeek: 'Sábado',
+      pillar: 'CristoFit Camp',
+      title: 'CristoFit Camp Desafío Trimestral: Resistencia y Fraternidad',
+      hookAndStory: 'Gran convocatoria especial de fin de trimestre. Retos por escuadrones, medallas de constancia y servicio social.',
+      callToAction: 'Inscribe a tu escuadrón y asegura tu lugar para la jornada.',
+      driveDocLink: 'https://drive.google.com/drive/folders/templefit-camp-final',
+      status: 'scheduled',
+      targetAudience: 'Comunidad CristoFit'
+    },
+    {
+      id: 'post-305',
+      monthIndex: 3,
+      dayOfWeek: 'Martes',
+      pillar: 'Lives & Retos',
+      title: 'Evaluación Trimestral VIP: Análisis de Composición y Metas',
+      hookAndStory: 'Revisión exhaustiva de medidas antropométricas, fuerza máxima alcanzada y calibración de objetivos para el siguiente ciclo.',
+      callToAction: 'Exclusivo para atletas VIP y mentoría personalizada con Paulo.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-vip-evaluacion-3',
+      status: 'scheduled',
+      targetAudience: 'Antonio Eid / Atletas VIP'
+    },
+    {
+      id: 'post-306',
+      monthIndex: 3,
+      dayOfWeek: 'Domingo',
+      pillar: 'Hábitos 3 Áreas',
+      title: 'Hábitos Innegociables: La Filosofía de Vida TempleFit',
+      hookAndStory: 'El espíritu da el diseño, el cuerpo es el templo y la mente edifica. Integración permanente de fe, salud y disciplina.',
+      callToAction: 'Lee la reflexión completa y compártela con quien necesite dirección.',
+      driveDocLink: 'https://docs.google.com/document/d/templefit-filosofia-habitos',
+      status: 'scheduled',
+      targetAudience: 'Comunidad General'
     }
   ],
   inventory: [
@@ -1242,6 +1398,10 @@ export function getCRMDatabase(): CRMDatabase {
     }
     if (!parsed.monthlyBoard) {
       parsed.monthlyBoard = DEFAULT_DB.monthlyBoard;
+      hasUpdated = true;
+    }
+    if (!parsed.contentPosts || parsed.contentPosts.length < 15) {
+      parsed.contentPosts = DEFAULT_DB.contentPosts;
       hasUpdated = true;
     }
     if (hasUpdated) {

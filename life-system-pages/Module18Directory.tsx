@@ -18,13 +18,15 @@ import {
   Trash2,
   Share2,
   Copy,
-  CheckCircle2
+  CheckCircle2,
+  Download
 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { useAuth } from '../context/AuthContext';
 import { getCRMDatabase, saveCRMDatabase } from '../store';
 import { Student } from '../types';
 import { createWhatsAppLink } from '../lib/utils';
+import { exportToExcel, exportToCSV } from '../lib/excelExport';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.3 } } };
@@ -100,6 +102,48 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
     const db = getCRMDatabase();
     setLocalStudents(db.students || []);
   }, [students]);
+
+  const handleExportAthletesExcel = () => {
+    const data = localStudents.map(s => ({
+      'ID Atleta': s.id,
+      'Nombre Completo': s.name,
+      'Telefono': s.phone,
+      'Plan / Membresia': s.plan,
+      'Estado': s.status === 'active' ? 'Activo' : s.status === 'expiring' ? 'Por Vencer' : 'Inactivo',
+      'Escuadron': s.escuadronId || 'Sin asignar',
+      'Fase': s.phase,
+      'Fecha Renovacion': s.renewalDate || '',
+      'Total Asistencias': (s.attendanceHistory || []).filter(a => a.attended).length,
+      'Objetivo Fisico': s.physicalGoal || '',
+      'Proposito / Intencion': s.spiritualIntention || '',
+      'Nivel': s.workoutLevel || 'Principiante',
+      'Peso (kg)': s.weightKg || '',
+      'Estatura (m)': s.heightM || '',
+      'Fecha Registro': s.enrolledDate || ''
+    }));
+    exportToExcel(data, `TempleFit_Directorio_Atletas_Auditado_67`, 'Atletas');
+  };
+
+  const handleExportAthletesCSV = () => {
+    const data = localStudents.map(s => ({
+      'ID Atleta': s.id,
+      'Nombre Completo': s.name,
+      'Telefono': s.phone,
+      'Plan / Membresia': s.plan,
+      'Estado': s.status === 'active' ? 'Activo' : s.status === 'expiring' ? 'Por Vencer' : 'Inactivo',
+      'Escuadron': s.escuadronId || 'Sin asignar',
+      'Fase': s.phase,
+      'Fecha Renovacion': s.renewalDate || '',
+      'Total Asistencias': (s.attendanceHistory || []).filter(a => a.attended).length,
+      'Objetivo Fisico': s.physicalGoal || '',
+      'Proposito / Intencion': s.spiritualIntention || '',
+      'Nivel': s.workoutLevel || 'Principiante',
+      'Peso (kg)': s.weightKg || '',
+      'Estatura (m)': s.heightM || '',
+      'Fecha Registro': s.enrolledDate || ''
+    }));
+    exportToCSV(data, `TempleFit_Directorio_Atletas_Auditado_67`);
+  };
 
   const filteredStudents = useMemo(() => {
     return localStudents.filter(student => {
@@ -242,12 +286,30 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
             </p>
           </div>
           
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-5 py-3 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max"
-          >
-            <Plus size={18} /> Nuevo Atleta
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={handleExportAthletesExcel}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-slate-800 dark:text-white border border-black/10 dark:border-white/10 rounded-xl font-bold uppercase tracking-wider text-xs transition"
+              title="Descargar lista de atletas en formato Excel (.xlsx)"
+            >
+              <Download size={15} />
+              <span>Exportar Excel</span>
+            </button>
+            <button
+              onClick={handleExportAthletesCSV}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-slate-800 dark:text-white border border-black/10 dark:border-white/10 rounded-xl font-bold uppercase tracking-wider text-xs transition"
+              title="Descargar lista de atletas en formato CSV"
+            >
+              <Download size={15} />
+              <span>CSV</span>
+            </button>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center gap-2 px-5 py-2.5 bg-temple-gold text-black rounded-xl font-extrabold hover:bg-amber-400 transition-all uppercase tracking-wider text-xs shadow-lg shadow-temple-gold/20 w-max"
+            >
+              <Plus size={18} /> Nuevo Atleta
+            </button>
+          </div>
         </div>
       </div>
 
