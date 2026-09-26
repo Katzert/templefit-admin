@@ -218,7 +218,7 @@ export function Module13FinanceLedger() {
               <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
                 Caja & Finanzas
               </span>
-              <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">Total: {transactions.length} registros</span>
+              <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">Total: {transactions.length} movimientos contables registrados</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <DollarSign className="text-temple-gold" size={26} />

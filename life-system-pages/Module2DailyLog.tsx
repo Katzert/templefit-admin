@@ -367,26 +367,26 @@ export function Module2DailyLog() {
         <div className="relative z-10 flex flex-col md:flex-row justify-between gap-6">
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-4">
-              <span className="px-3 py-1 rounded-full bg-black/10 dark:bg-white/10 text-white border border-black/20 dark:border-white/20 text-[10px] font-black uppercase tracking-[0.2em] backdrop-blur-md">
+              <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 text-slate-800 dark:text-white border border-black/10 dark:border-white/20 text-[10px] font-black uppercase tracking-[0.2em] backdrop-blur-md">
                 Radar de Cierre
               </span>
               
               <div className="flex flex-wrap bg-white dark:bg-black/60 p-1.5 rounded-2xl border border-black/10 dark:border-white/10 backdrop-blur-md gap-1">
                 <button 
                   onClick={() => setEvaluationType('daily')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'daily' ? 'bg-white/20 text-white shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'daily' ? 'bg-temple-gold text-black font-extrabold shadow-sm' : 'text-slate-700 dark:text-gray-300 hover:text-temple-gold dark:hover:text-white'}`}
                 >
-                  <Clock size={12} /> 1. Diario Atleta
+                  <Clock size={12} /> 1. Diario del Atleta
                 </button>
                 <button 
                   onClick={() => setEvaluationType('monthly')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'monthly' ? 'bg-temple-gold text-black font-extrabold shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'monthly' ? 'bg-temple-gold text-black font-extrabold shadow-sm' : 'text-slate-700 dark:text-gray-300 hover:text-temple-gold dark:hover:text-white'}`}
                 >
                   <Calendar size={12} /> 2. Calendario Mes
                 </button>
                 <button 
                   onClick={() => setEvaluationType('admin-habits')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'admin-habits' ? 'bg-emerald-500 text-black font-extrabold shadow-sm' : 'text-slate-600 dark:text-gray-400 hover:text-temple-gold dark:hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${evaluationType === 'admin-habits' ? 'bg-emerald-500 text-black font-extrabold shadow-sm' : 'text-slate-700 dark:text-gray-300 hover:text-temple-gold dark:hover:text-white'}`}
                 >
                   <ShieldCheck size={12} /> 3. Hábitos de Calidad (Admin)
                 </button>
@@ -406,7 +406,7 @@ export function Module2DailyLog() {
 
           {evaluationType === 'daily' && (
             <div className="flex flex-col items-end gap-2 shrink-0">
-              <span className="text-[10px] uppercase font-black tracking-widest text-slate-500 dark:text-gray-500">Estado Global (Hoy)</span>
+              <span className="text-[10px] uppercase font-black tracking-widest text-slate-700 dark:text-gray-400">Estado Global (Hoy)</span>
               <div className="bg-white dark:bg-black/60 backdrop-blur-md p-2 rounded-2xl border border-black/10 dark:border-white/10 flex gap-2">
                 <button 
                   onClick={() => setGlobalStatus('green')}
@@ -445,6 +445,29 @@ export function Module2DailyLog() {
             exit={{ opacity: 0, y: -20 }}
             className="space-y-6"
           >
+            {/* Descripción Oficial del Diario del Atleta */}
+            <motion.div variants={item} className="bg-white dark:bg-[#0B0F19]/90 border border-temple-gold/30 rounded-2xl p-5 shadow-lg backdrop-blur-md">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-temple-gold/20 text-temple-gold flex items-center justify-center shrink-0 border border-temple-gold/30">
+                    <Clock size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                      Diario del Atleta: Bitácora Diaria de Hábitos y Estado Vital
+                    </h4>
+                    <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5 leading-relaxed">
+                      Herramienta para registrar el cumplimiento de hábitos del atleta: horas de sueño reparador, hidratación con sales ElectroHidra, nutrición balanceada y estado de los 3 pilares vitales (Cuerpo, Mente y Espíritu).
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg bg-temple-gold/15 text-temple-gold border border-temple-gold/30">
+                    Bitácora en Línea
+                  </span>
+                </div>
+              </div>
+            </motion.div>
             {/* Micro-Registro Táctico */}
             <motion.div variants={item} className="bg-black/[0.03] dark:bg-black/40 border border-black/5 dark:border-white/5 rounded-[2rem] p-6 shadow-xl">
               <div className="flex items-center justify-between mb-5">
@@ -573,13 +596,13 @@ export function Module2DailyLog() {
                         value={primaryVictory}
                         onChange={(e) => setPrimaryVictory(e.target.value)}
                         placeholder="¿Qué hizo bien hoy? Una frase de elogio directo..."
-                        className="w-full bg-transparent text-white text-lg font-medium focus:outline-none resize-none placeholder-white/20 min-h-[60px]"
+                        className="w-full bg-transparent text-slate-900 dark:text-white text-lg font-medium focus:outline-none resize-none placeholder-slate-400 dark:placeholder-white/20 min-h-[60px]"
                         rows={2}
                       />
                     </div>
                   </div>
 
-                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent w-full"></div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent w-full"></div>
 
                   {/* Ajuste */}
                   <div className="flex gap-6 relative group">
@@ -592,7 +615,7 @@ export function Module2DailyLog() {
                         value={primaryAdjustment}
                         onChange={(e) => setPrimaryAdjustment(e.target.value)}
                         placeholder="El ajuste o punto que necesita mejorar..."
-                        className="w-full bg-transparent text-slate-700 dark:text-gray-300 text-lg font-medium focus:outline-none resize-none placeholder-white/20 min-h-[60px]"
+                        className="w-full bg-transparent text-slate-900 dark:text-white text-lg font-medium focus:outline-none resize-none placeholder-slate-400 dark:placeholder-white/20 min-h-[60px]"
                         rows={2}
                       />
                     </div>
@@ -969,7 +992,7 @@ export function Module2DailyLog() {
                         <span className="text-[10px] font-black uppercase tracking-wider text-temple-gold block mb-0.5">
                           Hábito {String(idx + 1).padStart(2, '0')}
                         </span>
-                        <p className={`text-xs font-bold leading-relaxed ${isChecked ? 'line-through text-slate-600 dark:text-gray-400' : 'text-white'}`}>
+                        <p className={`text-xs font-bold leading-relaxed ${isChecked ? 'line-through text-slate-500 dark:text-gray-400' : 'text-slate-900 dark:text-white'}`}>
                           {habit}
                         </p>
                       </div>
@@ -1009,7 +1032,7 @@ export function Module2DailyLog() {
                       onClick={() => toggleActionPlan(planItem.phase)}
                       className={`p-4 rounded-2xl border transition-all flex items-start gap-3.5 cursor-pointer ${
                         isChecked 
-                          ? 'bg-blue-500/10 border-blue-500/40 text-white' 
+                          ? 'bg-blue-500/10 border-blue-500/40 text-slate-900 dark:text-white' 
                           : 'bg-black/[0.03] dark:bg-black/40 border-black/5 dark:border-white/5 text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:bg-white/5 hover:border-black/20 dark:border-white/20'
                       }`}
                     >

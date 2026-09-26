@@ -656,15 +656,15 @@ export function Module18Directory({ onNavigate }: Module18DirectoryProps) {
                       value={newAthlete.plan}
                       onChange={e => setNewAthlete({ ...newAthlete, plan: e.target.value as any })}
                     >
-                      <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs.)</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual (200 Bs.)</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual (200 Bs.)</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Trimestral Atleta (500 Bs.)</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Semestral Atleta (950 Bs.)</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 (450 Bs.)</option>
-                      <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp (150 Bs.)</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. (1.200 Bs.)</option>
-                      <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario (25 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs. / mes)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual Estándar (200 Bs. / mes)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Bimensual Disciplina">Plan Bimensual Disciplina (380 Bs. / 2 meses)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Plan Trimestral Atleta (500 Bs. / 3 meses)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Plan Semestral Élite (950 Bs. / 6 meses)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 VIP (450 Bs. / mes)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp Sábados (150 Bs. / mes)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. Liderazgo (1.200 Bs.)</option>
+                      <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario Individual (25 Bs.)</option>
                     </select>
                   </div>
                   <div>

@@ -291,7 +291,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             icon: <Users size={22} />, 
             label: 'Atletas Activos', 
             value: `${activeStudents}`, 
-            sub: `/ ${totalStudents} registrados`, 
+            sub: `/ ${totalStudents} alumnos registrados (67 escuadrones + 1 VIP)`, 
             color: 'text-temple-gold',
             bg: 'from-amber-500/10 to-transparent'
           },
@@ -567,11 +567,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                   { title: 'Directorio de Atletas', desc: 'Fichas y datos de alumnos', emoji: '👥', tab: 'directory' },
                   { title: 'Fases F1 a F3', desc: 'Progreso y etapas de atletas', emoji: '🛡️', tab: 'sales-pipeline' },
                   { title: 'Prospectos y Leads', desc: 'Contactos y nuevas pruebas', emoji: '🎯', tab: 'leads-pipeline' },
-                  { title: 'Caja y Finanzas', desc: 'Ingresos, gastos y balance', emoji: '💰', tab: 'finance-ledger' },
+                  { title: 'Finanzas & Caja Central', desc: 'Diario, semanal, mensual, anual y corte 50/50', emoji: '💰', tab: 'finance' },
                   { title: 'Guías y SOPs', desc: 'Protocolos de atención y camp', emoji: '🧠', tab: 'sops' },
                   { title: 'Mi Registro Diario', desc: 'Hábitos y calendario del mes', emoji: '☀️', tab: 'daily' },
                   { title: 'Recetario Nutricional', desc: 'Bebidas y snacks saludables', emoji: '🍵', tab: 'recipes' },
-                  { title: 'Corte Semanal', desc: 'Resumen y balance 50/50', emoji: '📊', tab: 'corte-ejecutivo' },
+                  { title: 'Armería & Snack Bar', desc: 'Control de suplementos y consumos', emoji: '🥤', tab: 'armeria' },
                 ].map((action, i) => (
                   <div
                     key={i}

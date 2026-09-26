@@ -88,9 +88,14 @@ export default function UsuarioPage() {
       case 'finance':
       case 'finance-ledger':
       case 'financial': 
-        return hasRole('admin') ? <HubFinances defaultSubTab="ledger" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+        return hasRole('admin') ? <HubFinances defaultSubTab="diario" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+      case 'corte-semanal': 
+        return hasRole('admin') ? <HubFinances defaultSubTab="semanal" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
       case 'corte-ejecutivo': 
-        return hasRole('admin') ? <HubFinances defaultSubTab="corte" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+      case 'corte-mensual': 
+        return hasRole('admin') ? <HubFinances defaultSubTab="mensual" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
+      case 'finanzas-anual': 
+        return hasRole('admin') ? <HubFinances defaultSubTab="anual" /> : <HubCentroDeMando onNavigate={setActiveTab} />;
       
       default: 
         return <HubCentroDeMando onNavigate={setActiveTab} />;

@@ -750,7 +750,8 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                 const newPlan = e.target.value as any;
                 let fee = 200;
                 let cycle: any = 'mensual';
-                if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual' || newPlan === 'Plan Integral Mensual') { fee = 200; cycle = 'mensual'; }
+                if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual') { fee = 200; cycle = 'mensual'; }
+                else if (newPlan === 'Bimensual Disciplina') { fee = 380; cycle = 'bimensual'; }
                 else if (newPlan === 'Trimestral Atleta') { fee = 500; cycle = 'trimestral'; }
                 else if (newPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
                 else if (newPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
@@ -767,15 +768,15 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               }}
               className="w-full bg-transparent font-black text-xs md:text-sm text-temple-navy dark:text-white mt-1 focus:outline-none cursor-pointer"
             >
-              <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs.)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual (200 Bs.)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual (200 Bs.)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Trimestral Atleta (500 Bs. / 3 meses)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Semestral Atleta (950 Bs. / 6 meses)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 (450 Bs.)</option>
-              <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp (150 Bs.)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. (1.200 Bs.)</option>
-              <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario (25 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs. / mes)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual Estándar (200 Bs. / mes)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Bimensual Disciplina">Plan Bimensual Disciplina (380 Bs. / 2 meses)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Plan Trimestral Atleta (500 Bs. / 3 meses)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Plan Semestral Élite (950 Bs. / 6 meses)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 VIP (450 Bs. / mes)</option>
+              <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp Sábados (150 Bs. / mes)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. Liderazgo (1.200 Bs.)</option>
+              <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario Individual (25 Bs.)</option>
             </select>
           </div>
 
@@ -879,7 +880,8 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
               const newPlan = e.target.value as any;
               let fee = 200;
               let cycle: any = 'mensual';
-              if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual' || newPlan === 'Plan Integral Mensual') { fee = 200; cycle = 'mensual'; }
+              if (newPlan === 'Reto 21 Días' || newPlan === 'Membresía Mensual') { fee = 200; cycle = 'mensual'; }
+              else if (newPlan === 'Bimensual Disciplina') { fee = 380; cycle = 'bimensual'; }
               else if (newPlan === 'Trimestral Atleta') { fee = 500; cycle = 'trimestral'; }
               else if (newPlan === 'Semestral Atleta') { fee = 950; cycle = 'semestral'; }
               else if (newPlan === 'Coaching 1 a 1') { fee = 450; cycle = 'mensual'; }
@@ -896,15 +898,15 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
             }}
             className="w-full bg-slate-100 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-xs font-black text-temple-navy dark:text-white focus:outline-none focus:border-temple-gold cursor-pointer mt-1"
           >
-            <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs.)</option>
-            <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual (200 Bs.)</option>
-            <option className="bg-white dark:bg-[#121826]" value="Plan Integral Mensual">Plan Integral Mensual (200 Bs.)</option>
-            <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Trimestral Atleta (500 Bs.)</option>
-            <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Semestral Atleta (950 Bs.)</option>
-            <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 (450 Bs.)</option>
-            <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp (150 Bs.)</option>
-            <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. (1.200 Bs.)</option>
-            <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario (25 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Reto 21 Días">Reto 21 Días = ÍNTEGROS (200 Bs. / mes)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Membresía Mensual">Membresía Mensual Estándar (200 Bs. / mes)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Bimensual Disciplina">Plan Bimensual Disciplina (380 Bs. / 2 meses)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Trimestral Atleta">Plan Trimestral Atleta (500 Bs. / 3 meses)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Semestral Atleta">Plan Semestral Élite (950 Bs. / 6 meses)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Coaching 1 a 1">Coaching 1 a 1 VIP (450 Bs. / mes)</option>
+            <option className="bg-white dark:bg-[#121826]" value="CristoFit Camp">CristoFit Camp Sábados (150 Bs. / mes)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Formación E.A.G.E.">Formación E.A.G.E. Liderazgo (1.200 Bs.)</option>
+            <option className="bg-white dark:bg-[#121826]" value="Pase Diario">Pase Diario Individual (25 Bs.)</option>
           </select>
         </div>
 
@@ -1595,12 +1597,12 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       {/* ========================================================================= */}
       <AnimatePresence>
         {isSnackModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-lg w-full space-y-5"
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-lg w-full space-y-5 my-auto max-h-[92vh] overflow-y-auto pb-8"
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
                 <div className="flex items-center gap-2.5">
@@ -1813,12 +1815,12 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       {/* ========================================================================= */}
       <AnimatePresence>
         {isMuscleModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col space-y-4"
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col space-y-4 my-auto pb-8"
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
                 <div className="flex items-center gap-2.5">
@@ -1961,12 +1963,12 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       {/* ========================================================================= */}
       <AnimatePresence>
         {isAttendanceModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-md w-full space-y-4"
+              className="bg-white dark:bg-[#0E1424] border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-2xl max-w-md w-full space-y-4 my-auto pb-8"
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
                 <div className="flex items-center gap-2.5">

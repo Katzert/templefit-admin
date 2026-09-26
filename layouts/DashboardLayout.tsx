@@ -360,7 +360,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         </header>
 
         {/* Page Content Area */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 relative z-10 pb-28 md:pb-20">
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 relative pb-28 md:pb-20">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -376,7 +376,7 @@ export function DashboardLayout({ children, activeTab, setActiveTab, onBackToWeb
         </div>
 
         {/* Quick Action Floating Speed-Dial */}
-        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2 pointer-events-none">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 flex flex-col items-end gap-2 pointer-events-none">
           <AnimatePresence>
             {showNotifications === false && (
               <div className="flex items-center gap-2 pointer-events-auto">
