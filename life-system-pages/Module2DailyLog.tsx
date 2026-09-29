@@ -313,7 +313,7 @@ export function Module2DailyLog() {
   };
 
   const formatMonthYear = (date: Date) => {
-    return new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' }).format(date).toUpperCase();
+    return new Intl.DateTimeFormat('es-BO', { month: 'long', year: 'numeric' }).format(date).toUpperCase();
   };
 
   // Calendar Grid Calculations
@@ -499,7 +499,7 @@ export function Module2DailyLog() {
             </h2>
             <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 mt-2 font-medium">
               {evaluationType === 'daily' 
-                ? `Registro diario • ${new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())}`
+                ? `Registro diario • ${new Intl.DateTimeFormat('es-BO', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())}`
                 : `Calendario de cumplimiento • ${formatMonthYear(viewingMonth)}`
               }
             </p>
@@ -793,7 +793,7 @@ export function Module2DailyLog() {
                         <div className="flex items-center justify-between pb-4 border-b border-black/10 dark:border-white/10">
                           <div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-temple-gold block">
-                              Día {selectedHistoricalDay.day} de {new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(new Date(selectedHistoricalDay.year, selectedHistoricalDay.month, 1))}
+                              Día {selectedHistoricalDay.day} de {new Intl.DateTimeFormat('es-BO', { month: 'long' }).format(new Date(selectedHistoricalDay.year, selectedHistoricalDay.month, 1))}
                             </span>
                             <span className={`text-[10px] font-extrabold uppercase tracking-wider ${selectedHistoricalDay.status === 'green' ? 'text-emerald-400' : selectedHistoricalDay.status === 'yellow' ? 'text-amber-400' : 'text-red-400'}`}>
                               {getStatusText(selectedHistoricalDay.status)}

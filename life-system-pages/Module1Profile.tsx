@@ -540,7 +540,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     const currentBal = selectedStudent.snackBarBalanceBs !== undefined ? selectedStudent.snackBarBalanceBs : (snackBarBalanceBs || 0);
 
     const actualPayment = paymentAmount;
-    const newBalance = Math.max(0, currentBal - actualPayment);
+    const newBalance = Math.round((currentBal - actualPayment) * 100) / 100;
     const today = getBoliviaTodayISO();
     const vault = method === 'efectivo' ? 'cajaFisica' : 'banco';
 
@@ -951,7 +951,11 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
           <div className="flex items-center gap-3">
             <Coffee size={16} className="text-temple-gold" />
             <span className="font-bold text-slate-700 dark:text-gray-300">Consumo Snack Bar:</span>
-            <span className="font-black text-temple-gold dark:text-temple-gold text-sm">Bs. {snackBarBalanceBs || 0}</span>
+            {snackBarBalanceBs < 0 ? (
+              <span className="font-black text-emerald-500 text-sm">A favor: Bs. {Math.abs(snackBarBalanceBs)}</span>
+            ) : (
+              <span className="font-black text-temple-gold dark:text-temple-gold text-sm">Bs. {snackBarBalanceBs || 0}</span>
+            )}
             <button
               onClick={() => {
                 setSnackActionType(snackBarBalanceBs > 0 ? 'payment' : 'charge');
@@ -1867,14 +1871,14 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                   {/* Status Box */}
                   <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-center space-y-1">
                     <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 block">
-                      {snackBarBalanceBs > 0 ? 'Deuda Pendiente de Snack' : 'Estado de Saldo en Snack Bar'}
+                      {snackBarBalanceBs > 0 ? 'Deuda Pendiente de Snack' : snackBarBalanceBs < 0 ? 'Saldo a Favor del Atleta' : 'Estado de Saldo en Snack Bar'}
                     </span>
                     <span className="text-3xl font-black text-emerald-400">
-                      Bs. {snackBarBalanceBs || 0}
+                      {snackBarBalanceBs < 0 ? `+ Bs. ${Math.abs(snackBarBalanceBs)}` : `Bs. ${snackBarBalanceBs || 0}`}
                     </span>
                     {snackBarBalanceBs <= 0 && (
                       <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-1">
-                        Sin deuda pendiente. Puedes registrar un abono anticipado o cobro al contado.
+                        {snackBarBalanceBs < 0 ? 'El atleta cuenta con saldo a favor para futuros consumos.' : 'Sin deuda pendiente. Puedes registrar un abono anticipado o cobro al contado.'}
                       </p>
                     )}
                   </div>
