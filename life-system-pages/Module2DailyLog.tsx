@@ -28,7 +28,11 @@ import {
   Save,
   Check,
   ShieldCheck,
-  ListChecks
+  ListChecks,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  BarChart3
 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -127,14 +131,36 @@ export function Module2DailyLog() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('Registro Guardado Exitosamente');
 
-  // Admin Quality Habits and Action Plans State
-  const [adminHabits, setAdminHabits] = useState<Record<string, boolean>>(() => {
+  // Admin Quality Habits (Per-Day Calendar Tracking) and Action Plans State
+  const [dailyAdminHabits, setDailyAdminHabits] = useState<Record<string, Record<string, boolean>>>(() => {
     if (typeof window === 'undefined') return {};
     try {
-      const raw = localStorage.getItem('templefit_admin_quality_habits');
-      return raw ? JSON.parse(raw) : {};
-    } catch { return {}; }
+      const rawDaily = localStorage.getItem('templefit_admin_daily_habits');
+      if (rawDaily) return JSON.parse(rawDaily);
+      const legacyRaw = localStorage.getItem('templefit_admin_quality_habits');
+      const legacy = legacyRaw ? JSON.parse(legacyRaw) : {};
+      const today = getTodayKey();
+      return { [today]: legacy };
+    } catch {
+      return {};
+    }
   });
+
+  const [adminHabitDateKey, setAdminHabitDateKey] = useState<string>(todayKey);
+
+  // Active day habits for the date selected in the admin view or today
+  const adminHabits = dailyAdminHabits[adminHabitDateKey] || {};
+
+  const toggleAdminHabit = (habitText: string, targetDateKey?: string) => {
+    const dKey = targetDateKey || adminHabitDateKey || todayKey;
+    setDailyAdminHabits(prev => {
+      const dayHabits = prev[dKey] || {};
+      const updatedDay = { ...dayHabits, [habitText]: !dayHabits[habitText] };
+      const updatedAll = { ...prev, [dKey]: updatedDay };
+      localStorage.setItem('templefit_admin_daily_habits', JSON.stringify(updatedAll));
+      return updatedAll;
+    });
+  };
 
   const [actionPlans, setActionPlans] = useState<Record<string, boolean>>(() => {
     if (typeof window === 'undefined') return {};
@@ -143,12 +169,6 @@ export function Module2DailyLog() {
       return raw ? JSON.parse(raw) : {};
     } catch { return {}; }
   });
-
-  const toggleAdminHabit = (habitText: string) => {
-    const updated = { ...adminHabits, [habitText]: !adminHabits[habitText] };
-    setAdminHabits(updated);
-    localStorage.setItem('templefit_admin_quality_habits', JSON.stringify(updated));
-  };
 
   const toggleActionPlan = (planKey: string) => {
     const updated = { ...actionPlans, [planKey]: !actionPlans[planKey] };
@@ -314,6 +334,87 @@ export function Module2DailyLog() {
   const redDays = monthRecords.filter(d => d.status === 'red').length;
   const recordedDaysCount = monthRecords.length;
   const disciplineRatio = recordedDaysCount > 0 ? Math.round((greenDays / recordedDaysCount) * 100) : 0;
+
+  // Monthly calculations for the 12 habits (Progression / Regression analysis)
+  const monthlyHabitsAnalysis = useMemo(() => {
+    // Current month tracked days
+    const thisMonthDays: { dateKey: string; count: number }[] = [];
+    let thisMonthTotalCompleted = 0;
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dKey = formatDateKey(year, month, d);
+      const dayHabits = dailyAdminHabits[dKey];
+      if (dayHabits) {
+        const completedCount = defaultAdminHabits.filter(h => dayHabits[h]).length;
+        if (completedCount > 0) {
+          thisMonthDays.push({ dateKey: dKey, count: completedCount });
+          thisMonthTotalCompleted += completedCount;
+        }
+      }
+    }
+
+    // Previous month calculation
+    const prevMonthDate = new Date(year, month - 1, 1);
+    const prevYear = prevMonthDate.getFullYear();
+    const prevMonth = prevMonthDate.getMonth();
+    const prevDaysInMonth = new Date(prevYear, prevMonth + 1, 0).getDate();
+    let prevMonthTotalCompleted = 0;
+    let prevMonthTrackedDaysCount = 0;
+
+    for (let d = 1; d <= prevDaysInMonth; d++) {
+      const dKey = formatDateKey(prevYear, prevMonth, d);
+      const prevHabits = dailyAdminHabits[dKey];
+      if (prevHabits) {
+        const completedCount = defaultAdminHabits.filter(h => prevHabits[h]).length;
+        if (completedCount > 0) {
+          prevMonthTrackedDaysCount++;
+          prevMonthTotalCompleted += completedCount;
+        }
+      }
+    }
+
+    const trackedDaysCount = thisMonthDays.length;
+    const avgPerDay = trackedDaysCount > 0 ? (thisMonthTotalCompleted / trackedDaysCount).toFixed(1) : '0.0';
+    const complianceRate = trackedDaysCount > 0 ? Math.round((thisMonthTotalCompleted / (trackedDaysCount * 12)) * 100) : 0;
+    const prevComplianceRate = prevMonthTrackedDaysCount > 0 ? Math.round((prevMonthTotalCompleted / (prevMonthTrackedDaysCount * 12)) * 100) : 0;
+
+    let trend: 'avance' | 'retroceso' | 'estable' = 'estable';
+    let trendDiff = 0;
+    if (prevMonthTrackedDaysCount > 0 && trackedDaysCount > 0) {
+      trendDiff = complianceRate - prevComplianceRate;
+      if (trendDiff > 0) trend = 'avance';
+      else if (trendDiff < 0) trend = 'retroceso';
+    }
+
+    // Habit breakdown
+    const habitStats = defaultAdminHabits.map((habit, idx) => {
+      let count = 0;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dKey = formatDateKey(year, month, d);
+        if (dailyAdminHabits[dKey]?.[habit]) {
+          count++;
+        }
+      }
+      const pct = trackedDaysCount > 0 ? Math.round((count / trackedDaysCount) * 100) : 0;
+      return { habit, idx: idx + 1, count, pct };
+    });
+
+    const sorted = [...habitStats].sort((a, b) => b.pct - a.pct);
+    const topHabit = sorted[0]?.pct > 0 ? sorted[0] : null;
+    const lowestHabit = sorted[sorted.length - 1];
+
+    return {
+      trackedDaysCount,
+      avgPerDay,
+      complianceRate,
+      prevComplianceRate,
+      trend,
+      trendDiff: Math.abs(trendDiff),
+      topHabit,
+      lowestHabit,
+      habitStats
+    };
+  }, [dailyAdminHabits, year, month, daysInMonth]);
 
   const handleSelectDay = (dayNum: number) => {
     const dateKey = formatDateKey(year, month, dayNum);
@@ -839,6 +940,45 @@ export function Module2DailyLog() {
                             </div>
                           </div>
 
+                          {/* 12 Hábitos del Día */}
+                          <div className="pt-3 border-t border-black/10 dark:border-white/10 space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] uppercase tracking-widest text-temple-gold font-black flex items-center gap-1.5">
+                                <ShieldCheck size={14} /> 12 Hábitos Operativos
+                              </span>
+                              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40">
+                                {defaultAdminHabits.filter(h => (dailyAdminHabits[selectedHistoricalDay.date] || {})[h]).length} / 12
+                              </span>
+                            </div>
+
+                            <div className="max-h-56 overflow-y-auto space-y-1.5 pr-1">
+                              {defaultAdminHabits.map((habit, idx) => {
+                                const isChecked = !!(dailyAdminHabits[selectedHistoricalDay.date] || {})[habit];
+                                return (
+                                  <button
+                                    key={habit}
+                                    type="button"
+                                    onClick={() => toggleAdminHabit(habit, selectedHistoricalDay.date)}
+                                    className={`w-full text-left p-2 rounded-xl border transition-all flex items-start gap-2 text-xs cursor-pointer ${
+                                      isChecked 
+                                        ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-700 dark:text-emerald-300' 
+                                        : 'bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/5 text-slate-700 dark:text-gray-300 hover:bg-black/10'
+                                    }`}
+                                  >
+                                    <div className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 mt-0.5 ${
+                                      isChecked ? 'bg-emerald-500 border-emerald-400 text-black' : 'border-gray-400 dark:border-gray-600 bg-transparent'
+                                    }`}>
+                                      {isChecked && <Check size={10} className="stroke-[3]" />}
+                                    </div>
+                                    <span className={`text-[10px] font-medium leading-tight ${isChecked ? 'line-through text-slate-400 dark:text-gray-500' : ''}`}>
+                                      <strong>H{String(idx + 1).padStart(2, '0')}:</strong> {habit}
+                                    </span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
                           {/* Save Edit Button */}
                           {isEditingHistorical && (
                             <div className="pt-3">
@@ -883,6 +1023,8 @@ export function Module2DailyLog() {
                       const dayNum = i + 1;
                       const dateKey = formatDateKey(year, month, dayNum);
                       const rec = macroRecords[dateKey];
+                      const dayHabits = dailyAdminHabits[dateKey] || {};
+                      const habitsDone = defaultAdminHabits.filter(h => dayHabits[h]).length;
 
                       const isSelected = selectedHistoricalDay?.day === dayNum && selectedHistoricalDay?.month === month && selectedHistoricalDay?.year === year;
                       const isToday = dayNum === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear();
@@ -896,9 +1038,14 @@ export function Module2DailyLog() {
                         <button 
                           key={`day-${dayNum}`} 
                           onClick={() => handleSelectDay(dayNum)}
-                          className={`aspect-square rounded-xl md:rounded-2xl flex flex-col items-center justify-center text-sm md:text-lg font-black transition-all cursor-pointer relative ${statusClass} ${isSelected ? 'ring-4 ring-temple-gold ring-offset-4 ring-offset-[#0B0F19] scale-105' : ''}`}
+                          className={`aspect-square rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-1 text-sm md:text-base font-black transition-all cursor-pointer relative ${statusClass} ${isSelected ? 'ring-4 ring-temple-gold ring-offset-4 ring-offset-[#0B0F19] scale-105' : ''}`}
                         >
                           <span>{dayNum}</span>
+                          {habitsDone > 0 && (
+                            <span className="text-[8px] md:text-[9px] font-black px-1.5 py-0.2 rounded-full bg-black/50 text-white border border-white/20 mt-0.5 leading-tight">
+                              {habitsDone}/12
+                            </span>
+                          )}
                           {isToday && (
                             <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                           )}
@@ -924,6 +1071,120 @@ export function Module2DailyLog() {
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-white dark:bg-white/10 border border-black/20 dark:border-white/20" />
                       <span>Sin Registro</span>
+                    </div>
+                  </div>
+
+                  {/* Panel de Análisis de Avance o Retroceso Mensual (12 Hábitos) */}
+                  <div className="mt-8 pt-6 border-t border-black/10 dark:border-white/10 space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <h4 className="text-xs font-black uppercase tracking-widest text-temple-navy dark:text-white flex items-center gap-2">
+                          <BarChart3 size={16} className="text-temple-gold" />
+                          Análisis de Avance o Retroceso Mensual (12 Hábitos)
+                        </h4>
+                        <p className="text-[11px] text-slate-500 dark:text-gray-400">
+                          Monitoreo de consistencia operativa y calidad de gestión en el mes ({formatMonthYear(viewingMonth)})
+                        </p>
+                      </div>
+
+                      {/* Trend Badge */}
+                      <div className="flex items-center gap-2">
+                        {monthlyHabitsAnalysis.trend === 'avance' && (
+                          <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-1.5">
+                            <TrendingUp size={14} /> Avance (+{monthlyHabitsAnalysis.trendDiff}%)
+                          </span>
+                        )}
+                        {monthlyHabitsAnalysis.trend === 'retroceso' && (
+                          <span className="px-3 py-1 bg-red-500/20 text-red-400 border border-red-500/40 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-1.5">
+                            <TrendingDown size={14} /> Retroceso (-{monthlyHabitsAnalysis.trendDiff}%)
+                          </span>
+                        )}
+                        {monthlyHabitsAnalysis.trend === 'estable' && (
+                          <span className="px-3 py-1 bg-temple-gold/20 text-temple-gold border border-temple-gold/40 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-1.5">
+                            <Minus size={14} /> Ritmo Estable
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* 4 Cards Analysis Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      <div className="p-3.5 rounded-2xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10">
+                        <span className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-400 font-bold block">
+                          Cumplimiento Mes
+                        </span>
+                        <span className="text-xl md:text-2xl font-black text-temple-gold mt-1 block">
+                          {monthlyHabitsAnalysis.complianceRate}%
+                        </span>
+                        <span className="text-[10px] text-slate-500 dark:text-gray-400">
+                          {monthlyHabitsAnalysis.trackedDaysCount} días evaluados
+                        </span>
+                      </div>
+
+                      <div className="p-3.5 rounded-2xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10">
+                        <span className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-400 font-bold block">
+                          Promedio Diario
+                        </span>
+                        <span className="text-xl md:text-2xl font-black text-emerald-400 mt-1 block">
+                          {monthlyHabitsAnalysis.avgPerDay} / 12
+                        </span>
+                        <span className="text-[10px] text-slate-500 dark:text-gray-400">
+                          Hábitos por día activo
+                        </span>
+                      </div>
+
+                      <div className="p-3.5 rounded-2xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10">
+                        <span className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-400 font-bold block">
+                          Mes Anterior
+                        </span>
+                        <span className="text-xl md:text-2xl font-black text-slate-700 dark:text-gray-300 mt-1 block">
+                          {monthlyHabitsAnalysis.prevComplianceRate}%
+                        </span>
+                        <span className="text-[10px] text-slate-500 dark:text-gray-400">
+                          Base comparativa
+                        </span>
+                      </div>
+
+                      <div className="p-3.5 rounded-2xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10">
+                        <span className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-gray-400 font-bold block">
+                          Foco de Ajuste
+                        </span>
+                        <span className="text-xs font-black text-amber-500 mt-1 line-clamp-1 block" title={monthlyHabitsAnalysis.lowestHabit?.habit}>
+                          {monthlyHabitsAnalysis.lowestHabit?.habit || 'Sin evaluar'}
+                        </span>
+                        <span className="text-[10px] text-slate-500 dark:text-gray-400">
+                          {monthlyHabitsAnalysis.lowestHabit ? `${monthlyHabitsAnalysis.lowestHabit.pct}% de cumplimiento` : 'Evalúa días'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Visual Habit Progress Breakdown */}
+                    <div className="space-y-2 pt-2">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block">
+                        Desglose de los 12 Hábitos en el Mes ({formatMonthYear(viewingMonth)})
+                      </span>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {monthlyHabitsAnalysis.habitStats.map(h => (
+                          <div key={h.idx} className="p-2.5 rounded-xl bg-black/[0.03] dark:bg-black/30 border border-black/5 dark:border-white/5 space-y-1">
+                            <div className="flex justify-between items-center text-xs">
+                              <span className="font-bold text-slate-800 dark:text-gray-200 truncate pr-2 text-[11px]">
+                                <strong className="text-temple-gold mr-1">H{String(h.idx).padStart(2, '0')}:</strong> {h.habit}
+                              </span>
+                              <span className="font-black text-temple-gold text-[11px] shrink-0">
+                                {h.pct}% ({h.count}d)
+                              </span>
+                            </div>
+                            <div className="w-full h-1.5 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
+                              <div 
+                                className={`h-full rounded-full transition-all ${
+                                  h.pct >= 80 ? 'bg-emerald-500' : h.pct >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                                }`}
+                                style={{ width: `${h.pct}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
@@ -957,11 +1218,51 @@ export function Module2DailyLog() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 bg-white dark:bg-black/60 px-4 py-2 rounded-2xl border border-black/10 dark:border-white/10">
-                  <span className="text-xs font-black text-temple-gold">
-                    {defaultAdminHabits.filter(h => adminHabits[h]).length} / 12
-                  </span>
-                  <span className="text-[10px] text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider">Cumplidos</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex items-center gap-1 bg-black/5 dark:bg-black/60 p-1 rounded-xl border border-black/10 dark:border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const [y, m, d] = adminHabitDateKey.split('-').map(Number);
+                        const prevD = new Date(y, m - 1, d - 1);
+                        setAdminHabitDateKey(formatDateKey(prevD.getFullYear(), prevD.getMonth(), prevD.getDate()));
+                      }}
+                      className="p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 text-slate-600 dark:text-gray-300"
+                      title="Día Anterior"
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+                    <span className="text-xs font-bold px-2 text-slate-800 dark:text-white tabular-nums">
+                      {adminHabitDateKey}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const [y, m, d] = adminHabitDateKey.split('-').map(Number);
+                        const nextD = new Date(y, m - 1, d + 1);
+                        setAdminHabitDateKey(formatDateKey(nextD.getFullYear(), nextD.getMonth(), nextD.getDate()));
+                      }}
+                      className="p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 text-slate-600 dark:text-gray-300"
+                      title="Día Siguiente"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                  {adminHabitDateKey !== todayKey && (
+                    <button
+                      type="button"
+                      onClick={() => setAdminHabitDateKey(todayKey)}
+                      className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-lg bg-temple-gold/20 text-temple-gold border border-temple-gold/30 hover:bg-temple-gold hover:text-black transition"
+                    >
+                      Hoy
+                    </button>
+                  )}
+                  <div className="flex items-center gap-2 bg-white dark:bg-black/60 px-3 py-1.5 rounded-xl border border-black/10 dark:border-white/10">
+                    <span className="text-xs font-black text-temple-gold">
+                      {defaultAdminHabits.filter(h => adminHabits[h]).length} / 12
+                    </span>
+                    <span className="text-[10px] text-slate-600 dark:text-gray-400 font-bold uppercase tracking-wider">Cumplidos</span>
+                  </div>
                 </div>
               </div>
 
@@ -973,7 +1274,7 @@ export function Module2DailyLog() {
                     <button
                       key={habit}
                       type="button"
-                      onClick={() => toggleAdminHabit(habit)}
+                      onClick={() => toggleAdminHabit(habit, adminHabitDateKey)}
                       className={`text-left p-4 rounded-2xl border transition-all flex items-start gap-3.5 group cursor-pointer ${
                         isChecked 
                           ? 'bg-emerald-500/10 border-emerald-500/40 text-white shadow-md' 

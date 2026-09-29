@@ -41,7 +41,8 @@ import {
   X,
   Search,
   Dumbbell,
-  Check
+  Check,
+  QrCode
 } from 'lucide-react';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
@@ -142,6 +143,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
   const [snackAmount, setSnackAmount] = useState<number>(20);
   const [snackConcept, setSnackConcept] = useState<string>('Batido de Proteína & Shake');
   const [snackActionType, setSnackActionType] = useState<'charge' | 'payment'>('charge');
+  const [snackPaymentMethod, setSnackPaymentMethod] = useState<'qr' | 'efectivo'>('qr');
 
   const [isMuscleModalOpen, setIsMuscleModalOpen] = useState(false);
   const [muscleCategoryFilter, setMuscleCategoryFilter] = useState<string>('Todos');
@@ -533,13 +535,11 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
     handleSaveField('snackBarBalanceBs', newBalance);
   };
 
-  const handleSnackPayment = (paymentAmount: number, method: 'qr' | 'efectivo' | 'transferencia' = 'efectivo') => {
+  const handleSnackPayment = (paymentAmount: number, method: 'qr' | 'efectivo' | 'transferencia' = 'qr') => {
     if (!selectedStudent || paymentAmount <= 0 || isNaN(paymentAmount)) return;
     const currentBal = selectedStudent.snackBarBalanceBs !== undefined ? selectedStudent.snackBarBalanceBs : (snackBarBalanceBs || 0);
-    if (currentBal <= 0) return;
 
-    const actualPayment = Math.min(paymentAmount, currentBal);
-    if (actualPayment <= 0) return;
+    const actualPayment = paymentAmount;
     const newBalance = Math.max(0, currentBal - actualPayment);
     const today = getBoliviaTodayISO();
     const vault = method === 'efectivo' ? 'cajaFisica' : 'banco';
@@ -559,6 +559,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       return s;
     });
 
+    const methodName = method === 'qr' ? 'QR Simple' : method === 'efectivo' ? 'Efectivo' : 'Transferencia';
     const newTx: any = {
       id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       date: today,
@@ -568,7 +569,7 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
       studentId: selectedStudent.id,
       paymentMethod: method,
       vault: vault,
-      description: `Abono a cuenta Snack Bar (${method.toUpperCase()} / ${vault === 'banco' ? 'Banco' : 'Caja'}): +${actualPayment} Bs. - ${name}`
+      description: `Abono/Pago Snack Bar (${methodName} / ${vault === 'banco' ? 'Banco' : 'Caja'}): +${actualPayment} Bs. - ${name}`
     };
 
     db.students = updatedStudents;
@@ -1863,68 +1864,183 @@ export function Module1Profile({ onNavigate }: Module1ProfileProps) {
                 </div>
               ) : (
                 <div className="space-y-4">
+                  {/* Status Box */}
                   <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-center space-y-1">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 block">Deuda Pendiente de Snack</span>
-                    <span className="text-3xl font-black text-emerald-400">Bs. {snackBarBalanceBs || 0}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 block">
+                      {snackBarBalanceBs > 0 ? 'Deuda Pendiente de Snack' : 'Estado de Saldo en Snack Bar'}
+                    </span>
+                    <span className="text-3xl font-black text-emerald-400">
+                      Bs. {snackBarBalanceBs || 0}
+                    </span>
+                    {snackBarBalanceBs <= 0 && (
+                      <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-1">
+                        Sin deuda pendiente. Puedes registrar un abono anticipado o cobro al contado.
+                      </p>
+                    )}
                   </div>
 
-                  {snackBarBalanceBs > 0 ? (
-                    <>
-                      <div>
-                        <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
-                          Monto a Abonar (Bs.)
-                        </label>
-                        <div className="flex gap-2">
-                          <input
-                            type="number"
-                            min="1"
-                            max={snackBarBalanceBs}
-                            value={snackAmount}
-                            onChange={(e) => setSnackAmount(Math.max(1, Number(e.target.value) || 0))}
-                            className="w-full px-3 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 font-black text-slate-900 dark:text-white text-base"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setSnackAmount(snackBarBalanceBs)}
-                            className="px-3 py-2 bg-emerald-500/20 text-emerald-400 font-black text-xs uppercase rounded-xl whitespace-nowrap hover:bg-emerald-500 hover:text-black transition"
-                          >
-                            Pagar Todo
-                          </button>
-                        </div>
-                      </div>
+                  {/* Amount Input & Quick Chips */}
+                  <div>
+                    <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1">
+                      Monto a Cobrar / Abonar (Bs.)
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        min="1"
+                        value={snackAmount}
+                        onChange={(e) => setSnackAmount(Math.max(1, Number(e.target.value) || 0))}
+                        className="flex-1 px-3 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 font-black text-slate-900 dark:text-white text-base focus:outline-none focus:border-temple-gold"
+                      />
+                      {snackBarBalanceBs > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setSnackAmount(snackBarBalanceBs)}
+                          className="px-3 py-2 bg-emerald-500/20 text-emerald-400 font-black text-xs uppercase rounded-xl whitespace-nowrap hover:bg-emerald-500 hover:text-black transition"
+                        >
+                          Total (Bs. {snackBarBalanceBs})
+                        </button>
+                      )}
+                    </div>
+                    {/* Quick Amount Chips */}
+                    <div className="flex gap-1.5 mt-2">
+                      {[10, 15, 20, 30, 50].map((quickVal) => (
+                        <button
+                          key={quickVal}
+                          type="button"
+                          onClick={() => setSnackAmount(quickVal)}
+                          className={`flex-1 py-1 rounded-lg text-[10px] font-bold border transition ${
+                            snackAmount === quickVal
+                              ? 'bg-temple-gold text-black border-temple-gold'
+                              : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-600 dark:text-gray-300 hover:bg-black/10'
+                          }`}
+                        >
+                          Bs. {quickVal}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-                      <div className="flex gap-2 pt-2">
-                        <button
-                          type="button"
-                          onClick={() => setIsSnackModalOpen(false)}
-                          className="flex-1 py-3 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-gray-400 hover:bg-black/10 transition"
-                        >
-                          Cancelar
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            handleSnackPayment(snackAmount);
-                            setIsSnackModalOpen(false);
-                          }}
-                          className="flex-1 py-3 rounded-xl bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider hover:bg-emerald-600 transition shadow-lg"
-                        >
-                          Registrar Pago
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="text-center py-4 space-y-3">
-                      <p className="text-xs text-slate-500 dark:text-gray-400">Este atleta no tiene saldo adeudado en Snack Bar.</p>
+                  {/* Payment Method Selector */}
+                  <div>
+                    <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-gray-400 block mb-1.5">
+                      Forma de Pago (Bolivia)
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
                       <button
                         type="button"
-                        onClick={() => setIsSnackModalOpen(false)}
-                        className="w-full py-2.5 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider"
+                        onClick={() => setSnackPaymentMethod('qr')}
+                        className={`p-3 rounded-2xl border text-left transition flex flex-col justify-between ${
+                          snackPaymentMethod === 'qr'
+                            ? 'border-temple-gold bg-temple-gold/15 dark:bg-temple-gold/20 shadow-md'
+                            : 'border-black/10 dark:border-white/10 bg-slate-50 dark:bg-black/20 hover:border-black/20'
+                        }`}
                       >
-                        Cerrar
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl">📱</span>
+                          {snackPaymentMethod === 'qr' && (
+                            <CheckCircle2 size={16} className="text-temple-gold" />
+                          )}
+                        </div>
+                        <div className="mt-2">
+                          <span className="text-xs font-black text-slate-900 dark:text-white block">
+                            QR Simple
+                          </span>
+                          <span className="text-[10px] text-slate-500 dark:text-gray-400 block">
+                            Banca Móvil (Transferencia)
+                          </span>
+                        </div>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSnackPaymentMethod('efectivo')}
+                        className={`p-3 rounded-2xl border text-left transition flex flex-col justify-between ${
+                          snackPaymentMethod === 'efectivo'
+                            ? 'border-temple-gold bg-temple-gold/15 dark:bg-temple-gold/20 shadow-md'
+                            : 'border-black/10 dark:border-white/10 bg-slate-50 dark:bg-black/20 hover:border-black/20'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl">💵</span>
+                          {snackPaymentMethod === 'efectivo' && (
+                            <CheckCircle2 size={16} className="text-temple-gold" />
+                          )}
+                        </div>
+                        <div className="mt-2">
+                          <span className="text-xs font-black text-slate-900 dark:text-white block">
+                            Dinero en Efectivo
+                          </span>
+                          <span className="text-[10px] text-slate-500 dark:text-gray-400 block">
+                            Caja Mostrador (Físico)
+                          </span>
+                        </div>
                       </button>
                     </div>
+                  </div>
+
+                  {/* QR Simple Visual Box or Cash Confirmation Box */}
+                  {snackPaymentMethod === 'qr' ? (
+                    <div className="p-4 bg-slate-50 dark:bg-black/40 rounded-2xl border border-temple-gold/30 space-y-3">
+                      <div className="flex items-center gap-2 text-temple-gold font-bold text-xs uppercase tracking-wider">
+                        <QrCode size={16} />
+                        <span>Espacio de Cobro QR Simple</span>
+                      </div>
+                      
+                      {/* Stylized QR Card */}
+                      <div className="flex flex-col items-center justify-center p-4 bg-white dark:bg-black/80 rounded-xl border border-black/10 dark:border-white/10 shadow-inner">
+                        <div className="w-36 h-36 bg-gradient-to-br from-amber-50 to-amber-100 dark:from-gray-900 dark:to-black rounded-lg border-2 border-temple-gold/60 flex flex-col items-center justify-center p-2 relative shadow-md">
+                          {/* QR Mockup Matrix Pattern */}
+                          <div className="w-full h-full border border-dashed border-temple-gold/40 rounded flex flex-col items-center justify-center gap-1.5 p-2 text-center">
+                            <QrCode size={48} className="text-temple-gold animate-pulse" />
+                            <span className="text-[9px] font-black text-temple-gold uppercase tracking-widest">
+                              QR Simple
+                            </span>
+                            <span className="text-[8px] font-mono text-slate-600 dark:text-gray-400">
+                              Bs. {snackAmount}
+                            </span>
+                          </div>
+                        </div>
+                        <p className="text-[11px] font-bold text-slate-700 dark:text-gray-300 text-center mt-2.5">
+                          Escanea desde tu app bancaria (BCP, BNB, Unión, Mercantil)
+                        </p>
+                        <p className="text-[10px] text-slate-500 dark:text-gray-400 text-center">
+                          Cuenta: TempleFit Snack Bar | Santa Cruz, Bolivia
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-3.5 bg-emerald-500/10 rounded-2xl border border-emerald-500/30 text-xs text-emerald-800 dark:text-emerald-300 space-y-1">
+                      <div className="flex items-center gap-2 font-black">
+                        <span>💵 Cobro en Efectivo Físico</span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 dark:text-gray-300">
+                        El monto de <strong>Bs. {snackAmount}</strong> será cobrado en billetes/monedas en el mostrador e ingresará directamente a la bóveda de <strong>Caja Física</strong>.
+                      </p>
+                    </div>
                   )}
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsSnackModalOpen(false)}
+                      className="flex-1 py-3 rounded-xl bg-black/5 dark:bg-white/5 font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-gray-400 hover:bg-black/10 transition"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleSnackPayment(snackAmount, snackPaymentMethod);
+                        setIsSnackModalOpen(false);
+                      }}
+                      className="flex-1 py-3 rounded-xl bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider hover:bg-emerald-600 transition shadow-lg flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle2 size={16} />
+                      <span>Confirmar Pago ({snackPaymentMethod === 'qr' ? 'QR' : 'Efectivo'})</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </motion.div>

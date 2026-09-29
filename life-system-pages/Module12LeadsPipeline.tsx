@@ -114,15 +114,9 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
   const filteredLeads = leads.filter(l => {
     const matchesSearch = l.name.toLowerCase().includes(searchTerm.toLowerCase()) || l.phone.includes(searchTerm);
     const matchesStatus = statusFilter === 'todos' || l.status === statusFilter;
-    
-    // Regla de 14 días (Costo Hundido)
-    const leadDate = new Date(l.dateAdded);
-    const daysSinceAdded = (new Date().getTime() - leadDate.getTime()) / (1000 * 3600 * 24);
-    const isStale = (l.status === 'new' || l.status === 'contacted' || l.status === 'trial') && daysSinceAdded > 14;
-    const isVisible = searchTerm ? true : !isStale; // Ocultar por defecto si es viejo, a menos que se busque
-
-    return matchesSearch && matchesStatus && isVisible;
+    return matchesSearch && matchesStatus;
   });
+
 
   const getStatusBadge = (status: LocalLeadStatus) => {
     switch(status) {
@@ -269,7 +263,10 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
               <span className="px-2.5 py-0.5 rounded-full bg-temple-gold/20 text-temple-gold border border-temple-gold/40 text-[10px] font-black uppercase tracking-[0.2em]">
                 Contactos & Prospectos
               </span>
-              <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">Total: {leads.length} personas</span>
+              <span className="text-xs text-slate-600 dark:text-gray-400 font-bold">
+                Total: {filteredLeads.length} {filteredLeads.length === 1 ? 'persona' : 'personas'}
+                {filteredLeads.length !== leads.length && ` (de ${leads.length})`}
+              </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-temple-navy dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Users className="text-temple-gold" size={26} />
@@ -356,7 +353,21 @@ export function Module12LeadsPipeline({ onNavigate }: Module12LeadsPipelineProps
                         <span className="px-2.5 py-0.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[10px] uppercase font-bold text-temple-gold">
                           {lead.source}
                         </span>
-                        <p className="text-[10px] text-slate-500 dark:text-gray-500 mt-1">{lead.dateAdded}</p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <p className="text-[10px] text-slate-500 dark:text-gray-500">{lead.dateAdded}</p>
+                          {(() => {
+                            const leadDate = new Date(lead.dateAdded);
+                            const daysSince = Math.max(0, Math.floor((new Date().getTime() - leadDate.getTime()) / (1000 * 3600 * 24)));
+                            if (daysSince > 14 && (lead.status === 'new' || lead.status === 'contacted' || lead.status === 'trial')) {
+                              return (
+                                <span className="px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[9px] font-bold" title="Más de 14 días sin conversión">
+                                  +{daysSince}d
+                                </span>
+                              );
+                            }
+                            return null;
+                          })()}
+                        </div>
                       </td>
                       <td className="py-4">
                         <select
