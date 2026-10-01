@@ -1,6 +1,6 @@
-Auditoría adversaria en curso — verifico si el sistema realmente blinda la caja.
-Ya mapeé los flujos de caja, bóvedas y cortes — ahora cierro la verificación del último invariante.
-# Dictamen Adversario — Ciclo 2: NO APROBADO. Quedan vectores no triviales activos
+Auditoría adversaria en curso  -  verifico si el sistema realmente blinda la caja.
+Ya mapeé los flujos de caja, bóvedas y cortes  -  ahora cierro la verificación del último invariante.
+# Dictamen Adversario  -  Ciclo 2: NO APROBADO. Quedan vectores no triviales activos
 
 Verifiqué implementación real en `lib/boliviaFinance.ts`, `types.ts`, `Module18Directory.tsx`, `Module13FinanceLedger.tsx`, `Module1Profile.tsx`, `Module40CorteEjecutivo.tsx`, `Module14Inventory.tsx`.
 
@@ -8,7 +8,7 @@ Verifiqué implementación real en `lib/boliviaFinance.ts`, `types.ts`, `Module1
 
 Parcialmente. Lo que sí se corrigió:
 
-- Alta con `pendiente` ya no genera asiento (`Module18Directory.tsx:256-269` — solo `if (amountPaid > 0)`).
+- Alta con `pendiente` ya no genera asiento (`Module18Directory.tsx:256-269`  -  solo `if (amountPaid > 0)`).
 - Cobro en `Module1Profile.tsx:423` acota con `Math.min` al saldo pendiente. Correcto.
 - Snack-consumo ya no duplica ingreso (`Module1Profile.tsx:487-494` solo acumula saldo).
 
@@ -16,13 +16,13 @@ Lo que **no** quedó robusto: la mitigación es unidireccional y por convención
 
 ## 2. ¿Ingreso fantasma / duplicado todavía posible? SÍ
 
-**V1 — Doble vía sin idempotencia + sobrepago en Libro Diario.** `Module1Profile:handleExecutePayment` capa con `Math.min`, pero `Module13FinanceLedger.tsx:210-234` hace `currentPaid = amountPaidBs + amount` **sin capa**. Un mismo abono cobrado en expediente y luego cargado manual en Libro con `studentId` suma dos veces y puede dejar `amountPaidBs = 400` contra `fee = 200`, con `remaining = 0`. No hay clave de idempotencia ni validación `amount <= pending`.
+**V1  -  Doble vía sin idempotencia + sobrepago en Libro Diario.** `Module1Profile:handleExecutePayment` capa con `Math.min`, pero `Module13FinanceLedger.tsx:210-234` hace `currentPaid = amountPaidBs + amount` **sin capa**. Un mismo abono cobrado en expediente y luego cargado manual en Libro con `studentId` suma dos veces y puede dejar `amountPaidBs = 400` contra `fee = 200`, con `remaining = 0`. No hay clave de idempotencia ni validación `amount <= pending`.
 
-**V2 — Edición/eliminación huérfana rompe Inv E.** `Module13FinanceLedger.tsx:149-153` (`handleDelete`) y `160-167` (`saveEditing`) tocan solo `transactions`, jamás revierten `students.amountPaidBs/pendingBalanceBs`. Editar un ingreso `200 → 20` o borrarlo deja la deuda descontada para siempre: caja y expediente divergen. Inverso: `Module1Profile.tsx:275-366` (`handleSaveField`/`handleSaveMultipleFields`) permite editar manual `amountPaidBs`, `pendingBalanceBs`, `paymentStatus` sin asiento. Inv E exige sincronización bidireccional atómica; solo existe en una dirección (creación).
+**V2  -  Edición/eliminación huérfana rompe Inv E.** `Module13FinanceLedger.tsx:149-153` (`handleDelete`) y `160-167` (`saveEditing`) tocan solo `transactions`, jamás revierten `students.amountPaidBs/pendingBalanceBs`. Editar un ingreso `200 → 20` o borrarlo deja la deuda descontada para siempre: caja y expediente divergen. Inverso: `Module1Profile.tsx:275-366` (`handleSaveField`/`handleSaveMultipleFields`) permite editar manual `amountPaidBs`, `pendingBalanceBs`, `paymentStatus` sin asiento. Inv E exige sincronización bidireccional atómica; solo existe en una dirección (creación).
 
-**V3 — Asiento snack sin bóveda.** `Module1Profile.tsx:521-528` crea tx `snack` sin `paymentMethod` ni `vault`. Cae en la inferencia por defecto a `cajaFisica` aunque se pagó por QR.
+**V3  -  Asiento snack sin bóveda.** `Module1Profile.tsx:521-528` crea tx `snack` sin `paymentMethod` ni `vault`. Cae en la inferencia por defecto a `cajaFisica` aunque se pagó por QR.
 
-**V4 — Descuento de stock frágil.** `Module13FinanceLedger.tsx:194-205`: match por `includes` de substring + `stock -= 1` fijo, sin cantidad ni SKU. Descripción que no contenga el nombre no descuenta; descripción ambigua descuenta el producto equivocado.
+**V4  -  Descuento de stock frágil.** `Module13FinanceLedger.tsx:194-205`: match por `includes` de substring + `stock -= 1` fijo, sin cantidad ni SKU. Descripción que no contenga el nombre no descuenta; descripción ambigua descuenta el producto equivocado.
 
 ## 3. ¿Corte 50/50 y reserva 20% con desbalances? SÍ, por duplicación de lógica
 
@@ -36,7 +36,7 @@ Divergencias concretas:
 
 Negativos bien manejados (`retiro = 0` si `flujo <= 0`), sin pérdida de centavos por el esquema `floor+resto`. No es el problema; el problema es la lógica clonada.
 
-## 4. ¿Blindada la distinción percibido vs. devengado? NO — vector más grave
+## 4. ¿Blindada la distinción percibido vs. devengado? NO  -  vector más grave
 
 `Module40CorteEjecutivo.tsx` contiene **ingreso fantasma por defecto**:
 
@@ -50,18 +50,18 @@ Consecuencia: con DB vacía o mes sin movimientos, el panel sugiere y permite re
 
 ## 5. Otros vectores no triviales
 
-**V5 — Timezone dual.** `getBoliviaTodayISO()` solo se usa en altas y cobros membresía. Todo lo demás (`Module40:34,275`, `Module13:86-90`, snack `Module1:504`, renewal `431`, batch `Module18:57`) usa `new Date()` local o `toISOString()` UTC. Cobros/asistencias 20:00–23:59 en Santa Cruz quedan fechados al día/mes siguiente, MRR y corte mensual se desplazan.
+**V5  -  Timezone dual.** `getBoliviaTodayISO()` solo se usa en altas y cobros membresía. Todo lo demás (`Module40:34,275`, `Module13:86-90`, snack `Module1:504`, renewal `431`, batch `Module18:57`) usa `new Date()` local o `toISOString()` UTC. Cobros/asistencias 20:00-23:59 en Santa Cruz quedan fechados al día/mes siguiente, MRR y corte mensual se desplazan.
 
-**V6 — `billingCycle` fuera del contrato.** `Module1Profile:829,959` asigna `cycle = 'bimensual'`, valor que **no existe** en `types.ts:31` (`mensual|quincenal|trimestral|...`). El cálculo de `daysToAdd` cae al default 30 días. `Module18` vía `getPlanDetails` trata Bimensual como `mensual/60 días`. Misma plan, dos renovaciones distintas.
+**V6  -  `billingCycle` fuera del contrato.** `Module1Profile:829,959` asigna `cycle = 'bimensual'`, valor que **no existe** en `types.ts:31` (`mensual|quincenal|trimestral|...`). El cálculo de `daysToAdd` cae al default 30 días. `Module18` vía `getPlanDetails` trata Bimensual como `mensual/60 días`. Misma plan, dos renovaciones distintas.
 
-**V7 — `serviceFeeBs` mutable recalcula deuda retroactiva.** Al ser editable, bajar el fee tras abonos marca `pagado` con menos caja; subirlo fabrica deuda sin asiento. `pendingBalanceBs` es derivado pero almacenado y editable: invariante frágil.
+**V7  -  `serviceFeeBs` mutable recalcula deuda retroactiva.** Al ser editable, bajar el fee tras abonos marca `pagado` con menos caja; subirlo fabrica deuda sin asiento. `pendingBalanceBs` es derivado pero almacenado y editable: invariante frágil.
 
-**V8 — Bóveda por inferencia.** `Module40:45-46` y `Module13:93-106`: legacy sin campos cae a caja por defecto. Arqueo Banco vs. extracto (BCP/Unión/BNB) no cuadra por construcción.
+**V8  -  Bóveda por inferencia.** `Module40:45-46` y `Module13:93-106`: legacy sin campos cae a caja por defecto. Arqueo Banco vs. extracto (BCP/Unión/BNB) no cuadra por construcción.
 
-**V9 — KPI Resiliencia inflado.** `Module14Inventory.tsx:85`: `origin === 'local' || !origin` cuenta como local. Todo ítem sin clasificar infla el % libre de riesgo USD. Debe ser `=== 'local'` estricto + estado `sin clasificar`.
+**V9  -  KPI Resiliencia inflado.** `Module14Inventory.tsx:85`: `origin === 'local' || !origin` cuenta como local. Todo ítem sin clasificar infla el % libre de riesgo USD. Debe ser `=== 'local'` estricto + estado `sin clasificar`.
 
 ## 6. Dictamen final
 
-**Quedan 9 vectores no triviales activos (V1–V9).** Los Ciclo-1 fueron mitigados solo en el camino feliz; persisten: duplicación por doble vía, edición/eliminación huérfana, retiro sobre datos ficticios por fallbacks, guardia mensual burlable por UTC, bóveda inferida, timezone dual, ciclo `bimensual` fantasma, fee mutable y KPI de resiliencia inflado.
+**Quedan 9 vectores no triviales activos (V1-V9).** Los Ciclo-1 fueron mitigados solo en el camino feliz; persisten: duplicación por doble vía, edición/eliminación huérfana, retiro sobre datos ficticios por fallbacks, guardia mensual burlable por UTC, bóveda inferida, timezone dual, ciclo `bimensual` fantasma, fee mutable y KPI de resiliencia inflado.
 
 **Condición para Ciclo 3:** eliminar todos los fallbacks numéricos (`0` si no hay datos, jamás `32000`), usar `calculateExecutiveCut()` como única fuente, forzar `getBoliviaTodayISO()` en toda fecha, capar `Module13` con `Math.min(amount, pending)`, revertir expediente en edit/delete o prohibirlos para `membership`, exigir `paymentMethod+vault` en todo tx, y tipar `billingCycle` sin `bimensual` o añadirlo al contrato con sus días.
