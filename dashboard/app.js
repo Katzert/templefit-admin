@@ -44,10 +44,10 @@ function calculateScaling(months) {
     const avgProfit = (totalInc - totalExp) / financialData.length;
     
     const scaledProfitEl = document.getElementById('projectedIncome');
-    if (scaledProfitEl) scaledProfitEl.innerText = `${Math.round(avgProfit * months).toLocaleString()} Bs.`;
+    if (scaledProfitEl) scaledProfitEl.innerText = `${Math.round(avgProfit * months).toLocaleString('es-BO')} Bs.`;
     
     const scaledAthletesEl = document.getElementById('scaledAthletes');
-    if (scaledAthletesEl) scaledAthletesEl.innerText = Math.round(67 * Math.sqrt(months)).toLocaleString();
+    if (scaledAthletesEl) scaledAthletesEl.innerText = Math.round(67 * Math.sqrt(months)).toLocaleString('es-BO');
 
     document.querySelectorAll('[id^="phase-"]').forEach(c => {
         c.classList.remove('active', 'border-l-temple-gold');
@@ -80,12 +80,12 @@ function calculateInitialTotal() {
     const heroEff = document.getElementById('heroEfficiency');
     
     if (heroAthletes) heroAthletes.innerText = "67"; // 67 Atletas Auditados
-    if (heroIncome) heroIncome.innerText = `${Math.round(parseVal(lastMonth['Total Ingresos'])).toLocaleString()} Bs.`;
+    if (heroIncome) heroIncome.innerText = `${Math.round(parseVal(lastMonth['Total Ingresos'])).toLocaleString('es-BO')} Bs.`;
     if (heroEff) heroEff.innerText = `+${Math.round(efficiency)}%`;
 
     // Update Dashboard Displays
     const mainDisplay = document.getElementById('totalIncomeDisplay');
-    if (mainDisplay) mainDisplay.innerText = `${Math.round(totalInc).toLocaleString()} Bs.`;
+    if (mainDisplay) mainDisplay.innerText = `${Math.round(totalInc).toLocaleString('es-BO')} Bs.`;
     
     const marginInd = document.getElementById('marginIndicator');
     if (marginInd) marginInd.innerText = `${Math.round(efficiency)}%`;
@@ -223,7 +223,7 @@ function setupProfitSimulator() {
             return { ...cat, amount: sum / financialData.length };
         });
 
-        display.innerText = `${Math.round(avgMonthly).toLocaleString()} Bs.`;
+        display.innerText = `${Math.round(avgMonthly).toLocaleString('es-BO')} Bs.`;
         charts.profitPie.data.labels = categoryData.map(c => c.name);
         charts.profitPie.data.datasets[0].data = categoryData.map(c => c.amount);
         charts.profitPie.update();
@@ -239,7 +239,7 @@ function setupProfitSimulator() {
                     <span class="text-[10px] font-bold uppercase text-slate-700 dark:text-white/80">${cat.name}</span>
                 </div>
                 <div class="text-right">
-                    <span class="text-[11px] font-black text-temple-navy dark:text-white block">${Math.round(cat.amount).toLocaleString()} Bs.</span>
+                    <span class="text-[11px] font-black text-temple-navy dark:text-white block">${Math.round(cat.amount).toLocaleString('es-BO')} Bs.</span>
                     <span class="text-[9px] text-temple-gold font-bold">${percentage}%</span>
                 </div>
             `;
