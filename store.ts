@@ -1125,7 +1125,7 @@ const DEFAULT_DB: CRMDatabase = {
       price: 95,
       stock: 35,
       minStock: 8,
-      imageUrl: 'https://images.unsplash.com/photo-1550572017-edd951aa8f72?q=80&w=800&auto=format&fit=crop'
+      imageUrl: 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?q=80&w=800&auto=format&fit=crop'
     },
     {
       id: 'inv-glutamina-1',
@@ -1136,7 +1136,7 @@ const DEFAULT_DB: CRMDatabase = {
       price: 150,
       stock: 20,
       minStock: 5,
-      imageUrl: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_glutamina.webp'
     },
     {
       id: 'inv-omega-1',
@@ -1147,7 +1147,7 @@ const DEFAULT_DB: CRMDatabase = {
       price: 10,
       stock: 100,
       minStock: 25,
-      imageUrl: 'https://images.unsplash.com/photo-1577401239170-897942555fb3?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_omega3.webp'
     },
     {
       id: 'inv-levadura-1',
@@ -1158,7 +1158,7 @@ const DEFAULT_DB: CRMDatabase = {
       price: 85,
       stock: 30,
       minStock: 6,
-      imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_levadura.webp'
     },
     {
       id: 'inv-curcuma-1',
@@ -1169,7 +1169,7 @@ const DEFAULT_DB: CRMDatabase = {
       price: 35,
       stock: 50,
       minStock: 12,
-      imageUrl: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_curcuma.webp'
     },
     {
       id: 'inv-reumasan-1',
@@ -1213,7 +1213,7 @@ const DEFAULT_DB: CRMDatabase = {
       price: 15,
       stock: 50,
       minStock: 15,
-      imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_electrohidra.webp'
     },
     {
       id: 'inv-electrodetox-1',
@@ -1224,7 +1224,7 @@ const DEFAULT_DB: CRMDatabase = {
       price: 15,
       stock: 40,
       minStock: 10,
-      imageUrl: 'https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_electrodetox.webp'
     },
     {
       id: 'inv-bowl-1',
@@ -1301,7 +1301,7 @@ const DEFAULT_DB: CRMDatabase = {
       title: 'Colágeno Hidrolizado (100 ml)',
       description: 'Regeneración articular, cartílagos y soporte ligamentario para entrenamientos de impacto.',
       price: 95,
-      imageUrl: 'https://images.unsplash.com/photo-1550572017-edd951aa8f72?q=80&w=800&auto=format&fit=crop',
+      imageUrl: 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?q=80&w=800&auto=format&fit=crop',
       status: 'active'
     },
     {
@@ -1310,7 +1310,7 @@ const DEFAULT_DB: CRMDatabase = {
       title: 'Glutamina Pura Anticatabólica (300 gr)',
       description: 'Recuperación intestinal y síntesis muscular acelerada post CristoFit Camp.',
       price: 150,
-      imageUrl: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?q=80&w=800&auto=format&fit=crop',
+      imageUrl: '/images/templefit_glutamina.webp',
       status: 'active'
     },
     {
@@ -1319,7 +1319,7 @@ const DEFAULT_DB: CRMDatabase = {
       title: 'ElectroHidra "Elite-Hydration"',
       description: 'Fórmula isotónica con sal marina, bicarbonato, magnesio, miel pura y limón.',
       price: 15,
-      imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop',
+      imageUrl: '/images/templefit_electrohidra.webp',
       status: 'active'
     },
     {
@@ -1328,7 +1328,7 @@ const DEFAULT_DB: CRMDatabase = {
       title: 'ElectroDetox Blast (Autofagia)',
       description: 'Infusión botánica de clavo de olor, canela, pepino, apio y jengibre desintoxicante.',
       price: 15,
-      imageUrl: 'https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=800&auto=format&fit=crop',
+      imageUrl: '/images/templefit_electrodetox.webp',
       status: 'active'
     }
   ],
