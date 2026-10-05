@@ -1066,7 +1066,7 @@ const DEFAULT_DB: CRMDatabase = {
       minStock: 10,
       size: 'M',
       color: 'Negro con Dorado',
-      imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_polera.webp'
     },
     {
       id: 'inv-shorts-1',
@@ -1079,7 +1079,7 @@ const DEFAULT_DB: CRMDatabase = {
       minStock: 8,
       size: 'L',
       color: 'Azul Marino Táctico',
-      imageUrl: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_shorts.webp'
     },
     {
       id: 'inv-hoodie-1',
@@ -1092,7 +1092,7 @@ const DEFAULT_DB: CRMDatabase = {
       minStock: 5,
       size: 'XL',
       color: 'Negro Premium',
-      imageUrl: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop'
+      imageUrl: '/images/templefit_hoodie.webp'
     },
     {
       id: 'inv-ginkgo-1',
@@ -1256,7 +1256,7 @@ const DEFAULT_DB: CRMDatabase = {
       title: 'Polera Oficial de Algodón TempleFit',
       description: 'Algodón de alta densidad 240gsm, corte vintage elegante y distintivo de escuadrón oficial.',
       price: 100,
-      imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=800&auto=format&fit=crop',
+      imageUrl: '/images/templefit_polera.webp',
       status: 'active'
     },
     {
@@ -1265,7 +1265,7 @@ const DEFAULT_DB: CRMDatabase = {
       title: 'Shorts Deportivos Tácticos',
       description: 'Microfibra de alto rendimiento transpirable para calistenia y sparring de boxeo ético.',
       price: 70,
-      imageUrl: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800&auto=format&fit=crop',
+      imageUrl: '/images/templefit_shorts.webp',
       status: 'active'
     },
     {
@@ -1274,7 +1274,7 @@ const DEFAULT_DB: CRMDatabase = {
       title: 'Canguro / Hoodie Oficial TempleFit',
       description: 'Tejido térmico resistente con bolsillo táctico para el amanecer 06:00 AM en el CristoFit Camp.',
       price: 150,
-      imageUrl: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop',
+      imageUrl: '/images/templefit_hoodie.webp',
       status: 'active'
     },
     {
